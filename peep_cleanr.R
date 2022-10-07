@@ -506,6 +506,8 @@ counts <- counts %>%
                 julian_date, 
                 raw_datafile)
 
+counts <- counts[!grepl("tot", tolower(counts$location)),]
+
 # Finish up
 rm(counts_list)
 cleaned[[length(cleaned) + 1]] <- counts
