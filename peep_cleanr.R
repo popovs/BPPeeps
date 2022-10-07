@@ -155,7 +155,7 @@ rm(boundary_bay_counts_list)
 cleaned[[1]] <- boundary_bay_counts
 names(cleaned)[1] <- "boundary_bay_counts"
 
-# 05 CLEAN 'canoe_pass_counts' ----
+## 05 CLEAN 'canoe_pass_counts' ----
 canoe_pass_counts <- canoe_pass_counts_list$BPPeeps2015
 
 # Clean colnames
@@ -174,11 +174,43 @@ canoe_pass_counts$number <- as.numeric(canoe_pass_counts$number)
 canoe_pass_counts <- canoe_pass_counts[,3:6]
 canoe_pass_counts <- dplyr::select(.data = canoe_pass_counts, date_time_pdt, dplyr::everything())
 
+# Finish up
 rm(canoe_pass_counts_list)
 cleaned[[length(cleaned) + 1]] <- canoe_pass_counts
 names(cleaned)[length(cleaned)] <- "canoe_pass_counts"
 
-# 06 CLEAN 'counts' ----
+## 06 CLEAN 'strip_counts' ----
+# Given this data only appears in 3 sheets, it will all
+# be summarized into one somewhat unweildy table. If 
+# strip counts become standard procedure in any future
+# surveys, I recommend splitting into two tables: one 
+# table with strip meta-information (date, shore length)
+# and another table with the count data per strip.
+
+# Overall cleaning procedure: 
+# 1) pull out dates-strip table
+# 2) pull out unique dates from header of dates-strip table
+# 3) create 'date' column; populate with date data for each count
+# 4) grep 'shore length' for each count; create 'shore_length_m'
+#    col and populate with grep'd shore length for each count
+
+# First, pull out rows that contain "Strip", -2 to include 
+# date + count header rows, then + shore_length. 
+tmp <- strip_counts_list[[i]]
+records <- append((min(grep("Strip|shore", tmp[[1]])) - 2):(min(grep("Strip|shore", tmp[[1]])) - 1), grep("Strip|shore", tmp[[1]]))
+tmp <- tmp[records,]
+tmp[1,1] <- "date"
+tmp[2,1] <- "count"
+names(tmp) <- paste(tmp[2,], tmp[1,])
+tmp <- tidyr::pivot_longer(tmp, cols = 2:length(tmp))
+tmp2 <- tidyr::pivot_wider(tmp, id_cols = "name", values_from = "value", names_from = "count date")
+tmp2 <- janitor::clean_names(tmp2)
+tmp2 <- tmp2 %>% dplyr::select(name, date, shore_length_m, dplyr::everything())
+tmp3 <- tidyr::pivot_longer(tmp2, cols = 5:length(tmp2), names_to = "strip")
+tmp4 <- tidyr::pivot_wider(tmp3, id_cols = c("date", "shore_length_m", "strip"), names_from = "count", values_from = "value")
+# Probably a way of doing this in fewer pivot steps but...
+
+## 07 CLEAN 'counts' ----
 # This is the big one.. compilation_*, estimated_*, summary_*
 # tables all compile data from this table.
 # Note header changes drastically from 2013 -> 2014.
@@ -205,7 +237,10 @@ for (i in 1:length(counts_list)) {
   # Anything BEFORE the first complete row is the metadata for the sheet
   # The [1] is there, much like the if statement above, in case
   # it finds multiple rows w complete cases.
-  meta <- tmp[1:(grep(TRUE, complete.cases(tmp))[1]-1),]
+  # For now not actually doing anything with meta; after 
+  # scanning everything it pulls out, no valuable information
+  # is noted in 'meta' for any file.
+  #meta <- tmp[1:(grep(TRUE, complete.cases(tmp))[1]-1),]
   # Extract data (anything AFTER first complete row)
   tmp <- tmp[-(1:grep(TRUE, complete.cases(tmp))[1]),]
   # Set header names
@@ -255,6 +290,7 @@ for (i in 1:length(counts_cn)) {
 for (i in 1:length(counts_list)) {
   names(counts_list[[i]]) <- counts_cn[[i]]
 }
+rm(counts_cn)
 
 # Finally, row-bind our counts_list into counts df!
 # Rest of cleaning will occur on whole dataset.
@@ -433,6 +469,14 @@ subtotals %>%
   dplyr::mutate(tot_diff = subtot_tot - calc_tot) %>%
   dplyr::select(date, raw_datafile, location, subtot_tot, calc_tot, tot_diff, count_1, count_2, count_3, count_4, count_5,  calc_mean)
 
+rm(day_means)
+rm(subtotals)
+rm(subtotal_dates)
+
+# 2022-08-07: have sent flagged records to data owners to 
+# hear feedback. For now, counts cleaning is done. 
+# 'location' standardization will be done with Google
+# OpenRefine. 
 
 # Rearrange and remove any superfluous columns
 # Dropping columns if:
@@ -441,7 +485,7 @@ subtotals %>%
 # - they have only one value (e.g., 'dunlin' has one value in one cell, which was moved to 'other_birds')
 # - they have only one unique value (e.g., all records in 'day_survey' simply say '1')
 # - they were merged into the date_time_pdt column
-# - 'mean_counts' col - this column should be calculated on-the-fly so as to account for any changes to underlying count data and prevent future 'mean_count' errors
+# - 'mean_count' col - this column should be calculated on-the-fly so as to account for any changes to underlying count data and prevent future 'mean_count' errors
 counts <- counts %>% 
   dplyr::select(date_time_pdt, 
                 tide, 
@@ -451,7 +495,7 @@ counts <- counts %>%
                 count_3, 
                 count_4, 
                 count_5, 
-                mean_count, 
+                #mean_count, 
                 notes, 
                 high_tide_height_ft, 
                 high_tide_time_pdt, 
@@ -462,3 +506,13 @@ counts <- counts %>%
                 julian_date, 
                 raw_datafile)
 
+# Finish up
+rm(counts_list)
+cleaned[[length(cleaned) + 1]] <- counts
+names(cleaned)[length(cleaned)] <- "counts"
+
+# Could probably merge 'boundary_bay_counts', 
+# 'canoe_pass_counts', 'strip_counts' and 'counts',
+# but need to discuss idea first.
+
+## 07 CLEAN '
