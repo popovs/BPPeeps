@@ -194,21 +194,45 @@ names(cleaned)[length(cleaned)] <- "canoe_pass_counts"
 # 4) grep 'shore length' for each count; create 'shore_length_m'
 #    col and populate with grep'd shore length for each count
 
-# First, pull out rows that contain "Strip", -2 to include 
-# date + count header rows, then + shore_length. 
-tmp <- strip_counts_list[[i]]
-records <- append((min(grep("Strip|shore", tmp[[1]])) - 2):(min(grep("Strip|shore", tmp[[1]])) - 1), grep("Strip|shore", tmp[[1]]))
-tmp <- tmp[records,]
-tmp[1,1] <- "date"
-tmp[2,1] <- "count"
-names(tmp) <- paste(tmp[2,], tmp[1,])
-tmp <- tidyr::pivot_longer(tmp, cols = 2:length(tmp))
-tmp2 <- tidyr::pivot_wider(tmp, id_cols = "name", values_from = "value", names_from = "count date")
-tmp2 <- janitor::clean_names(tmp2)
-tmp2 <- tmp2 %>% dplyr::select(name, date, shore_length_m, dplyr::everything())
-tmp3 <- tidyr::pivot_longer(tmp2, cols = 5:length(tmp2), names_to = "strip")
-tmp4 <- tidyr::pivot_wider(tmp3, id_cols = c("date", "shore_length_m", "strip"), names_from = "count", values_from = "value")
-# Probably a way of doing this in fewer pivot steps but...
+strip_counts <- list()
+for (i in 1:length(strip_counts_list)) {
+  # First, pull out rows that contain "Strip", -2 to include 
+  # date + count header rows, then + shore_length. 
+  # Then rearrange to desired rows/cols.
+  tmp <- strip_counts_list[[i]]
+  if (names(strip_counts_list)[i] == "BPPEEP97") tmp[7,4] <- "Count 2"
+  records <- append((min(grep("Strip|shore", tmp[[1]])) - 2):(min(grep("Strip|shore", tmp[[1]])) - 1), grep("Strip|shore", tmp[[1]]))
+  tmp <- tmp[records,]
+  tmp[1,1] <- "date"
+  tmp[2,1] <- "count"
+  names(tmp) <- paste(tmp[2,], tmp[1,])
+  tmp <- tidyr::pivot_longer(tmp, cols = 2:length(tmp))
+  tmp2 <- tidyr::pivot_wider(tmp, id_cols = "name", values_from = "value", names_from = "count date")
+  tmp2 <- janitor::clean_names(tmp2)
+  tmp2 <- tmp2 %>% dplyr::select(name, date, shore_length_m, dplyr::everything())
+  tmp3 <- tidyr::pivot_longer(tmp2, cols = 5:length(tmp2), names_to = "strip")
+  tmp4 <- tidyr::pivot_wider(tmp3, id_cols = c("date", "shore_length_m", "strip"), names_from = "count", values_from = "value")
+  # Probably a way of doing this in fewer pivot steps... but it works
+  strip_counts[[i]] <- tmp4
+  rm(list = ls(pattern = "tmp"))
+  rm(records)
+}
+rm(i)
+
+# Now table-level cleans
+strip_counts <- dplyr::bind_rows(strip_counts)
+
+strip_counts <- janitor::clean_names(strip_counts)
+strip_counts <- strip_counts[,1:5]
+strip_counts$strip <- gsub(pattern = "strip_", replacement = "", x = strip_counts$strip)
+strip_counts %<>% 
+  dplyr::mutate_all(as.numeric)
+strip_counts$date <- janitor::excel_numeric_to_date(strip_counts$date)
+
+# Finish up
+rm(strip_counts_list)
+cleaned[[length(cleaned) + 1]] <- strip_counts
+names(cleaned)[length(cleaned)] <- "strip_counts"
 
 ## 07 CLEAN 'counts' ----
 # This is the big one.. compilation_*, estimated_*, summary_*
