@@ -685,5 +685,34 @@ names(cleaned)[length(cleaned)] <- "species_ratios"
 # Instead of pulling first row with complete cases (as has 
 # been the strategy in other tables), pull first row w
 # >3 cells filled in.
+raptors <- list()
+for (i in 1:length(raptors_list)) {
+  tmp <- raptors_list[[i]]
+  header <- row.names(tmp[rowSums(!is.na(tmp)) > 3, ][1,])
+  tmp <- tmp[header:nrow(tmp),]
+  if (is.na(tmp[1,1])) {
+    tmp[1,] <- paste(tmp[1,], tmp[2,])
+    tmp[1,] <- gsub("NA", "", tmp[1,])
+    tmp[1,] <- gsub("- ", "", tmp[1,])
+    names(tmp) <- janitor::make_clean_names(tmp[1,])
+    tmp <- tmp[3:nrow(tmp),]
+  } else {
+    names(tmp) <- janitor::make_clean_names(tmp[1,])
+    if (nrow(tmp) > 1) tmp <- tmp[2:nrow(tmp),]
+  }
+  # Skip wonky 2015-2017 data until fixes are sent
+  if (any(grepl("na", names(tmp))) | nrow(tmp) < 2) next
+  # Add filename column
+  tmp$raw_datafile <- f[grep(names(raptors_list)[i], f)]
+  message("Set names for ", names(raptors_list)[i])
+  raptors[[i]] <- tmp
+  rm(header)
+  rm(tmp)
+}
+
+# Bind rows and begin table-level cleaning
+raptors <- dplyr::bind_rows(raptors)
+
+
 
 # 10 CLEAN 'daily_conditions' ----
