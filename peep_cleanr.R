@@ -541,4 +541,149 @@ names(cleaned)[length(cleaned)] <- "counts"
 # 'canoe_pass_counts', 'strip_counts' and 'counts',
 # but need to discuss idea first.
 
-## 07 CLEAN '
+## 08 CLEAN 'species_ratios' ----
+# This is the second big table - it is used in conjunction
+# with the 'counts' table to produce yearly population estimates
+# of different peep species at the mudflats.
+
+# Same process to clean these tables as for 'counts', really.
+# First pare down each df data-only rows + assign clean names.
+for (i in 1:length(species_ratios_list)) {
+  tmp <- species_ratios_list[[i]]
+  # Remove any completely empty rows/columns
+  tmp <- janitor::remove_empty(tmp, which = c("rows", "cols"), quiet = TRUE)
+  # Pull out the first full row - the first row w complete cases
+  # is the header. Then clean up.
+  srn <- tmp[complete.cases(tmp),]
+  if (nrow(srn) > 1) srn <- srn[1,] # Select first row in case it also pulls out full data row
+  srn <- as.character(srn)
+  srn <- janitor::make_clean_names(srn)
+  # Anything BEFORE the first complete row is the metadata for the sheet
+  # The [1] is there, much like the if statement above, in case
+  # it finds multiple rows w complete cases.
+  # For now not actually doing anything with meta; after 
+  # scanning everything it pulls out, no valuable information
+  # is noted in 'meta' for any file.
+  #meta <- tmp[1:(grep(TRUE, complete.cases(tmp))[1]-1),]
+  # Extract data (anything AFTER first complete row)
+  tmp <- tmp[-(1:grep(TRUE, complete.cases(tmp))[1]),]
+  # Set header names
+  names(tmp) <- srn
+  # Add filename column
+  tmp$raw_datafile <- f[grep(names(species_ratios_list)[i], f)]
+  # Replace old df with tmp
+  species_ratios_list[[i]] <- tmp
+  message("Set names for ", names(species_ratios_list)[i])
+  rm(tmp)
+}
+
+# Now we will standardize all the header names across 
+# all the dfs.
+srn <- lapply(species_ratios_list, names)
+
+# Check out column names to get idea of cleaning procedures needed
+sort(unique(unlist(srn)))
+plyr::count(unlist(srn))
+rm(srn)
+
+# Astoundingly, column names don't appear to need any cleanup
+# Now bind rows
+species_ratios <- dplyr::bind_rows(species_ratios_list)
+
+# Coerce column types
+# First make note of one record w "<10" as %age
+species_ratios[["notes"]][grep("<10", species_ratios$percent_wesa)] <- paste0(species_ratios[["notes"]][grep("<10", species_ratios$percent_wesa)], "; %WESA estimated to be '<10' in raw data")
+
+# Note this will result in NAs introdued by coersion in
+# the 'date' column for descriptive/interpolated dates -
+# e.g. '21 & 22 April' (interpolated %ages between 20 and 23 April)
+# 'time' for 2021 data is also character, but will be rebuilt
+# using the 'hour' and 'minutes' columns.
+species_ratios %<>%
+  dplyr::mutate_at(c("date", 
+                     "time", 
+                     "sample", 
+                     "wesa", 
+                     "dunl", 
+                     "total", 
+                     "percent_wesa",
+                     "bbpl",
+                     "percent_dunl",
+                     "day_survey",
+                     "year",
+                     "month",
+                     "day",
+                     "hour",
+                     "minutes"),
+                   as.numeric)
+
+# Deal with dates
+
+# Build excel dates from 'date' column
+species_ratios$excel_datetime <- rowSums(species_ratios[,c("date", "time")], na.rm = TRUE)
+species_ratios$excel_datetime <- janitor::convert_to_datetime(species_ratios$excel_datetime, tz = "Canada/Pacific")
+
+# Now build other dates from 'year' 'month' 'day' 'hour' 'minutes' cols
+species_ratios$other_datetime <- lubridate::make_datetime(species_ratios$year, species_ratios$month, species_ratios$day, species_ratios$hour, species_ratios$minutes, tz = "Canada/Pacific")
+
+# Now assign correct date to date_time_pdt
+# Note must use dplyr::if_else as base ifelse strips timestamp attributes
+species_ratios$date_time_pdt <- dplyr::if_else(is.na(species_ratios$other_datetime),
+                                               species_ratios$excel_datetime,
+                                               species_ratios$other_datetime)
+
+# Data error checks
+# 1) Recorded %WESA matches calculated %WESA
+# 2) Recorded total matches calculated total
+species_ratios$calc_total <- rowSums(species_ratios[,c("wesa", "dunl", "bbpl")], na.rm = T) 
+species_ratios$calc_p_wesa <- (species_ratios$wesa / species_ratios$calc_total) * 100
+species_ratios$p_diff <- species_ratios$calc_p_wesa - species_ratios$percent_wesa
+
+totals_errors <- species_ratios[which(species_ratios$total != species_ratios$calc_total),c("raw_datafile", "date_time_pdt", "wesa", "dunl", "bbpl", "total", "calc_total", "notes")]
+p_wesa_errors <- species_ratios[which(species_ratios$percent_wesa != species_ratios$calc_p_wesa & abs(species_ratios$p_diff) > 2),c("raw_datafile", "date_time_pdt", "wesa", "dunl", "bbpl", "total", "calc_total", "percent_wesa", "calc_p_wesa", "notes")]
+
+# Add to errors list
+errors[[length(errors) + 1]] <- totals_errors
+names(errors)[length(errors)] <- "sr_totals_errors"
+rm(totals_errors)
+errors[[length(errors) + 1]] <- p_wesa_errors
+names(errors)[length(errors)] <- "sr_pcnt_wesa_errors"
+rm(p_wesa_errors)
+
+# One %WESA error due to mistake in excel formula. Remaining
+# %WESA errors are due to changes in 'total' value if you 
+# include the BBPL numbers in the total.
+
+# Exclude subtotal rows
+species_ratios <- species_ratios[!grepl("total|use|average", tolower(species_ratios$location)),]
+
+# Select final columns
+# Drop % dunl column - only one value out of 6644 records, and
+# it can be inferred from other columns anyways
+species_ratios <- species_ratios %>%
+  dplyr::select(date_time_pdt,
+                location,
+                sample,
+                wesa,
+                dunl,
+                bbpl,
+                #total, # To be calculated on-the-fly in views
+                #percent_wesa, # To be calculated on-the-fly in views
+                notes,
+                raw_datafile)
+
+# Finish up
+rm(species_ratios_list)
+cleaned[[length(cleaned) + 1]] <- species_ratios
+names(cleaned)[length(cleaned)] <- "species_ratios"
+
+# 09 CLEAN 'raptors' ----
+# Raptor data starts in 1997. From 1997-2014, header row is
+# weirdly split up across two rows. That needs to be accounted
+# for in any R script. 
+
+# Instead of pulling first row with complete cases (as has 
+# been the strategy in other tables), pull first row w
+# >3 cells filled in.
+
+# 10 CLEAN 'daily_conditions' ----
