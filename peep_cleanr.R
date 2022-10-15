@@ -51,7 +51,7 @@ rm(i)
 # 3) summary_totals (possibly redundant/could be a view)
 # 4) wesa_totals (possibly redundant/could be a view)
 # 5) dunl_totals (possibly redundant/coule be a view)
-# 6) raptors
+# 6) raptors (+ raptors fixes)
 clean_tabs <- lapply(raw, function (x) {
   janitor::make_clean_names(names(x), parsing_option = 2)
 })
@@ -277,7 +277,7 @@ for (i in 1:length(counts_list)) {
 
 # Add filename column to each one
 for (i in 1:length(counts_list)) {
-  counts_list[[i]]$raw_datafile <- f[i]
+  counts_list[[i]]$raw_datafile <- f[grep(names(counts_list)[i], f)]
 }
 
 # Now, similar to clean tab names process above, we will
@@ -826,6 +826,33 @@ raptors <- raptors %>%
                 raw_datafile)
 
 # Merge with raptor fixes for 2015-2017
+raptors_fix <- dplyr::bind_rows(raptors_oct2020_list)
+rm(raptors_oct2020_list)
+names(raptors_fix) <- janitor::make_clean_names(raptors_fix[1,])
+raptors_fix <- raptors_fix[2:nrow(raptors_fix),]
+
+raptors_fix$date <- as.Date(raptors_fix$date, format = "%d/%m/%Y")
+
+raptors_fix %<>%
+  dplyr::mutate_at(c("pefa", 
+                     "merl"),
+                   as.numeric)
+
+raptors_fix <- raptors_fix[raptors_fix$date > "2015-01-01" & raptors_fix$date < "2019-01-01",]
+raptors_fix <- raptors_fix[,c("date", "pefa", "merl")]
+
+raptors_fix <- tidyr::pivot_longer(raptors_fix, cols = c("pefa", "merl"), names_to = "species", values_to = "n_raptors")
+
+raptors_fix <- raptors_fix[raptors_fix$n_raptors != 0,]
+raptors_fix$species <- toupper(raptors_fix$species)
+
+names(raptors_fix)[1] <- "date_time_pdt"
+
+raptors_fix$raw_datafile <- "raptorsOct2020.xlsx"
+raptors_fix$notes <- "Data from Oct 2020 file rather than field books"
+
+raptors <- dplyr::bind_rows(raptors, raptors_fix)
+rm(raptors_fix)
 
 # Finish up
 rm(raptors_list)
