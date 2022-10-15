@@ -713,6 +713,123 @@ for (i in 1:length(raptors_list)) {
 # Bind rows and begin table-level cleaning
 raptors <- dplyr::bind_rows(raptors)
 
+# Standardize spp names
+raptors[["notes"]][grep("falcon", raptors$species)] <- ifelse(is.na(raptors[["notes"]][grep("unid falcon|falcon", raptors$species)]),
+                                                                          "Unidentified falcon",
+                                                                          paste0(raptors[["notes"]][grep("unid falcon|falcon", raptors$species)], "; Unidentified falcon"))
+raptors[["species"]][grep("falcon", raptors$species)] <- "UNK"
+raptors[["species"]][which(raptors$species == "Kestrel")] <- "AMKE"
 
+raptors[["notes"]][grep("\\?", raptors$species)] <- paste0(raptors[["notes"]][grep("\\?", raptors$species)], "; species ID uncertain")
+raptors[["species"]][grep("\\?", raptors$species)] <- "MERL"
+
+# Add numeric column indicating how many raptors were seen in a
+# particular observation (if noted)
+raptors$n_raptors <- NA
+raptors[["n_raptors"]][grep("(3)", raptors$species)] <- 3
+raptors[["species"]][grep("(3)", raptors$species)] <- "PEFA"
+
+# Now names have been standardized, set column type
+raptors$species <- as.factor(raptors$species)
+
+# Finish pulling out number of raptors for n_raptors col
+# 2 raptors
+raptors[["n_raptors"]][grep("2 perched|2 pefa|2 merl|2 fly|2 attack |2 baea|2 birds|2nd|two", tolower(raptors$observations))] <- 2
+raptors[["n_raptors"]][grep("2 perched|2 pefa|2 merl|2 fly|2 attack |2 baea|2 birds|2nd", tolower(raptors$notes))] <- 2
+
+# 3 raptors
+raptors[["n_raptors"]][grep("3 perched|3 pefa|3 merl|3 fly|3 attack |3 baea|3 birds|3rd|three", tolower(raptors$observations))] <- 3
+raptors[["n_raptors"]][grep("3 perched|3 pefa|3 merl|3 fly|3 attack |3 baea|3 birds|3rd", tolower(raptors$notes))] <- 3
+
+# Pull out record that has "2 PEFA & 1 BAEA" - split into two 
+# records, one record w n_raptors = 2 and species = PEFA; 
+# another record with n_raptors = 1 and species = BAEA.
+raptors[nrow(raptors) + 1,] <- raptors[grep("2 PEFA & 1 BAEA", raptors$observations),]
+raptors[grep("2 PEFA & 1 BAEA", raptors$observations),"species"][2] <- "BAEA"
+raptors[grep("2 PEFA & 1 BAEA", raptors$observations),"n_raptors"][2] <- 1
+
+# Same as above - pull out record that has "joined by two BAEA"
+# and add secord record for 2 BAEA.
+raptors[nrow(raptors) + 1,] <- raptors[grep("two BAEA", raptors$observations),]
+raptors[grep("two BAEA", raptors$observations),"species"][2] <- "BAEA"
+raptors[grep("two BAEA", raptors$observations),"n_raptors"][2] <- 2
+
+# Fix species where notes says "2 BAEA"
+raptors[["species"]][grep("2 BAEA", raptors$notes)] <- "BAEA"
+
+# 1 raptor - assume all records w species !NA but no other numbers
+# specified = 1 raptor
+raptors[["n_raptors"]][!is.na(raptors$species) & is.na(raptors$n_raptors)] <- 1
+
+# Standardized 'age'
+raptors[["age"]][grep("unk", raptors$age)] <- "UNK"
+raptors[["age"]][grep("ad", raptors$age)] <- "Adult"
+raptors[["age"]][grep("juv", raptors$age)] <- "Juvenile"
+raptors$age <- as.factor(raptors$age)
+
+# Standardize 'success'
+raptors[["notes"]][grep("unk.but peep hit water", raptors$success)] <- "Unknown if attack successful but peep hit water"
+raptors[["success"]][grep("unk", tolower(raptors$success))] <- "Unknown"
+raptors[["success"]][grep("no |none|unsuccessful|didn't", tolower(raptors$success))] <- "No"
+raptors[["success"]][grep("caught|kill|eat|capture|talons", tolower(raptors$success))] <- "Yes"
+raptors[["success"]][grep("NA", raptors$success)] <- NA
+raptors[["success"]][!is.na(raptors$success) & !(raptors$success %in% c("Unknown", "Yes", "No"))] <- "Unknown"
+raptors$success <- as.factor(raptors$success)
+
+# Merge 'observations' and 'notes'
+raptors$notes <- apply(raptors[,c("observations", "notes")], 1, function(x) paste(x[!is.na(x)], collapse = "; "))
+
+# Deal with dates
+raptors %<>% 
+  dplyr::mutate_at(c("date",
+              "begin_obs",
+              "end_obs",
+              "time",
+              "year",
+              "month",
+              "day",
+              "hour",
+              "minutes"),
+            as.numeric)
+
+raptors$excel_datetime <- ifelse(is.na(raptors$time),
+                                 rowSums(raptors[,c("date", "begin_obs")], na.rm = T),
+                                 rowSums(raptors[,c("date", "time")], na.rm = T))
+raptors$excel_datetime[raptors$excel_datetime == 0] <- NA
+raptors$excel_datetime <- janitor::convert_to_datetime(raptors$excel_datetime, tz = "Canada/Pacific")
+
+raptors$other_datetime <- lubridate::make_datetime(raptors$year, raptors$month, raptors$day, raptors$hour, raptors$minutes, tz = "Canada/Pacific")
+
+raptors$date_time_pdt <- dplyr::if_else(is.na(raptors$other_datetime),
+                                        raptors$excel_datetime,
+                                        raptors$other_datetime)
+
+# Clean up 'begin_obs' and 'end_obs' columns
+raptors$begin_obs <- openxlsx::convertToDateTime(raptors$begin_obs, origin = as.Date(raptors$date_time_pdt))
+raptors$begin_obs <- lubridate::force_tz(raptors$begin_obs, tzone = "Canada/Pacific")
+
+raptors$end_obs <- openxlsx::convertToDateTime(raptors$end_obs, origin = as.Date(raptors$date_time_pdt))
+raptors$end_obs <- lubridate::force_tz(raptors$end_obs, tzone = "Canada/Pacific")
+
+# Select final columns
+raptors <- raptors %>%
+  dplyr::select(date_time_pdt,
+                begin_obs,
+                end_obs,
+                time,
+                species,
+                n_raptors,
+                age,
+                success,
+                notes,
+                observers,
+                raw_datafile)
+
+# Merge with raptor fixes for 2015-2017
+
+# Finish up
+rm(raptors_list)
+cleaned[[length(cleaned) + 1]] <- raptors
+names(cleaned)[length(cleaned)] <- "raptors"
 
 # 10 CLEAN 'daily_conditions' ----
