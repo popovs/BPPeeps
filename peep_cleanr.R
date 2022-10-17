@@ -153,6 +153,22 @@ names(boundary_bay_counts)[1] <- "date_time_pdt"
 boundary_bay_counts$date_time_pdt <- lubridate::force_tz(boundary_bay_counts$date_time_pdt, tzone = "Canada/Pacific")
 boundary_bay_counts$high_tide_time_pdt <- lubridate::force_tz(boundary_bay_counts$high_tide_time_pdt, tzone = "Canada/Pacific")
 
+# Fill unspecified dates
+# Raw data specifies this was all on same date, but time only
+# provided for two records
+boundary_bay_counts[["date_time_pdt"]][is.na(boundary_bay_counts$date_time_pdt)] <- lubridate::make_datetime(year = 2001, month = 5, day = 8, hour = 0, min = 0, tz = "Canada/Pacific")
+
+# Move weather to 'notes'
+boundary_bay_counts[1,"notes"] <- "cloudy weather; strong wind"
+boundary_bay_counts <- boundary_bay_counts[,1:11]
+
+# Pivot table to line up with same format as canoe_pass_counts
+boundary_bay_counts <- tidyr::pivot_longer(boundary_bay_counts, cols = c(wesa:shore), names_to = "species", values_to = "count")
+
+# Clean species
+boundary_bay_counts$species <- toupper(boundary_bay_counts$species)
+boundary_bay_counts$species <- gsub("_", "/", boundary_bay_counts$species)
+
 # Finish up
 rm(boundary_bay_counts_list)
 cleaned[[1]] <- boundary_bay_counts
@@ -775,41 +791,41 @@ raptors[["species"]][grep("\\?", raptors$species)] <- "MERL"
 
 # Add numeric column indicating how many raptors were seen in a
 # particular observation (if noted)
-raptors$n_raptors <- NA
-raptors[["n_raptors"]][grep("(3)", raptors$species)] <- 3
+raptors$count <- NA
+raptors[["count"]][grep("(3)", raptors$species)] <- 3
 raptors[["species"]][grep("(3)", raptors$species)] <- "PEFA"
 
 # Now names have been standardized, set column type
 raptors$species <- as.factor(raptors$species)
 
-# Finish pulling out number of raptors for n_raptors col
+# Finish pulling out number of raptors for count col
 # 2 raptors
-raptors[["n_raptors"]][grep("2 perched|2 pefa|2 merl|2 fly|2 attack |2 baea|2 birds|2nd|two", tolower(raptors$observations))] <- 2
-raptors[["n_raptors"]][grep("2 perched|2 pefa|2 merl|2 fly|2 attack |2 baea|2 birds|2nd", tolower(raptors$notes))] <- 2
+raptors[["count"]][grep("2 perched|2 pefa|2 merl|2 fly|2 attack |2 baea|2 birds|2nd|two", tolower(raptors$observations))] <- 2
+raptors[["count"]][grep("2 perched|2 pefa|2 merl|2 fly|2 attack |2 baea|2 birds|2nd", tolower(raptors$notes))] <- 2
 
 # 3 raptors
-raptors[["n_raptors"]][grep("3 perched|3 pefa|3 merl|3 fly|3 attack |3 baea|3 birds|3rd|three", tolower(raptors$observations))] <- 3
-raptors[["n_raptors"]][grep("3 perched|3 pefa|3 merl|3 fly|3 attack |3 baea|3 birds|3rd", tolower(raptors$notes))] <- 3
+raptors[["count"]][grep("3 perched|3 pefa|3 merl|3 fly|3 attack |3 baea|3 birds|3rd|three", tolower(raptors$observations))] <- 3
+raptors[["count"]][grep("3 perched|3 pefa|3 merl|3 fly|3 attack |3 baea|3 birds|3rd", tolower(raptors$notes))] <- 3
 
 # Pull out record that has "2 PEFA & 1 BAEA" - split into two 
-# records, one record w n_raptors = 2 and species = PEFA; 
-# another record with n_raptors = 1 and species = BAEA.
+# records, one record w count = 2 and species = PEFA; 
+# another record with count = 1 and species = BAEA.
 raptors[nrow(raptors) + 1,] <- raptors[grep("2 PEFA & 1 BAEA", raptors$observations),]
 raptors[grep("2 PEFA & 1 BAEA", raptors$observations),"species"][2] <- "BAEA"
-raptors[grep("2 PEFA & 1 BAEA", raptors$observations),"n_raptors"][2] <- 1
+raptors[grep("2 PEFA & 1 BAEA", raptors$observations),"count"][2] <- 1
 
 # Same as above - pull out record that has "joined by two BAEA"
 # and add secord record for 2 BAEA.
 raptors[nrow(raptors) + 1,] <- raptors[grep("two BAEA", raptors$observations),]
 raptors[grep("two BAEA", raptors$observations),"species"][2] <- "BAEA"
-raptors[grep("two BAEA", raptors$observations),"n_raptors"][2] <- 2
+raptors[grep("two BAEA", raptors$observations),"count"][2] <- 2
 
 # Fix species where notes says "2 BAEA"
 raptors[["species"]][grep("2 BAEA", raptors$notes)] <- "BAEA"
 
 # 1 raptor - assume all records w species !NA but no other numbers
 # specified = 1 raptor
-raptors[["n_raptors"]][!is.na(raptors$species) & is.na(raptors$n_raptors)] <- 1
+raptors[["count"]][!is.na(raptors$species) & is.na(raptors$count)] <- 1
 
 # Standardized 'age'
 raptors[["age"]][grep("unk", raptors$age)] <- "UNK"
@@ -868,7 +884,7 @@ raptors <- raptors %>%
                 end_obs,
                 time,
                 species,
-                n_raptors,
+                count,
                 age,
                 success,
                 notes,
@@ -891,9 +907,9 @@ raptors_fix %<>%
 raptors_fix <- raptors_fix[raptors_fix$date > "2015-01-01" & raptors_fix$date < "2019-01-01",]
 raptors_fix <- raptors_fix[,c("date", "pefa", "merl")]
 
-raptors_fix <- tidyr::pivot_longer(raptors_fix, cols = c("pefa", "merl"), names_to = "species", values_to = "n_raptors")
+raptors_fix <- tidyr::pivot_longer(raptors_fix, cols = c("pefa", "merl"), names_to = "species", values_to = "count")
 
-raptors_fix <- raptors_fix[raptors_fix$n_raptors != 0,]
+raptors_fix <- raptors_fix[raptors_fix$count != 0,]
 raptors_fix$species <- toupper(raptors_fix$species)
 
 names(raptors_fix)[1] <- "date_time_pdt"
@@ -1129,3 +1145,51 @@ rm(daily_conditions_list)
 cleaned[[length(cleaned) + 1]] <- daily_conditions
 names(cleaned)[length(cleaned)] <- "daily_conditions"
 rm(daily_conditions)
+
+# 11 ASSEMBLE SQLITE DATABASE ----
+
+# The data in 'cleaned' can now be assembled into tables
+# for the cleaned SQLite BPPeeps database.
+# Some tables can be merged to reduce redundancy in the SQLite
+# database.
+# For example, canoe_pass_counts and boundary_bay_counts can
+# likely be merged into a "other_region_counts" table
+# counts and daily_conditions can be merged for consistency.
+# That, or weather condition information should be fully
+# split off counts into the daily_conditions table, with a 
+# survey_id/count_id to be able to merge them easily.
+
+sqlite_tables <- list()
+
+# Merge canoe_pass_counts and boundary_bay_counts
+bbc <- cleaned$boundary_bay_counts
+cpc <- cleaned$canoe_pass_counts
+
+names(bbc)[2] <- "sub_location"
+names(cpc)[3] <- "count"
+names(cpc)[4] <- "notes"
+
+bbc$location <- "Boundary Bay"
+cpc$location <- "Canoe Pass"
+
+other_region_counts <- dplyr::bind_rows(bbc, cpc)
+rm(bbc)
+rm(cpc)
+other_region_counts <- other_region_counts %>% dplyr::select(date_time_pdt,
+                                                             location,
+                                                             sub_location,
+                                                             species,
+                                                             count,
+                                                             high_tide_height_ft,
+                                                             high_tide_time_pdt,
+                                                             notes
+                                                             )
+
+sqlite_tables[[1]] <- other_region_counts
+names(sqlite_tables)[1] <- "other_region_counts"
+rm(other_region_counts)
+
+sqlite_tables[[2]] <- cleaned$strip_counts
+names(sqlite_tables)[2] <- "strip_counts"
+
+# TO-DO: standardize those locations in counts and species_ratios.
