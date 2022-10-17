@@ -109,9 +109,12 @@ for (i in 1:length(tabs)) {
 # Several tables are just tabs in the excel files for 
 # notekeeping and are not needed in the database
 rm(count_summary_list) # This was a pivot table
-# 'summary_totals_list', 'compliation_dailt_wesa_dunl_list'  
+# 'summary_totals_list', 'compliation_daily_wesa_dunl_list'  
 # could probably be removed as well - 
 # they just compile data from other tabs
+rm(summary_totals_list)
+rm(compilation_daily_wesa_dunl_list)
+rm(locations) # will be done manually to match new map provided
 
 cleaned <- list()
 
@@ -154,6 +157,7 @@ boundary_bay_counts$high_tide_time_pdt <- lubridate::force_tz(boundary_bay_count
 rm(boundary_bay_counts_list)
 cleaned[[1]] <- boundary_bay_counts
 names(cleaned)[1] <- "boundary_bay_counts"
+rm(boundary_bay_counts)
 
 ## 05 CLEAN 'canoe_pass_counts' ----
 canoe_pass_counts <- canoe_pass_counts_list$BPPeeps2015
@@ -178,6 +182,7 @@ canoe_pass_counts <- dplyr::select(.data = canoe_pass_counts, date_time_pdt, dpl
 rm(canoe_pass_counts_list)
 cleaned[[length(cleaned) + 1]] <- canoe_pass_counts
 names(cleaned)[length(cleaned)] <- "canoe_pass_counts"
+rm(canoe_pass_counts)
 
 ## 06 CLEAN 'strip_counts' ----
 # Given this data only appears in 3 sheets, it will all
@@ -233,6 +238,7 @@ strip_counts$date <- janitor::excel_numeric_to_date(strip_counts$date)
 rm(strip_counts_list)
 cleaned[[length(cleaned) + 1]] <- strip_counts
 names(cleaned)[length(cleaned)] <- "strip_counts"
+rm(strip_counts)
 
 ## 07 CLEAN 'counts' ----
 # This is the big one.. compilation_*, estimated_*, summary_*
@@ -390,6 +396,40 @@ counts %<>%
 counts[["tide"]][grep("rising- |rising/|rising -|small", counts$tide)] <- "rising-high"
 counts$tide <- as.factor(counts$tide)
 
+# Extract precipitation and cloud cover from weather
+counts$precipitation <- NA
+counts[["precipitation"]][grep("drizzle|rain|shower|snow", tolower(counts$weather))] <- counts[["weather"]][grep("drizzle|rain|shower|snow", tolower(counts$weather))]
+counts[["precipitation"]][grep("drizzle|light rain", tolower(counts$precipitation))] <- "Light rain"
+counts[["precipitation"]][grep("(?=.*shower)(?!.*heavy)", tolower(counts$precipitation), perl = TRUE)] <- "Showers"
+counts[["precipitation"]][grep("rain earlier", tolower(counts$precipitation))] <- NA # Going to assume all precipitation should be for present - user can look at 'weather' col later for detailed description
+counts[["precipitation"]][grep("to", tolower(counts$precipitation))] <- "Rain" # Originally "showers to heavy rain" - just going to call that "Rain"
+counts[["precipitation"]][grep("heavy rain", tolower(counts$precipitation))] <- "Heavy rain"
+counts[["precipitation"]][grepl("rain", tolower(counts$precipitation)) & !grepl("light|heavy", tolower(counts$precipitation))] <- "Rain"
+counts[["precipitation"]][grep("light snow", counts$precipitation)] <- "Light snow"
+counts$precipitation <- as.factor(counts$precipitation)
+
+counts$cloud_cover_percent <- NA
+counts[["cloud_cover_percent"]][grep("%", counts$weather)] <- counts[["weather"]][grep("%", counts$weather)]
+counts$cloud_cover_percent <- gsub(".*?([0-9]+).*", "\\1", counts$cloud_cover_percent)
+counts$cloud_cover_percent <- as.numeric(counts$cloud_cover_percent)
+
+# Standardize wind speed values
+counts$wind_direction <- NA
+counts$wind_direction <- stringr::str_extract(counts$wind, "\\b(N|S|E|W|NE|NW|SE|SW|NNE|NNW|ESE|ENE|SSE|SSW|WSW|WNW)\\b")
+counts[["wind_direction"]][grep("north", tolower(counts$wind))] <- "N"
+counts[["wind_direction"]][grep("south", tolower(counts$wind))] <- "S"
+counts[["wind_direction"]][grep("east", tolower(counts$wind))] <- "E"
+counts[["wind_direction"]][grep("west", tolower(counts$wind))] <- "W"
+counts$wind_direction <- as.factor(counts$wind_direction)
+
+counts$wind_speed_kn <- NA
+wind_speed <- stringr::str_extract(counts$wind, "\\d+\\s*\\-\\s*\\d+|\\d+")
+wind_speed <- gsub(" ", "", wind_speed)
+wind_speed <- strsplit(wind_speed, "-")
+wind_speed <- sapply(wind_speed, function (x) mean(as.numeric(x)))
+counts$wind_speed_kn <- wind_speed
+rm(wind_speed)
+
 # Deal with dates
 # 1999 data missing date but has time
 bad_row <- as.numeric(row.names(counts[is.na(counts$date) & !is.na(counts$time),]))
@@ -523,11 +563,15 @@ counts <- counts %>%
                 notes, 
                 high_tide_height_ft, 
                 high_tide_time_pdt, 
-                weather, 
+                weather,
+                cloud_cover_percent,
+                precipitation,
                 wind, 
+                wind_direction,
+                wind_speed_kn,
                 observer, 
                 other_birds, 
-                julian_date, 
+                julian_date,
                 raw_datafile)
 
 counts <- counts[!grepl("tot", tolower(counts$location)),]
@@ -536,6 +580,7 @@ counts <- counts[!grepl("tot", tolower(counts$location)),]
 rm(counts_list)
 cleaned[[length(cleaned) + 1]] <- counts
 names(cleaned)[length(cleaned)] <- "counts"
+rm(counts)
 
 # Could probably merge 'boundary_bay_counts', 
 # 'canoe_pass_counts', 'strip_counts' and 'counts',
@@ -676,6 +721,7 @@ species_ratios <- species_ratios %>%
 rm(species_ratios_list)
 cleaned[[length(cleaned) + 1]] <- species_ratios
 names(cleaned)[length(cleaned)] <- "species_ratios"
+rm(species_ratios)
 
 # 09 CLEAN 'raptors' ----
 # Raptor data starts in 1997. From 1997-2014, header row is
@@ -712,6 +758,10 @@ for (i in 1:length(raptors_list)) {
 
 # Bind rows and begin table-level cleaning
 raptors <- dplyr::bind_rows(raptors)
+
+# Set 'observers' to 'observer', to line up with col-name
+# convention in other tables
+names(raptors)[grep("observers", names(raptors))] <- "observer"
 
 # Standardize spp names
 raptors[["notes"]][grep("falcon", raptors$species)] <- ifelse(is.na(raptors[["notes"]][grep("unid falcon|falcon", raptors$species)]),
@@ -858,5 +908,224 @@ rm(raptors_fix)
 rm(raptors_list)
 cleaned[[length(cleaned) + 1]] <- raptors
 names(cleaned)[length(cleaned)] <- "raptors"
+rm(raptors)
 
 # 10 CLEAN 'daily_conditions' ----
+# These tables were used in 2014-onwards in lieu of 
+# noting daily conditions in the counts data.
+
+# Same process to clean these tables as above.
+# First pare down each df data-only rows + assign clean names.
+for (i in 1:length(daily_conditions_list)) {
+  tmp <- daily_conditions_list[[i]]
+  # Remove any completely empty rows/columns
+  tmp <- janitor::remove_empty(tmp, which = c("rows", "cols"), quiet = TRUE)
+  # Pull out the first full row - the first row w complete cases
+  # is the header. Then clean up.
+  cn <- tmp[complete.cases(tmp),]
+  if (nrow(cn) > 1) cn <- cn[1,] # Select first row in case it also pulls out full data row
+  cn <- as.character(cn)
+  cn <- janitor::make_clean_names(cn)
+  # Anything BEFORE the first complete row is the metadata for the sheet
+  # The [1] is there, much like the if statement above, in case
+  # it finds multiple rows w complete cases.
+  # For now not actually doing anything with meta; after 
+  # scanning everything it pulls out, no valuable information
+  # is noted in 'meta' for any file.
+  #meta <- tmp[1:(grep(TRUE, complete.cases(tmp))[1]-1),]
+  # Extract data (anything AFTER first complete row)
+  tmp <- tmp[-(1:grep(TRUE, complete.cases(tmp))[1]),]
+  # Set header names
+  names(tmp) <- cn
+  # Add filename column
+  tmp$raw_datafile <- f[grep(names(daily_conditions_list)[i], f)]
+  # Replace old df with tmp
+  daily_conditions_list[[i]] <- tmp
+  message("Set names for ", names(daily_conditions_list)[i])
+  rm(tmp)
+}
+
+# Now we will standardize all the header names across 
+# all the dfs.
+dcn <- lapply(daily_conditions_list, names)
+
+# Check out column names to get idea of cleaning procedures needed
+sort(unique(unlist(dcn)))
+plyr::count(unlist(dcn))
+
+for (i in 1:length(dcn)) {
+  cn <- dcn[[i]]
+  # giant 'approx_time_of_11_5_ft_tide_or_best_survey' -> 'best_survey_time'
+  cn[grep("approx", cn)] <- "best_survey_time"
+  # 'comments' -> 'tide' (all comments in line with 'falling', 'rising', etc)
+  cn[grep("comments", cn)] <- "tide"
+  # 'tide_direction' -> 'tide', to follow col name convention in other tables
+  cn[grep("tide_direction", cn)] <- "tide"
+  # 'high_tide_time' -> 'high_tide_time_pdt'
+  cn[grep("high_tide_time", cn)] <- "high_tide_time_pdt"
+  # 'ppn' -> 'precipitation'
+  cn[grep("ppn", cn)] <- "precipitation"
+  # 'temp_degrees' -> 'degrees_c'
+  cn[grep("temp", cn)] <- "degrees_c"
+  # '*_km_h' -> '*_kmh'
+  cn[grep("wind_speed_km_h", cn)] <- "wind_speed_kmh"
+  # Various Mark Lieu cols that will be deleted later
+  # 'mark_lieu_hours_hrs' -> 'lieu_hrs'
+  cn[grep("lieu", cn)] <- "lieu_hours"
+  # 'extra_hours_worked' -> 'hours_worked'
+  cn[grep("extra", cn)] <- "hours_worked"
+  dcn[[i]] <- cn
+  rm(cn)
+}
+
+# Assign clean header names to counts data
+for (i in 1:length(daily_conditions_list)) {
+  names(daily_conditions_list[[i]]) <- dcn[[i]]
+}
+rm(dcn)
+
+# Bind rows and begin table-level cleaning
+daily_conditions <- dplyr::bind_rows(daily_conditions_list)
+
+# Drop NA date records
+daily_conditions <- daily_conditions[!is.na(daily_conditions$date),]
+
+# Standardize weekday
+daily_conditions[["weekday"]][grep("Thursday", daily_conditions$weekday)] <- "Thu"
+daily_conditions[["weekday"]][grep("Fri ", daily_conditions$weekday)] <- "Fri"
+daily_conditions[["weekday"]][grep("Mon ", daily_conditions$weekday)] <- "Mon"
+daily_conditions$weekday <- as.factor(daily_conditions$weekday)
+
+# Standardize tide (matching precidents in 'counts')
+daily_conditions[["tide"]][grep("peak|rising/falling", tolower(daily_conditions$tide))] <- "high"
+daily_conditions[["tide"]][grep("falling", tolower(daily_conditions$tide))] <- "dropping"
+daily_conditions[["tide"]][grep("rising", tolower(daily_conditions$tide))] <- "rising"
+daily_conditions[["notes"]][grep("had to leave early", tolower(daily_conditions$tide))] <- "Had to leave early"
+daily_conditions[["tide"]][grep("had to leave early", tolower(daily_conditions$tide))] <- NA
+daily_conditions$tide <- as.factor(daily_conditions$tide)
+
+# Standardize precipitation
+daily_conditions[["precipitation"]][grep("0", tolower(daily_conditions$precipitation))] <- "None"
+daily_conditions[["precipitation"]][grep("^rain\\b", tolower(daily_conditions$precipitation))] <- "Rain"
+daily_conditions[["precipitation"]][grep("light rain", tolower(daily_conditions$precipitation))] <- "Light rain"
+daily_conditions[["precipitation"]][grep("showers", tolower(daily_conditions$precipitation))] <- "Showers"
+daily_conditions$precipitation <- as.factor(daily_conditions$precipitation)
+
+# Merge 'notes' and 'notes2'
+daily_conditions$notes <- apply(daily_conditions[,c("notes", "notes2")], 1, function(x) paste(x[!is.na(x)], collapse = "; "))
+
+# Coerce numeric column types
+daily_conditions %<>% 
+  dplyr::mutate_at(c("date",
+                      "high_tide_time_pdt",
+                      "high_tide_height_ft",
+                      "best_survey_time",
+                      "estimated_survey_start_time",
+                      "estimated_survey_end_time",
+                      "degrees_c",
+                      "cloud_cover_percent",
+                      "wind_speed_kmh",
+                      "sweep_start",
+                      "sweep_end",
+                      "survey_start",
+                      "survey_end",
+                      "year",
+                      "month",
+                      "day",
+                      "high_tide_height_m",
+                      "survey_start_hour",
+                      "survey_start_minute",
+                      "survey_end_hour",
+                      "survey_end_minute"),
+                    as.numeric)
+
+# Drop some irrelevant columns + reorder - makes working with
+# remaining data easier
+daily_conditions <- daily_conditions %>% dplyr::select(weekday,
+                                                       date,
+                                                       high_tide_time_pdt,
+                                                       high_tide_height_ft,
+                                                       high_tide_height_m,
+                                                       best_survey_time,
+                                                       tide,
+                                                       degrees_c,
+                                                       cloud_cover_percent,
+                                                       precipitation,
+                                                       wind_direction,
+                                                       wind_speed_kmh,
+                                                       sweep_start,
+                                                       sweep_end,
+                                                       survey_start,
+                                                       survey_end,
+                                                       observer,
+                                                       notes,
+                                                       raw_datafile,
+                                                       year,
+                                                       month,
+                                                       day,
+                                                       survey_start_hour,
+                                                       survey_start_minute,
+                                                       survey_end_hour,
+                                                       survey_end_minute)
+
+# Deal with dates
+# Not the most concise but it works..
+daily_conditions$high_tide_time_pdt <- daily_conditions$date + daily_conditions$high_tide_time_pdt
+daily_conditions$best_survey_time <- daily_conditions$date + daily_conditions$best_survey_time
+daily_conditions$sweep_start <- daily_conditions$date + daily_conditions$sweep_start
+daily_conditions$sweep_end <- daily_conditions$date + daily_conditions$sweep_end
+daily_conditions$survey_start <- daily_conditions$date + daily_conditions$survey_start
+daily_conditions$survey_end <- daily_conditions$date + daily_conditions$survey_end
+
+daily_conditions$date <- janitor::excel_numeric_to_date(daily_conditions$date)
+daily_conditions$high_tide_time_pdt <- janitor::excel_numeric_to_date(daily_conditions$high_tide_time_pdt, include_time = T, tz = "Canada/Pacific")
+daily_conditions$best_survey_time <- janitor::excel_numeric_to_date(daily_conditions$best_survey_time,include_time = T,  tz = "Canada/Pacific")
+daily_conditions$sweep_start <- janitor::excel_numeric_to_date(daily_conditions$sweep_start,include_time = T,  tz = "Canada/Pacific")
+daily_conditions$sweep_end <- janitor::excel_numeric_to_date(daily_conditions$sweep_end, include_time = T,  tz = "Canada/Pacific")
+daily_conditions$survey_start <- janitor::excel_numeric_to_date(daily_conditions$survey_start, include_time = T,  tz = "Canada/Pacific")
+daily_conditions$survey_end <- janitor::excel_numeric_to_date(daily_conditions$survey_end, include_time = T, tz = "Canada/Pacific")
+
+# 2015 data all has wrong year
+lubridate::year(daily_conditions[["date"]][daily_conditions$raw_datafile == "BPPeeps2015.xlsx"]) <- 2015
+
+# Other date format
+daily_conditions$other_survey_start <- lubridate::make_datetime(year = daily_conditions$year, month = daily_conditions$month, day = daily_conditions$day, hour = daily_conditions$survey_start_hour, min = daily_conditions$survey_start_minute, tz = "Canada/Pacific")
+daily_conditions$other_survey_end <- lubridate::make_datetime(year = daily_conditions$year, month = daily_conditions$month, day = daily_conditions$day, hour = daily_conditions$survey_end_hour, min = daily_conditions$survey_end_minute, tz = "Canada/Pacific")
+
+daily_conditions$survey_start_pdt <- dplyr::if_else(is.na(daily_conditions$other_survey_start),
+                                                    daily_conditions$survey_start,
+                                                    daily_conditions$other_survey_start)
+daily_conditions$survey_end_pdt <- dplyr::if_else(is.na(daily_conditions$other_survey_end),
+                                                    daily_conditions$survey_end,
+                                                    daily_conditions$other_survey_end)
+
+# Select final columns
+daily_conditions <- daily_conditions %>% dplyr::select(date,
+                                                       sweep_start,
+                                                       sweep_end,
+                                                       survey_start_pdt,
+                                                       survey_end_pdt,
+                                                       best_survey_time,
+                                                       high_tide_time_pdt,
+                                                       high_tide_height_ft,
+                                                       high_tide_height_m,
+                                                       tide,
+                                                       degrees_c,
+                                                       cloud_cover_percent,
+                                                       precipitation,
+                                                       wind_direction,
+                                                       wind_speed_kmh,
+                                                       weekday,
+                                                       observer,
+                                                       notes,
+                                                       raw_datafile
+                                                       )
+
+names(daily_conditions)[2:3] <- c("sweep_start_pdt", "sweep_end_pdt")
+names(daily_conditions)[6] <- "approx_11_5_ft_tide_or_best_survey_pdt" # Rename back to unwieldy ridiculous but informative name
+
+# Finish up
+rm(daily_conditions_list)
+cleaned[[length(cleaned) + 1]] <- daily_conditions
+names(cleaned)[length(cleaned)] <- "daily_conditions"
+rm(daily_conditions)
