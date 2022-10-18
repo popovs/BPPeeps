@@ -888,7 +888,7 @@ raptors <- raptors %>%
                 age,
                 success,
                 notes,
-                observers,
+                observer,
                 raw_datafile)
 
 # Merge with raptor fixes for 2015-2017
@@ -1191,5 +1191,71 @@ rm(other_region_counts)
 
 sqlite_tables[[2]] <- cleaned$strip_counts
 names(sqlite_tables)[2] <- "strip_counts"
+
+# Merge 'counts' and 'daily_conditions'
+c <- cleaned$counts
+dc <- cleaned$daily_conditions
+
+c$date <- as.Date(c$date_time_pdt, format = "%Y-%m-%d", tz = "Canada/Pacific")
+
+# This will result in some duplicated column names. Only the
+# 'notes' columns need to be concatenated. 
+tmp <- merge(c, dc, by = "date", all = TRUE)
+tmp$notes <- apply(tmp[,c("notes.x", "notes.y")], 1, function(x) paste(x[!is.na(x)], collapse = "; "))
+
+# Remaining can simply be ifelse statements - choose whichever
+# column is not null for the value
+dupes <- names(tmp)[grepl("\\.x", names(tmp)) & !grepl("notes", names(tmp))]
+dupes <- gsub(".x", "", dupes)
+
+for (i in 1:length(dupes)){
+  col.x <- paste0(dupes[i], ".x")
+  col.y <- paste0(dupes[i], ".y")
+  # If/else gets wonky with factors if levels don't exactly
+  # match between the two columns
+  if (class(tmp[[col.x]])[1] == "factor") {
+    tmp[[col.x]] <- as.character(tmp[[col.x]])
+    tmp[[col.y]] <- as.character(tmp[[col.y]])
+    }
+  tmp[[dupes[i]]] <- dplyr::if_else(is.na(tmp[[col.x]]),
+                                    tmp[[col.y]],
+                                    tmp[[col.x]])
+}
+
+# Select final columns
+tmp <- tmp %>% dplyr::select(date,
+              date_time_pdt,
+              location,
+              weekday,
+              sweep_start_pdt,
+              sweep_end_pdt,
+              survey_start_pdt,
+              survey_end_pdt,
+              approx_11_5_ft_tide_or_best_survey_pdt,
+              count_1,
+              count_2,
+              count_3,
+              count_4,
+              count_5,
+              other_birds,
+              high_tide_time_pdt,
+              high_tide_height_ft,
+              high_tide_height_m,
+              tide,
+              degrees_c,
+              weather,
+              cloud_cover_percent,
+              precipitation,
+              wind,
+              wind_direction,
+              wind_speed_kn,
+              wind_speed_kmh,
+              notes,
+              observer,
+              julian_date,
+              raw_datafile)
+
+tmp$tide <- as.factor(tmp$tide)
+tmp$wind_direction <- as.factor(tmp$wind_direction)
 
 # TO-DO: standardize those locations in counts and species_ratios.
