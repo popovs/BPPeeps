@@ -114,7 +114,9 @@ rm(count_summary_list) # This was a pivot table
 # they just compile data from other tabs
 rm(summary_totals_list)
 rm(compilation_daily_wesa_dunl_list)
-rm(locations) # will be done manually to match new map provided
+rm(estimated_daily_dunl_totals_list)
+rm(estimated_daily_wesa_totals_list)
+rm(locations_list) # will be done manually to match new map provided
 
 cleaned <- list()
 
@@ -556,7 +558,18 @@ rm(subtotal_dates)
 # 2022-08-07: have sent flagged records to data owners to 
 # hear feedback. For now, counts cleaning is done. 
 # 'location' standardization will be done with Google
-# OpenRefine. 
+# OpenRefine.
+# 2022-08-18: turns out in the 'notes' column there is an
+# indication of when the "sweep" started. Some counts are
+# just test counts prior to actually doing the proper "sweep"
+# count data. As such the data author manually picked and chose
+# which data made it into 'MeanCount' base on this and other
+# criteria. It will be difficult to automate pulling it out.
+
+# Pull out start of sweeps from notes column by scanning for
+# the following key words: "begin" & "count" OR "sweep".
+sweeps <- counts[(grepl("begin\\b", counts$notes) & grepl("count", counts$notes) & !grepl("sweep", counts$notes)) | grepl("sweep", counts$notes),]
+
 
 # Rearrange and remove any superfluous columns
 # Dropping columns if:
@@ -565,7 +578,10 @@ rm(subtotal_dates)
 # - they have only one value (e.g., 'dunlin' has one value in one cell, which was moved to 'other_birds')
 # - they have only one unique value (e.g., all records in 'day_survey' simply say '1')
 # - they were merged into the date_time_pdt column
-# - 'mean_count' col - this column should be calculated on-the-fly so as to account for any changes to underlying count data and prevent future 'mean_count' errors
+# - 'mean_count' col - ideally this column should be calculated on-the-fly so as to account for any 
+#   changes to underlying count data and prevent future 'mean_count' errors
+#   However, 'mean_count' is problematic in that it seemingly
+#   arbitrarily pulls from count data vs not (e.g., see 2011 data).
 counts <- counts %>% 
   dplyr::select(date_time_pdt, 
                 tide, 
@@ -575,7 +591,7 @@ counts <- counts %>%
                 count_3, 
                 count_4, 
                 count_5, 
-                #mean_count, 
+                mean_count, 
                 notes, 
                 high_tide_height_ft, 
                 high_tide_time_pdt, 
