@@ -1162,7 +1162,22 @@ cleaned[[length(cleaned) + 1]] <- daily_conditions
 names(cleaned)[length(cleaned)] <- "daily_conditions"
 rm(daily_conditions)
 
-# 11 ASSEMBLE SQLITE DATABASE ----
+# 11 STANDARDIZE LOCATION DATA ----
+# Extract location data from counts and species_ratios,
+# import into OpenRefine, and clean. 
+locations <- sort(unique(c(cleaned$counts$location, 
+                      cleaned$species_ratios$location, 
+                      cleaned$boundary_bay_counts$location)))
+write.csv(locations, "Output/locations_raw.csv", na = "", row.names = F)
+
+# Now open OpenRefine - this requires the user to have OpenRefine
+# installed on their machine and will open the program in a browser window!
+rrefine::refine_upload("Output/locations_raw.csv", project.name = "bppeep_locations", open.browser = TRUE)
+
+# On local machine this is at:
+# http://127.0.0.1:3333/project?project=2454790870924&ui=%7B%22facets%22%3A%5B%5D%7D
+
+# 12 ASSEMBLE SQLITE DATABASE ----
 
 # The data in 'cleaned' can now be assembled into tables
 # for the cleaned SQLite BPPeeps database.
@@ -1177,6 +1192,7 @@ rm(daily_conditions)
 
 sqlite_tables <- list()
 
+## - 12.1 OTHER COUNTS ----
 # Merge canoe_pass_counts and boundary_bay_counts
 bbc <- cleaned$boundary_bay_counts
 cpc <- cleaned$canoe_pass_counts
@@ -1201,13 +1217,23 @@ other_region_counts <- other_region_counts %>% dplyr::select(date_time_pdt,
                                                              notes
                                                              )
 
-sqlite_tables[[1]] <- other_region_counts
-names(sqlite_tables)[1] <- "other_region_counts"
+# Convert dates to strings for SQLite compatibility
+other_region_counts <- other_region_counts %>% 
+  dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
+  dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
+
+sqlite_tables[["other_region_counts"]] <- other_region_counts
 rm(other_region_counts)
 
-sqlite_tables[[2]] <- cleaned$strip_counts
-names(sqlite_tables)[2] <- "strip_counts"
+## - 12.2 STRIP COUNTS ----
+# Convert dates to strings for SQLite compatibility
+cleaned$strip_counts <- cleaned$strip_counts %>% 
+  dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
+  dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
 
+sqlite_tables[["strip_counts"]] <- cleaned$strip_counts
+
+## - 12.3 BP COUNTS + DAILY CONDITIONS ----
 # Merge 'counts' and 'daily_conditions'
 c <- cleaned$counts
 dc <- cleaned$daily_conditions
@@ -1237,6 +1263,10 @@ for (i in 1:length(dupes)){
                                     tmp[[col.y]],
                                     tmp[[col.x]])
 }
+rm(col.x)
+rm(col.y)
+rm(dupes)
+rm(i)
 
 # Select final columns
 tmp <- tmp %>% dplyr::select(date,
@@ -1253,6 +1283,7 @@ tmp <- tmp %>% dplyr::select(date,
               count_3,
               count_4,
               count_5,
+              mean_count, # potentially remove later
               other_birds,
               high_tide_time_pdt,
               high_tide_height_ft,
@@ -1273,5 +1304,82 @@ tmp <- tmp %>% dplyr::select(date,
 
 tmp$tide <- as.factor(tmp$tide)
 tmp$wind_direction <- as.factor(tmp$wind_direction)
+tmp$julian_date <- lubridate::yday(tmp$date)
 
-# TO-DO: standardize those locations in counts and species_ratios.
+# Convert dates to strings for SQLite compatibility
+tmp <- tmp %>% 
+  dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
+  dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
+
+sqlite_tables[["bp_counts"]] <- tmp
+rm(tmp)
+rm(c)
+rm(dc)
+
+## - 12.4 SPECIES RATIOS ----
+# Convert dates to strings for SQLite compatibility
+cleaned$species_ratios <- cleaned$species_ratios %>% 
+  dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
+  dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
+
+sqlite_tables[["species_ratios"]] <- cleaned$species_ratios
+
+## - 12.5 RAPTORS ----
+# Convert dates to strings for SQLite compatibility
+cleaned$raptors <- cleaned$raptors %>% 
+  dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
+  dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
+
+sqlite_tables[["raptors"]] <- cleaned$raptors
+
+## - 12.6 CLEANED LOCATIONS ----
+# This assumes locations were cleaned using OpenRefine
+# above.
+bppeep_locations <- rrefine::refine_export(project.name = "bppeep_locations",
+                                           show_col_types = FALSE)
+
+# [Further modifications as needed can be done in R here]
+sqlite_tables[["locations"]] <- bppeep_locations
+
+# 13 POPULATE SQLITE DB ----
+bppeeps <- DBI::dbConnect(RSQLite::SQLite(), "Output/bppeeps.db")
+
+# Populate tables
+for (i in 1:length(sqlite_tables)) {
+  DBI::dbWriteTable(bppeeps, names(sqlite_tables)[i], sqlite_tables[[i]], overwrite = TRUE)
+}
+
+# Create views
+# Daily percentage WESA/DUNL view
+DBI::dbExecute(bppeeps, "drop view if exists daily_percent_ratios;")
+DBI::dbExecute(bppeeps, "create view daily_percent_ratios as 
+               with temp as (select date(date_time_pdt) as date, 
+               avg(wesa) as wesa, 
+               avg(dunl) as dunl 
+               from species_ratios 
+               group by date(date_time_pdt)) 
+               select *, 
+               (wesa + dunl) as total, 
+               (wesa / (wesa + dunl) * 100) as p_wesa, 
+               (dunl / (wesa + dunl) * 100) as p_dunl 
+               from temp;")
+
+# Daily WESA/DUNL population totals view
+DBI::dbExecute(bppeeps, "drop view if exists daily_wesa_dunl_population;")
+DBI::dbExecute(bppeeps, "create view daily_wesa_dunl_population as
+               with temp as (select date, 
+               sum(mean_count) as daily_count, 
+               cleaned 
+               from bp_counts 
+               inner join locations 
+               on bp_counts.location = locations.original_location_name
+                group by date, cleaned)
+               select temp.date, 
+                cleaned as location, 
+                round((p_wesa * daily_count), 0) as pop_wesa, 
+                round((p_dunl * daily_count), 0) as pop_dunl 
+                from temp 
+                inner join daily_percent_ratios d 
+                on temp.date = d.date;")
+
+DBI::dbDisconnect(bppeeps)
