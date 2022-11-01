@@ -669,6 +669,7 @@ species_ratios <- dplyr::bind_rows(species_ratios_list)
 # Coerce column types
 # First make note of one record w "<10" as %age
 species_ratios[["notes"]][grep("<10", species_ratios$percent_wesa)] <- paste0(species_ratios[["notes"]][grep("<10", species_ratios$percent_wesa)], "; %WESA estimated to be '<10' in raw data")
+species_ratios[["percent_wesa"]][grep("<10", species_ratios$percent_wesa)] <- 9
 
 # Pull out records with character/descriptive dates (2011-2012 data)
 # Referring to them as "interpolated species ratios"
