@@ -570,7 +570,6 @@ rm(subtotal_dates)
 # the following key words: "begin" & "count" OR "sweep".
 sweeps <- counts[(grepl("begin\\b", counts$notes) & grepl("count", counts$notes) & !grepl("sweep", counts$notes)) | grepl("sweep", counts$notes),]
 
-
 # Rearrange and remove any superfluous columns
 # Dropping columns if:
 # - they were merged with another column above (e.g., 'comments')
@@ -671,6 +670,51 @@ species_ratios <- dplyr::bind_rows(species_ratios_list)
 # First make note of one record w "<10" as %age
 species_ratios[["notes"]][grep("<10", species_ratios$percent_wesa)] <- paste0(species_ratios[["notes"]][grep("<10", species_ratios$percent_wesa)], "; %WESA estimated to be '<10' in raw data")
 
+# Pull out records with character/descriptive dates (2011-2012 data)
+# Referring to them as "interpolated species ratios"
+int_spr <- species_ratios[grep("may|apr", tolower(species_ratios$date)),]
+# There is likely a more clever way to do this, but manual fixes
+# are faster for now...
+# Single dates
+int_spr_s <- int_spr[!grepl("&|-", int_spr$date),]
+int_spr_s$date <- c("2011-04-26", "2011-05-08", "2012-04-20", "2012-05-02")
+# Double dates
+int_spr_d <- int_spr[grep("&", int_spr$date),]
+int_spr_d <- rbind(int_spr_d, int_spr_d)
+int_spr_d$date <- c("2011-04-17", "2011-04-21", "2012-04-16", "2011-04-18", "2011-04-22", "2012-04-17")
+# Multiple dates (this is ugly ugly code, please forgive me DRY code overlords + future self)
+int_spr_m <- int_spr[grep("-", int_spr$date),]
+int_spr_m1 <- rbind(int_spr_m[1,], int_spr_m[1,], int_spr_m[1,], int_spr_m[1,], int_spr_m[1,])
+int_spr_m1$date <- seq(as.Date("2011-04-28"), as.Date("2011-05-02"), by = "1 day")
+int_spr_m2 <- rbind(int_spr_m[2,], int_spr_m[2,], int_spr_m[2,])
+int_spr_m2$date <- seq(as.Date("2012-05-04"), as.Date("2012-05-06"), by = "1 day")
+int_spr_m3 <- rbind(int_spr_m[3,], int_spr_m[3,])
+int_spr_m3$date <- c("2012-05-09", "2012-05-10")
+
+int_spr_m <- rbind(int_spr_m1, int_spr_m2, int_spr_m3)
+int_spr_m$date <- as.character(int_spr_m$date)
+rm(int_spr_m1)
+rm(int_spr_m2)
+rm(int_spr_m3)
+
+int_spr <- rbind(int_spr_s, int_spr_d, int_spr_m)
+rm(int_spr_s)
+rm(int_spr_d)
+rm(int_spr_m)
+
+# Convert the dates back to excel numeric so they can cleanly
+# fit into date conversion pipeline below
+d0 <- as.numeric(as.Date(0, origin="1899-12-30", tz='UTC'))
+int_spr$date <- as.numeric(as.Date(int_spr$date)) - d0
+rm(d0)
+
+# Bind 'interpolated' data back in
+# First remove the int rows
+species_ratios <- species_ratios[!grepl("may|apr", tolower(species_ratios$date)),]
+# Bind together
+species_ratios <- rbind(species_ratios, int_spr)
+rm(int_spr)
+
 # Note this will result in NAs introdued by coersion in
 # the 'date' column for descriptive/interpolated dates -
 # e.g. '21 & 22 April' (interpolated %ages between 20 and 23 April)
@@ -695,6 +739,11 @@ species_ratios %<>%
                    as.numeric)
 
 # Deal with dates
+
+# First fix records that have year, month, day, but NA time
+# These will result in "1899-12-30" datetime if not fixed
+species_ratios[["hour"]][!is.na(species_ratios$year) & !is.na(species_ratios$month) & !is.na(species_ratios$day) & is.na(species_ratios$hour)] <- 0
+species_ratios[["minutes"]][!is.na(species_ratios$year) & !is.na(species_ratios$month) & !is.na(species_ratios$day) & is.na(species_ratios$minutes)] <- 0
 
 # Build excel dates from 'date' column
 species_ratios$excel_datetime <- rowSums(species_ratios[,c("date", "time")], na.rm = TRUE)
@@ -730,6 +779,14 @@ rm(p_wesa_errors)
 # One %WESA error due to mistake in excel formula. Remaining
 # %WESA errors are due to changes in 'total' value if you 
 # include the BBPL numbers in the total.
+
+# Fill in NA WESA/DUNL pop numbers where no pop # but DOES
+# have a %WESA value. e.g. see: 
+#View(species_ratios[is.na(species_ratios$wesa) & is.na(species_ratios$dunl),])
+r <- row.names(species_ratios[is.na(species_ratios$wesa) & is.na(species_ratios$dunl),])
+species_ratios[["wesa"]][is.na(species_ratios$wesa) & is.na(species_ratios$dunl)] <- species_ratios[["percent_wesa"]][is.na(species_ratios$wesa) & is.na(species_ratios$dunl)]
+species_ratios[r, "dunl"] <- 100 - species_ratios[r, "percent_wesa"]
+rm(r)
 
 # Exclude subtotal rows
 species_ratios <- species_ratios[!grepl("total|use|average", tolower(species_ratios$location)),]
@@ -1172,7 +1229,8 @@ write.csv(locations, "Output/locations_raw.csv", na = "", row.names = F)
 
 # Now open OpenRefine - this requires the user to have OpenRefine
 # installed on their machine and will open the program in a browser window!
-rrefine::refine_upload("Output/locations_raw.csv", project.name = "bppeep_locations", open.browser = TRUE)
+# (only do this)
+#rrefine::refine_upload("Output/locations_raw.csv", project.name = "bppeep_locations", open.browser = TRUE)
 
 # On local machine this is at:
 # http://127.0.0.1:3333/project?project=2454790870924&ui=%7B%22facets%22%3A%5B%5D%7D
@@ -1335,8 +1393,9 @@ sqlite_tables[["raptors"]] <- cleaned$raptors
 ## - 12.6 CLEANED LOCATIONS ----
 # This assumes locations were cleaned using OpenRefine
 # above.
-bppeep_locations <- rrefine::refine_export(project.name = "bppeep_locations",
-                                           show_col_types = FALSE)
+# bppeep_locations <- rrefine::refine_export(project.name = "bppeep_locations",
+#                                            show_col_types = FALSE)
+bppeep_locations <- read.csv("Output/bppeep_locations-2.csv")
 
 # [Further modifications as needed can be done in R here]
 sqlite_tables[["locations"]] <- bppeep_locations
@@ -1349,7 +1408,7 @@ for (i in 1:length(sqlite_tables)) {
   DBI::dbWriteTable(bppeeps, names(sqlite_tables)[i], sqlite_tables[[i]], overwrite = TRUE)
 }
 
-# Create views
+# 13.1 CREATE VIEWS ----
 # Daily percentage WESA/DUNL view
 DBI::dbExecute(bppeeps, "drop view if exists daily_percent_ratios;")
 DBI::dbExecute(bppeeps, "create view daily_percent_ratios as 
@@ -1376,8 +1435,8 @@ DBI::dbExecute(bppeeps, "create view daily_wesa_dunl_population as
                 group by date, cleaned)
                select temp.date, 
                 cleaned as location, 
-                round((p_wesa * daily_count), 0) as pop_wesa, 
-                round((p_dunl * daily_count), 0) as pop_dunl 
+                round(((p_wesa/100) * daily_count), 0) as pop_wesa, 
+                round(((p_dunl/100) * daily_count), 0) as pop_dunl 
                 from temp 
                 inner join daily_percent_ratios d 
                 on temp.date = d.date;")
