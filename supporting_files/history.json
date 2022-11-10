@@ -1,0 +1,5787 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "x",
+    "expression": "grel:value",
+    "onError": "keep-original",
+    "newColumnName": "cleaned",
+    "columnInsertIndex": 1,
+    "description": "Create column cleaned at index 1 based on column x using expression grel:value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.trim()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(/\\s+/,' ')",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(/\\s+/,' ')"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "x",
+    "newColumnName": "original_location_name",
+    "description": "Rename column x to original_location_name"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Pilings west end",
+          "West end pilings",
+          "pilings (west end)",
+          "pilings - west end",
+          "west end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings"
+      },
+      {
+        "from": [
+          "West end mumblies (mudislet)",
+          "west end mumblies (mudislet)",
+          "west end mumblies - mudislet",
+          "west end mumblies -mudislet",
+          "west end mumblies mudislet"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies (mud islet)"
+      },
+      {
+        "from": [
+          "view corner - inner mud BP corner",
+          "view corner (BP corner inner mud)",
+          "view corner (inner mud - B.P. corner)",
+          "view corner - BP corner - inner mud",
+          "view corner - inner mud & BP corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (BP corner - inner mud)"
+      },
+      {
+        "from": [
+          "East end pilings",
+          "east end pilings",
+          "pilings (east end)",
+          "pilings - east end"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings"
+      },
+      {
+        "from": [
+          "West end mumblies",
+          "mumblies (west end)",
+          "west end \"mumblies\"",
+          "west end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies"
+      },
+      {
+        "from": [
+          "34th pullout (on mumblies)",
+          "34th pullout - on mumblies",
+          "34th pullout on mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th pullout (on mumblies)"
+      },
+      {
+        "from": [
+          "Pilings (on mumblies)",
+          "pilings (on mumblies)",
+          "pilings - on mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (on mumblies)"
+      },
+      {
+        "from": [
+          "Bruns corner",
+          "Bruns. Corner",
+          "Bruns. corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner - mudroost",
+          "Brunswick Pt corner mudroost",
+          "Brunswick Pt. corner mudroost"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (mudroost)"
+      },
+      {
+        "from": [
+          "pilings - inner mud",
+          "pilings (inner mud)",
+          "pilings inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (inner mud)"
+      },
+      {
+        "from": [
+          "Bruns Pt corner",
+          "Bruns Pt. corner",
+          "Bruns. Pt. Corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner"
+      },
+      {
+        "from": [
+          "BP mudroost viewpoint",
+          "BP mudroost viewpoint (mudroost)",
+          "BP mudroost viewpoint -"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (mudroost)"
+      },
+      {
+        "from": [
+          "Coal Port Corner",
+          "Coal Port corner",
+          "coal port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner"
+      },
+      {
+        "from": [
+          "view corner (inner mud)",
+          "view corner - inner mud",
+          "view corner, inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (inner mud)"
+      },
+      {
+        "from": [
+          "East end mumblies",
+          "east end mumblies",
+          "mumblies (east end)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end mumblies"
+      },
+      {
+        "from": [
+          "Brunswick Point - marsh tip",
+          "Brunswick Point marsh tip",
+          "Brunswick point marsh tip"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt (marsh tip)"
+      },
+      {
+        "from": [
+          "mumblies (outer)",
+          "outer \"mumblies\"",
+          "outer mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Mumblies (outer)"
+      },
+      {
+        "from": [
+          "34th St pullout",
+          "34th st pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      },
+      {
+        "from": [
+          "East end mumblies - outer edge",
+          "east end mumblies - outer edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end mumblies (outer)"
+      },
+      {
+        "from": [
+          "west end mumblies - on tide edge",
+          "west end mumblies on tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies (on tide edge)"
+      },
+      {
+        "from": [
+          "Pilings bend",
+          "pilings bend"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to bend"
+      },
+      {
+        "from": [
+          "pilings to view corner",
+          "view corner to pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to view corner"
+      },
+      {
+        "from": [
+          "Bruns Pt corner - inner mud",
+          "Bruns Pt. corner - inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (inner mud)"
+      },
+      {
+        "from": [
+          "west end pilings (near mud)",
+          "west end pilings - near mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings (inner mud)"
+      },
+      {
+        "from": [
+          "view corner (outer West end mumblies)",
+          "view corner - outer west end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (outer west end mumblies)"
+      },
+      {
+        "from": [
+          "inner mud, west end pilings",
+          "west end pilings - inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings (inner mud)"
+      },
+      {
+        "from": [
+          "east end pilings (inner mud)",
+          "east end pilings inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings (inner mud)"
+      },
+      {
+        "from": [
+          "34th pullout (near mud)",
+          "34th pullout - near mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th pullout (inner mud)"
+      },
+      {
+        "from": [
+          "view corner (BP marsh tip)",
+          "view corner - BP marsh tip"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (BP marsh tip)"
+      },
+      {
+        "from": [
+          "west end mumblies (mud islet)",
+          "west end mumblies - mud islet"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies (mud islet)"
+      },
+      {
+        "from": [
+          "west end mumblies (outer mud)",
+          "west end mumblies outer mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies (outer mud)"
+      },
+      {
+        "from": [
+          "Pilings-west end",
+          "pilings-west end"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings"
+      },
+      {
+        "from": [
+          "view corner - BP w. end mumblies -tide edge",
+          "view corner - tide edge (w end mumblies & BP )"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (BP - west end mumblies - tide edge)"
+      },
+      {
+        "from": [
+          "View corner",
+          "view corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner (inner to mid mud)",
+          "Brunswick Pt corner - inner to mid mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (inner to mid mud)"
+      },
+      {
+        "from": [
+          "34th Street pullout",
+          "34th street pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      },
+      {
+        "from": [
+          "Pilings (outer tide edge)",
+          "pilings - outer tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (outer tide edge)"
+      },
+      {
+        "from": [
+          "pilings (inside mumblies)",
+          "pilings, inside mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (inner mumblies)"
+      },
+      {
+        "from": [
+          "mid mumblies",
+          "mumblies (mid)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Mid mumblies"
+      },
+      {
+        "from": [
+          "inner mumblies",
+          "mumblies (inner)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Inner mumblies"
+      },
+      {
+        "from": [
+          "off pilings (on mumblies)",
+          "off pilings on mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (mumblies)"
+      },
+      {
+        "from": [
+          "Bruns Pt corner - outer mud",
+          "Bruns Pt corner outer mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (outer mud)"
+      },
+      {
+        "from": [
+          "east of east end pilings (near Bend) outer mud",
+          "east of east end pilings (near bend) outer mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East of east end pilings (outer mud)"
+      },
+      {
+        "from": [
+          "Pilings",
+          "pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings"
+      },
+      {
+        "from": [
+          "C.Port corner (flying)",
+          "C.Port corner - flying"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner (flying)"
+      },
+      {
+        "from": [
+          "bend viewpoint ( inner mud)",
+          "bend viewpoint (inner mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Bend (inner mud)"
+      },
+      {
+        "from": [
+          "pilings (west)",
+          "west pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings"
+      },
+      {
+        "from": [
+          "34th to Coal Port corner",
+          "Coal Port corner to 34th"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th to Coal Port corner"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner - tide edge",
+          "Brunswick Pt corner -tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (tide edge)"
+      },
+      {
+        "from": [
+          "E of east end pilings",
+          "east of E end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East of east end pilings"
+      },
+      {
+        "from": [
+          "Pilings pullout",
+          "pilings pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings"
+      },
+      {
+        "from": [
+          "off pilings (outer mud)",
+          "off pilings - outer mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (outer mud)"
+      },
+      {
+        "from": [
+          "off pilings (inner mud)",
+          "off pilings - inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (inner mud)"
+      },
+      {
+        "from": [
+          "east end pilings (outer edge mumblies)",
+          "east end pilings - outer edge mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings (outer mumblies)"
+      },
+      {
+        "from": [
+          "34th pullout to CP corner",
+          "CP corner to 34th pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St to Coal Port corner"
+      },
+      {
+        "from": [
+          "off pilings (outer edge mumblies)",
+          "outer edge mumblies off pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (outer mumblies)"
+      },
+      {
+        "from": [
+          "east of east end pilings (34th pullout)",
+          "east of east end pilings- 34th pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East of east end pilings (34th pullout)"
+      },
+      {
+        "from": [
+          "34th pullout (inner mud)",
+          "34th pullout - inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th pullout (inner mud)"
+      },
+      {
+        "from": [
+          "34th pullout (outer mumblies)",
+          "34th pullout - outer mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th pullout (outer mumblies)"
+      },
+      {
+        "from": [
+          "view corner (flying)",
+          "view corner - flying"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (flying)"
+      },
+      {
+        "from": [
+          "E of east end pilings - outer mud",
+          "east of E end pilings (outer mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East of east end pilings (outer mud)"
+      },
+      {
+        "from": [
+          "west end of pilings",
+          "west of west end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings"
+      },
+      {
+        "from": [
+          "view corner - marsh edge",
+          "view corner marsh edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (marsh edge)"
+      },
+      {
+        "from": [
+          "outer mumblies - west end",
+          "outer west end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "outer mumblies - west end"
+      },
+      {
+        "from": [
+          "pilings (outer mud)",
+          "pilings - outer mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (outer mud)"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner (mid mud & marsh edge)",
+          "Brunswick Pt corner marsh edge (mid mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (mid mud & marsh edge)"
+      },
+      {
+        "from": [
+          "CP jetty side marsh & into CP corner",
+          "CP jetty side marsh into CP corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port jetty side marsh to Coal Port corner"
+      },
+      {
+        "from": [
+          "east of pilings (outer mumblies)",
+          "east of pilings - outer mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings (outer mumblies)"
+      },
+      {
+        "from": [
+          "Bruns dike",
+          "Bruns. dike"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick dike"
+      },
+      {
+        "from": [
+          "\"mumblies\"",
+          "mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Mumblies"
+      },
+      {
+        "from": [
+          "W end pilings inner mud",
+          "pilings W end - inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings (inner mud)"
+      },
+      {
+        "from": [
+          "BP mudroost viewpoint (BP inner mud)",
+          "BP mudroost viewpoint (inner mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (inner mud)"
+      },
+      {
+        "from": [
+          "view corner - tide edge (w end mumblies)",
+          "view corner - tide edge W end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (west end mumblies - tide edge)"
+      },
+      {
+        "from": [
+          "Brunswick Corner",
+          "Brunswick corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner"
+      },
+      {
+        "from": [
+          "pilings to Bruns",
+          "pilings to Bruns."
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to Brunswick Pt"
+      },
+      {
+        "from": [
+          "pilings - near mud",
+          "pilings near mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (inner mud)"
+      },
+      {
+        "from": [
+          "Brunswick corner - inner mud",
+          "Brunswick corner inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (inner mud)"
+      },
+      {
+        "from": [
+          "34th pullout (outer mud)",
+          "34th pullout - outer mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th pullout (outer mud)"
+      },
+      {
+        "from": [
+          "34th pullout to east end pilings",
+          "east end pilings to 34th pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th pullout to East end pilings"
+      },
+      {
+        "from": [
+          "east of east end pilings (near bend)",
+          "east of east end pilings (near bend) east end"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East of east end pilings"
+      },
+      {
+        "from": [
+          "view corner - Brunswick corner",
+          "view corner; Brunswick corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Pt corner"
+      },
+      {
+        "from": [
+          "C.Port corner - sidemarsh",
+          "C.Port sidemarsh & corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner (side marsh)"
+      },
+      {
+        "from": [
+          "mumblies (off pilings)",
+          "mumblies off pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (mumblies)"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner (inner mud)",
+          "Brunswick Pt corner - inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (inner mud)"
+      },
+      {
+        "from": [
+          "CP jetty side marsh (far)",
+          "CP jetty side marsh - far"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port jetty side marsh"
+      },
+      {
+        "from": [
+          "view corner - BP corner & west end mumblies",
+          "view corner - west end mumblies & BP corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (BP - west end mumblies)"
+      },
+      {
+        "from": [
+          "east of East end pilings",
+          "east of east end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East of east end pilings"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Pilings to Brunswick Pt",
+          "pilings to Brunswick Pt."
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to Brunswick Pt"
+      },
+      {
+        "from": [
+          "East end mumblies (outer)",
+          "outer east end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end mumblies (outer)"
+      },
+      {
+        "from": [
+          "View corner to Brunswick Pt corner",
+          "Brunswick Pt corner to view corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Pt corner"
+      },
+      {
+        "from": [
+          "East end pilings (outer mumblies)",
+          "east end pilings, outer mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings (outer mumblies)"
+      },
+      {
+        "from": [
+          "Pilings (outer mumblies)",
+          "pilings - outer mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (outer mumblies)"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner (outer mud)",
+          "Brunswick Pt corner - outer mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (outer mud)"
+      },
+      {
+        "from": [
+          "Brunswick Pt (marsh tip)",
+          "Brunswick Pt. marsh tip"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt (marsh tip)"
+      },
+      {
+        "from": [
+          "East of east end pilings (outer mud)",
+          "east of east end pilings (outer mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East of east end pilings (outer mud)"
+      },
+      {
+        "from": [
+          "Pilings (mumblies)",
+          "pilings - mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (mumblies)"
+      },
+      {
+        "from": [
+          "Pilings (inner mumblies)",
+          "pilings - inner mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (inner mumblies)"
+      },
+      {
+        "from": [
+          "Coal Port corner (side marsh)",
+          "Coal Port corner & side marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner (side marsh)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "C. Port corner",
+          "C.Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner (mudroost)",
+          "Brunswick Pt corner - mud roost"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (mudroost)"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner - West end mumblies",
+          "Brunswick Pt corner-west end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (west end mumblies)"
+      },
+      {
+        "from": [
+          "Bruns corner and west end mumblies",
+          "Bruns.corner and west end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (west end mumblies)"
+      },
+      {
+        "from": [
+          "Bruns. Corner-west end mumblies",
+          "Bruns.corner - west end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (west end mumblies)"
+      },
+      {
+        "from": [
+          "mudroost BP corner",
+          "mudroost/BP corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (mudroost)"
+      },
+      {
+        "from": [
+          "Mid mumblies",
+          "mid-mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Mumblies (mid)"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner (mid mud)",
+          "Brunswick Pt corner mid-mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (mid mud)"
+      },
+      {
+        "from": [
+          "Bruns Pt corner-west end mumblies - tide edge",
+          "BrunsPt corner-west end mumblies (tide edge)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (west end mumblies - tide edge)"
+      },
+      {
+        "from": [
+          "west end pilings (water edge)",
+          "west end pilings(water edge)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings (tide edge)"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner (from view corner)",
+          "Brunswick Pt corner (from viewcorner)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (from view corner)"
+      },
+      {
+        "from": [
+          "Mumblies (outer)",
+          "mumblies(outer)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Mumblies (outer)"
+      },
+      {
+        "from": [
+          "mid pilings",
+          "mid-pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (mid)"
+      },
+      {
+        "from": [
+          "Bruns Point marsh tip",
+          "Bruns.Point marsh tip"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt (marsh tip)"
+      },
+      {
+        "from": [
+          "Coal Port corner",
+          "coalport corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner"
+      },
+      {
+        "from": [
+          "WNW side Bruns (Canoe Pass)",
+          "WNW side Bruns(Canoe Pass)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Canoe Pass"
+      },
+      {
+        "from": [
+          "View corner",
+          "viewcorner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner"
+      },
+      {
+        "from": [
+          "mud islet",
+          "mudislet"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt (mud islet)"
+      },
+      {
+        "from": [
+          "Brunswick Point marsh tip & mudislet",
+          "Brunswick Point marsh tip (mud islet)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt (marsh tip & mud islet)"
+      },
+      {
+        "from": [
+          "West end mumblies(tide edge)",
+          "west end mumblies - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies (tide edge)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "C.Port sidemarsh & corner (seen from 34th)",
+          "C.Port sidemarsh&corner (seen from 34th)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port side marsh & corner (seen from 34th)"
+      },
+      {
+        "from": [
+          "West end pilings (tide edge)",
+          "west end pilings - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings (tide edge)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "view corner (count 1)",
+          "view corner (count 2)",
+          "view corner (count 3)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner"
+      },
+      {
+        "from": [
+          "Pilings (mumblies)",
+          "Pilings (on mumblies)",
+          "pilings (in mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (mumblies)"
+      },
+      {
+        "from": [
+          "pilings pullout viewpoint (count 1)",
+          "pilings pullout viewpoint (count 2)",
+          "pilings pullout viewpoint (count 3)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings"
+      },
+      {
+        "from": [
+          "off pilings (flock 1)",
+          "off pilings (flock 2)",
+          "off pilings (flock 3)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings"
+      },
+      {
+        "from": [
+          "view corner to B.P. corner (flock 1)",
+          "view corner to B.P. corner (flock 2)",
+          "view corner to B.P. corner (flock 3)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Pt"
+      },
+      {
+        "from": [
+          "Bruns corner mudroost",
+          "Bruns.corner (on mud roost)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (mudroost)"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner (tide edge)",
+          "Brunswick Pt corner - at tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (tide edge)"
+      },
+      {
+        "from": [
+          "east mumblies",
+          "outside mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end mumblies"
+      },
+      {
+        "from": [
+          "Bruns. Corner at tide edge",
+          "Bruns.corner - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (tide edge)"
+      },
+      {
+        "from": [
+          "34th pullout (on mumblies)",
+          "34th pullout - mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th pullout (mumblies)"
+      },
+      {
+        "from": [
+          "Bruns corner at tide edge (flock 1)",
+          "Bruns corner at tide edge (flock 2)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (tide edge)"
+      },
+      {
+        "from": [
+          "View corner (inner mud)",
+          "view corner (near mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (inner mud)"
+      },
+      {
+        "from": [
+          "C.Port corner - at tide edge",
+          "C.Port corner - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner (tide edge)"
+      },
+      {
+        "from": [
+          "pilings (shore)",
+          "pilings area"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (shore)"
+      },
+      {
+        "from": [
+          "Bruns corner to pilings at tide edge",
+          "Bruns corner to pilings tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner to Pilings (tide edge)"
+      },
+      {
+        "from": [
+          "34th pullout - and to west",
+          "34th pullout and west"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th pullout (west end)"
+      },
+      {
+        "from": [
+          "intercauseway",
+          "intercausway"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Intercauseway"
+      },
+      {
+        "from": [
+          "east of east end pilings (near bend) mumblies",
+          "east of east end pilings (near bend) on mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East of east end pilings (mumblie)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "coalport/side marsh detail",
+          "coalport/side marsh first",
+          "coalport/side marsh second"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner (side marsh)"
+      },
+      {
+        "from": [
+          "pilings (east)",
+          "pilings east end marsh",
+          "pilings(east end)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings"
+      },
+      {
+        "from": [
+          "flying E around BP",
+          "flying around BP to West",
+          "flying around Bruns Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt"
+      },
+      {
+        "from": [
+          "WNW side Bruns",
+          "WNW side Bruns (Canoe Pass)near tip",
+          "WNW side Bruns(Canoe Pass) in flight"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Canoe Pass"
+      },
+      {
+        "from": [
+          "C.Port jetty sidemarsh, corner to 34th",
+          "C.Port jetty,sidemarsh thru corner to 34th"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port jetty (side marsh to 34th pullout)"
+      },
+      {
+        "from": [
+          "Bruns. dike (fly)",
+          "Bruns.dike."
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick dike"
+      },
+      {
+        "from": [
+          "34th pullout - at tide edge",
+          "34th pullout - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th pullout (tide edge)"
+      },
+      {
+        "from": [
+          "W end mumblies",
+          "W end mumblies - outer edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies"
+      },
+      {
+        "from": [
+          "bend ( on mumblies to eagle log)",
+          "bend - on mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Bend (mumblies)"
+      },
+      {
+        "from": [
+          "C.Port to Bruns",
+          "C.Port to Bruns. corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port to Brunswick Pt"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "View corner to Brunswick Pt",
+          "View corner to Brunswick Pt corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Pt corner"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "CP sidemarsh",
+          "CP sidemash"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner (side marsh)"
+      },
+      {
+        "from": [
+          "C.Port corner - corner field",
+          "C.Port corner - corner fields"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner (corner field)"
+      },
+      {
+        "from": [
+          "mudflat",
+          "mudflats"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Mudflats"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "34th St pullout",
+          "35th St pullout",
+          "36th St pullout",
+          "37th St pullout",
+          "38th St pullout",
+          "39th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      },
+      {
+        "from": [
+          "35th St pullout",
+          "36th St pullout",
+          "37th St pullout",
+          "38th St pullout",
+          "39th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      },
+      {
+        "from": [
+          "36th St pullout",
+          "37th St pullout",
+          "38th St pullout",
+          "39th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      },
+      {
+        "from": [
+          "37th St pullout",
+          "38th St pullout",
+          "39th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      },
+      {
+        "from": [
+          "38th St pullout",
+          "39th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Brunswick Pt corner - marsh edge",
+          "Brunswick Pt corner - marsh edge mud",
+          "Brunswick Pt corner - marsh tip",
+          "Brunswick Pt corner - tide & marsh edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (marsh edge)"
+      },
+      {
+        "from": [
+          "34th to E end pilings (outer mud)",
+          "34th to E of east end pilings (outer mud)",
+          "34th to east end pilings (outer mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to East end pilings (outer mud)"
+      },
+      {
+        "from": [
+          "east end pilings on mumblies",
+          "east of pilings on mumblies",
+          "off east end pilings on mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings (mumblies)"
+      },
+      {
+        "from": [
+          "east of east end pilings (inner mud)",
+          "east of east end pilings (near bend) inner mud",
+          "east of pilings (inner mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East of east end pilings (inner mud)"
+      },
+      {
+        "from": [
+          "mid-mumblies(from pilings)",
+          "mumblies(from mid pilings)",
+          "mumblies(from pilings)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (mumblies)"
+      },
+      {
+        "from": [
+          "CP jetty side marsh",
+          "CP jetty side marsh area",
+          "jetty side marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port jetty side marsh"
+      },
+      {
+        "from": [
+          "off pilings at far tide edge",
+          "off pilings at tide edge",
+          "off pilings on far tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (tide edge)"
+      },
+      {
+        "from": [
+          "off view corner - tide edge",
+          "view corner - far tide edge",
+          "view corner - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (tide edge)"
+      },
+      {
+        "from": [
+          "east of pilings on mumblies",
+          "mumblies east of pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings (mumblies)"
+      },
+      {
+        "from": [
+          "C.Port corner to 34th pullout",
+          "Coal Port corner to 34th pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to 34th St pullout"
+      },
+      {
+        "from": [
+          "West end pilings to W end mumblies - tide edge",
+          "pilings to west end mumblies - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings (west end mumblies - tide edge"
+      },
+      {
+        "from": [
+          "off pilings (outer mumblies)",
+          "off pilings (outer mumblies) flying"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (outer mumblies)"
+      },
+      {
+        "from": [
+          "Bruns Pt corner to west end mumblies",
+          "Bruns corner to west end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner to West end mumblies"
+      },
+      {
+        "from": [
+          "CP jetty side marsh (from 34th pullout)",
+          "CP sidemarsh (from 34th pullout)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port jetty side marsh (from 34th pullout)"
+      },
+      {
+        "from": [
+          "at banding marsh",
+          "banding marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Banding marsh"
+      },
+      {
+        "from": [
+          "east end pilings to CP corner",
+          "east pilings to CP corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings to Coal Port corner"
+      },
+      {
+        "from": [
+          "mumblies off pilings to west end pilings",
+          "mumblies off west end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings (mumblies)"
+      },
+      {
+        "from": [
+          "BP corner down to pilings",
+          "BP corner to pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner to pilings"
+      },
+      {
+        "from": [
+          "CP sidemarsh (from 34th pullout)",
+          "CP sidemarsh (seen from 34th pullout)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port jetty side marsh (from 34th pullout)"
+      },
+      {
+        "from": [
+          "off pilings beyond mumblies",
+          "off pilings on mumblies and beyond"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (beyond mumblies)"
+      },
+      {
+        "from": [
+          "view corner (outer tide line to corner)",
+          "view corner (outer tide line)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (tide edge)"
+      },
+      {
+        "from": [
+          "E pilings inner mud",
+          "east pilings inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings (inner mud)"
+      },
+      {
+        "from": [
+          "Bruns Point corner - tide edge",
+          "Brunswick Point corner - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (tide edge)"
+      },
+      {
+        "from": [
+          "off west end mumblies",
+          "west of west end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies"
+      },
+      {
+        "from": [
+          "off pilings on far tide edge",
+          "off pilings on tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (tide edge)"
+      },
+      {
+        "from": [
+          "BP mudroost viewpoint (on west end mumblies)",
+          "BP mudroost viewpoint (west end mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (mud roost - west end mumblies)"
+      },
+      {
+        "from": [
+          "mumblies(from mid pilings)",
+          "mumblies(from pilings)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (mumblies)"
+      },
+      {
+        "from": [
+          "34th St to Coal Port corner",
+          "34th to Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to Coal Port corner"
+      },
+      {
+        "from": [
+          "BP mudroost viewpoint (marshedge to tideline to pilings)",
+          "BP mudroost viewpoint (tideline to pilings)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (mudroost - tide edge)"
+      },
+      {
+        "from": [
+          "West end pilings - on mumblies",
+          "east end pilings on mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings (mumblies)"
+      },
+      {
+        "from": [
+          "34th pullout",
+          "to 34th pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      },
+      {
+        "from": [
+          "mumblies off west end pilings",
+          "off west end pilings on mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings (mumblies)"
+      },
+      {
+        "from": [
+          "34th to E of east end pilings (outer mud)",
+          "34th to east end pilings (outer mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to East end pilings (outer mud)"
+      },
+      {
+        "from": [
+          "BP mudroost",
+          "mudroost"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (mudroost)"
+      },
+      {
+        "from": [
+          "west end mumblies - outer edge",
+          "west end mumblies outer tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies (tide edge)"
+      },
+      {
+        "from": [
+          "pilings - marsh edges",
+          "pilings marsh edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (marsh edge)"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner - tide & marsh edge",
+          "Brunswick Pt corner - tide edge near marsh tip"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (marsh tip - tide edge)"
+      },
+      {
+        "from": [
+          "Brunswick Point marsh tip - tide edge",
+          "Brunswick Point marsh tip edges"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (marsh tip - tide edge)"
+      },
+      {
+        "from": [
+          "view corner, close to marsh",
+          "view corner, flock close to marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (marsh)"
+      },
+      {
+        "from": [
+          "View corner (BP - west end mumblies)",
+          "view corner (BP corner&West end mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (BP corner - west end mumblies)"
+      },
+      {
+        "from": [
+          "from view corner - BP mudroost",
+          "view corner - BP mudroost"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (BP mudroost)"
+      },
+      {
+        "from": [
+          "view corner (BP corner&Wend mumblies)flying",
+          "view corner (BP corner&West end mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (BP corner - west end mumblies)"
+      },
+      {
+        "from": [
+          "view corner - Bruns Pt corner area",
+          "view corner - all Bruns corner area"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Pt corner"
+      },
+      {
+        "from": [
+          "C.Port corner to sidemarsh",
+          "C.Port corner to sidemarsh (far)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to Coal Port jetty side marsh"
+      },
+      {
+        "from": [
+          "Bruns corner to west end pilings",
+          "Brunswick Pt corner to west end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner to West end pilings"
+      },
+      {
+        "from": [
+          "view corner - far tide edge",
+          "view corner - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (tide edge)"
+      },
+      {
+        "from": [
+          "off pilings on far edge mumblies",
+          "off pilings on far edge of mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (outer mumblies)"
+      },
+      {
+        "from": [
+          "C.Port corner thru to 34th",
+          "C.Port corner to 34th"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to 34th St pullout"
+      },
+      {
+        "from": [
+          "Brunswick Point corner - on tide edge",
+          "Brunswick Point corner - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (tide edge)"
+      },
+      {
+        "from": [
+          "34th pullout to marsh to west",
+          "marsh to west of 34th pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout (west marsh)"
+      },
+      {
+        "from": [
+          "West end pilings",
+          "past west end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings"
+      },
+      {
+        "from": [
+          "off Westham Island foreshore",
+          "off Westham Island shore"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Westham Island"
+      },
+      {
+        "from": [
+          "view corner - Bruns corner - far flock",
+          "view corner - Bruns corner - near flock"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Pt corner"
+      },
+      {
+        "from": [
+          "off 34th pullout",
+          "to 34th pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      },
+      {
+        "from": [
+          "Brunswick Point - tide edge",
+          "Brunswick Point corner - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (tide edge)"
+      },
+      {
+        "from": [
+          "view corner (outer tide line)",
+          "view corner viewpoint (outer tide line)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (tide edge)"
+      },
+      {
+        "from": [
+          "Brunswick Pt corner - marsh tip",
+          "Brunswick Pt corner -marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (marsh tip)"
+      },
+      {
+        "from": [
+          "View corner (BP - west end mumblies - tide edge)",
+          "View corner (west end mumblies - tide edge)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Pt corner (west end mumblies - tide edge)"
+      },
+      {
+        "from": [
+          "West end mumblies (tide edge)",
+          "west end mumblies (east tide edge)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies (tide edge)"
+      },
+      {
+        "from": [
+          "out from mid pilings",
+          "out from pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings"
+      },
+      {
+        "from": [
+          "C.Port corner to 34th",
+          "C.Port corner to 34th marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to 34th St pullout"
+      },
+      {
+        "from": [
+          "east end pilings into CP corner",
+          "east end pilings to CP corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings to Coal Port corner"
+      },
+      {
+        "from": [
+          "W of pilings to view corner (inner mud)",
+          "off pilings (inner mud) to view corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to View corner (inner mud)"
+      },
+      {
+        "from": [
+          "CP corner to 34th",
+          "CP corner to W of 34th"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal port corner to 34th St pullout"
+      },
+      {
+        "from": [
+          "West end mumblies (on tide edge)",
+          "West end mumblies (tide edge)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end mumblies (tide edge)"
+      },
+      {
+        "from": [
+          "view corner - outer tide edge",
+          "view corner - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (tide edge)"
+      },
+      {
+        "from": [
+          "34th St pullout",
+          "34th pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      },
+      {
+        "from": [
+          "E of east end pilings - inner mud",
+          "east of east end pilings (inner mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East of east end pilings (inner mud)"
+      },
+      {
+        "from": [
+          "34th pullout - outer mumblies to eagle log",
+          "34th pullout - mumblies to eagle log"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout (mumblies)"
+      },
+      {
+        "from": [
+          "Pilings (outer mumblies)",
+          "off pilings (outer mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (outer mumblies)"
+      },
+      {
+        "from": [
+          "view corner - outer edge mud",
+          "view corner - outer mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (outer mud)"
+      },
+      {
+        "from": [
+          "34th pullout - inner edge mumblies",
+          "34th pullout - inner mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout (inner mumblies)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port corner to 34th St pullout",
+          "34th St pullout to Coal Port corner",
+          "Coal port corner to 34th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to 34th St pullout"
+      },
+      {
+        "from": [
+          "flying over wires to intercauseway",
+          "flying over wires to intercauseway area",
+          "flying over wires towards intercauseway area"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "flying over wires to intercauseway"
+      },
+      {
+        "from": [
+          "Coal Port corner to Coal Port jetty side marsh",
+          "Coal Port jetty side marsh to Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to Coal Port jetty side marsh"
+      },
+      {
+        "from": [
+          "flying east",
+          "flying to east"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "flying east"
+      },
+      {
+        "from": [
+          "flying to east",
+          "flying west to east"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "flying east"
+      },
+      {
+        "from": [
+          "flying towards Bruns Pt",
+          "flying towards Bruns Pt corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "flying towards Brunswick Pt corner"
+      },
+      {
+        "from": [
+          "out from pilings on mumblies",
+          "outer mumblies out from pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (mumblies)"
+      },
+      {
+        "from": [
+          "Brunswick Point marsh",
+          "Brunswick Pt marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt (marsh)"
+      },
+      {
+        "from": [
+          "flying E towards CP corner",
+          "flying toward CP corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "flying E towards CP corner"
+      },
+      {
+        "from": [
+          "flying over wires to intercauseway area",
+          "flying over wires towards intercauseway area"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "flying over wires to intercauseway area"
+      },
+      {
+        "from": [
+          "view corner- tide line west end mumblies",
+          "view corner- tide line west end mumblies - BP tip"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (west end mumblies - tide edge)"
+      },
+      {
+        "from": [
+          "east end pilings (mud close to dike)",
+          "pilings (mud close to dike)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (mud close to dike)"
+      },
+      {
+        "from": [
+          "Coal Port corner to 34th St pullout",
+          "Coal port corner to 34th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to 34th St pullout"
+      },
+      {
+        "from": [
+          "34th pullout (mumblies)",
+          "34th St pullout (mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout (mumblies)"
+      },
+      {
+        "from": [
+          "Brunswick Pt (marsh tip)",
+          "Brunswick Pt corner (marsh tip)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Pt corner (marsh tip)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Pilings to View corner (inner mud)",
+          "pilings to view corner - inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to View corner (inner mud)"
+      },
+      {
+        "from": [
+          "East end pilings (mumblies)",
+          "east end mumblies (pilings)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings (mumblies)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Bend (mumblies)",
+          "beyond mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Beyond mumblies"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "34th St pullout",
+          "40th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Westham Island",
+          "Westham Is. marshes"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Westham Island"
+      },
+      {
+        "from": [
+          "34th pullout (on mumblies to west)",
+          "34th pullout - mumblies islet"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout (mumblies)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"34th pullout\", \"34th St pullout\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"34th pullout\", \"34th St pullout\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"BP\", \"Brunswick Pt\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"BP\", \"Brunswick Pt\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"CP\", \"Coal Port\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"CP\", \"Coal Port\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"C.Port\", \"Coal Port\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"C.Port\", \"Coal Port\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"Pt\", \"Point\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"Pt\", \"Point\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\" corner\", \"\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\" corner\", \"\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"Bruns \", \"Brunswick Point\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"Bruns \", \"Brunswick Point\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"PointPoint\", \"Point\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"PointPoint\", \"Point\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"Pointto\", \"Point to\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"Pointto\", \"Point to\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"Bruns,\", \"Brunswick Point\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"Bruns,\", \"Brunswick Point\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"mudroost\", \"mud roost\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"mudroost\", \"mud roost\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"mudislet\", \"mud islet\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"mudislet\", \"mud islet\")"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flocks flying"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fly around Bpoint to west"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point (flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fly to east end"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying B.P to C.P end"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to Coal Port corner (flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying by"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying by Coal Port towards Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to Brunswick Point (flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying east"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying low over water"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying eastwards"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying to water edge flock"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(flying - tide edge)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying W to E"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying towards Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point (flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying towards Coal Port from pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to Coal Port corner (flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying over wires to intercauseway"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Intercauseway (flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "fly",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "flying over wires to intercauseway area"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Intercauseway (flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "grel:value.replace(\"view\", \"View)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression grel:value.replace(\"view\", \"View)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"view\",\"View\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"view\",\"View\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"View -\",\"View corner \")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"View -\",\"View corner \")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"View (\",\"View corner \")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"View (\",\"View corner \")"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "View to Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Point"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"View corner  \",\"View corner to \")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"View corner  \",\"View corner to \")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"View to\",\"View corner to\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"View to\",\"View corner to\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bruns",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"View corner B\",\"View corner to B\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"View corner B\",\"View corner to B\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"E end\",\"East end\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"E end\",\"East end\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"e end\",\"East end\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"e end\",\"East end\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"W end\",\"West end\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"W end\",\"West end\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"Wend\",\"West end\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"Wend\",\"West end\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"w end\",\"West end\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"w end\",\"West end\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"East of east end pilings\",\"Bend\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"East of east end pilings\",\"Bend\")"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "east end pilings (outer edge)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"east end\",\"East end\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"east end\",\"East end\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(/east of East end/i,\"Bend\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(/east of East end/i,\"Bend\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(/bend pilings/i,\"Bend\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(/bend pilings/i,\"Bend\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(/off pilings/i,\"Pilings\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(/off pilings/i,\"Pilings\")"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Pilings to bend"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to Bend"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "^pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"pilings\",\"Pilings\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"pilings\",\"Pilings\")"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "pilings",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Pilings (marsh edge)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (marsh)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "bend",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"bend\",\"Bend\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"bend\",\"Bend\")"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Pilings to Brunswick Point",
+          "Brunswick Point to Pilings",
+          "Brunswick Point to pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to Brunswick Point"
+      },
+      {
+        "from": [
+          "Pilings to View corner",
+          "View corner to Pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to View corner"
+      },
+      {
+        "from": [
+          "34th St pullout to pilings (marsh)",
+          "Pilings to 34th St pullout (marsh)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to Pilings (marsh)"
+      },
+      {
+        "from": [
+          "34th St pullout to pilings (mumblies)",
+          "Pilings to 34th St pullout (mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to Pilings (mumblies)"
+      },
+      {
+        "from": [
+          "Pilings (outer mumblies - tide edge)",
+          "Pilings (tide edge - outer mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (outer mumblies - tide edge)"
+      },
+      {
+        "from": [
+          "Coal Port corner (inner mud)",
+          "Coal Port corner - inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner (inner mud)"
+      },
+      {
+        "from": [
+          "East end pilings to Coal Port corner",
+          "Coal Port corner to East end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings to Coal Port corner"
+      },
+      {
+        "from": [
+          "Coal Port corner to 34th St pullout",
+          "34th St pullout to Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to 34th St pullout"
+      },
+      {
+        "from": [
+          "34th St pullout to pilings (inner mud)",
+          "Pilings to 34th St pullout (inner mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to Pilings (inner mud)"
+      },
+      {
+        "from": [
+          "Brunswick Point to View corner (mud roost)",
+          "View corner to Brunswick Point (mud roost)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to View corner (mud roost)"
+      },
+      {
+        "from": [
+          "Brunswick Point (west end mumblies - tide edge)",
+          "Brunswick Point (tide edge - west end mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point (west end mumblies - tide edge)"
+      },
+      {
+        "from": [
+          "Pilings to 34th St pullout",
+          "34th St pullout to pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to 34th St pullout"
+      },
+      {
+        "from": [
+          "Brunswick Point (marsh tip - west end mumblies)",
+          "Brunswick Point (west end mumblies - marsh tip)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point (marsh tip - west end mumblies)"
+      },
+      {
+        "from": [
+          "Mumblies (outer)",
+          "Outer mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(outer mumblies)"
+      },
+      {
+        "from": [
+          "View corner to Brunswick Point (west end mumblies - tide edge)",
+          "View corner to Brunswick Point (tide edge - west end mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Point (west end mumblies - tide edge)"
+      },
+      {
+        "from": [
+          "Pilings to Bend",
+          "Bend to pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to Bend"
+      },
+      {
+        "from": [
+          "Brunswick Point (mud islet - west end mumblies)",
+          "Brunswick Point (west end mumblies - mud islet)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point (mud islet - west end mumblies)"
+      },
+      {
+        "from": [
+          "Coal Port corner (tide edge)",
+          "Coal Port corner - tide edge"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner (tide edge)"
+      },
+      {
+        "from": [
+          "View corner to Brunswick Point",
+          "Brunswick Point to View corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Point"
+      },
+      {
+        "from": [
+          "Brunswick Point to Pilings (tide edge)",
+          "Pilings to Brunswick Point (tide edge)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to Pilings (tide edge)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "View corner (tide edge)",
+          "view corner (tide edge-far)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (tide edge)"
+      },
+      {
+        "from": [
+          "view corner (mid mud)",
+          "view corner - mid-mud flock"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (mid mud)"
+      },
+      {
+        "from": [
+          "View corner (marsh edge)",
+          "View corner (marsh)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (marsh)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Pilings (seem from View corner)",
+          "Pilings (seen from View corner)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings (seen from View corner)"
+      },
+      {
+        "from": [
+          "Bend (inner mud)",
+          "Bend (near mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Bend (inner mud)"
+      },
+      {
+        "from": [
+          "West end pilings (mumblies)",
+          "West end pilings (on mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings (mumblies)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "in flight",
+          "in flight over water - disturbed by PEFA"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(flying)"
+      },
+      {
+        "from": [
+          "Mumblies (mid)",
+          "mumblies inner mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(inner mumblies)"
+      },
+      {
+        "from": [
+          "mumblies (far east)",
+          "mumblies (west)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(east end mumblies)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "East end mumblies",
+          "(east end mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(east end mumblies)"
+      },
+      {
+        "from": [
+          "(inner mumblies)",
+          "Inner mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(inner mumblies)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port corner& side marsh",
+          "Coal Port corner, side marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner jetty side marsh"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port corner to Coal Port jetty side marsh",
+          "Coal Port jetty side marsh thru Coal Port corner",
+          "Coal Port jetty side marsh thru to Coal Port corner",
+          "jetty side to Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to Coal Port jetty side marsh"
+      },
+      {
+        "from": [
+          "Coal Port corner - far",
+          "Coal Port corner - flew",
+          "Coal Port corner - near"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner"
+      },
+      {
+        "from": [
+          "Coal Port corner and side marsh",
+          "Coal Port corner-east end and side marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to Coal Port jetty side marsh"
+      },
+      {
+        "from": [
+          "Coal Port jetty side marsh",
+          "Coal Port jetty side marsh mid point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port jetty side marsh"
+      },
+      {
+        "from": [
+          "Coal Port end",
+          "Coal PortC"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner"
+      },
+      {
+        "from": [
+          "Coal Port corner & Coal Port sidemarsh",
+          "Coal Port sidemarsh to Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to Coal Port jetty side marsh"
+      },
+      {
+        "from": [
+          "Coal Port corner - east end mumblies",
+          "Coal Port corner to east end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner (east end mumblies)"
+      },
+      {
+        "from": [
+          "east end mumblies (inner mud)",
+          "inner east end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(east end mumblies)"
+      },
+      {
+        "from": [
+          "west end mumblies - east half",
+          "west end mumblies - west half"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(west end mumblies)"
+      },
+      {
+        "from": [
+          "Coal Port corner (far area)",
+          "Coal Port corner (near area)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner"
+      },
+      {
+        "from": [
+          "Coal Port jetty side marsh thru Coal Port corner",
+          "Coal Port jetty side marsh thru to Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to Coal Port jetty side marsh"
+      },
+      {
+        "from": [
+          "Coal Port corner",
+          "Coal Port corner end"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner"
+      },
+      {
+        "from": [
+          "view corner - west end mumblie islets",
+          "view corner - west end mumblies(mud islet)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (mud islet - west end mumblies)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value.replace(\"to pilings\",\"to Pilings\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column cleaned using expression value.replace(\"to pilings\",\"to Pilings\")"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "View corner (west end mumblies - tide edge)",
+          "View corner (tide edge - west end mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner (west end mumblies - tide edge)"
+      },
+      {
+        "from": [
+          "West end mumblies",
+          "(west end mumblies)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(west end mumblies)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "West end mumblies (tide edge)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(west end mumblies - tide edge)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "West end mumblies (mud islet)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(west end mumblies - mud islet)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "west end mumblies (mud islet) -east end"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(west end mumblies - mud islet)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "west end mumblies (mud islet) -west side"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(west end mumblies - mud islet)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "West end mumblies (outer mud)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(west end mumblies - outer mud)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "cleaned",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "West end mumblies (tide edge - flying)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "(west end mumblies - tide edge - flying)"
+      }
+    ],
+    "description": "Mass edit cells in column cleaned"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "cleaned",
+          "columnName": "cleaned",
+          "query": "",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        },
+        {
+          "type": "text",
+          "name": "original_location_name",
+          "columnName": "original_location_name",
+          "query": "",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "baseColumnName": "cleaned",
+    "expression": "grel:value",
+    "onError": "keep-original",
+    "newColumnName": "station_1",
+    "columnInsertIndex": 2,
+    "description": "Create column station_1 at index 2 based on column cleaned using expression grel:value"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": "(",
+    "regex": false,
+    "maxColumns": 0,
+    "description": "Split column station_1 by separator"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1 2",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column station_1 2 using expression value.trim()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1 2",
+    "expression": "value.replace(\")\",\"\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column station_1 2 using expression value.replace(\")\",\"\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1 1",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column station_1 1 using expression value.trim()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1 1",
+    "expression": "value.replace(/\\s+/,' ')",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column station_1 1 using expression value.replace(/\\s+/,' ')"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1 2",
+    "expression": "value.replace(/\\s+/,' ')",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column station_1 2 using expression value.replace(/\\s+/,' ')"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1 1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Pilings to Bend",
+          "Bend to Pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to Bend"
+      },
+      {
+        "from": [
+          "Coal Port corner to Brunswick Point",
+          "Brunswick Point to Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to Brunswick Point"
+      },
+      {
+        "from": [
+          "Brunswick Point to Canoe Pass",
+          "Canoe Pass to Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to Canoe Pass"
+      },
+      {
+        "from": [
+          "View corner to Brunswick Point",
+          "Brunswick Point to View corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Brunswick Point"
+      },
+      {
+        "from": [
+          "Brunswick Point to Pilings",
+          "Pilings to Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to Pilings"
+      },
+      {
+        "from": [
+          "34th St pullout to Pilings",
+          "Pilings to 34th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to Pilings"
+      },
+      {
+        "from": [
+          "Brunswick Point to East end pilings",
+          "East end pilings to Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to East end pilings"
+      },
+      {
+        "from": [
+          "West end pilings to View corner",
+          "View corner to West end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end pilings to View corner"
+      },
+      {
+        "from": [
+          "Brunswick Point to West end pilings",
+          "West end pilings to Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to West end pilings"
+      },
+      {
+        "from": [
+          "Pilings to Coal Port corner",
+          "Coal Port corner to Pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to Coal Port corner"
+      },
+      {
+        "from": [
+          "34th St pullout to View corner",
+          "View corner to 34th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to View corner"
+      }
+    ],
+    "description": "Mass edit cells in column station_1 1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1 1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "West end 34th St pullout to Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to Coal Port corner"
+      }
+    ],
+    "description": "Mass edit cells in column station_1 1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "station_1 1",
+          "expression": "value",
+          "columnName": "station_1 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Banding marsh",
+                "l": "Banding marsh"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          ""
+        ],
+        "fromBlank": true,
+        "fromError": false,
+        "to": "marsh"
+      }
+    ],
+    "description": "Mass edit cells in column station_1 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1 1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port corner to 34th St pullout",
+          "34th St pullout to Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port corner to 34th St pullout"
+      }
+    ],
+    "description": "Mass edit cells in column station_1 1"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1 1",
+          "columnName": "station_1 1",
+          "query": "jetty",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1 1",
+    "expression": "value.replace(\"corner jetty\",\"jetty\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column station_1 1 using expression value.replace(\"corner jetty\",\"jetty\")"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "station_1 1",
+    "newColumnName": "station_1",
+    "description": "Rename column station_1 1 to station_1"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "station_1 2",
+    "newColumnName": "sub_location_original",
+    "description": "Rename column station_1 2 to sub_location_original"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "sub_location_original",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "east end mumblies",
+          "East end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "east end mumblies"
+      },
+      {
+        "from": [
+          "west end mumblies - mud islet",
+          "mud islet - west end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "west end mumblies - mud islet"
+      },
+      {
+        "from": [
+          "west end mumblies - outer mud",
+          "outer mud - west end mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "west end mumblies - outer mud"
+      },
+      {
+        "from": [
+          "mumblies - tide edge",
+          "tide edge - mumblies"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "mumblies - tide edge"
+      },
+      {
+        "from": [
+          "mid mud - west end mumblies",
+          "west end mumblies - mid mud"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "mid mud - west end mumblies"
+      },
+      {
+        "from": [
+          "mud roost - inner mud",
+          "inner mud - mud roost"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "mud roost - inner mud"
+      },
+      {
+        "from": [
+          "marsh tip - tide edge",
+          "tide edge - marsh tip"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "marsh tip - tide edge"
+      },
+      {
+        "from": [
+          "marsh tip - west end mumblies",
+          "west end mumblies - marsh tip"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "marsh tip - west end mumblies"
+      },
+      {
+        "from": [
+          "mud roost - marsh tip",
+          "marsh tip - mud roost"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "mud roost - marsh tip"
+      }
+    ],
+    "description": "Mass edit cells in column sub_location_original"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "sub_location_original",
+    "guessCellType": true,
+    "removeOriginalColumn": false,
+    "mode": "separator",
+    "separator": " - ",
+    "regex": false,
+    "maxColumns": 0,
+    "description": "Split column sub_location_original by separator"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "sub_location_original 1",
+    "newColumnName": "sub1",
+    "description": "Rename column sub_location_original 1 to sub1"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "sub_location_original 2",
+    "newColumnName": "sub2",
+    "description": "Rename column sub_location_original 2 to sub2"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "sub_location_original 3",
+    "newColumnName": "sub3",
+    "description": "Rename column sub_location_original 3 to sub3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port corner to 34th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to Coal Port corner"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "34th St pullout to Bend"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Bend to 34th St pullout"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "34th St pullout to Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to 34th St pullout"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "34th St pullout to East end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings to 34th St pullout"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "34th St pullout to Pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings to 34th St pullout"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "34th St pullout to View corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to 34th St pullout"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Brunswick Point to Canoe Pass"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Canoe Pass to Brunswick Point"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port corner to Bend"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Bend to Coal Port corner"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port corner to Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to Coal Port corner"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port jetty side marsh to 34th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout to Coal Port jetty side marsh"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port jetty side marsh to Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to Coal Port jetty side marsh"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Intercauseway to Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to Intercauseway"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Pilings to View corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to Pilings"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "View corner to Brunswick Point"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Brunswick Point to View corner"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "West end pilings to View corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "View corner to West end pilings"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "station_1",
+          "columnName": "station_1",
+          "query": "to",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "station_1",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "34th St pullout to West end 34th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "West end 34th St pullout to 34th St pullout"
+      }
+    ],
+    "description": "Mass edit cells in column station_1"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "station_1",
+    "newColumnName": "station_n",
+    "description": "Rename column station_1 to station_n"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_n",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": " to ",
+    "regex": false,
+    "maxColumns": 0,
+    "description": "Split column station_n by separator"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_n 1",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column station_n 1 using expression value.trim()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_n 2",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column station_n 2 using expression value.trim()"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "station_n 2",
+    "newColumnName": "station_s",
+    "description": "Rename column station_n 2 to station_s"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "station_n 1",
+    "newColumnName": "station_n",
+    "description": "Rename column station_n 1 to station_n"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_s",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "East end pilings",
+          "East end Pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "East end pilings"
+      }
+    ],
+    "description": "Mass edit cells in column station_s"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_n",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "East end pilings",
+          "West end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings"
+      },
+      {
+        "from": [
+          "West end 34th St pullout",
+          "East end 34th St pullout"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "34th St pullout"
+      }
+    ],
+    "description": "Mass edit cells in column station_n"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_n",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port"
+      }
+    ],
+    "description": "Mass edit cells in column station_n"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_n",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port jetty side marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port"
+      }
+    ],
+    "description": "Mass edit cells in column station_n"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_n",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "East bend"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Bend"
+      }
+    ],
+    "description": "Mass edit cells in column station_n"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_s",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "West end pilings",
+          "East end pilings"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Pilings"
+      }
+    ],
+    "description": "Mass edit cells in column station_s"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_s",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port corner"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port"
+      }
+    ],
+    "description": "Mass edit cells in column station_s"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "station_s",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Coal Port jetty side marsh"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Coal Port"
+      }
+    ],
+    "description": "Mass edit cells in column station_s"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "sub_location_original",
+    "newColumnName": "sub_location",
+    "description": "Rename column sub_location_original to sub_location"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "sub1",
+    "description": "Remove column sub1"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "sub2",
+    "description": "Remove column sub2"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "sub3",
+    "description": "Remove column sub3"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "sub_location",
+    "expression": "grel:value.contains(\"mumblies\")",
+    "onError": "set-to-blank",
+    "newColumnName": "mumblies_yn",
+    "columnInsertIndex": 5,
+    "description": "Create column mumblies_yn at index 5 based on column sub_location using expression grel:value.contains(\"mumblies\")"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "sub_location",
+    "expression": "grel:value.contains(\"mud\")",
+    "onError": "set-to-blank",
+    "newColumnName": "mud_yn",
+    "columnInsertIndex": 5,
+    "description": "Create column mud_yn at index 5 based on column sub_location using expression grel:value.contains(\"mud\")"
+  },
+  {
+    "op": "core/column-move",
+    "columnName": "mud_yn",
+    "index": 6,
+    "description": "Move column mud_yn to position 6"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "sub_location",
+    "expression": "grel:value.contains(\"marsh\")",
+    "onError": "set-to-blank",
+    "newColumnName": "marsh_yn",
+    "columnInsertIndex": 5,
+    "description": "Create column marsh_yn at index 5 based on column sub_location using expression grel:value.contains(\"marsh\")"
+  },
+  {
+    "op": "core/column-move",
+    "columnName": "marsh_yn",
+    "index": 7,
+    "description": "Move column marsh_yn to position 7"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "sub_location",
+    "expression": "grel:value.contains(\"tide edge\")",
+    "onError": "set-to-blank",
+    "newColumnName": "tide_edge_yn",
+    "columnInsertIndex": 5,
+    "description": "Create column tide_edge_yn at index 5 based on column sub_location using expression grel:value.contains(\"tide edge\")"
+  },
+  {
+    "op": "core/column-move",
+    "columnName": "tide_edge_yn",
+    "index": 8,
+    "description": "Move column tide_edge_yn to position 8"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "sub_location",
+    "expression": "grel:value.contains(\"flying\")",
+    "onError": "set-to-blank",
+    "newColumnName": "flying_yn",
+    "columnInsertIndex": 5,
+    "description": "Create column flying_yn at index 5 based on column sub_location using expression grel:value.contains(\"flying\")"
+  },
+  {
+    "op": "core/column-move",
+    "columnName": "flying_yn",
+    "index": 9,
+    "description": "Move column flying_yn to position 9"
+  }
+]
