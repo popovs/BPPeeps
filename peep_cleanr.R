@@ -6,6 +6,7 @@ f <- list.files("RobertsBankShorebirdSurveys/")
 f <- f[!grepl("^~", f)] # Drop hidden excel files, if present
 raw <- list()
 for (i in 1:length(f)) {
+  message("Reading ", f[[i]], "...")
   path <- paste0("RobertsBankShorebirdSurveys/", f[[i]])
   sheets <- readxl::excel_sheets(path)
   # Drop any sheets with "chart" or "Sheet" in them
@@ -22,6 +23,7 @@ for (i in 1:length(f)) {
                       readxl::read_excel(path,
                                          sheet = x,
                                          col_names = FALSE,
+                                         col_types = "text", # read all cols as "character" - prevents it importing as a list of lists
                                          na = c("", "#N/A", "-")
                       )
                     )
@@ -343,6 +345,8 @@ rm(counts_cn)
 # Finally, row-bind our counts_list into counts df!
 # Rest of cleaning will occur on whole dataset.
 counts <- dplyr::bind_rows(counts_list)
+counts$record_id <- as.numeric(row.names(counts))
+counts <- counts %>% dplyr::select(record_id, dplyr::everything())
 
 # Merge 'notes' and 'comments' columns
 counts$notes <- ifelse(is.na(counts$comments),
@@ -1396,7 +1400,7 @@ sqlite_tables[["raptors"]] <- cleaned$raptors
 # above.
 # bppeep_locations <- rrefine::refine_export(project.name = "bppeep_locations",
 #                                            show_col_types = FALSE)
-bppeep_locations <- read.csv("Output/bppeep_locations-2.csv")
+bppeep_locations <- read.csv("supporting_files/bppeep_locations-2.csv")
 
 # [Further modifications as needed can be done in R here]
 sqlite_tables[["locations"]] <- bppeep_locations
