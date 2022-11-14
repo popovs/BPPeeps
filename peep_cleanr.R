@@ -345,8 +345,25 @@ rm(counts_cn)
 # Finally, row-bind our counts_list into counts df!
 # Rest of cleaning will occur on whole dataset.
 counts <- dplyr::bind_rows(counts_list)
+
+# Assign a record id to each record
 counts$record_id <- as.numeric(row.names(counts))
 counts <- counts %>% dplyr::select(record_id, dplyr::everything())
+
+# This record ID is now used to merge a supporting dataset in
+# This supporting dataset includes the column "in_daily_total_yn",
+# which indicates whether or not the meancount for a given location
+# was ultimately included in the daily TOTAL count for the day.
+# I manually went through each day to determine if the location
+# counts were included in the daily total. No neat way to do this
+# programmatically.
+# This column ultimately is used for error checking subtotals 
+# below, and can also be used by the end user in deciding whether
+# to include certain records or not.
+in_daily_total_yn <- read.csv("supporting_files/in_total_yn.csv")
+in_daily_total_yn <- in_daily_total_yn[,c("record_id", "in_daily_total_yn")]
+counts <- merge(counts, in_daily_total_yn)
+rm(in_daily_total_yn)
 
 # Merge 'notes' and 'comments' columns
 counts$notes <- ifelse(is.na(counts$comments),
@@ -507,15 +524,21 @@ counts$observer <- as.factor(counts$observer)
 ## Row means
 counts$calc_mean <- round(rowMeans(counts[,c("count_1", "count_2", "count_3", "count_4", "count_5")], na.rm = T))
 # Now check - 148 records mismatched
-View(counts[which((round(counts$mean_count) != counts$calc_mean) | (!is.na(counts$calc_mean) & is.na(counts$mean_count))),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean")])
+#View(counts[which((round(counts$mean_count) != counts$calc_mean) | (!is.na(counts$calc_mean) & is.na(counts$mean_count))),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean")])
 # Of those, the vast majority are differences in rounding.
 # Next subset records where difference is greater > 200.
 counts$mean_diff <- counts$calc_mean - ifelse(is.na(counts$mean_count), 0, round(counts$mean_count))
 #View(counts[which(counts$mean_count != counts$calc_mean & (counts$mean_diff > 200 | counts$mean_diff < -200)),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")])
-View(counts[which(counts$mean_diff > 200 | counts$mean_diff < -200),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")])
+#View(counts[which(counts$mean_diff > 200 | counts$mean_diff < -200),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")])
 #This doesn't include NA mean_count: mean_errors <- counts[which(counts$mean_count != counts$calc_mean & (counts$mean_diff > 200 | counts$mean_diff < -200)),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")]
 mean_errors <- counts[which(counts$mean_diff > 200 | counts$mean_diff < -200),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")]
 
+# Fix 3 mean errors that I'm confident are simply Excel errors
+counts[["mean_count"]][which(counts$raw_datafile == "BPPeep2007.xls" & counts$mean_count == 145000)] <- 154000
+counts[["mean_count"]][which(counts$raw_datafile == "BPPeeps2014MD.xlsx" & counts$mean_count == 1000 & counts$location == "pilings bend")] <- 500
+counts[["mean_count"]][which(counts$raw_datafile == "BPPeeps2014MD.xlsx" & counts$mean_count == 700 & counts$location == "34th street pullout")] <- 4200
+
+# Save errors
 errors <- list()
 errors[[1]] <- mean_errors
 names(errors)[1] <- "counts_mean_errors"
@@ -523,13 +546,14 @@ rm(mean_errors)
 
 ## Column means
 # Extract any 'TOTAL' rows - i.e. subtotal rows within dataset
-subtotals <- counts[grep("tot", tolower(counts$location)),]
+subtotals <- counts[counts$in_daily_total_yn == "total",] # previously grep("tot", tolower(counts$location))
 subtotals$date <-  as.Date(subtotals$date_time_pdt, format = "%Y-%m-%d", tz = "Canada/Pacific")
 
 # Compare if manually calc'd col means == R calc'd col means
 # Group records by date, then take the mean of calc_mean by date,
 # then compare to matching row mean in 'subtotals' df
-day_means <- counts[!grepl("tot", tolower(counts$location)),] %>% 
+# Now using the manually labeled "in_daily_total_yn" col
+day_means <- counts[counts$in_daily_total_yn == "TRUE",] %>% # previously !grepl("tot", tolower(counts$location))
   dplyr::mutate(date = as.Date(date_time_pdt, format = "%Y-%m-%d", tz = "Canada/Pacific")) %>%
   dplyr::group_by(date) %>%
   dplyr::summarize(calc_tot = sum(round(calc_mean), na.rm = TRUE)) %>%
@@ -553,7 +577,9 @@ subtotals %>%
   dplyr::summarize(subtot_tot = sum(round(mean_count), na.rm = TRUE)) %>%
   merge(day_means, by = "date") %>%
   dplyr::mutate(tot_diff = subtot_tot - calc_tot) %>%
-  dplyr::select(date, raw_datafile, location, subtot_tot, calc_tot, tot_diff, count_1, count_2, count_3, count_4, count_5,  calc_mean)
+  dplyr::filter(abs(tot_diff) > 1000) %>% # Often numbers were manually rounded to nearest thousandth
+  dplyr::select(date, raw_datafile, location, subtot_tot, calc_tot, tot_diff, count_1, count_2, count_3, count_4, count_5,  calc_mean) %>%
+  View()
 
 rm(day_means)
 rm(subtotals)
@@ -569,10 +595,18 @@ rm(subtotal_dates)
 # count data. As such the data author manually picked and chose
 # which data made it into 'MeanCount' base on this and other
 # criteria. It will be difficult to automate pulling it out.
+# 2022-11-14: I've gone through and manually flagged records
+# that should be included (or not) in the daily total; this
+# now appears in the supporting_files/in_total_yn.csv doc.
+# 2022-11-14: much more manageable number of accounting errors; 
+# I have gone through them all and all appear ok and primarily
+# flagged either as rounding differences or in cases where
+# one day had a ridiculous number of TOTALS for the day (e.g.
+# 2011-04-30).
 
-# Pull out start of sweeps from notes column by scanning for
-# the following key words: "begin" & "count" OR "sweep".
-sweeps <- counts[(grepl("begin\\b", counts$notes) & grepl("count", counts$notes) & !grepl("sweep", counts$notes)) | grepl("sweep", counts$notes),]
+# Rename 'mean_count' to 'final_count' to better reflect
+# column value meaning
+names(counts)[grep("mean_count", names(counts))] <- "final_count"
 
 # Rearrange and remove any superfluous columns
 # Dropping columns if:
@@ -581,12 +615,10 @@ sweeps <- counts[(grepl("begin\\b", counts$notes) & grepl("count", counts$notes)
 # - they have only one value (e.g., 'dunlin' has one value in one cell, which was moved to 'other_birds')
 # - they have only one unique value (e.g., all records in 'day_survey' simply say '1')
 # - they were merged into the date_time_pdt column
-# - 'mean_count' col - ideally this column should be calculated on-the-fly so as to account for any 
-#   changes to underlying count data and prevent future 'mean_count' errors
-#   However, 'mean_count' is problematic in that it seemingly
-#   arbitrarily pulls from count data vs not (e.g., see 2011 data).
+# - they were temporary columns used in error checking above (e.g., 'calc_mean' and 'mean_diff')
 counts <- counts %>% 
-  dplyr::select(date_time_pdt, 
+  dplyr::select(record_id,
+                date_time_pdt, 
                 tide, 
                 location, 
                 count_1, 
@@ -594,7 +626,8 @@ counts <- counts %>%
                 count_3, 
                 count_4, 
                 count_5, 
-                mean_count, 
+                final_count,
+                in_daily_total_yn,
                 notes, 
                 high_tide_height_ft, 
                 high_tide_time_pdt, 
@@ -609,7 +642,9 @@ counts <- counts %>%
                 julian_date,
                 raw_datafile)
 
-counts <- counts[!grepl("tot", tolower(counts$location)),]
+# Previously, was extracting all non-TOTAL rows. Now just
+# putting it all in the database; end-user can use in_daily_total_yn
+# col to filter as needed
 
 # Finish up
 rm(counts_list)
@@ -1230,7 +1265,7 @@ rm(daily_conditions)
 locations <- sort(unique(c(cleaned$counts$location, 
                       cleaned$species_ratios$location, 
                       cleaned$boundary_bay_counts$location)))
-write.csv(locations, "Output/locations_raw.csv", na = "", row.names = F)
+#write.csv(locations, "Output/locations_raw.csv", na = "", row.names = F)
 
 # Now open OpenRefine - this requires the user to have OpenRefine
 # installed on their machine and will open the program in a browser window!
@@ -1346,7 +1381,7 @@ tmp <- tmp %>% dplyr::select(date,
               count_3,
               count_4,
               count_5,
-              mean_count, # potentially remove later
+              final_count, 
               other_birds,
               high_tide_time_pdt,
               high_tide_height_ft,
