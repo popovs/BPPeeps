@@ -1332,7 +1332,10 @@ cleaned$strip_counts <- cleaned$strip_counts %>%
 sqlite_tables[["strip_counts"]] <- cleaned$strip_counts
 
 ## - 12.3 BP COUNTS + DAILY CONDITIONS ----
-# Merge 'counts' and 'daily_conditions'
+# 'counts' and 'daily_conditions' will be two separate tables,
+# but there are some redundant columns between the two - 
+# may be good to pull weather data from 'counts' and move to 
+# 'daily_conditions' table. tbd
 c <- cleaned$counts
 dc <- cleaned$daily_conditions
 
@@ -1382,6 +1385,7 @@ tmp <- tmp %>% dplyr::select(date,
               count_4,
               count_5,
               final_count, 
+              in_daily_total_yn,
               other_birds,
               high_tide_time_pdt,
               high_tide_height_ft,
