@@ -24,18 +24,18 @@
 # versions are installed.
 
 # install.packages("devtools")
-devtools::install_github("paleolimbot/rclimateca")
-remotes::install_github("ropensci/tidyhydat")
+#devtools::install_github("paleolimbot/rclimateca")
+#devtools::install_github("ropensci/tidyhydat")
 
 library(rclimateca)
 library(tidyhydat)
 
 # Download hydat data
 # TODO: make this reproducible later. This just doesn't play well with a renv environment.
-download_hydat(dl_hydat_here = "renv/local/hydat") # ~3 min - only needs to be run once
-hy_set_default_db(hydat_path = "renv/local/hydat/Hydat.sqlite3") # doesn't work?
+#download_hydat(dl_hydat_here = "renv/local/hydat") # ~3 min - only needs to be run once
 hydat_path <- "renv/local/hydat/Hydat.sqlite3"
-hy_downloaded_db() # Check it's in renv path
+hy_set_default_db(hydat_path = hydat_path) # doesn't work?
+hy_downloaded_db() # Check it's in renv path. Also doesn't work?
 
 # Get station names that we will use for data download
 # Airport is split into two datasets, because one monitoring station
@@ -67,18 +67,34 @@ hope_hist <- hy_daily_flows(station_number = hope,
                             hydat_path = hydat_path)
 
 # Next get remaining data
-# Because this is realtime data, it's every 10 mins.
-# To get the daily flow, need to take the mean per day
-hope_rt <- realtime_dd(hope) %>% realtime_daily_mean()
+# Historical data only goes up to 2020, while realtime
+# data only goes for the last 30 days. Currently no good
+# web scraping API to get the intervening dates.
+# So, for now, downloading the data manually from this
+# URL, and loading it as a csv. 
+# https://wateroffice.ec.gc.ca/report/real_time_e.html?stn=08MF005&mode=Graph&startDate=2021-01-01&endDate=2022-05-11&prm1=47&y1Max=&y1Min=&prm2=47&y2Max=&y2Min=
+hope_recent <- read.csv("supporting_files/08MF005_discharge_20221125.csv", skip = 9)
+hope_recent <- janitor::clean_names(hope_recent)
+# Remove timestamp
+hope_recent$date_pst <- sub(" .*", "", hope_recent$date_pst)
+# Daily mean by date
+hope_recent <- aggregate(value_m_s ~ date_pst, hope_recent, mean)
+# Match columns and merge
+hope_recent$date_pst <- as.Date(hope_recent$date_pst)
+hope_recent$value_m_s <- as.numeric(hope_recent$value_m_s)
+names(hope_recent) <- c("Date", "Value")
+hope_recent$STATION_NUMBER <- hope
 
+flow <- dplyr::bind_rows(hope_hist, hope_recent)
 
-# Next get any realtime daily data for any dates not included in
-# historical data
+rm(hope_hist)
+rm(hope_recent)
+flow$Parameter <- "Flow (m3/s)"
 
 # 02 Tidal amplitude ----
 # @ Port Atkinson (49.3333°N, 123.2500°W)
 
-
+amp <- read.csv("supporting_files/tidal_range_1991_to_2022.csv")
 
 # 03 Avg daily temp (C°) ----
 # @ Vancouver Int'l Airport
