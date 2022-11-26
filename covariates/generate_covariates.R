@@ -7,7 +7,7 @@
 
 # All covariates:
 # 01 Discharge (m^3/s) @ Fraser River Hope monitoring station (08MF005)
-# 02 Tidal amplitude @ Port Atkinson (49.3333°N, 123.2500°W)
+# 02 Tidal amplitude (m) @ Port Atkinson (49.3333°N, 123.2500°W)
 # 03 Avg daily temp (C°) @ Vancouver Int'l Airport
 # 04 Daily total precipitation (mm) @ Vancouver Int'l Airport
 # 05 Avg daily wind speed (km/h) @ Vancouver Int'l Airport
@@ -19,13 +19,15 @@
 
 # First, install rclimateca and tidyhydat packages
 
-# Note that at the time of writing this script, the packages
+# Note that at the time of writing this script, all of these packages
 # are no longer maintained/buggy on CRAN. As such, the Github development
 # versions are installed.
+# Function usage is a bit patchy and likely not going to work in the future.
 
 # install.packages("devtools")
 #devtools::install_github("paleolimbot/rclimateca")
 #devtools::install_github("ropensci/tidyhydat")
+#devtools::install_github("ropensci/weathercan")
 
 library(rclimateca)
 library(tidyhydat)
@@ -91,20 +93,29 @@ rm(hope_hist)
 rm(hope_recent)
 flow$Parameter <- "Flow (m3/s)"
 
-# 02 Tidal amplitude ----
+# 02 Tidal amplitude (m) ----
 # @ Port Atkinson (49.3333°N, 123.2500°W)
 
 amp <- read.csv("supporting_files/tidal_range_1991_to_2022.csv")
 
+# YVR weather download ----
+
+# Using weathercan
+yvr_weather <- weather_dl(station_ids = c(yvr[[1]], yvr[[2]]), 
+                          start = min(dates), 
+                          end = max(dates), 
+                          interval = "day", 
+                          verbose = TRUE)
+
 # 03 Avg daily temp (C°) ----
 # @ Vancouver Int'l Airport
 
-
+temp <- aggregate(mean_temp ~ date, yvr_weather, mean)
 
 # 04 Daily total precipitation (mm) ----
 # @ Vancouver Int'l Airport
 
-
+precip <- aggregate(total_precip ~ date, yvr_weather, sum)
 
 # 05 Avg daily wind speed (km/h) ----
 # @ Vancouver Int'l Airport
