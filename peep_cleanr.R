@@ -362,7 +362,7 @@ counts <- counts %>% dplyr::select(record_id, dplyr::everything())
 # to include certain records or not.
 in_daily_total_yn <- read.csv("supporting_files/in_total_yn.csv")
 in_daily_total_yn <- in_daily_total_yn[,c("record_id", "in_daily_total_yn")]
-counts <- merge(counts, in_daily_total_yn)
+counts <- merge(counts, in_daily_total_yn, all.x = TRUE)
 rm(in_daily_total_yn)
 
 # Merge 'notes' and 'comments' columns
@@ -819,6 +819,8 @@ rm(p_wesa_errors)
 # One %WESA error due to mistake in excel formula. Remaining
 # %WESA errors are due to changes in 'total' value if you 
 # include the BBPL numbers in the total.
+# Fix one typo found in p_wesa_errors above, 2003-04-30 17:00:00
+species_ratios[["percent_wesa"]][species_ratios$date_time_pdt == "2003-04-30 17:00:00" & species_ratios$sample == 4] <- species_ratios[["calc_p_wesa"]][species_ratios$date_time_pdt == "2003-04-30 17:00:00" & species_ratios$sample == 4]
 
 # Fill in NA WESA/DUNL pop numbers where no pop # but DOES
 # have a %WESA value. e.g. see: 
@@ -898,15 +900,19 @@ raptors[["notes"]][grep("falcon", raptors$species)] <- ifelse(is.na(raptors[["no
                                                                           paste0(raptors[["notes"]][grep("unid falcon|falcon", raptors$species)], "; Unidentified falcon"))
 raptors[["species"]][grep("falcon", raptors$species)] <- "UNK"
 raptors[["species"]][which(raptors$species == "Kestrel")] <- "AMKE"
+raptors[["species"]][which(raptors$species == "NA")] <- NA
 
 raptors[["notes"]][grep("\\?", raptors$species)] <- paste0(raptors[["notes"]][grep("\\?", raptors$species)], "; species ID uncertain")
-raptors[["species"]][grep("\\?", raptors$species)] <- "MERL"
+raptors[["species"]][grep("\\?", raptors$species)] <- gsub("\\?", "", raptors[["species"]][grep("\\?", raptors$species)])
 
 # Add numeric column indicating how many raptors were seen in a
 # particular observation (if noted)
 raptors$count <- NA
 raptors[["count"]][grep("(3)", raptors$species)] <- 3
 raptors[["species"]][grep("(3)", raptors$species)] <- "PEFA"
+
+# Remove whitespace
+raptors$species <- stringr::str_squish(raptors$species)
 
 # Now names have been standardized, set column type
 raptors$species <- as.factor(raptors$species)
@@ -941,9 +947,9 @@ raptors[["species"]][grep("2 BAEA", raptors$notes)] <- "BAEA"
 raptors[["count"]][!is.na(raptors$species) & is.na(raptors$count)] <- 1
 
 # Standardized 'age'
-raptors[["age"]][grep("unk", raptors$age)] <- "UNK"
-raptors[["age"]][grep("ad", raptors$age)] <- "Adult"
-raptors[["age"]][grep("juv", raptors$age)] <- "Juvenile"
+raptors[["age"]][grep("unk", tolower(raptors$age))] <- "UNK"
+raptors[["age"]][grep("ad", tolower(raptors$age))] <- "Adult"
+raptors[["age"]][grep("juv", tolower(raptors$age))] <- "Juvenile"
 raptors$age <- as.factor(raptors$age)
 
 # Standardize 'success'
@@ -1118,6 +1124,9 @@ daily_conditions <- dplyr::bind_rows(daily_conditions_list)
 
 # Drop NA date records
 daily_conditions <- daily_conditions[!is.na(daily_conditions$date),]
+
+# Drop data from 2022 file (it's just example data)
+daily_conditions <- daily_conditions[daily_conditions$raw_datafile != "RobertsBankShorebirdSurveys2022.xlsx",]
 
 # Standardize weekday
 daily_conditions[["weekday"]][grep("Thursday", daily_conditions$weekday)] <- "Thu"

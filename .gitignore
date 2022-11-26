@@ -56,3 +56,5 @@ Test*
 *.xlsx
 Output*
 ignore*
+ec.cache*
+wind_20221125.csv
