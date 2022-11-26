@@ -10,10 +10,8 @@
 # 02 Tidal amplitude (m) @ Port Atkinson (49.3333°N, 123.2500°W)
 # 03 Avg daily temp (C°) @ Vancouver Int'l Airport
 # 04 Daily total precipitation (mm) @ Vancouver Int'l Airport
-# 05 Avg daily wind speed (km/h) @ Vancouver Int'l Airport
-# 06 Avg daily wind direction (°) @ Vancouver Int'l Airport
-# 07 u/v (westerly, southerly) wind vectors 
-# 08 IR (Solar radiation, W/m2) @ the University of British Columbia Totem Field climate station (49.2562°N, 123.2494°W)
+# 05 Avg daily wind speed, direction, and vectors (km/h, °) @ Vancouver Int'l Airport
+# 06 IR (Solar radiation, W/m2) @ the University of British Columbia Totem Field climate station (49.2562°N, 123.2494°W)
 
 # SETUP ----
 
@@ -92,6 +90,7 @@ flow <- dplyr::bind_rows(hope_hist, hope_recent)
 rm(hope_hist)
 rm(hope_recent)
 flow$Parameter <- "Flow (m3/s)"
+names(flow)[4] <- "flow"
 
 # 02 Tidal amplitude (m) ----
 # @ Port Atkinson (49.3333°N, 123.2500°W)
@@ -101,11 +100,24 @@ amp <- read.csv("supporting_files/tidal_range_1991_to_2022.csv")
 # YVR weather download ----
 
 # Using weathercan
+
+# Daily - for temp + precip (won't take long)
 yvr_weather <- weather_dl(station_ids = c(yvr[[1]], yvr[[2]]), 
                           start = min(dates), 
                           end = max(dates), 
                           interval = "day", 
                           verbose = TRUE)
+
+# Hourly - for wind (will take forever and if done all at once it
+# can time out - so it is done year at a time. Kept verbose on to 
+# keep track of things. Takes an hour or so.)
+yvr_wind <- plyr::ldply(dates, function(x) {
+  weather_dl(station_ids = c(yvr[[1]], yvr[[2]]), 
+             start = x, 
+             end = x, 
+             interval = "hour", 
+             verbose = TRUE)
+})
 
 # 03 Avg daily temp (C°) ----
 # @ Vancouver Int'l Airport
@@ -117,21 +129,74 @@ temp <- aggregate(mean_temp ~ date, yvr_weather, mean)
 
 precip <- aggregate(total_precip ~ date, yvr_weather, sum)
 
-# 05 Avg daily wind speed (km/h) ----
+# 05 Avg daily wind speed + direction (km/h, °) ----
 # @ Vancouver Int'l Airport
 
+# u/v calculation snippet authored by David D. Hope, 
+# from 2021 Canham et al. paper
+# u and v represent westerly and southerly wind vectors, 
+# respectively
 
+uv <- yvr_wind %>%
+  # Filter out flagged data here
+  dplyr::group_by(date) %>%
+  dplyr::mutate( rad_dir = wind_dir* 10* pi/180 ,
+          v = abs(wind_spd) * sin(rad_dir),
+          u = abs(wind_spd)* cos(rad_dir)) %>%
+  dplyr::summarize(u = median(u, na.rm=T),
+                   v = median(v, na.rm=T),
+                   Windspd = mean(wind_spd, na.rm=T),
+                   s_sin = sum(sin(rad_dir), na.rm = T),
+                   s_cos = sum(cos(rad_dir),na.rm=T),
+                   .groups = 'drop') %>%
+  dplyr::mutate(
+    WindDir = atan2(s_sin, s_cos),
+    WindDeg = WindDir * 180 / pi) %>%
+  dplyr::mutate(Date = lubridate::ymd(date),
+         Year = lubridate::year(Date),
+         Month = lubridate::month(Date),
+         DoY = lubridate::yday(Date))
 
-# 06 Avg daily wind direction (°) ----
-# @ Vancouver Int'l Airport
-
-
-
-# 07 u/v ----
-# Westerly + southerly wind vectors 
-
-
-
-# 08 IR (W/m2) ----
+# 06 IR (W/m2) ----
 # @ the University of British Columbia Totem Field climate station (49.2562°N, 123.2494°W)
 
+# As of this writing, IR is not an available column
+ubc_weather <- weather_dl(station_ids = ubc[[1]], 
+                          start = min(dates), 
+                          end = max(dates), 
+                          interval = "day", 
+                          verbose = TRUE)
+
+#MERGE & FILTER ----
+# Merge together the 6 datasets, then filter down to only the dates
+# and columns that are needed
+
+# amp, flow, precip, temp, uv (no IR as of yet)
+
+# Clean colnames of all datasets
+amp <- janitor::clean_names(amp)
+flow <- janitor::clean_names(flow)
+precip <- janitor::clean_names(precip)
+temp <- janitor::clean_names(temp)
+uv <- janitor::clean_names(uv)
+
+# Prepare dates for joins
+dates <- as.data.frame(dates)
+names(dates) <- "date"
+dates$date <- as.character(dates$date)
+
+flow$date <- as.character(flow$date)
+precip$date <- as.character(precip$date)
+temp$date <- as.character(temp$date)
+uv$date <- as.character(uv$date)
+
+# Join
+cov <- dates %>% 
+  dplyr::left_join(amp) %>%
+  dplyr::left_join(flow) %>%
+  dplyr::left_join(precip) %>%
+  dplyr::left_join(temp) %>%
+  dplyr::left_join(uv) %>%
+  dplyr::select(date, elev_min, elev_max, elev_median, elev_mean,
+                elev_range, flow, total_precip, mean_temp, u, v,
+                windspd, wind_deg)
