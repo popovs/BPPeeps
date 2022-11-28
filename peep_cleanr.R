@@ -1281,12 +1281,12 @@ rm(daily_conditions)
 locations <- sort(unique(c(cleaned$counts$location, 
                       cleaned$species_ratios$location, 
                       cleaned$boundary_bay_counts$location)))
-#write.csv(locations, "Output/locations_raw.csv", na = "", row.names = F)
+#write.csv(locations, "ignore/Output/locations_raw.csv", na = "", row.names = F)
 
 # Now open OpenRefine - this requires the user to have OpenRefine
 # installed on their machine and will open the program in a browser window!
 # (only do this)
-#rrefine::refine_upload("Output/locations_raw.csv", project.name = "bppeep_locations", open.browser = TRUE)
+#rrefine::refine_upload("ignore/Output/locations_raw.csv", project.name = "bppeep_locations", open.browser = TRUE)
 
 # On local machine this is at:
 # http://127.0.0.1:3333/project?project=2454790870924&ui=%7B%22facets%22%3A%5B%5D%7D
@@ -1371,6 +1371,7 @@ weather <- c %>% dplyr::select(date, tide, high_tide_height_ft, high_tide_time_p
 
 c <- c %>% dplyr::select(-(names(weather)))
 c$julian_date <- lubridate::yday(c$date)
+c$final_count <- round(c$final_count, digits = 0)
 
 # Merge weather with dc
 dc <- dplyr::bind_rows(weather, dc) %>%
@@ -1393,10 +1394,8 @@ dc <- dc %>%
   dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
   dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
 
-# 
-
 # Add to sqlite tables list
-sqlite_tables[["bp_counts"]] <- c
+sqlite_tables[["bp_counts_all"]] <- c
 sqlite_tables[["daily_conditions"]] <- dc
 rm(weather)
 rm(c)
@@ -1423,13 +1422,14 @@ sqlite_tables[["raptors"]] <- cleaned$raptors
 # above.
 # bppeep_locations <- rrefine::refine_export(project.name = "bppeep_locations",
 #                                            show_col_types = FALSE)
-bppeep_locations <- read.csv("supporting_files/bppeep_locations-2.csv")
+bppeep_locations <- read.csv("supporting_files/bppeep_locations.csv")
 
 # [Further modifications as needed can be done in R here]
 sqlite_tables[["locations"]] <- bppeep_locations
 
 # 13 POPULATE SQLITE DB ----
-bppeeps <- DBI::dbConnect(RSQLite::SQLite(), "Output/bppeeps.db")
+dir.create("temp", showWarnings = F)
+bppeeps <- DBI::dbConnect(RSQLite::SQLite(), "temp/bppeeps.db")
 
 # Populate tables
 for (i in 1:length(sqlite_tables)) {
@@ -1438,9 +1438,9 @@ for (i in 1:length(sqlite_tables)) {
 
 # 13.1 CREATE VIEWS ----
 # Daily percentage WESA/DUNL view
-DBI::dbExecute(bppeeps, "drop view if exists daily_percent_ratios;")
-DBI::dbExecute(bppeeps, "create view daily_percent_ratios as 
-               with temp as (select date(date_time_pdt) as date, 
+DBI::dbExecute(bppeeps, "drop view if exists daily_percent_ratio;")
+DBI::dbExecute(bppeeps, "create view daily_percent_ratio as 
+               with temp as (select date(date_time_pdt) as survey_date, 
                avg(wesa) as wesa, 
                avg(dunl) as dunl 
                from species_ratios 
@@ -1451,22 +1451,66 @@ DBI::dbExecute(bppeeps, "create view daily_percent_ratios as
                (dunl / (wesa + dunl) * 100) as p_dunl 
                from temp;")
 
+# Location-level peeps counts
+DBI::dbExecute(bppeeps, "drop view if exists bp_counts_loc;")
+DBI::dbExecute(bppeeps, "create view bp_counts_loc as
+                      select date(date_time_pdt) as survey_date,
+                      strftime('%H:%M', date_time_pdt) as start_time,
+                      cleaned as station,
+                      station_n,
+                      station_s,
+                      mumblies_yn,
+                      mud_yn,
+                      marsh_yn,
+                      tide_edge_yn,
+                      flying_yn,
+                      sum(final_count) as final_count
+                      from bp_counts_all c
+                      left join locations l
+                      on c.location = l.original_location_name
+                      where in_daily_total_yn in ('TRUE')
+                        or in_daily_total_yn is null
+                        and c.location is not null
+                      group by survey_date, station;")
+
+# Daily population total view
+DBI::dbExecute(bppeeps, "drop view if exists daily_total;")
+DBI::dbExecute(bppeeps, "create view daily_total as
+               select date(date_time_pdt) as survey_date,
+               sum(final_count) as total_count
+               from bp_counts_all bca
+               where in_daily_total_yn in ('TRUE')
+               or in_daily_total_yn is null
+               group by survey_date
+               order by survey_date;")
+
+
 # Daily WESA/DUNL population totals view
-DBI::dbExecute(bppeeps, "drop view if exists daily_wesa_dunl_population;")
-DBI::dbExecute(bppeeps, "create view daily_wesa_dunl_population as
-               with temp as (select date, 
-               sum(mean_count) as daily_count, 
-               cleaned 
-               from bp_counts 
-               inner join locations 
-               on bp_counts.location = locations.original_location_name
-                group by date, cleaned)
-               select temp.date, 
-                cleaned as location, 
-                round(((p_wesa/100) * daily_count), 0) as pop_wesa, 
-                round(((p_dunl/100) * daily_count), 0) as pop_dunl 
-                from temp 
-                inner join daily_percent_ratios d 
-                on temp.date = d.date;")
+DBI::dbExecute(bppeeps, "drop view if exists daily_wesa_dunl_total;")
+DBI::dbExecute(bppeeps, "create view daily_wesa_dunl_total as
+               select dt.survey_date,
+               total_count,
+               round(((p_wesa/100) * total_count), 0) as pop_wesa, 
+               round(((p_dunl/100) * total_count), 0) as pop_dunl 
+               from daily_total dt
+               inner join daily_percent_ratio dpr 
+               on dt.survey_date = dpr.survey_date
+               order by dt.survey_date;")
+
+# Location level WESA/DUNL population (WIP)
+# TODO: figure out how to get this query working
+DBI::dbExecute(bppeeps, "drop view if exists wesa_dunl_loc;")
+# DBI::dbExecute(bppeeps, "create view wesa_dunl_loc as
+#                select date(c.date_time_pdt) as survey_date,
+#                location,
+#                final_count,
+#                round(((p_wesa/100) * final_count), 0) as pop_wesa, 
+#                round(((p_dunl/100) * final_count), 0) as pop_dunl 
+#                from bp_counts_all c
+#                inner join daily_percent_ratios dpr 
+#                on survey_date = dpr.date
+#                where c.in_daily_total_yn in ('total', 'only total')
+#                or c.in_daily_total_yn is null
+#                order by survey_date;")
 
 DBI::dbDisconnect(bppeeps)
