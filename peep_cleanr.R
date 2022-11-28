@@ -522,6 +522,7 @@ counts$observer <- as.factor(counts$observer)
 # counts do not line up with the 60k total. 
 # Per 2022-11-15 email w Mark Drever, add the remaining difference
 # to the View corner location.
+counts[["count_1"]][counts$record_id == 4190] <- 15000
 counts[["mean_count"]][counts$record_id == 4190] <- 15000
 
 # Data checks
@@ -538,7 +539,7 @@ counts$mean_diff <- counts$calc_mean - ifelse(is.na(counts$mean_count), 0, round
 #View(counts[which(counts$mean_count != counts$calc_mean & (counts$mean_diff > 200 | counts$mean_diff < -200)),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")])
 #View(counts[which(counts$mean_diff > 200 | counts$mean_diff < -200),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")])
 #This doesn't include NA mean_count: mean_errors <- counts[which(counts$mean_count != counts$calc_mean & (counts$mean_diff > 200 | counts$mean_diff < -200)),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")]
-mean_errors <- counts[which(counts$mean_diff > 200 | counts$mean_diff < -200),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")]
+mean_errors <- counts[which(counts$mean_diff > 200 | counts$mean_diff < -200),c("record_id", "date_time_pdt", "raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")]
 
 # Fix 3 mean errors that I'm confident are simply Excel errors
 counts[["mean_count"]][which(counts$raw_datafile == "BPPeep2007.xls" & counts$mean_count == 145000)] <- 154000
@@ -553,7 +554,7 @@ rm(mean_errors)
 
 ## Column means
 # Extract any 'TOTAL' rows - i.e. subtotal rows within dataset
-subtotals <- counts[counts$in_daily_total_yn == "total",] # previously grep("tot", tolower(counts$location))
+subtotals <- counts[which(counts$in_daily_total_yn == "total"),] # previously grep("tot", tolower(counts$location))
 subtotals$date <-  as.Date(subtotals$date_time_pdt, format = "%Y-%m-%d", tz = "Canada/Pacific")
 
 # Compare if manually calc'd col means == R calc'd col means
@@ -585,8 +586,7 @@ subtotals %>%
   merge(day_means, by = "date") %>%
   dplyr::mutate(tot_diff = subtot_tot - calc_tot) %>%
   dplyr::filter(abs(tot_diff) > 1000) %>% # Often numbers were manually rounded to nearest thousandth
-  dplyr::select(date, raw_datafile, location, subtot_tot, calc_tot, tot_diff, count_1, count_2, count_3, count_4, count_5,  calc_mean) %>%
-  View()
+  dplyr::select(date, raw_datafile, location, subtot_tot, calc_tot, tot_diff, count_1, count_2, count_3, count_4, count_5,  calc_mean)
 
 rm(day_means)
 rm(subtotals)
@@ -1350,8 +1350,8 @@ sqlite_tables[["strip_counts"]] <- cleaned$strip_counts
 ## - 12.3 BP COUNTS + DAILY CONDITIONS ----
 # 'counts' and 'daily_conditions' will be two separate tables,
 # but there are some redundant columns between the two - 
-# may be good to pull weather data from 'counts' and move to 
-# 'daily_conditions' table. tbd
+# therefore need to pull weather data from 'counts' and move to 
+# 'daily_conditions' table.
 c <- cleaned$counts
 dc <- cleaned$daily_conditions
 
@@ -1393,6 +1393,9 @@ dc <- dc %>%
   dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
   dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
 
+# 
+
+# Add to sqlite tables list
 sqlite_tables[["bp_counts"]] <- c
 sqlite_tables[["daily_conditions"]] <- dc
 rm(weather)
