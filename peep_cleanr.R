@@ -1357,80 +1357,45 @@ dc <- cleaned$daily_conditions
 
 c$date <- as.Date(c$date_time_pdt, format = "%Y-%m-%d", tz = "Canada/Pacific")
 
-# This will result in some duplicated column names. Only the
-# 'notes' columns need to be concatenated. 
-tmp <- merge(c, dc, by = "date", all = TRUE)
-tmp$notes <- apply(tmp[,c("notes.x", "notes.y")], 1, function(x) paste(x[!is.na(x)], collapse = "; "))
+# Split out weather related info from counts df
+# TODO: this is not ideal and could still be further cleaned up to 
+# ensure only one weather record for each date. At the moment there
+# are some duplicates, e.g. for days where sampling occured both in
+# morning and evenings
+weather <- c %>% dplyr::select(date, tide, high_tide_height_ft, high_tide_time_pdt,
+                               weather, cloud_cover_percent, precipitation,
+                               wind, wind_direction, wind_speed_kn, raw_datafile) %>%
+  tidyr::unite(col="allNA", c(2:10), remove = FALSE, na.rm = TRUE) %>%
+  dplyr::filter(!(allNA %in% c("", "high-dropping", "rising", "dropping", "high", "rising-high", "slack"))) %>% # Remove records where there's no weather info OR the only weather info is just the tide (and missing other weather categories)
+  dplyr::select(-allNA)
 
-# Remaining can simply be ifelse statements - choose whichever
-# column is not null for the value
-dupes <- names(tmp)[grepl("\\.x", names(tmp)) & !grepl("notes", names(tmp))]
-dupes <- gsub(".x", "", dupes)
+c <- c %>% dplyr::select(-(names(weather)))
+c$julian_date <- lubridate::yday(c$date)
 
-for (i in 1:length(dupes)){
-  col.x <- paste0(dupes[i], ".x")
-  col.y <- paste0(dupes[i], ".y")
-  # If/else gets wonky with factors if levels don't exactly
-  # match between the two columns
-  if (class(tmp[[col.x]])[1] == "factor") {
-    tmp[[col.x]] <- as.character(tmp[[col.x]])
-    tmp[[col.y]] <- as.character(tmp[[col.y]])
-    }
-  tmp[[dupes[i]]] <- dplyr::if_else(is.na(tmp[[col.x]]),
-                                    tmp[[col.y]],
-                                    tmp[[col.x]])
-}
-rm(col.x)
-rm(col.y)
-rm(dupes)
-rm(i)
-
-# Select final columns
-tmp <- tmp %>% dplyr::select(date,
-              date_time_pdt,
-              location,
-              weekday,
-              sweep_start_pdt,
-              sweep_end_pdt,
-              survey_start_pdt,
-              survey_end_pdt,
-              approx_11_5_ft_tide_or_best_survey_pdt,
-              count_1,
-              count_2,
-              count_3,
-              count_4,
-              count_5,
-              final_count, 
-              in_daily_total_yn,
-              other_birds,
-              high_tide_time_pdt,
-              high_tide_height_ft,
-              high_tide_height_m,
-              tide,
-              degrees_c,
-              weather,
-              cloud_cover_percent,
-              precipitation,
-              wind,
-              wind_direction,
-              wind_speed_kn,
-              wind_speed_kmh,
-              notes,
-              observer,
-              julian_date,
-              raw_datafile)
-
-tmp$tide <- as.factor(tmp$tide)
-tmp$wind_direction <- as.factor(tmp$wind_direction)
-tmp$julian_date <- lubridate::yday(tmp$date)
+# Merge weather with dc
+dc <- dplyr::bind_rows(weather, dc) %>%
+  dplyr::select(date, sweep_start_pdt, sweep_end_pdt,
+                survey_start_pdt, survey_end_pdt, 
+                approx_11_5_ft_tide_or_best_survey_pdt,
+                tide, high_tide_time_pdt, high_tide_height_ft,
+                high_tide_height_m, weather, degrees_c,
+                cloud_cover_percent, precipitation, wind,
+                wind_direction, wind_speed_kn, wind_speed_kmh,
+                observer, notes, raw_datafile
+                )
 
 # Convert dates to strings for SQLite compatibility
-tmp <- tmp %>% 
+c <- c %>% 
   dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
   dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
 
-sqlite_tables[["bp_counts"]] <- tmp
-rm(tmp)
+dc <- dc %>% 
+  dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
+  dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
+
+sqlite_tables[["bp_counts"]] <- c
+sqlite_tables[["daily_conditions"]] <- dc
+rm(weather)
 rm(c)
 rm(dc)
 
