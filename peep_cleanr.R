@@ -517,6 +517,13 @@ counts[["observer"]][which(counts$observer == "RB")] <- "R.B."
 counts[["observer"]][which(counts$observer == "ML")] <- "M.L."
 counts$observer <- as.factor(counts$observer)
 
+# Misc data fixes
+# 2013-04-23 - bird count was cut off short, and the location
+# counts do not line up with the 60k total. 
+# Per 2022-11-15 email w Mark Drever, add the remaining difference
+# to the View corner location.
+counts[["mean_count"]][counts$record_id == 4190] <- 15000
+
 # Data checks
 # Some simple & quick data checks to see if excel data is 
 # correct vs. calculations in R
