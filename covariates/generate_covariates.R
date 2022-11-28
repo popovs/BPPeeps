@@ -48,7 +48,7 @@ hope <- "08MF005" # At time of writing, Hope station number is 08MF005
 
 # Pull peeps data ----
 ## TODO: change this later so that peep db is stored in better location..
-db <- DBI::dbConnect(RSQLite::SQLite(), "Output/bppeeps.db")
+db <- DBI::dbConnect(RSQLite::SQLite(), "temp/bppeeps.db")
 dates <- DBI::dbGetQuery(db, "select distinct(date) from bp_counts;")
 DBI::dbDisconnect(db)
 rm(db)
