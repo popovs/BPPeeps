@@ -10,7 +10,7 @@ Running this code will import raw shorebird survey data into R, clean it, and bu
 
 ## Supporting files
 
-Certain data cleaning processes were not done in R as it was not the most expedient means to do so. See the README in the [supporing_files](tree/main/supporting_files) directory for details.
+Certain data cleaning processes were not done in R as it was not the most expedient means to do so. See the README in the [supporting_files](/supporting_files) directory for details.
 
 ## Covariates
 
