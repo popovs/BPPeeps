@@ -1,6 +1,7 @@
 original_location_name,cleaned,station_n,station_s,sub_location,mumblies_yn,mud_yn,marsh_yn,tide_edge_yn,flying_yn
 """mumblies""",(mumblies),,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 104th,104th,104th,,,FALSE,FALSE,FALSE,FALSE,FALSE
+34 St pullout,34th St pullout,34th St pullout,,,FALSE,FALSE,FALSE,FALSE,FALSE
 34th - small flock,34th St pullout,34th St pullout,,,FALSE,FALSE,FALSE,FALSE,FALSE
 34th and west outer mumblies,34th St pullout (outer mumblies),34th St pullout,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 34th marsh to CP corner,Coal Port corner to 34th St pullout (marsh),34th St pullout,Coal Port,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
