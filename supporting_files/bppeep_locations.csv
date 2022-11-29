@@ -74,7 +74,7 @@ original_location_name,cleaned,station_n,station_s,sub_location,mumblies_yn,mud_
 80th,80th,80th,,,FALSE,FALSE,FALSE,FALSE,FALSE
 88th,88th,88th,,,FALSE,FALSE,FALSE,FALSE,FALSE
 96th,96th,96th,,,FALSE,FALSE,FALSE,FALSE,FALSE
-along dike,Brunswick dike,Brunswick dike,,,FALSE,FALSE,FALSE,FALSE,FALSE
+along dike,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
 along from CP corner to 34th marsh,Coal Port corner to 34th St pullout (marsh),34th St pullout,Coal Port,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
 along outer edge of mumblies,(outer mumblies),,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 along to pilings,Pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
@@ -158,7 +158,7 @@ Bruns corner to west end mumblies,Brunswick Point (west end mumblies),Brunswick 
 Bruns corner to west end pilings,Brunswick Point to West end pilings,Brunswick Point,Pilings,,FALSE,FALSE,FALSE,FALSE,FALSE
 "Bruns corner, middle distance",Brunswick Point (mid mud),Brunswick Point,,mid mud,FALSE,TRUE,FALSE,FALSE,FALSE
 "Bruns corner, near point marshedge",Brunswick Point (marsh),Brunswick Point,,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
-Bruns dike,Brunswick dike,Brunswick dike,,,FALSE,FALSE,FALSE,FALSE,FALSE
+Bruns dike,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
 Bruns Point corner,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
 Bruns Point corner - mid mud,Brunswick Point (mid mud),Brunswick Point,,mid mud,FALSE,TRUE,FALSE,FALSE,FALSE
 Bruns Point corner - tide edge,Brunswick Point (tide edge),Brunswick Point,,tide edge,FALSE,FALSE,FALSE,TRUE,FALSE
@@ -198,8 +198,8 @@ Bruns. Corner,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
 Bruns. corner (mumblies),Brunswick Point (mumblies),Brunswick Point,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 Bruns. Corner at tide edge,Brunswick Point (tide edge),Brunswick Point,,tide edge,FALSE,FALSE,FALSE,TRUE,FALSE
 Bruns. Corner-west end mumblies,Brunswick Point (west end mumblies),Brunswick Point,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-Bruns. dike,Brunswick dike,Brunswick dike,,,FALSE,FALSE,FALSE,FALSE,FALSE
-Bruns. dike (fly),Brunswick dike (flying),Brunswick dike,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
+Bruns. dike,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
+Bruns. dike (fly),Brunswick Point (flying),Brunswick Point,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 Bruns. point,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
 Bruns. Pt. Corner,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
 Bruns. Pt. end,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
@@ -219,7 +219,7 @@ Bruns.corner and west end mumblies,Brunswick Point (west end mumblies),Brunswick
 Bruns.corner and west end mumblies(tide edge),Brunswick Point (west end mumblies - tide edge),Brunswick Point,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
 Bruns.corner to pilings,Pilings to Brunswick Point,Brunswick Point,Pilings,,FALSE,FALSE,FALSE,FALSE,FALSE
 Bruns.corner(far water edge),Brunswick Point (tide edge),Brunswick Point,,tide edge,FALSE,FALSE,FALSE,TRUE,FALSE
-Bruns.dike.,Brunswick dike,Brunswick dike,,,FALSE,FALSE,FALSE,FALSE,FALSE
+Bruns.dike.,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
 Bruns.outer edge,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
 Bruns.Point marsh tip,Brunswick Point (marsh tip),Brunswick Point,,marsh tip,FALSE,FALSE,TRUE,FALSE,FALSE
 Bruns.Point tip,Brunswick Point (marsh tip),Brunswick Point,,marsh tip,FALSE,FALSE,TRUE,FALSE,FALSE
