@@ -1423,6 +1423,7 @@ sqlite_tables[["raptors"]] <- cleaned$raptors
 # bppeep_locations <- rrefine::refine_export(project.name = "bppeep_locations",
 #                                            show_col_types = FALSE)
 bppeep_locations <- read.csv("supporting_files/bppeep_locations.csv")
+bppeep_locations[bppeep_locations == ""] <- NA # Replace empty strings w NA
 
 # [Further modifications as needed can be done in R here]
 sqlite_tables[["locations"]] <- bppeep_locations
