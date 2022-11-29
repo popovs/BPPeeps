@@ -17,10 +17,11 @@
 
 # First, install rclimateca and tidyhydat packages
 
-# Note that at the time of writing this script, all of these packages
+# Note that at the time of writing this script, these packages
 # are no longer maintained/buggy on CRAN. As such, the Github development
-# versions are installed.
-# Function usage is a bit patchy and likely not going to work in the future.
+# versions are installed. Two packages are defunct at the time of writing
+# (rclimateca + weathercan) and one is under active development (tidyhydat),
+# so function usage may change drastically in the future.
 
 # install.packages("devtools")
 #devtools::install_github("paleolimbot/rclimateca")
@@ -32,10 +33,11 @@ library(tidyhydat)
 
 # Download hydat data
 # TODO: make this reproducible later. This just doesn't play well with a renv environment.
+download_hydat() # 1st attempt - will it create dir in app support?
 #download_hydat(dl_hydat_here = "renv/local/hydat") # ~3 min - only needs to be run once
-hydat_path <- "renv/local/hydat/Hydat.sqlite3"
-hy_set_default_db(hydat_path = hydat_path) # doesn't work?
-hy_downloaded_db() # Check it's in renv path. Also doesn't work?
+#hydat_path <- "renv/local/hydat/Hydat.sqlite3"
+#hy_set_default_db(hydat_path = hydat_path) # doesn't work?
+hy_downloaded_db() # Check path.
 
 # Get station names that we will use for data download
 # Airport is split into two datasets, because one monitoring station
@@ -61,8 +63,7 @@ dates <- as.Date(dates)
 # First get historical daily data
 hope_hist <- hy_daily_flows(station_number = hope,
                             start_date = min(dates),
-                            end_date = max(dates),
-                            hydat_path = hydat_path)
+                            end_date = max(dates))
 
 # Next get remaining data
 # Historical data only goes up to 2020, while realtime

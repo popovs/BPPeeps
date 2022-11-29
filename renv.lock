@@ -562,15 +562,15 @@
     },
     "tidyhydat": {
       "Package": "tidyhydat",
-      "Version": "0.5.7",
+      "Version": "0.5.8",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "tidyhydat",
       "RemoteUsername": "ropensci",
       "RemoteRef": "HEAD",
-      "RemoteSha": "3cf9e56a9f4111894579b3b5351a525d5ce19307",
-      "Hash": "e2d3f643652039f1ba00882754f18c89"
+      "RemoteSha": "05f06f16b2bc1ec2540f6d76301ffeda79755098",
+      "Hash": "f7eb6ce8c8307bf0f188e5280c802c89"
     },
     "tidyr": {
       "Package": "tidyr",
