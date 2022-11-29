@@ -1514,3 +1514,7 @@ DBI::dbExecute(bppeeps, "drop view if exists wesa_dunl_loc;")
 #                order by survey_date;")
 
 DBI::dbDisconnect(bppeeps)
+
+# 14 CLEAN UP ----
+rm(list = ls())
+gc()
