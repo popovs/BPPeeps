@@ -11,5 +11,6 @@ dat <- DBI::dbGetQuery(db, "select bcl.*, p_wesa, ec.*
                        left join daily_percent_ratio dpr on bcl.survey_date = dpr.survey_date 
                        left join environmental_covariates ec on ec.date = bcl.survey_date ;")
 dat <- dplyr::select(dat, -date)
+dat <- dat[!(dat$station_n %in% c("Intercauseway", "")) & !is.na(dat$station_n),]
 DBI::dbDisconnect(db)
 rm(db)
