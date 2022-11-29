@@ -3394,7 +3394,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 3393,7-May-10,high,13:24,CP corner - tide edge,300,,,,FALSE,BPPeeps2010.xls
 3394,7-May-10,high,13:30,CP corner to mid pilings tide edge,0,,,,FALSE,BPPeeps2010.xls
 3395,7-May-10,high,13:38,mid pilings to Bruns Pt marsh tip,2000+,,,,FALSE,BPPeeps2010.xls
-3396,7-May-10,,,No survey possible,,,,unknown,NA,BPPeeps2010.xls
+3396,7-May-10,,,No survey possible,,,,unknown,total,BPPeeps2010.xls
 3397,8-May-10,rising-high,14:00,WNW side Bruns(Canoe Pass),0,,,0,FALSE,BPPeeps2010.xls
 3398,8-May-10,rising-high,14:10,Bruns Pt corner-west end mumblies - tide edge,14000,,,14000,FALSE,BPPeeps2010.xls
 3399,8-May-10,rising-high,14:15,off pilings (outer mumblies) flying,1500,,,1500,FALSE,BPPeeps2010.xls
@@ -3898,16 +3898,16 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 3897,21-Apr-12,rising,16:35,BP mudroost view point,,,,,FALSE,BPPeeps2012.xls
 3898,21-Apr-12,rising,16:40,view corner (near mud),3000,,,,FALSE,BPPeeps2012.xls
 3899,21-Apr-12,rising,16:46,C.Port corner,1100,2100,,,FALSE,BPPeeps2012.xls
-3900,21-Apr-12,rising,17:12,C.Port corner (seen from 34th),0,,,0,TRUE,BPPeeps2012.xls
-3901,21-Apr-12,rising,17:12,CP jetty side marsh (seen from 34th),0,,,0,TRUE,BPPeeps2012.xls
-3902,21-Apr-12,rising,17:15,bend in road (outer and inner mud) (count 1),4700,,,,TRUE,BPPeeps2012.xls
-3903,21-Apr-12,rising,17:20,pilings pullout viewpoint (count 1),1050,,,,TRUE,BPPeeps2012.xls
-3904,21-Apr-12,rising,17:20,view corner (count 1),96000,,,,TRUE,BPPeeps2012.xls
-3905,21-Apr-12,rising,17:25,pilings pullout viewpoint (count 2),12000,,,,TRUE,BPPeeps2012.xls
-3906,21-Apr-12,rising,17:25,view corner (count 2),85000,,,,TRUE,BPPeeps2012.xls
-3907,21-Apr-12,rising,17:30,pilings pullout viewpoint (count 3),0,,,,TRUE,BPPeeps2012.xls
-3908,21-Apr-12,rising,17:30,view corner (count 3),105000,,,,TRUE,BPPeeps2012.xls
-3909,21-Apr-12,rising,,summary count 1 - 3,101750,97000,105000,101250,TRUE,BPPeeps2012.xls
+3900,21-Apr-12,rising,17:12,C.Port corner (seen from 34th),0,,,0,FALSE,BPPeeps2012.xls
+3901,21-Apr-12,rising,17:12,CP jetty side marsh (seen from 34th),0,,,0,FALSE,BPPeeps2012.xls
+3902,21-Apr-12,rising,17:15,bend in road (outer and inner mud) (count 1),4700,,,,AVG,BPPeeps2012.xls
+3903,21-Apr-12,rising,17:20,pilings pullout viewpoint (count 1),1050,,,,AVG,BPPeeps2012.xls
+3904,21-Apr-12,rising,17:20,view corner (count 1),96000,,,,AVG,BPPeeps2012.xls
+3905,21-Apr-12,rising,17:25,pilings pullout viewpoint (count 2),12000,,,,AVG,BPPeeps2012.xls
+3906,21-Apr-12,rising,17:25,view corner (count 2),85000,,,,AVG,BPPeeps2012.xls
+3907,21-Apr-12,rising,17:30,pilings pullout viewpoint (count 3),0,,,,AVG,BPPeeps2012.xls
+3908,21-Apr-12,rising,17:30,view corner (count 3),105000,,,,AVG,BPPeeps2012.xls
+3909,21-Apr-12,rising,,summary count 1 - 3,101750,97000,105000,101250,FALSE,BPPeeps2012.xls
 3910,21-Apr-12,rising,,TOTAL of sweep count CP to BP,,,,101250,total,BPPeeps2012.xls
 3911,22-Apr-12,dropping,7:05,WNW side Bruns(Canoe Pass),0,,,0,FALSE,BPPeeps2012.xls
 3912,22-Apr-12,dropping,7:17,BP mudroost,14500,13000,,13750,FALSE,BPPeeps2012.xls
