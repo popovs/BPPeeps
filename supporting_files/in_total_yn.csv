@@ -38,10 +38,10 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 37,21-Apr-00,dropping,9:50,bend edge,0,,,0,TRUE,BPPEEP00.xls
 38,21-Apr-00,dropping,10:00,Bruns.corner,29900,,,29900,TRUE,BPPEEP00.xls
 39,21-Apr-00,,,TOTAL,,,,55350,total,BPPEEP00.xls
-40,22-Apr-00,dropping,9:10,WNW Brun.Corner,12000,15000,,13500,TRUE,BPPEEP00.xls
-41,22-Apr-00,dropping,9:20,Bruns.corner,2000,,,2000,TRUE,BPPEEP00.xls
-42,22-Apr-00,dropping,9:32,C.Port corner,1400,,,1400,TRUE,BPPEEP00.xls
-43,22-Apr-00,dropping,9:32,jetty side,13000,,,13000,TRUE,BPPEEP00.xls
+40,22-Apr-00,dropping,9:10,WNW Brun.Corner,12000,15000,,13500,FALSE,BPPEEP00.xls
+41,22-Apr-00,dropping,9:20,Bruns.corner,2000,,,2000,FALSE,BPPEEP00.xls
+42,22-Apr-00,dropping,9:32,C.Port corner,1400,,,1400,FALSE,BPPEEP00.xls
+43,22-Apr-00,dropping,9:32,jetty side,13000,,,13000,FALSE,BPPEEP00.xls
 44,22-Apr-00,,,1st TOTAL,,,,29900,total,BPPEEP00.xls
 45,22-Apr-00,dropping,10:00,C. corner&jettyside,25800,,,25800,TRUE,BPPEEP00.xls
 46,22-Apr-00,dropping,10:05,before marsh,200,,,200,TRUE,BPPEEP00.xls
@@ -52,14 +52,14 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 51,22-Apr-00,,,TOTAL,,,,58300,total,BPPEEP00.xls
 52,23-Apr-00,,,,,,,,NA,BPPEEP00.xls
 53,24-Apr-00,dropping,9:30,TOTAL,200000,,,200000,only total,BPPEEP00.xls
-54,25-Apr-00,high,9:05,Bruns.corner,5000,,,5000,TRUE,BPPEEP00.xls
-55,25-Apr-00,high-dropping,9:15,mudislet,9500,,,9500,TRUE,BPPEEP00.xls
-56,25-Apr-00,high-dropping,9:20,bend edge,6500,,,6500,TRUE,BPPEEP00.xls
-57,25-Apr-00,high-dropping,9:25,pilings,900,,,900,TRUE,BPPEEP00.xls
-58,25-Apr-00,high-dropping,9:30,"""mumblies""",2500,,,2500,TRUE,BPPEEP00.xls
-59,25-Apr-00,high-dropping,9:35,before marsh,800,,,800,TRUE,BPPEEP00.xls
-60,25-Apr-00,high-dropping,9:40,C.Port corner,45000,50000,,47500,TRUE,BPPEEP00.xls
-61,25-Apr-00,high-dropping,9:40,jetty side,3000,3000,,3000,TRUE,BPPEEP00.xls
+54,25-Apr-00,high,9:05,Bruns.corner,5000,,,5000,FALSE,BPPEEP00.xls
+55,25-Apr-00,high-dropping,9:15,mudislet,9500,,,9500,FALSE,BPPEEP00.xls
+56,25-Apr-00,high-dropping,9:20,bend edge,6500,,,6500,FALSE,BPPEEP00.xls
+57,25-Apr-00,high-dropping,9:25,pilings,900,,,900,FALSE,BPPEEP00.xls
+58,25-Apr-00,high-dropping,9:30,"""mumblies""",2500,,,2500,FALSE,BPPEEP00.xls
+59,25-Apr-00,high-dropping,9:35,before marsh,800,,,800,FALSE,BPPEEP00.xls
+60,25-Apr-00,high-dropping,9:40,C.Port corner,45000,50000,,47500,FALSE,BPPEEP00.xls
+61,25-Apr-00,high-dropping,9:40,jetty side,3000,3000,,3000,FALSE,BPPEEP00.xls
 62,25-Apr-00,,,1st TOTAL,,,,75700,total,BPPEEP00.xls
 63,25-Apr-00,dropping,9:45,C.Port corner,40000,45000,,42500,TRUE,BPPEEP00.xls
 64,25-Apr-00,dropping,9:45,jetty side,4500,,,4500,TRUE,BPPEEP00.xls
@@ -80,10 +80,10 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 79,28-Apr-00,high,13:30,jetty side,2800,,,2800,TRUE,BPPEEP00.xls
 80,28-Apr-00,dropping,14:40,C.Port to Bruns,109650,107100,,108375,TRUE,BPPEEP00.xls
 81,28-Apr-00,,,TOTAL,,,,111175,total,BPPEEP00.xls
-82,29-Apr-00,high,15:04,C.Port corner,8300,8500,,8400,TRUE,BPPEEP00.xls
-83,29-Apr-00,high,15:15,jetty side,0,,,0,TRUE,BPPEEP00.xls
-84,29-Apr-00,high-dropping,15:30,pilings,0,,,0,TRUE,BPPEEP00.xls
-85,29-Apr-00,high-dropping,15:30,Bruns.corner,65000,,,65000,TRUE,BPPEEP00.xls
+82,29-Apr-00,high,15:04,C.Port corner,8300,8500,,8400,FALSE,BPPEEP00.xls
+83,29-Apr-00,high,15:15,jetty side,0,,,0,FALSE,BPPEEP00.xls
+84,29-Apr-00,high-dropping,15:30,pilings,0,,,0,FALSE,BPPEEP00.xls
+85,29-Apr-00,high-dropping,15:30,Bruns.corner,65000,,,65000,FALSE,BPPEEP00.xls
 86,29-Apr-00,,,1st TOTAL,,,,73400,total,BPPEEP00.xls
 87,29-Apr-00,dropping,15:45,C.Port corner,1500,,,1500,TRUE,BPPEEP00.xls
 88,29-Apr-00,dropping,15:45,Bruns.corner,73000,,,73000,TRUE,BPPEEP00.xls
@@ -97,12 +97,12 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 96,1-May-00,rising,15:40,flying,4000,,,4000,TRUE,BPPEEP00.xls
 97,1-May-00,rising,15:45,Bruns.corner,70000,90000,,80000,TRUE,BPPEEP00.xls
 98,1-May-00,,,1st TOTAL,,,,95150,total,BPPEEP00.xls
-99,1-May-00,high,17:00,C.Port corner,0,,,0,TRUE,BPPEEP00.xls
-100,1-May-00,high,17:00,jetty side,0,,,0,TRUE,BPPEEP00.xls
-101,1-May-00,high,17:00,before marsh,0,,,0,TRUE,BPPEEP00.xls
-102,1-May-00,high,17:00,"""mumblies""",0,,,0,TRUE,BPPEEP00.xls
-103,1-May-00,high,17:00,pilings,0,,,0,TRUE,BPPEEP00.xls
-104,1-May-00,high,17:00,Bruns.corner,60000,51500,,55750,TRUE,BPPEEP00.xls
+99,1-May-00,high,17:00,C.Port corner,0,,,0,FALSE,BPPEEP00.xls
+100,1-May-00,high,17:00,jetty side,0,,,0,FALSE,BPPEEP00.xls
+101,1-May-00,high,17:00,before marsh,0,,,0,FALSE,BPPEEP00.xls
+102,1-May-00,high,17:00,"""mumblies""",0,,,0,FALSE,BPPEEP00.xls
+103,1-May-00,high,17:00,pilings,0,,,0,FALSE,BPPEEP00.xls
+104,1-May-00,high,17:00,Bruns.corner,60000,51500,,55750,FALSE,BPPEEP00.xls
 105,1-May-00,,,2nd TOTAL,,,,55750,total,BPPEEP00.xls
 106,2-May-00,rising-high,17:10,C.Port corner,3000,,,3000,TRUE,BPPEEP00.xls
 107,2-May-00,rising-high,17:10,jetty side,,,,,TRUE,BPPEEP00.xls
@@ -119,12 +119,12 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 118,5-May-00,dropping,9:45,pilings,0,,,0,TRUE,BPPEEP00.xls
 119,5-May-00,dropping,9:55,Bruns.corner,6000,7000,,6500,TRUE,BPPEEP00.xls
 120,5-May-00,,,1st TOTAL,,,,9000,total,BPPEEP00.xls
-121,5-May-00,rising,17:30,Bruns.corner,8000,,,8000,TRUE,BPPEEP00.xls
-122,5-May-00,rising,17:40,C.Port corner,0,,,0,TRUE,BPPEEP00.xls
-123,5-May-00,rising,17:40,jetty side,0,,,0,TRUE,BPPEEP00.xls
+121,5-May-00,rising,17:30,Bruns.corner,8000,,,8000,FALSE,BPPEEP00.xls
+122,5-May-00,rising,17:40,C.Port corner,0,,,0,FALSE,BPPEEP00.xls
+123,5-May-00,rising,17:40,jetty side,0,,,0,FALSE,BPPEEP00.xls
 124,5-May-00,,,2nd TOTAL,,,,8000,total,BPPEEP00.xls
-125,6-May-00,dropping,8:42,Bruns.corner,1500,,,1500,TRUE,BPPEEP00.xls
-126,6-May-00,dropping,8:42,bend edge,2000,,,2000,TRUE,BPPEEP00.xls
+125,6-May-00,dropping,8:42,Bruns.corner,1500,,,1500,FALSE,BPPEEP00.xls
+126,6-May-00,dropping,8:42,bend edge,2000,,,2000,FALSE,BPPEEP00.xls
 127,6-May-00,,,1st TOTAL,,,,3500,total,BPPEEP00.xls
 128,6-May-00,dropping,9:00,C.Port corner,5000,4500,,4750,TRUE,BPPEEP00.xls
 129,6-May-00,dropping,9:00,jetty side,1500,,,1500,TRUE,BPPEEP00.xls
@@ -191,16 +191,16 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 190,25-Apr-01,dropping,7:51,Bruns.corner,500,,,500,FALSE,BPPEEP01.xls
 191,25-Apr-01,dropping,8:11,C.Port corner,12500,,,12500,FALSE,BPPEEP01.xls
 192,25-Apr-01,dropping,8:11,jetty side,19000,,,19000,FALSE,BPPEEP01.xls
-193,25-Apr-01,dropping,8:25,jetty side,4500,5000,,4750,TRUE,BPPEEP01.xls
-194,25-Apr-01,dropping,8:25,C.Port corner,22600,24600,,23600,TRUE,BPPEEP01.xls
-195,25-Apr-01,dropping,,before pilings,800,,,800,TRUE,BPPEEP01.xls
-196,25-Apr-01,dropping,,pilings,3000,,,3000,TRUE,BPPEEP01.xls
-197,25-Apr-01,dropping,,pilings,900,,,900,TRUE,BPPEEP01.xls
-198,25-Apr-01,dropping,,mumblies,3700,,,3700,TRUE,BPPEEP01.xls
-199,25-Apr-01,dropping,,mumblies,1500,,,1500,TRUE,BPPEEP01.xls
-200,25-Apr-01,dropping,,bend edge,1300,,,1300,TRUE,BPPEEP01.xls
-201,25-Apr-01,dropping,8:45,Bruns.corner,22000,27000,,24500,TRUE,BPPEEP01.xls
-202,25-Apr-01,dropping,9:00,WNW side Bruns,6000,8000,,7000,TRUE,BPPEEP01.xls
+193,25-Apr-01,dropping,8:25,jetty side,4500,5000,,4750,FALSE,BPPEEP01.xls
+194,25-Apr-01,dropping,8:25,C.Port corner,22600,24600,,23600,FALSE,BPPEEP01.xls
+195,25-Apr-01,dropping,,before pilings,800,,,800,FALSE,BPPEEP01.xls
+196,25-Apr-01,dropping,,pilings,3000,,,3000,FALSE,BPPEEP01.xls
+197,25-Apr-01,dropping,,pilings,900,,,900,FALSE,BPPEEP01.xls
+198,25-Apr-01,dropping,,mumblies,3700,,,3700,FALSE,BPPEEP01.xls
+199,25-Apr-01,dropping,,mumblies,1500,,,1500,FALSE,BPPEEP01.xls
+200,25-Apr-01,dropping,,bend edge,1300,,,1300,FALSE,BPPEEP01.xls
+201,25-Apr-01,dropping,8:45,Bruns.corner,22000,27000,,24500,FALSE,BPPEEP01.xls
+202,25-Apr-01,dropping,9:00,WNW side Bruns,6000,8000,,7000,FALSE,BPPEEP01.xls
 203,25-Apr-01,,,morning TOTAL,,,,71050,total,BPPEEP01.xls
 204,25-Apr-01,rising,17:25,WNW side Bruns,0,,,0,FALSE,BPPEEP01.xls
 205,25-Apr-01,rising,18:00,Bruns. point,55000,75000,,65000,FALSE,BPPEEP01.xls
@@ -805,11 +805,11 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 804,2-May-03,dropping,7:55,pilings marsh edge,1000,,,1000,FALSE,BPPEEP2003.xls
 805,2-May-03,dropping,8:07,jetty side marsh,11500,,,11500,FALSE,BPPEEP2003.xls
 806,2-May-03,dropping,8:07,C.Port corner,3300,,,3300,FALSE,BPPEEP2003.xls
-807,2-May-03,dropping,8:35,jetty side marsh,14000,,,14000,TRUE,BPPEEP2003.xls
-808,2-May-03,dropping,8:35,C.Port corner,10400,,,10400,TRUE,BPPEEP2003.xls
-809,2-May-03,dropping,8:40,east of east end pilings- 34th pullout,2500,,,2500,TRUE,BPPEEP2003.xls
-810,2-May-03,dropping,8:45,mumblies east of pilings,1100,,,1100,TRUE,BPPEEP2003.xls
-811,2-May-03,dropping,8:50,Bruns. Corner-west end mumblies,17500,,,17500,TRUE,BPPEEP2003.xls
+807,2-May-03,dropping,8:35,jetty side marsh,14000,,,14000,FALSE,BPPEEP2003.xls
+808,2-May-03,dropping,8:35,C.Port corner,10400,,,10400,FALSE,BPPEEP2003.xls
+809,2-May-03,dropping,8:40,east of east end pilings- 34th pullout,2500,,,2500,FALSE,BPPEEP2003.xls
+810,2-May-03,dropping,8:45,mumblies east of pilings,1100,,,1100,FALSE,BPPEEP2003.xls
+811,2-May-03,dropping,8:50,Bruns. Corner-west end mumblies,17500,,,17500,FALSE,BPPEEP2003.xls
 812,2-May-03,dropping,9:07,jetty side marsh,0,,,0,FALSE,BPPEEP2003.xls
 813,2-May-03,dropping,9:07,C.Port corner,0,,,0,FALSE,BPPEEP2003.xls
 814,2-May-03,dropping,9:07,east of east end pilings- 34th pullout,0,,,0,FALSE,BPPEEP2003.xls
@@ -965,21 +965,21 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 964,21-Apr-04,dropping,8:19,Bruns.corner,0,,,0,FALSE,BPPEEP2004.xls
 965,21-Apr-04,dropping,8:26,WNW side Bruns (Canoe Pass)near tip,0,,,0,FALSE,BPPEEP2004.xls
 966,21-Apr-04,dropping,8:35,Bruns.corner,400,,,400,FALSE,BPPEEP2004.xls
-967,21-Apr-04,dropping,9:05,jetty side marsh,0,,,0,TRUE,BPPEEP2004.xls
-968,21-Apr-04,dropping,9:05,C.Port corner,5000,,,5000,TRUE,BPPEEP2004.xls
-969,21-Apr-04,dropping,9:10,east end mumblies,7500,,,7500,TRUE,BPPEEP2004.xls
-970,21-Apr-04,dropping,9:15,east of pilings,1200,,,1200,TRUE,BPPEEP2004.xls
-971,21-Apr-04,dropping,9:20,mid-pilings,700,,,700,TRUE,BPPEEP2004.xls
-972,21-Apr-04,dropping,9:30,west end mumblies,23500,27000,,25250,TRUE,BPPEEP2004.xls
+967,21-Apr-04,dropping,9:05,jetty side marsh,0,,,0,?,BPPEEP2004.xls
+968,21-Apr-04,dropping,9:05,C.Port corner,5000,,,5000,?,BPPEEP2004.xls
+969,21-Apr-04,dropping,9:10,east end mumblies,7500,,,7500,?,BPPEEP2004.xls
+970,21-Apr-04,dropping,9:15,east of pilings,1200,,,1200,?,BPPEEP2004.xls
+971,21-Apr-04,dropping,9:20,mid-pilings,700,,,700,?,BPPEEP2004.xls
+972,21-Apr-04,dropping,9:30,west end mumblies,23500,27000,,25250,?,BPPEEP2004.xls
 973,21-Apr-04,,,TOTAL - morning dropping tide,,,,39650,total,BPPEEP2004.xls
 974,21-Apr-04,rising,17:30,WNW side Bruns (Canoe Pass)near tip,650,,,650,FALSE,BPPEEP2004.xls
 975,21-Apr-04,rising,17:45,west end mumblies,50000,,,50000,FALSE,BPPEEP2004.xls
 976,21-Apr-04,rising,17:45,view corner,2500,,,2500,FALSE,BPPEEP2004.xls
-977,21-Apr-04,rising,18:10,jetty side marsh,0,,,0,TRUE,BPPEEP2004.xls
-978,21-Apr-04,rising,18:10,C.Port corner,0,,,0,TRUE,BPPEEP2004.xls
-979,21-Apr-04,rising,18:10,from CP to BP,47200,,,47200,TRUE,BPPEEP2004.xls
-980,21-Apr-04,rising,18:50,Bruns.corner,,,,,TRUE,BPPEEP2004.xls
-981,21-Apr-04,rising,18:50,WNW side Bruns (Canoe Pass)near tip,,,,,TRUE,BPPEEP2004.xls
+977,21-Apr-04,rising,18:10,jetty side marsh,0,,,0,?,BPPEEP2004.xls
+978,21-Apr-04,rising,18:10,C.Port corner,0,,,0,?,BPPEEP2004.xls
+979,21-Apr-04,rising,18:10,from CP to BP,47200,,,47200,?,BPPEEP2004.xls
+980,21-Apr-04,rising,18:50,Bruns.corner,,,,,?,BPPEEP2004.xls
+981,21-Apr-04,rising,18:50,WNW side Bruns (Canoe Pass)near tip,,,,,?,BPPEEP2004.xls
 982,21-Apr-04,,,TOTAL - afternoon rising tide,,,,47200,total,BPPEEP2004.xls
 983,22-Apr-04,dropping,8:35,WNW side Bruns (Canoe Pass)near tip,15000,,,15000,TRUE,BPPEEP2004.xls
 984,22-Apr-04,dropping,8:50,Bruns. Corner-west end mumblies,25000,,,25000,TRUE,BPPEEP2004.xls
@@ -1139,11 +1139,11 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 1138,4-May-04,rising,16:33,C.Port corner,0,,,0,TRUE,BPPEEP2004.xls
 1139,4-May-04,rising,16:45,Bruns.corner,1800,,,1800,TRUE,BPPEEP2004.xls
 1140,4-May-04,,,TOTAL,,,,1800,total,BPPEEP2004.xls
-1141,5-May-04,dropping,8:10,WNW side Bruns (Canoe Pass)near tip,0,,,0,TRUE,BPPEEP2004.xls
-1142,5-May-04,dropping,8:13,Bruns.corner,30,,,30,TRUE,BPPEEP2004.xls
-1143,5-May-04,dropping,8:25,mid mumblies off pilings,1000,,,1000,TRUE,BPPEEP2004.xls
-1144,5-May-04,dropping,8:39,C.Port corner,0,,,0,TRUE,BPPEEP2004.xls
-1145,5-May-04,dropping,8:39,jetty side marsh,200,,,200,TRUE,BPPEEP2004.xls
+1141,5-May-04,dropping,8:10,WNW side Bruns (Canoe Pass)near tip,0,,,0,FALSE,BPPEEP2004.xls
+1142,5-May-04,dropping,8:13,Bruns.corner,30,,,30,FALSE,BPPEEP2004.xls
+1143,5-May-04,dropping,8:25,mid mumblies off pilings,1000,,,1000,FALSE,BPPEEP2004.xls
+1144,5-May-04,dropping,8:39,C.Port corner,0,,,0,FALSE,BPPEEP2004.xls
+1145,5-May-04,dropping,8:39,jetty side marsh,200,,,200,FALSE,BPPEEP2004.xls
 1146,5-May-04,dropping,,TOTAL,,,,1230,total,BPPEEP2004.xls
 1147,5-May-04,rising,16:45,WNW side Bruns (Canoe Pass)near tip,30,,,30,FALSE,BPPEEP2004.xls
 1148,5-May-04,rising,17:00,Bruns.corner,0,,,0,FALSE,BPPEEP2004.xls
@@ -1241,12 +1241,12 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 1240,24-Apr-05,dropping,7:45,east of 34th pullout,2000,,,2000,FALSE,BPPEEP2005.xls
 1241,24-Apr-05,dropping,8:00,CP jetty side marsh,12000,,,12000,FALSE,BPPEEP2005.xls
 1242,24-Apr-05,dropping,8:00,C.Port corner,64500,,,64500,FALSE,BPPEEP2005.xls
-1243,24-Apr-05,dropping,8:18,CP jetty side marsh,12000,,,12000,TRUE,BPPEEP2005.xls
-1244,24-Apr-05,dropping,8:18,C.Port corner,59000,,,59000,TRUE,BPPEEP2005.xls
-1245,24-Apr-05,dropping,8:18,mumblies (east end),1300,,,1300,TRUE,BPPEEP2005.xls
-1246,24-Apr-05,dropping,8:25,east of pilings,14500,,,14500,TRUE,BPPEEP2005.xls
-1247,24-Apr-05,dropping,8:30,pilings (inner mud),20000,,,20000,TRUE,BPPEEP2005.xls
-1248,24-Apr-05,dropping,8:35,Bruns.corner and west end mumbies,35400,,,35400,TRUE,BPPEEP2005.xls
+1243,24-Apr-05,dropping,8:18,CP jetty side marsh,12000,,,12000,FALSE,BPPEEP2005.xls
+1244,24-Apr-05,dropping,8:18,C.Port corner,59000,,,59000,FALSE,BPPEEP2005.xls
+1245,24-Apr-05,dropping,8:18,mumblies (east end),1300,,,1300,FALSE,BPPEEP2005.xls
+1246,24-Apr-05,dropping,8:25,east of pilings,14500,,,14500,FALSE,BPPEEP2005.xls
+1247,24-Apr-05,dropping,8:30,pilings (inner mud),20000,,,20000,FALSE,BPPEEP2005.xls
+1248,24-Apr-05,dropping,8:35,Bruns.corner and west end mumbies,35400,,,35400,FALSE,BPPEEP2005.xls
 1249,24-Apr-05,,,TOTAL,,,,142200,total,BPPEEP2005.xls
 1250,25-Apr-05,dropping,7:49,WNW side Bruns (Canoe Pass)near tip,100,,,100,FALSE,BPPEEP2005.xls
 1251,25-Apr-05,dropping,8:00,Bruns.corner,8000,,,8000,FALSE,BPPEEP2005.xls
@@ -1419,10 +1419,10 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 1418,7-May-05,dropping,8:15,WNW side Bruns (Canoe Pass),0,,,0,TRUE,BPPEEP2005.xls
 1419,7-May-05,,,TOTAL,,,,2450,total,BPPEEP2005.xls
 1420,8-May-05,,,,,,,,NA,BPPEEP2005.xls
-1421,9-May-05,dropping,8:10,WNW side Bruns (Canoe Pass),0,,,0,TRUE,BPPEEP2005.xls
-1422,9-May-05,dropping,8:23,Bruns. Corner,700,,,700,TRUE,BPPEEP2005.xls
-1423,9-May-05,dropping,8:25,mumblies,90,,,90,TRUE,BPPEEP2005.xls
-1424,9-May-05,dropping,8:32,east end mumblies,100,,,100,TRUE,BPPEEP2005.xls
+1421,9-May-05,dropping,8:10,WNW side Bruns (Canoe Pass),0,,,0,FALSE,BPPEEP2005.xls
+1422,9-May-05,dropping,8:23,Bruns. Corner,700,,,700,FALSE,BPPEEP2005.xls
+1423,9-May-05,dropping,8:25,mumblies,90,,,90,FALSE,BPPEEP2005.xls
+1424,9-May-05,dropping,8:32,east end mumblies,100,,,100,FALSE,BPPEEP2005.xls
 1425,9-May-05,dropping,8:40,C.Port corner,80,,,80,FALSE,BPPEEP2005.xls
 1426,9-May-05,dropping,8:40,CP jetty side marsh,0,,,0,FALSE,BPPEEP2005.xls
 1427,9-May-05,dropping,8:50,pilings area,130,,,130,FALSE,BPPEEP2005.xls
@@ -1596,12 +1596,12 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 1595,28-Apr-06,rising,17:10,Bruns corner and tide edge,41000,43000,,42000,FALSE,BPPeep2006.xls
 1596,28-Apr-06,rising,17:10,further along mumblies,45000,46000,,45500,FALSE,BPPeep2006.xls
 1597,28-Apr-06,rising,17:10,C.Port corner,12000,,,12000,FALSE,BPPeep2006.xls
-1598,28-Apr-06,rising,17:35,CP jetty side marsh,1000,,,1000,TRUE,BPPeep2006.xls
-1599,28-Apr-06,rising,17:35,C.Port corner,29000,,,29000,TRUE,BPPeep2006.xls
-1600,28-Apr-06,rising,17:40,east end mumblies,4000,,,4000,TRUE,BPPeep2006.xls
-1601,28-Apr-06,rising,17:40,pilings near mud,4000,,,4000,TRUE,BPPeep2006.xls
-1602,28-Apr-06,rising,17:45,"W of west end pilings, near mud",10000,,,10000,TRUE,BPPeep2006.xls
-1603,28-Apr-06,rising,17:50,Bruns corner near tide edge,56000,,,56000,TRUE,BPPeep2006.xls
+1598,28-Apr-06,rising,17:35,CP jetty side marsh,1000,,,1000,FALSE,BPPeep2006.xls
+1599,28-Apr-06,rising,17:35,C.Port corner,29000,,,29000,FALSE,BPPeep2006.xls
+1600,28-Apr-06,rising,17:40,east end mumblies,4000,,,4000,FALSE,BPPeep2006.xls
+1601,28-Apr-06,rising,17:40,pilings near mud,4000,,,4000,FALSE,BPPeep2006.xls
+1602,28-Apr-06,rising,17:45,"W of west end pilings, near mud",10000,,,10000,FALSE,BPPeep2006.xls
+1603,28-Apr-06,rising,17:50,Bruns corner near tide edge,56000,,,56000,FALSE,BPPeep2006.xls
 1604,28-Apr-06,,,TOTAL - PM - sweep CP to BP,,,,104000,total,BPPeep2006.xls
 1605,29-Apr-06,dropping,7:53,WNW side Bruns(Canoe Pass),1200,,,1200,FALSE,BPPeep2006.xls
 1606,29-Apr-06,dropping,8:02,Bruns corner mudroost,17000,,,17000,FALSE,BPPeep2006.xls
@@ -1887,15 +1887,15 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 1886,19-Apr-07,dropping,8:42,West end mumblies (mudislet),18000,,,18000,FALSE,BPPeep2007.xls
 1887,19-Apr-07,dropping,8:45,pilings,1000,,,1000,FALSE,BPPeep2007.xls
 1888,19-Apr-07,dropping,8:50,34th pullout,800,,,800,FALSE,BPPeep2007.xls
-1889,19-Apr-07,dropping,9:00,CP jetty side marsh,5500,,,5500,TRUE,BPPeep2007.xls
-1890,19-Apr-07,dropping,9:00,C.Port corner,0,,,0,TRUE,BPPeep2007.xls
-1891,19-Apr-07,dropping,9:05,east end mumblies; off 34th,2000,,,2000,TRUE,BPPeep2007.xls
-1892,19-Apr-07,dropping,9:05,east end pilings - on outer mud,8000,,,8000,TRUE,BPPeep2007.xls
-1893,19-Apr-07,dropping,9:10,pilings - near mud,4000,,,4000,TRUE,BPPeep2007.xls
-1894,19-Apr-07,dropping,9:10,off pilings on mumblies,12000,,,12000,TRUE,BPPeep2007.xls
-1895,19-Apr-07,dropping,9:10,west end pilings,3000,,,3000,TRUE,BPPeep2007.xls
-1896,19-Apr-07,dropping,9:15,Bruns.corner and west end mumblies,24000,,,24000,TRUE,BPPeep2007.xls
-1897,19-Apr-07,dropping,9:15,Brunswick Pt corner - center mud,10000,,,10000,TRUE,BPPeep2007.xls
+1889,19-Apr-07,dropping,9:00,CP jetty side marsh,5500,,,5500,FALSE,BPPeep2007.xls
+1890,19-Apr-07,dropping,9:00,C.Port corner,0,,,0,FALSE,BPPeep2007.xls
+1891,19-Apr-07,dropping,9:05,east end mumblies; off 34th,2000,,,2000,FALSE,BPPeep2007.xls
+1892,19-Apr-07,dropping,9:05,east end pilings - on outer mud,8000,,,8000,FALSE,BPPeep2007.xls
+1893,19-Apr-07,dropping,9:10,pilings - near mud,4000,,,4000,FALSE,BPPeep2007.xls
+1894,19-Apr-07,dropping,9:10,off pilings on mumblies,12000,,,12000,FALSE,BPPeep2007.xls
+1895,19-Apr-07,dropping,9:10,west end pilings,3000,,,3000,FALSE,BPPeep2007.xls
+1896,19-Apr-07,dropping,9:15,Bruns.corner and west end mumblies,24000,,,24000,FALSE,BPPeep2007.xls
+1897,19-Apr-07,dropping,9:15,Brunswick Pt corner - center mud,10000,,,10000,FALSE,BPPeep2007.xls
 1898,19-Apr-07,,,TOTAL - AM - sweep CP to BP,,,,68500,total,BPPeep2007.xls
 1899,19-Apr-07,rising,17:55,Bruns Pt to east end pilings,74000,,,74000,FALSE,BPPeep2007.xls
 1900,19-Apr-07,rising,17:55,C.Port corner,10000,,,10000,FALSE,BPPeep2007.xls
@@ -2497,8 +2497,8 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 2496,17-Apr-08,rising,16:40,off pilings on mumblies,70000,80000,,75000,FALSE,BPPeeps2008.xls
 2497,17-Apr-08,rising,16:45,Brunswick Pt corner (inner mud),1000,,,1000,FALSE,BPPeeps2008.xls
 2498,17-Apr-08,,,TOTAL of sweep count CP to BP,,,,105000,total,BPPeeps2008.xls
-2499,18-Apr-08,rising,16:00,WNW side Bruns(Canoe Pass),1000,,,1000,TRUE,BPPeeps2008.xls
-2500,18-Apr-08,rising,16:05,Brunswick Pt corner (inner mud),20,,,20,TRUE,BPPeeps2008.xls
+2499,18-Apr-08,rising,16:00,WNW side Bruns(Canoe Pass),1000,,,1000,FALSE,BPPeeps2008.xls
+2500,18-Apr-08,rising,16:05,Brunswick Pt corner (inner mud),20,,,20,FALSE,BPPeeps2008.xls
 2501,18-Apr-08,rising,16:15,in flight over water - disturbed by PEFA,80000,80000,,80000,TRUE,BPPeeps2008.xls
 2502,18-Apr-08,rising,16:21,CP jetty side marsh,0,,,0,TRUE,BPPeeps2008.xls
 2503,18-Apr-08,rising,16:21,C.Port corner,0,,,0,TRUE,BPPeeps2008.xls
@@ -2938,14 +2938,14 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 2937,25-Apr-09,dropping,7:45,west end mumblies seen from view corner,20000,,,20000,FALSE,BPPeeps2009.xls
 2938,25-Apr-09,dropping,7:55,C.Port corner,10000,,,10000,FALSE,BPPeeps2009.xls
 2939,25-Apr-09,dropping,8:00,CP jetty side marsh,2000,,,2000,FALSE,BPPeeps2009.xls
-2940,25-Apr-09,dropping,8:14,CP jetty side marsh,5000,,,5000,TRUE,BPPeeps2009.xls
-2941,25-Apr-09,dropping,8:15,C.Port corner,14000,,,14000,TRUE,BPPeeps2009.xls
-2942,25-Apr-09,dropping,8:20,west of 34th pullout - inner mud,5500,,,5500,TRUE,BPPeeps2009.xls
-2943,25-Apr-09,dropping,8:20,west of 34th pullout - outer tide edge,2500,,,2500,TRUE,BPPeeps2009.xls
-2944,25-Apr-09,dropping,8:20,off pilings - inner mud,3000,,,3000,TRUE,BPPeeps2009.xls
-2945,25-Apr-09,dropping,8:25,Brunswick Pt to west end mumblies - tide edge,30000,,,30000,TRUE,BPPeeps2009.xls
-2946,25-Apr-09,dropping,8:30,Brunswick Pt corner - inner to mid mud,9500,,,9500,TRUE,BPPeeps2009.xls
-2947,25-Apr-09,dropping,8:33,Brunswick Point marsh tip edges,6000,,,6000,TRUE,BPPeeps2009.xls
+2940,25-Apr-09,dropping,8:14,CP jetty side marsh,5000,,,5000,FALSE,BPPeeps2009.xls
+2941,25-Apr-09,dropping,8:15,C.Port corner,14000,,,14000,FALSE,BPPeeps2009.xls
+2942,25-Apr-09,dropping,8:20,west of 34th pullout - inner mud,5500,,,5500,FALSE,BPPeeps2009.xls
+2943,25-Apr-09,dropping,8:20,west of 34th pullout - outer tide edge,2500,,,2500,FALSE,BPPeeps2009.xls
+2944,25-Apr-09,dropping,8:20,off pilings - inner mud,3000,,,3000,FALSE,BPPeeps2009.xls
+2945,25-Apr-09,dropping,8:25,Brunswick Pt to west end mumblies - tide edge,30000,,,30000,FALSE,BPPeeps2009.xls
+2946,25-Apr-09,dropping,8:30,Brunswick Pt corner - inner to mid mud,9500,,,9500,FALSE,BPPeeps2009.xls
+2947,25-Apr-09,dropping,8:33,Brunswick Point marsh tip edges,6000,,,6000,FALSE,BPPeeps2009.xls
 2948,25-Apr-09,,,TOTAL of sweep count CP to BP - AM,,,,75500,total,BPPeeps2009.xls
 2949,25-Apr-09,rising,17:00,CP jetty side marsh,0,,,0,AVG,BPPeeps2009.xls
 2950,25-Apr-09,rising,17:00,C.Port corner - mid mud,8000,,,8000,AVG,BPPeeps2009.xls
@@ -2971,13 +2971,13 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 2970,26-Apr-09,dropping,8:10,off 34th pullout - outer tide edge,2000,,,2000,FALSE,BPPeeps2009.xls
 2971,26-Apr-09,dropping,8:10,C.Port corner to 34th marsh,19000,,,19000,FALSE,BPPeeps2009.xls
 2972,26-Apr-09,dropping,8:15,CP jetty side marsh,5000,,,5000,FALSE,BPPeeps2009.xls
-2973,26-Apr-09,dropping,8:15,"C.Port jetty sidemarsh, corner to 34th",22000,,,22000,TRUE,BPPeeps2009.xls
-2974,26-Apr-09,dropping,8:20,34th to east end pilings (inner mud),6000,,,6000,TRUE,BPPeeps2009.xls
-2975,26-Apr-09,dropping,8:20,34th to east end pilings (outer mud),5000,,,5000,TRUE,BPPeeps2009.xls
-2976,26-Apr-09,dropping,8:25,off pilings - inner mud,8500,,,8500,TRUE,BPPeeps2009.xls
-2977,26-Apr-09,dropping,8:25,off pilings (outer mud) to west end mumblies,28000,,,28000,TRUE,BPPeeps2009.xls
-2978,26-Apr-09,dropping,8:30,Brunswick Pt corner - tide edge,21000,,,21000,TRUE,BPPeeps2009.xls
-2979,26-Apr-09,dropping,8:31,Brunswick Point marsh tip,12000,,,12000,TRUE,BPPeeps2009.xls
+2973,26-Apr-09,dropping,8:15,"C.Port jetty sidemarsh, corner to 34th",22000,,,22000,FALSE,BPPeeps2009.xls
+2974,26-Apr-09,dropping,8:20,34th to east end pilings (inner mud),6000,,,6000,FALSE,BPPeeps2009.xls
+2975,26-Apr-09,dropping,8:20,34th to east end pilings (outer mud),5000,,,5000,FALSE,BPPeeps2009.xls
+2976,26-Apr-09,dropping,8:25,off pilings - inner mud,8500,,,8500,FALSE,BPPeeps2009.xls
+2977,26-Apr-09,dropping,8:25,off pilings (outer mud) to west end mumblies,28000,,,28000,FALSE,BPPeeps2009.xls
+2978,26-Apr-09,dropping,8:30,Brunswick Pt corner - tide edge,21000,,,21000,FALSE,BPPeeps2009.xls
+2979,26-Apr-09,dropping,8:31,Brunswick Point marsh tip,12000,,,12000,FALSE,BPPeeps2009.xls
 2980,,,,TOTAL of sweep count CP to BP - AM,,,,102500,total,BPPeeps2009.xls
 2981,26-Apr-09,rising,17:24,Brunswick Point marsh tip,70000,,,70000,FALSE,BPPeeps2009.xls
 2982,26-Apr-09,rising,17:49,CP jetty side marsh,0,,,0,TRUE,BPPeeps2009.xls
@@ -3280,13 +3280,13 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 3279,29-Apr-10,dropping,7:30,Brunswick Pt corner mudroost,200,,,200,FALSE,BPPeeps2010.xls
 3280,29-Apr-10,dropping,7:47,CP jetty side marsh area,17000,,,17000,FALSE,BPPeeps2010.xls
 3281,29-Apr-10,dropping,7:50,flying CP side marsh towards BP,40000,,,40000,FALSE,BPPeeps2010.xls
-3282,29-Apr-10,dropping,8:27,CP jetty side marsh area,12000,,,12000,TRUE,BPPeeps2010.xls
-3283,29-Apr-10,dropping,8:30,C.Port corner,44500,,,44500,TRUE,BPPeeps2010.xls
-3284,29-Apr-10,dropping,8:30,east end mumblies (near CP corner),1500,,,1500,TRUE,BPPeeps2010.xls
-3285,29-Apr-10,dropping,8:35,east of 34th pullout,3000,,,3000,TRUE,BPPeeps2010.xls
-3286,29-Apr-10,dropping,8:35,east of pilings on mumblies,11000,,,11000,TRUE,BPPeeps2010.xls
-3287,29-Apr-10,dropping,8:40,off west end pilings on mumblies,5500,,,5500,TRUE,BPPeeps2010.xls
-3288,29-Apr-10,dropping,8:42,Brunswick Point corner - tide edge,10000,,,10000,TRUE,BPPeeps2010.xls
+3282,29-Apr-10,dropping,8:27,CP jetty side marsh area,12000,,,12000,FALSE,BPPeeps2010.xls
+3283,29-Apr-10,dropping,8:30,C.Port corner,44500,,,44500,FALSE,BPPeeps2010.xls
+3284,29-Apr-10,dropping,8:30,east end mumblies (near CP corner),1500,,,1500,FALSE,BPPeeps2010.xls
+3285,29-Apr-10,dropping,8:35,east of 34th pullout,3000,,,3000,FALSE,BPPeeps2010.xls
+3286,29-Apr-10,dropping,8:35,east of pilings on mumblies,11000,,,11000,FALSE,BPPeeps2010.xls
+3287,29-Apr-10,dropping,8:40,off west end pilings on mumblies,5500,,,5500,FALSE,BPPeeps2010.xls
+3288,29-Apr-10,dropping,8:42,Brunswick Point corner - tide edge,10000,,,10000,FALSE,BPPeeps2010.xls
 3289,29-Apr-10,,,TOTAL of sweep count CP to BP - AM,,,,87500,total,BPPeeps2010.xls
 3290,29-Apr-10,rising,17:13,Brunswick Pt corner-west end mumblies,100000,,,100000,FALSE,BPPeeps2010.xls
 3291,29-Apr-10,rising,17:25,C.Port corner,15000,,,15000,FALSE,BPPeeps2010.xls
@@ -3505,15 +3505,15 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 3504,20-Apr-11,dropping,8:35,C.Port corner,0,,,0,FALSE,BPPeeps2011.xls
 3505,20-Apr-11,dropping,8:49,view corner - west end mumblie islets,3200,,,3200,FALSE,BPPeeps2011.xls
 3506,20-Apr-11,dropping,9:00,mumblies,12500,,,12500,FALSE,BPPeeps2011.xls
-3507,20-Apr-11,dropping,9:28,CP jetty side marsh,1500,,,1500,TRUE,BPPeeps2011.xls
-3508,20-Apr-11,dropping,9:28,C.Port corner,850,,,850,TRUE,BPPeeps2011.xls
-3509,20-Apr-11,dropping,9:35,34th pullout - inner mud,1200,,,1200,TRUE,BPPeeps2011.xls
-3510,20-Apr-11,dropping,9:35,34th pullout - on mumblies,500,,,500,TRUE,BPPeeps2011.xls
-3511,20-Apr-11,dropping,9:40,bend (E of E end pilings)-on mumblies,5000,,,5000,TRUE,BPPeeps2011.xls
-3512,20-Apr-11,dropping,9:45,pilings - inner mud,3100,,,3100,TRUE,BPPeeps2011.xls
-3513,20-Apr-11,dropping,9:55,view corner - BP corner - inner mud,5100,,,5100,TRUE,BPPeeps2011.xls
-3514,20-Apr-11,dropping,9:55,view corner - outer W end mumblies,31500,27500,,29500,TRUE,BPPeeps2011.xls
-3515,20-Apr-11,dropping,9:55,view corner - BP marsh edge and tip,4800,2500,,3700,TRUE,BPPeeps2011.xls
+3507,20-Apr-11,dropping,9:28,CP jetty side marsh,1500,,,1500,FALSE,BPPeeps2011.xls
+3508,20-Apr-11,dropping,9:28,C.Port corner,850,,,850,FALSE,BPPeeps2011.xls
+3509,20-Apr-11,dropping,9:35,34th pullout - inner mud,1200,,,1200,FALSE,BPPeeps2011.xls
+3510,20-Apr-11,dropping,9:35,34th pullout - on mumblies,500,,,500,FALSE,BPPeeps2011.xls
+3511,20-Apr-11,dropping,9:40,bend (E of E end pilings)-on mumblies,5000,,,5000,FALSE,BPPeeps2011.xls
+3512,20-Apr-11,dropping,9:45,pilings - inner mud,3100,,,3100,FALSE,BPPeeps2011.xls
+3513,20-Apr-11,dropping,9:55,view corner - BP corner - inner mud,5100,,,5100,FALSE,BPPeeps2011.xls
+3514,20-Apr-11,dropping,9:55,view corner - outer W end mumblies,31500,27500,,29500,FALSE,BPPeeps2011.xls
+3515,20-Apr-11,dropping,9:55,view corner - BP marsh edge and tip,4800,2500,,3700,FALSE,BPPeeps2011.xls
 3516,20-Apr-11,,,TOTAL of sweep count CP to BP - AM,,,,50450,total,BPPeeps2011.xls
 3517,20-Apr-11,rising,17:55,WNW side Bruns(Canoe Pass),100,,,100,FALSE,BPPeeps2011.xls
 3518,20-Apr-11,rising,18:05,Brunswick Pt corner,,,,,FALSE,BPPeeps2011.xls
@@ -3924,13 +3924,13 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 3923,22-Apr-12,rising,16:45,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2012.xls
 3924,22-Apr-12,rising,16:50,BP mudroost view point (inner mud near view corner),9000,,,9000,FALSE,BPPeeps2012.xls
 3925,22-Apr-12,rising,16:50,BP mudroost view point (tide edge BP& mumblies),55000,,,55000,FALSE,BPPeeps2012.xls
-3926,22-Apr-12,rising,17:41,C.Port corner (seen from 34th),0,,,0,TRUE,BPPeeps2012.xls
-3927,22-Apr-12,rising,17:41,CP jetty side marsh (seen from 34th),0,,,0,TRUE,BPPeeps2012.xls
-3928,22-Apr-12,rising,17:50,east of east end pilings (near bend) inner mud,17500,,,17500,TRUE,BPPeeps2012.xls
-3929,22-Apr-12,rising,17:50,east of east end pilings (near bend) outer mud,16800,,,16800,TRUE,BPPeeps2012.xls
-3930,22-Apr-12,rising,17:55,pilings pullout (inner mud),6000,,,6000,TRUE,BPPeeps2012.xls
-3931,22-Apr-12,rising,18:06,some flocks in air over Canoe Pass,,,,,TRUE,BPPeeps2012.xls
-3932,22-Apr-12,rising,18:06,view corner,72000,67000,,69500,TRUE,BPPeeps2012.xls
+3926,22-Apr-12,rising,17:41,C.Port corner (seen from 34th),0,,,0,FALSE,BPPeeps2012.xls
+3927,22-Apr-12,rising,17:41,CP jetty side marsh (seen from 34th),0,,,0,FALSE,BPPeeps2012.xls
+3928,22-Apr-12,rising,17:50,east of east end pilings (near bend) inner mud,17500,,,17500,FALSE,BPPeeps2012.xls
+3929,22-Apr-12,rising,17:50,east of east end pilings (near bend) outer mud,16800,,,16800,FALSE,BPPeeps2012.xls
+3930,22-Apr-12,rising,17:55,pilings pullout (inner mud),6000,,,6000,FALSE,BPPeeps2012.xls
+3931,22-Apr-12,rising,18:06,some flocks in air over Canoe Pass,,,,,FALSE,BPPeeps2012.xls
+3932,22-Apr-12,rising,18:06,view corner,72000,67000,,69500,FALSE,BPPeeps2012.xls
 3933,22-Apr-12,rising,,TOTAL of sweep count CP to BP (P.M.),,,,109800,total,BPPeeps2012.xls
 3934,23-Apr-12,dropping,7:10,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2012.xls
 3935,23-Apr-12,dropping,7:18,BP mudroost,1600,,,1600,FALSE,BPPeeps2012.xls
@@ -4113,12 +4113,12 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 4112,7-May-12,dropping,8:50,view corner (BP corner&West end mumblies),5100,4600,4200,4650,TRUE,BPPeeps2012.xls
 4113,7-May-12,dropping,,TOTAL of sweep count CP to BP (A.M.),,,,9600,total,BPPeeps2012.xls
 4114,7-May-12,rising,17:23,WNW side Bruns(Canoe Pass),1100,,,1100,FALSE,BPPeeps2012.xls
-4115,7-May-12,rising,17:30,BP mudroost viewpoint,1500,,,1500,TRUE,BPPeeps2012.xls
+4115,7-May-12,rising,17:30,BP mudroost viewpoint,1500,,,1500,FALSE,BPPeeps2012.xls
 4116,7-May-12,rising,17:40,view corner (flying),,,,,FALSE,BPPeeps2012.xls
-4117,7-May-12,rising,18:01,C.Port sidemarsh&corner (seen from 34th),0,,,0,TRUE,BPPeeps2012.xls
-4118,7-May-12,rising,18:05,east of east end pilings (near bend),0,,,0,TRUE,BPPeeps2012.xls
-4119,7-May-12,rising,18:10,pilings pullout,0,,,0,TRUE,BPPeeps2012.xls
-4120,7-May-12,rising,18:16,view corner (BP corner&West end mumblies),0,,,0,TRUE,BPPeeps2012.xls
+4117,7-May-12,rising,18:01,C.Port sidemarsh&corner (seen from 34th),0,,,0,FALSE,BPPeeps2012.xls
+4118,7-May-12,rising,18:05,east of east end pilings (near bend),0,,,0,FALSE,BPPeeps2012.xls
+4119,7-May-12,rising,18:10,pilings pullout,0,,,0,FALSE,BPPeeps2012.xls
+4120,7-May-12,rising,18:16,view corner (BP corner&West end mumblies),0,,,0,FALSE,BPPeeps2012.xls
 4121,7-May-12,rising,,TOTAL of sweep count CP to BP (P.M.),,,,1500,total,BPPeeps2012.xls
 4122,8-May-12,dropping,8:14,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2012.xls
 4123,8-May-12,dropping,8:27,BP mudroost viewpoint,250,,,250,FALSE,BPPeeps2012.xls
