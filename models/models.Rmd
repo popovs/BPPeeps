@@ -1,0 +1,135 @@
+---
+title: "Brunswick Point Peep Models"
+author: "Sarah Popov"
+date: "2022-11-29"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(ggplot2)
+
+# Source the data file, which connects to the bppeeps database and then queries and processes the data
+# This will produce two datasets: 
+# 1) dat [counts + environmental covariates]
+# 2) sr [daily species ratios]
+source(here::here("models", "prepare_dat.R"))
+```
+
+Roberts Bank, Delta, BC, is situated in the great Pacific Flyway and serves as an important stopover for peeps migrating north in the spring. It therefore hosts a large seasonal population of peeps: namely, Western sandpiper (WESA) and Dunlin (DUNL), that rely on the seasonal nutritional bounty provided by the Fraser River delta.
+
+This document describes the suite of models used to estimate yearly changes in spatial distribution and abundance of peeps in the Roberts Bank estuary.
+
+There are two datasets used in this modelling pipeline:
+
+1. `dat`, which contains bird counts + environmental covariates
+2. `sr`, which contains species ratio data (WESA:DUNL)
+
+For an interactive interface with the `dat` dataset used in this document, see https://popovs.shinyapps.io/peepr/.
+
+```{r dat summary}
+summary(dat)
+```
+
+```{r sr summary}
+summary(sr)
+```
+
+# Species composition model
+
+The daily ratio of Western sandpiper (WESA) to Dunlin (DUNL) across the entire study period is first modelled using a dataset of known species ratios (species ratios are not measured during every survey).
+
+The ratios are modelled using a binomial generalized linear mixed model (binomial GLMM). The resulting predicted ratios are then used to estimate the number of WESA vs. DUNL per day.
+
+## Five models are built and compared
+
+Response variable: `y` - WESA:DUNL ratio
+Predictor variables: 
+- `dos` - day of season (recentered/scaled Julian date)
+- `year` - year extracted from survey date (as a factor)
+
+```{r sr glmm fitting}
+# First, create our response variable: 
+# WESA:DUNL proportion from our daily_percent_ratio table
+y <- cbind(sr$wesa, sr$dunl)
+
+# And build our 5 models 
+# Response variable: ratio of WESA to DUNL
+# Predictor variables:
+# - dos: day of season (recentered/scaled julian date)
+# - year: year (as a factor)
+lme1 <- lme4::glmer(y ~ dos + I(dos^2) + (dos + I(dos^2)|year),
+                    family = binomial, 
+                    data = sr)
+lme2 <- lme4::glmer(y  ~ dos + I(dos^2) + (1|year), 
+                    family = binomial, 
+                    data = sr)
+lme3 <- lme4::glmer(y ~ dos + (dos|year), 
+                    family = binomial, 
+                    data = sr)
+lme4 <- lme4::glmer(y ~ dos + (1|year), 
+                    family = binomial, 
+                    data = sr)
+lme5 <- lme4::glmer(y ~ 1 + (1|year), 
+                    family = binomial, 
+                    data = sr)
+
+## Compare AIC values 
+anova(lme1, lme2, lme3, lme4, lme5)
+```
+
+The best-fit model is `lme1`. The residuals from `lme1` are appended to the `sr` dataset and another model is re-fit in order to estimate overdispersion. Because the standard deviation of the residuals is < 1, the model is an appropriate candidate for predicting daily species ratios.
+
+```{r best fit sr}
+sr$resids <- residuals(lme1)
+
+lme4::glmer(y ~ dos + I(dos^2) + (dos + I(dos^2)|year) + (1|resids),
+            family = binomial, 
+            data = sr)
+
+sr_glmm <- lme1
+
+# Add predicted values to sr
+sr$predicted_ratio <- fitted(sr_glmm)
+```
+
+### Summary of best fit model
+
+```{r summary best fit sr}
+summary(sr_glmm)
+```
+
+#### Check assumptions of best fit model
+
+```{r sr plot: observed vs predicted}
+ggplot(sr, aes(x = p_wesa, y = predicted_ratio)) +
+  geom_point() + 
+  ggtitle("Observed vs. Predicted values") +
+  xlab("Observed") + 
+  ylab("Predicted") +
+  theme_minimal()
+```
+
+```{r sr plot: heteroskedasticity}
+ggplot(sr, aes(x = predicted_ratio, y = resids)) +
+  geom_point() + 
+  ggtitle("Heteroskedacity",
+          subtitle = "Fitted values vs. Residuals") +
+  xlab("Fitted") + 
+  ylab("Residuals") +
+  theme_minimal()
+```
+
+```{r sr plot: qq plot}
+ggplot(sr, aes(sample = resids)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Quantile-Quantile") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
