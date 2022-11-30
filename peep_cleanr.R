@@ -1442,8 +1442,8 @@ for (i in 1:length(sqlite_tables)) {
 DBI::dbExecute(bppeeps, "drop view if exists daily_percent_ratio;")
 DBI::dbExecute(bppeeps, "create view daily_percent_ratio as 
                with temp as (select date(date_time_pdt) as survey_date, 
-               avg(wesa) as wesa, 
-               avg(dunl) as dunl 
+               sum(wesa) as wesa, 
+               sum(dunl) as dunl 
                from species_ratios 
                group by date(date_time_pdt)) 
                select *, 
