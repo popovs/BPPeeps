@@ -46,7 +46,7 @@ dat$station_s_no <- as.numeric(dat$station_s)
 dat$station_diff <- dat$station_s_no - dat$station_n_no
 
 # Filter to the appropriate data
-# Remove NA records
+# Remove NA and 0 records
 dat <- dat[which(!is.na(dat$final_count)),]
 filter_s <- c(filter_s, "Remove NA count records")
 filter_n <- c(filter_n, nrow(dat))
@@ -86,6 +86,14 @@ filter_s <- c(filter_s, "Exclude records where only bird count occurs in locatio
 filter_n <- c(filter_n, nrow(dat))
 filter_d <- c(filter_d, length(unique(dat$survey_date)))
 
+# Add dat columns as needed
+dat$year <- as.factor(lubridate::year(dat$survey_date))
+dat$julian_day <- lubridate::yday(dat$survey_date)
+dat$dos <- scale(dat$julian_day) # day of season variable
+dat$n_s <- ifelse(dat$station_n %in% c("Canoe Pass", "Brunswick Point", "View corner"),
+                  "N", "S")
+dat$n_s <- as.factor(dat$n_s)
+
 # Filtering steps table
 filtering <- data.frame(cbind(filter_s, filter_d, filter_n))
 filtering[[2]] <- as.numeric(filtering[[2]])
@@ -94,12 +102,10 @@ names(filtering) <- c("filter_step", "n_survey_dates", "n_records")
 filtering$survey_dates_lost <- c('NA', diff(filtering[[2]]))
 filtering$total_records_lost <- c('NA', diff(filtering[[3]]))
 
-# Add dat columns as needed
-dat$julian_day <- lubridate::yday(dat$survey_date)
-dat$dos <- scale(dat$julian_day) # day of season variable
+rm(filter_d, filter_n, filter_s, tmp)
 
 # Add updated data to shiny app
-#write.csv(dat, "shiny/peepr/bppeep_model_dat.csv", na = "", row.names = F)
+write.csv(dat, "../shiny/peepr/bppeep_model_dat.csv", na = "", row.names = F)
 
 # SR ===============================================================
 # Daily species ratio
