@@ -514,7 +514,7 @@ fly around Bpoint to west,Brunswick Point (flying),Brunswick Point,,flying,FALSE
 fly to east end,(flying),,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 flyby over water towards CP,Coal Port corner (flying),Coal Port,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 flying,(flying),,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
-flying 34th pullout to BP,34th St pullout to Brunswick Point (flying),Brunswick Point,34th St pullout,flying,FALSE,FALSE,FALSE,FALSE,TRUE
+flying 34th pullout to BP,34th St pullout (flying),34th St pullout,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 flying around BP to West,Brunswick Point (flying),Brunswick Point,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 flying around Bruns Point,Brunswick Point (flying),Brunswick Point,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 flying B.P to C.P end,Brunswick Point to Coal Port corner (flying),Brunswick Point,Coal Port,flying,FALSE,FALSE,FALSE,FALSE,TRUE
@@ -549,7 +549,7 @@ flying towards BP,Brunswick Point (flying),Brunswick Point,,flying,FALSE,FALSE,F
 flying towards Bruns Pt,Brunswick Point (flying),Brunswick Point,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 flying towards Bruns Pt corner,Brunswick Point (flying),Brunswick Point,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 flying towards Brunswick Point corner,Brunswick Point (flying),Brunswick Point,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
-flying towards CP from pilings,Pilings to Coal Port corner (flying),Pilings,Coal Port,flying,FALSE,FALSE,FALSE,FALSE,TRUE
+flying towards CP from pilings,Pilings (flying),Pilings,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 flying W to E,(flying),,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 flying west,(flying),,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 flying west to east,(flying),,,flying,FALSE,FALSE,FALSE,FALSE,TRUE

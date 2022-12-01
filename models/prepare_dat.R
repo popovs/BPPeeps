@@ -18,6 +18,13 @@ dat <- DBI::dbGetQuery(db, "select bcl.*, p_wesa, ec.*
                        left join environmental_covariates ec on ec.date = bcl.survey_date ;")
 dat <- dplyr::select(dat, -date)
 
+# Extract nrow of full dataset
+# This will be used to keep track of how many datapoints are lost
+# at each filtering step
+filter_s <- "Full dataset" # filter step
+filter_n <- nrow(dat) # n records
+filter_d <- length(unique(dat$survey_date)) # n dates affected
+
 # Set dates, factors etc.
 dat$survey_date <- as.Date(dat$survey_date)
 station_levels <- c("Canoe Pass", "Brunswick dike", "Brunswick Point", "View corner", "Pilings", "Bend", "34th St pullout", "Coal Port")
@@ -38,14 +45,58 @@ dat$station_n_no <- as.numeric(dat$station_n)
 dat$station_s_no <- as.numeric(dat$station_s)
 dat$station_diff <- dat$station_s_no - dat$station_n_no
 
-# Add columns as needed
+# Filter to the appropriate data
+# Remove NA records
+dat <- dat[which(!is.na(dat$final_count)),]
+filter_s <- c(filter_s, "Remove NA count records")
+filter_n <- c(filter_n, nrow(dat))
+filter_d <- c(filter_d, length(unique(dat$survey_date)))
+
+# Include only survey period dates and where total # of birds < 1000
+# First select dates where tot # of birds < 1000
+tmp <- aggregate(final_count ~ survey_date, dat, sum)
+tmp <- tmp[1][tmp[2] < 1000]
+dat <- dat[!(dat$survey_date %in% as.Date(tmp)),]
+rm(tmp)
+
+filter_s <- c(filter_s, "Exclude dates where total # of birds < 1000")
+filter_n <- c(filter_n, nrow(dat))
+filter_d <- c(filter_d, length(unique(dat$survey_date)))
+
+# Include only survey dates
+dat <- dat[(format(dat$survey_date, "%m-%d") >= "04-15"), ]
+dat <- dat[(format(dat$survey_date, "%m-%d") <= "05-15"), ]
+
+filter_s <- c(filter_s, "Exclude dates outside of survey period (<04-15 or >05-15)")
+filter_n <- c(filter_n, nrow(dat))
+filter_d <- c(filter_d, length(unique(dat$survey_date)))
+
+# Include only stations of interest
+dat <- dat[!(dat$station_n %in% c("Intercauseway")) & !is.na(dat$station_n), ]
+
+filter_s <- c(filter_s, "Exclude Intercauseway and NA stations (e.g. location was simply 'inner mud', 'mumblies', 'flying', etc.)")
+filter_n <- c(filter_n, nrow(dat))
+filter_d <- c(filter_d, length(unique(dat$survey_date)))
+
+# Include only survey dates where birds span <3 stations
+tmp <- unique(dat[["survey_date"]][which(dat$station_diff > 2)])
+dat <- dat[!(dat$survey_date %in% as.Date(tmp)), ]
+
+filter_s <- c(filter_s, "Exclude records where only bird count occurs in location that spans >2 stations (e.g., 'BP to CP')")
+filter_n <- c(filter_n, nrow(dat))
+filter_d <- c(filter_d, length(unique(dat$survey_date)))
+
+# Filtering steps table
+filtering <- data.frame(cbind(filter_s, filter_d, filter_n))
+filtering[[2]] <- as.numeric(filtering[[2]])
+filtering[[3]] <- as.numeric(filtering[[3]])
+names(filtering) <- c("filter_step", "n_survey_dates", "n_records")
+filtering$survey_dates_lost <- c('NA', diff(filtering[[2]]))
+filtering$total_records_lost <- c('NA', diff(filtering[[3]]))
+
+# Add dat columns as needed
 dat$julian_day <- lubridate::yday(dat$survey_date)
 dat$dos <- scale(dat$julian_day) # day of season variable
-
-# Filter to the appropriate data
-dat <- dat[!(dat$station_n %in% c("Intercauseway")) & !is.na(dat$station_n), ]
-dat <- dat[which(dat$station_diff < 3 | is.na(dat$station_diff)), ]
-# Mark also only includes data between April 15 & May 15?
 
 # Add updated data to shiny app
 #write.csv(dat, "shiny/peepr/bppeep_model_dat.csv", na = "", row.names = F)

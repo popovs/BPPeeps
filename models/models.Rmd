@@ -23,17 +23,22 @@ This document describes the suite of models used to estimate yearly changes in s
 
 There are two datasets used in this modelling pipeline:
 
-1. `dat`, which contains bird counts + environmental covariates
-2. `sr`, which contains species ratio data (WESA:DUNL)
+1. `sr`, which contains species ratio data (WESA:DUNL)
+2. `dat`, which contains bird counts + environmental covariates
 
 For an interactive interface with the `dat` dataset used in this document, see https://popovs.shinyapps.io/peepr/.
 
-```{r dat summary}
-summary(dat)
-```
+### `sr` summary
 
 ```{r sr summary}
 summary(sr)
+```
+
+\newpage
+### `dat` summary
+
+```{r dat summary}
+summary(dat)
 ```
 
 # Species composition model
@@ -44,10 +49,12 @@ The ratios are modelled using a binomial generalized linear mixed model (binomia
 
 ## Five models are built and compared
 
-Response variable: `y` - WESA:DUNL ratio
+Response variable: 
+* `y` - WESA:DUNL ratio
+
 Predictor variables: 
-- `dos` - day of season (recentered/scaled Julian date)
-- `year` - year extracted from survey date (as a factor)
+* `dos` - day of season (recentered/scaled Julian date)
+* `year` - year of survey
 
 ```{r sr glmm fitting}
 # First, create our response variable: 
@@ -79,7 +86,7 @@ lme5 <- lme4::glmer(y ~ 1 + (1|year),
 anova(lme1, lme2, lme3, lme4, lme5)
 ```
 
-The best-fit model is `lme1`. The residuals from `lme1` are appended to the `sr` dataset and another model is re-fit in order to estimate overdispersion. Because the standard deviation of the residuals is < 1, the model is an appropriate candidate for predicting daily species ratios.
+The best-fit model is `lme1`. The residuals from `lme1` are appended to the `sr` dataset and another model is re-fit in order to estimate overdispersion. Because the standard deviation of the residuals is < 1, the model is deemed an appropriate candidate for predicting daily species ratios.
 
 ```{r best fit sr}
 sr$resids <- residuals(lme1)
@@ -94,13 +101,16 @@ sr_glmm <- lme1
 sr$predicted_ratio <- fitted(sr_glmm)
 ```
 
-### Summary of best fit model
+\newpage
+### Summary of best fit model (`lme1`)
 
 ```{r summary best fit sr}
 summary(sr_glmm)
 ```
 
-#### Check assumptions of best fit model
+\newpage
+### Check assumptions of best fit model
+
 
 ```{r sr plot: observed vs predicted}
 ggplot(sr, aes(x = p_wesa, y = predicted_ratio)) +
@@ -111,15 +121,17 @@ ggplot(sr, aes(x = p_wesa, y = predicted_ratio)) +
   theme_minimal()
 ```
 
+
 ```{r sr plot: heteroskedasticity}
 ggplot(sr, aes(x = predicted_ratio, y = resids)) +
   geom_point() + 
-  ggtitle("Heteroskedacity",
+  ggtitle("Heteroskedasticity",
           subtitle = "Fitted values vs. Residuals") +
   xlab("Fitted") + 
   ylab("Residuals") +
   theme_minimal()
 ```
+
 
 ```{r sr plot: qq plot}
 ggplot(sr, aes(sample = resids)) +
@@ -133,3 +145,88 @@ ggplot(sr, aes(sample = resids)) +
   theme_minimal()
 ```
 
+
+```{r sr year effects, include = FALSE}
+year_effects <- lme4::ranef(sr_glmm)$year
+year_effects <- janitor::clean_names(year_effects)
+```
+
+
+```{r sr plot: year intercept plot}
+ggplot(year_effects, aes(sample = intercept)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Year effects", 
+          subtitle = "Intercept") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+
+```{r sr plot: year slope plot}
+ggplot(year_effects, aes(sample = dos)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Year effects", 
+          subtitle = "Slope") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+
+```{r sr plot: year slope quadratic plot}
+ggplot(year_effects, aes(sample = i_dos_2)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Year effects", 
+          subtitle = "Slope quadratic") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+\newpage
+## Predict WESA/DUNL population
+
+Using the derived binomial GLMM above, we will predict the amount of WESA and DUNL each day. For any years that are missing from the bGLMM we will assign the mean proportion of WESA:DUNL. 
+
+```{r predict wesa ratio, include = FALSE}
+# Create yrs df, which is a df containing all possible
+# julian_day-year combinations
+yrs <- expand.grid(julian_day = seq(min(dat$julian_day), max(dat$julian_day), 1),
+                   year = as.factor(unique(lubridate::year(dat$survey_date))))
+# Add day of season variable
+yrs$dos <- (yrs$julian_day - mean(sr$julian_day))/sd(sr$julian_day)
+
+# Extract sr_glmm model coefficients
+coefs <- coef(sr_glmm)$year
+names(coefs) <- c("intercept", "jd_parm", "jd2_parm")
+coefs$year <- unique(yrs$year)
+
+# Merge yrs and coefs together
+yrs <- merge(yrs, coefs, by = "year", all.x = TRUE)
+
+# Previously, within Canham paper, the mean coefficients across all
+# years were calculated for years without species ratios. However,
+# in this case that was not necessary, as there are no missing years
+# in the species ratio/count data.
+
+# Now calculate odds & predict ratios for all survey dates
+yrs$odds <- yrs$intercept + yrs$jd_parm * yrs$dos + yrs$jd2_parm * yrs$dos^2
+yrs$predicted_ratio <- exp(yrs$odds) / (1 + exp(yrs$odds))
+```
+
+```{r plot predicted wesa ratios, fig.height = 8}
+ggplot() +
+  geom_line(data = yrs, aes(x = julian_day, y = predicted_ratio, group = year)) +
+  geom_point(data = sr, aes(x = julian_day, y = (p_wesa/100), group = year), color = 'blue') +
+  facet_wrap(~ year, ncol = 3)
+```
