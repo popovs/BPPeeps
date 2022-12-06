@@ -1423,6 +1423,7 @@ sqlite_tables[["raptors"]] <- cleaned$raptors
 # bppeep_locations <- rrefine::refine_export(project.name = "bppeep_locations",
 #                                            show_col_types = FALSE)
 bppeep_locations <- read.csv("supporting_files/bppeep_locations.csv")
+bppeep_locations[bppeep_locations == ""] <- NA # Replace empty strings w NA
 
 # [Further modifications as needed can be done in R here]
 sqlite_tables[["locations"]] <- bppeep_locations
@@ -1441,8 +1442,8 @@ for (i in 1:length(sqlite_tables)) {
 DBI::dbExecute(bppeeps, "drop view if exists daily_percent_ratio;")
 DBI::dbExecute(bppeeps, "create view daily_percent_ratio as 
                with temp as (select date(date_time_pdt) as survey_date, 
-               avg(wesa) as wesa, 
-               avg(dunl) as dunl 
+               sum(wesa) as wesa, 
+               sum(dunl) as dunl 
                from species_ratios 
                group by date(date_time_pdt)) 
                select *, 
@@ -1514,3 +1515,7 @@ DBI::dbExecute(bppeeps, "drop view if exists wesa_dunl_loc;")
 #                order by survey_date;")
 
 DBI::dbDisconnect(bppeeps)
+
+# 14 CLEAN UP ----
+rm(list = ls())
+gc()
