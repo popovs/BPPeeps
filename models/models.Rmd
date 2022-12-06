@@ -90,6 +90,7 @@ The best-fit model is `lme1`. The residuals from `lme1` are appended to the `sr`
 ```{r best fit sr}
 sr$resids <- residuals(lme1)
 
+# Add residuals into model to examine coefficients
 lme4::glmer(y ~ dos + I(dos^2) + (dos + I(dos^2)|year) + (1|resids),
             family = binomial, 
             data = sr)
