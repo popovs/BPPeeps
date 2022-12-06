@@ -17,10 +17,11 @@
 
 # First, install rclimateca and tidyhydat packages
 
-# Note that at the time of writing this script, all of these packages
+# Note that at the time of writing this script, these packages
 # are no longer maintained/buggy on CRAN. As such, the Github development
-# versions are installed.
-# Function usage is a bit patchy and likely not going to work in the future.
+# versions are installed. Two packages are defunct at the time of writing
+# (rclimateca + weathercan) and one is under active development (tidyhydat),
+# so function usage may change drastically in the future.
 
 # install.packages("devtools")
 #devtools::install_github("paleolimbot/rclimateca")
@@ -32,10 +33,11 @@ library(tidyhydat)
 
 # Download hydat data
 # TODO: make this reproducible later. This just doesn't play well with a renv environment.
+download_hydat() # 1st attempt - will it create dir in app support?
 #download_hydat(dl_hydat_here = "renv/local/hydat") # ~3 min - only needs to be run once
-hydat_path <- "renv/local/hydat/Hydat.sqlite3"
-hy_set_default_db(hydat_path = hydat_path) # doesn't work?
-hy_downloaded_db() # Check it's in renv path. Also doesn't work?
+#hydat_path <- "renv/local/hydat/Hydat.sqlite3"
+#hy_set_default_db(hydat_path = hydat_path) # doesn't work?
+hy_downloaded_db() # Check path.
 
 # Get station names that we will use for data download
 # Airport is split into two datasets, because one monitoring station
@@ -48,10 +50,8 @@ hope <- "08MF005" # At time of writing, Hope station number is 08MF005
 
 # Pull peeps data ----
 ## TODO: change this later so that peep db is stored in better location..
-db <- DBI::dbConnect(RSQLite::SQLite(), "Output/bppeeps.db")
-dates <- DBI::dbGetQuery(db, "select distinct(date) from bp_counts;")
-DBI::dbDisconnect(db)
-rm(db)
+db <- DBI::dbConnect(RSQLite::SQLite(), "temp/bppeeps.db")
+dates <- DBI::dbGetQuery(db, "select distinct(date(date_time_pdt)) from bp_counts_all;")
 
 dates <- as.character(unlist(dates))
 dates <- dates[!is.na(dates)]
@@ -63,8 +63,7 @@ dates <- as.Date(dates)
 # First get historical daily data
 hope_hist <- hy_daily_flows(station_number = hope,
                             start_date = min(dates),
-                            end_date = max(dates),
-                            hydat_path = hydat_path)
+                            end_date = max(dates))
 
 # Next get remaining data
 # Historical data only goes up to 2020, while realtime
@@ -73,7 +72,7 @@ hope_hist <- hy_daily_flows(station_number = hope,
 # So, for now, downloading the data manually from this
 # URL, and loading it as a csv. 
 # https://wateroffice.ec.gc.ca/report/real_time_e.html?stn=08MF005&mode=Graph&startDate=2021-01-01&endDate=2022-05-11&prm1=47&y1Max=&y1Min=&prm2=47&y2Max=&y2Min=
-hope_recent <- read.csv("supporting_files/08MF005_discharge_20221125.csv", skip = 9)
+hope_recent <- read.csv("covariates/08MF005_discharge_20221125.csv", skip = 9)
 hope_recent <- janitor::clean_names(hope_recent)
 # Remove timestamp
 hope_recent$date_pst <- sub(" .*", "", hope_recent$date_pst)
@@ -95,7 +94,7 @@ names(flow)[4] <- "flow"
 # 02 Tidal amplitude (m) ----
 # @ Port Atkinson (49.3333°N, 123.2500°W)
 
-amp <- read.csv("supporting_files/tidal_range_1991_to_2022.csv")
+amp <- read.csv("covariates/tidal_range_1991_to_2022.csv")
 
 # YVR weather download ----
 
@@ -200,3 +199,8 @@ cov <- dates %>%
   dplyr::select(date, elev_min, elev_max, elev_median, elev_mean,
                 elev_range, flow, total_precip, mean_temp, u, v,
                 windspd, wind_deg)
+
+# UPDATE DB ----
+# Add the newly generated cov file to the bppeeps db as a table
+DBI::dbWriteTable(bppeeps, "environmental_covariates", cov, overwrite = TRUE)
+DBI::dbDisconnect(db)

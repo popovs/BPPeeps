@@ -1,0 +1,398 @@
+---
+title: "Brunswick Point Peep Models"
+author: "Sarah Popov"
+date: "2022-11-29"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE)
+
+library(ggplot2)
+
+# Source the data file, which connects to the bppeeps database and then queries and processes the data
+# This will produce two datasets: 
+# 1) dat [counts + environmental covariates]
+# 2) sr [daily species ratios]
+source(here::here("models", "prepare_dat.R"))
+```
+
+Roberts Bank, Delta, BC, is situated in the great Pacific Flyway and serves as an important stopover for peeps migrating north in the spring. It therefore hosts a large seasonal population of peeps: namely, Western sandpiper (WESA) and Dunlin (DUNL), that rely on the seasonal nutritional bounty provided by the Fraser River delta.
+
+This document describes the suite of models used to estimate yearly changes in spatial distribution and abundance of peeps in the Roberts Bank estuary.
+
+There are two datasets used in this modelling pipeline:
+
+1. `sr`, which contains species ratio data (WESA:DUNL)
+2. `dat`, which contains bird counts + environmental covariates
+
+For an interactive interface with the `dat` dataset used in this document, see https://popovs.shinyapps.io/peepr/.
+
+\newpage
+
+# Species composition model
+
+The daily ratio of Western sandpiper (WESA) to Dunlin (DUNL) across the entire study period is first modelled using a dataset of known species ratios (species ratios are not measured during every survey).
+
+The ratios are modelled using a binomial generalized linear mixed model (binomial GLMM). The resulting predicted ratios are then used to estimate the number of WESA vs. DUNL per day.
+
+## `sr` data summary
+
+```{r sr summary}
+summary(sr)
+```
+
+## Five models are built and compared
+
+Response variable: 
+
+* `y` - WESA:DUNL ratio
+
+Predictor variables: 
+
+* `dos` - day of season (recentered/scaled Julian date)
+* `year` - year of survey
+
+```{r sr glmm fitting}
+# First, create our response variable: 
+# WESA:DUNL proportion from our daily_percent_ratio table
+y <- cbind(sr$wesa, sr$dunl)
+
+# And build our 5 models 
+# Response variable: ratio of WESA to DUNL
+# Predictor variables:
+# - dos: day of season (recentered/scaled julian date)
+# - year: year (as a factor)
+lme1 <- lme4::glmer(y ~ dos + I(dos^2) + (dos + I(dos^2)|year),
+                    family = binomial, 
+                    data = sr)
+lme2 <- lme4::glmer(y  ~ dos + I(dos^2) + (1|year), 
+                    family = binomial, 
+                    data = sr)
+lme3 <- lme4::glmer(y ~ dos + (dos|year), 
+                    family = binomial, 
+                    data = sr)
+lme4 <- lme4::glmer(y ~ dos + (1|year), 
+                    family = binomial, 
+                    data = sr)
+lme5 <- lme4::glmer(y ~ 1 + (1|year), 
+                    family = binomial, 
+                    data = sr)
+
+## Compare AIC values 
+anova(lme1, lme2, lme3, lme4, lme5)
+```
+
+The best-fit model is `lme1`. The residuals from `lme1` are appended to the `sr` dataset and another model is re-fit in order to estimate overdispersion. Because the standard deviation of the residuals is < 1, the model is deemed an appropriate candidate for predicting daily species ratios.
+
+```{r best fit sr}
+sr$resids <- residuals(lme1)
+
+# Add residuals into model to examine coefficients
+lme4::glmer(y ~ dos + I(dos^2) + (dos + I(dos^2)|year) + (1|resids),
+            family = binomial, 
+            data = sr)
+
+sr_glmm <- lme1
+
+# Add predicted values to sr
+sr$predicted_ratio <- fitted(sr_glmm)
+```
+
+\newpage
+### Summary of best fit model (`lme1`)
+
+```{r summary best fit sr}
+summary(sr_glmm)
+```
+
+\newpage
+### Check assumptions of best fit model
+
+
+```{r sr plot: observed vs predicted}
+ggplot(sr, aes(x = p_wesa, y = predicted_ratio)) +
+  geom_point() + 
+  ggtitle("Observed vs. Predicted values") +
+  xlab("Observed") + 
+  ylab("Predicted") +
+  theme_minimal()
+```
+
+
+```{r sr plot: heteroskedasticity}
+ggplot(sr, aes(x = predicted_ratio, y = resids)) +
+  geom_point() + 
+  ggtitle("Heteroskedasticity",
+          subtitle = "Fitted values vs. Residuals") +
+  xlab("Fitted") + 
+  ylab("Residuals") +
+  theme_minimal()
+```
+
+
+```{r sr plot: qq plot}
+ggplot(sr, aes(sample = resids)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Quantile-Quantile") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+
+```{r sr year effects, include = FALSE}
+year_effects <- lme4::ranef(sr_glmm)$year
+year_effects <- janitor::clean_names(year_effects)
+```
+
+
+```{r sr plot: year intercept plot}
+ggplot(year_effects, aes(sample = intercept)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Year effects", 
+          subtitle = "Intercept") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+
+```{r sr plot: year slope plot}
+ggplot(year_effects, aes(sample = dos)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Year effects", 
+          subtitle = "Slope") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+
+```{r sr plot: year slope quadratic plot}
+ggplot(year_effects, aes(sample = i_dos_2)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Year effects", 
+          subtitle = "Slope quadratic") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+\newpage
+## Predict WESA/DUNL population
+
+Using the derived binomial GLMM above, we will predict the amount of WESA and DUNL each day. For any years that are missing from the bGLMM we will assign the mean proportion of WESA:DUNL. 
+
+```{r predict wesa ratio, include = FALSE}
+# Create yrs df, which is a df containing all possible
+# julian_day-year combinations
+yrs <- expand.grid(julian_day = seq(min(dat$julian_day), max(dat$julian_day), 1),
+                   year = as.factor(unique(lubridate::year(dat$survey_date))))
+# Add day of season variable
+yrs$dos <- (yrs$julian_day - mean(sr$julian_day))/sd(sr$julian_day)
+
+# Extract sr_glmm model coefficients
+coefs <- coef(sr_glmm)$year
+names(coefs) <- c("intercept", "jd_parm", "jd2_parm")
+coefs$year <- unique(yrs$year)
+
+# Merge yrs and coefs together
+yrs <- merge(yrs, coefs, by = "year", all.x = TRUE)
+
+# Previously, within Canham paper, the mean coefficients across all
+# years were calculated for years without species ratios. However,
+# in this case that was not necessary, as there are no missing years
+# in the species ratio/count data.
+
+# Now calculate odds & predict ratios for all survey dates
+yrs$odds <- yrs$intercept + yrs$jd_parm * yrs$dos + yrs$jd2_parm * yrs$dos^2
+yrs$predicted_ratio <- exp(yrs$odds) / (1 + exp(yrs$odds))
+```
+
+```{r plot predicted wesa ratios, fig.height = 8}
+ggplot() +
+  geom_line(data = yrs, aes(x = julian_day, y = predicted_ratio, group = year)) +
+  geom_point(data = sr, aes(x = julian_day, y = (p_wesa/100), group = year), color = 'blue') +
+  facet_wrap(~ year, ncol = 3)
+```
+
+\newpage 
+
+# North-South distribution model
+
+The primary goal of this analysis is to determine whether melt flow regimes alter the north-south distribution of peeps. Birds are surveyed from a route of standardized survey stations. Any birds counted in or north of the "view corner" are labelled as `N`, while any birds counted south of the "view corner" are labelled as `S` for this analysis.^[For now, this includes birds counted in Canoe Pass, but those will be excluded in a later analysis to compare results.]
+
+The `dat` dataset, which contains survey data and associated environmental covariates, will be used in this model. The `dat` dataset can be explored in greater detail in the [PeepR Shiny app](https://popovs.shinyapps.io/peepr/).
+
+\newpage
+### `dat` filtering
+
+The `dat` dataset underwent some filtering steps to exclude unwanted data prior to this analysis. First, only data that was originally included in Canham et al. (2021) is extracted from the `bppeeps` database. While survey data oftentimes includes multiple sweeps, low-quality or reconnaissance sweeps were excluded from the daily totals used in Canham et al. (2021). As such, they were excluded from this dataset as well.
+
+The total bird count for several surveys were obtained by taking the average total count from multiple sweeps. In these cases, it is difficult to obtain accurate location-level numbers because birds often moved locations between sweeps. These records are excluded for now (45 survey dates out of a total of 538).
+
+Additionally, certain survey dates only included a total bird count for the day, but no location-level information. These records were excluded from the initial database query (24 survey dates out of a total of 538).
+
+After excluding these surveys, the initial dataset queried from the `bppeeps` dataset included `r filtering$n_records[1]` records from a total of `r filtering$n_survey_dates[1]`. This is termed the 'full dataset' and was filtered further in `R`.
+
+```{r filtering table}
+knitr::kable(filtering, col.names = c("Filtering step", "No. survey dates", "No. records", "No. survey dates lost", "No. records lost"))
+```
+
+\newpage
+## `dat` data summary after filtering
+
+```{r dat summary}
+summary(dat)
+```
+
+\newpage
+## Build and test model
+
+In this initial analysis, the model will be kept relatively simple: use the same model as in Canham et al. (2021), but add a "north vs. south" term. The response variable will be the total count for that location/day * the predicted WESA ratio generated by the bGLMM above.
+
+### Base model
+
+Response variable:
+
+* `log_wesa` - Log-transformed predicted WESA count
+
+Predictor variables:
+
+* `year_c` - Scale-transformed survey year
+* `dos` - Scale-transformed Julian date, aka Day of Season
+
+```{r wesa ~ base model}
+# First, add predicted wesa ratio generated above to the dat dataset
+dat <- merge(dat, yrs[,c("year", "julian_day", "predicted_ratio")], 
+             by = c("year", "julian_day"))
+
+# Scale and log-transform variables of interest
+dat$predicted_wesa <- dat$final_count * dat$predicted_ratio
+dat$log_wesa <- log(dat$predicted_wesa + 1)
+dat$year_c <- scale(as.numeric(dat$year))
+
+# Base model
+# Response variable: log-transformed predicted WESA count (log_wesa)
+# Predictor variables:
+#   - Scale-transformed survey year (year_c)
+#   - Scale-transformed Julian date, aka Day of Season (dos)
+wesa_base_mod <- lmerTest::lmer(log_wesa ~ year_c + dos + I(dos^2) + (dos + I(dos^2) | year),
+                            data = dat,
+                            REML = TRUE)
+
+summary(wesa_base_mod)
+```
+
+\newpage
+### Full model
+
+```{r reduce dat to complete cases}
+# Reduce dataset to our variables of interest, and only keep 
+# complete cases
+dat2 <- dat[,c("predicted_wesa", "log_wesa", "year", "year_c", "dos", "elev_range", "total_precip", "mean_temp", "flow", "u", "v", "n_s")]
+dat2 <- dat2[complete.cases(dat2),]
+```
+
+**NOTE**: at the time of this writing, `IR` is *unavaible* in this model. I have not gotten any response from the team that manages the UBC Totem Station data.
+
+Response variable:
+
+* `log_wesa` - Log-transformed predicted WESA count
+
+Predictor variables:
+
+* `year_c` - Scale-transformed survey year
+* `dos` - Scale-transformed Julian date, aka Day of Season
+* `elev_range` - Tidal amplitude (m)
+* `total_precip` - Total daily precipitation (mm)
+* `mean_temp` - Daily mean temperature (C°)
+* `flow` - Fraser River discarge (m^3/s)
+* `u`, `v` - Westerly and Southerly wind vectors (km/h)
+* `n_s` - Location ('North' or 'South')
+
+Additionally, the dataset is reduced down to only complete cases of all predictor variables of interest (`r nrow(dat)` -> `r nrow(dat2)`).
+
+```{r wesa ~ canham + n_s model, warning=FALSE}
+wesa_full_mod <- lmerTest::lmer(log_wesa ~ year_c + dos + I(dos^2) + scale(elev_range) + scale(total_precip) + scale(mean_temp) + scale(flow) + scale(u) + scale(v) + n_s + (dos + I(dos^2) | year) + (scale(flow) | n_s),
+                            data = dat2,
+                            REML = TRUE)
+summary(wesa_full_mod)
+```
+
+### Backwards step-wise selection
+
+```{r selection}
+lmerTest::step(wesa_full_mod, 
+               direction = "backward", 
+               reduce.random = F,
+               keep=c("year_c", "dos", "I(dos^2)"))
+```
+\newpage
+### Summary of best-fit model
+
+```{r summary n_s best fit, warning=FALSE}
+wesa_best_fit <- lmerTest::lmer(log_wesa ~ year_c + dos + I(dos^2) + scale(elev_range) + scale(v) + (dos + I(dos^2) | year) + (scale(flow) | n_s),
+                                data = dat2,
+                                REML = TRUE)
+
+summary(wesa_best_fit)
+```
+
+\newpage
+### Check assumptions of best fit model
+
+```{r add predicted n-s values to dat2, include=FALSE}
+# Add predicted values to dat2
+dat2$predicted_log_wesa <- fitted(wesa_best_fit)
+dat2$resids <- resid(wesa_best_fit)
+```
+
+```{r wesa n-s plot: observed vs predicted}
+ggplot(dat2, aes(x = predicted_log_wesa, y = log_wesa)) +
+  geom_point() + 
+  ggtitle("Observed vs. Predicted values") +
+  xlab("Observed") + 
+  ylab("Predicted") +
+  theme_minimal()
+```
+
+
+```{r wesa n-s plot: heteroskedasticity}
+ggplot(dat2, aes(x = predicted_log_wesa, y = resids)) +
+  geom_point() + 
+  ggtitle("Heteroskedasticity",
+          subtitle = "Fitted values vs. Residuals") +
+  xlab("Fitted") + 
+  ylab("Residuals") +
+  theme_minimal()
+```
+
+
+```{r wesa n-s plot: qq plot}
+ggplot(dat2, aes(sample = resids)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Quantile-Quantile") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+

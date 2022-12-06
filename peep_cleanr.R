@@ -517,6 +517,14 @@ counts[["observer"]][which(counts$observer == "RB")] <- "R.B."
 counts[["observer"]][which(counts$observer == "ML")] <- "M.L."
 counts$observer <- as.factor(counts$observer)
 
+# Misc data fixes
+# 2013-04-23 - bird count was cut off short, and the location
+# counts do not line up with the 60k total. 
+# Per 2022-11-15 email w Mark Drever, add the remaining difference
+# to the View corner location.
+counts[["count_1"]][counts$record_id == 4190] <- 15000
+counts[["mean_count"]][counts$record_id == 4190] <- 15000
+
 # Data checks
 # Some simple & quick data checks to see if excel data is 
 # correct vs. calculations in R
@@ -531,7 +539,7 @@ counts$mean_diff <- counts$calc_mean - ifelse(is.na(counts$mean_count), 0, round
 #View(counts[which(counts$mean_count != counts$calc_mean & (counts$mean_diff > 200 | counts$mean_diff < -200)),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")])
 #View(counts[which(counts$mean_diff > 200 | counts$mean_diff < -200),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")])
 #This doesn't include NA mean_count: mean_errors <- counts[which(counts$mean_count != counts$calc_mean & (counts$mean_diff > 200 | counts$mean_diff < -200)),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")]
-mean_errors <- counts[which(counts$mean_diff > 200 | counts$mean_diff < -200),c("raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")]
+mean_errors <- counts[which(counts$mean_diff > 200 | counts$mean_diff < -200),c("record_id", "date_time_pdt", "raw_datafile", "location", "count_1", "count_2", "count_3", "count_4", "count_5", "mean_count", "calc_mean", "mean_diff")]
 
 # Fix 3 mean errors that I'm confident are simply Excel errors
 counts[["mean_count"]][which(counts$raw_datafile == "BPPeep2007.xls" & counts$mean_count == 145000)] <- 154000
@@ -546,7 +554,7 @@ rm(mean_errors)
 
 ## Column means
 # Extract any 'TOTAL' rows - i.e. subtotal rows within dataset
-subtotals <- counts[counts$in_daily_total_yn == "total",] # previously grep("tot", tolower(counts$location))
+subtotals <- counts[which(counts$in_daily_total_yn == "total"),] # previously grep("tot", tolower(counts$location))
 subtotals$date <-  as.Date(subtotals$date_time_pdt, format = "%Y-%m-%d", tz = "Canada/Pacific")
 
 # Compare if manually calc'd col means == R calc'd col means
@@ -578,8 +586,7 @@ subtotals %>%
   merge(day_means, by = "date") %>%
   dplyr::mutate(tot_diff = subtot_tot - calc_tot) %>%
   dplyr::filter(abs(tot_diff) > 1000) %>% # Often numbers were manually rounded to nearest thousandth
-  dplyr::select(date, raw_datafile, location, subtot_tot, calc_tot, tot_diff, count_1, count_2, count_3, count_4, count_5,  calc_mean) %>%
-  View()
+  dplyr::select(date, raw_datafile, location, subtot_tot, calc_tot, tot_diff, count_1, count_2, count_3, count_4, count_5,  calc_mean)
 
 rm(day_means)
 rm(subtotals)
@@ -1274,12 +1281,12 @@ rm(daily_conditions)
 locations <- sort(unique(c(cleaned$counts$location, 
                       cleaned$species_ratios$location, 
                       cleaned$boundary_bay_counts$location)))
-#write.csv(locations, "Output/locations_raw.csv", na = "", row.names = F)
+#write.csv(locations, "ignore/Output/locations_raw.csv", na = "", row.names = F)
 
 # Now open OpenRefine - this requires the user to have OpenRefine
 # installed on their machine and will open the program in a browser window!
 # (only do this)
-#rrefine::refine_upload("Output/locations_raw.csv", project.name = "bppeep_locations", open.browser = TRUE)
+#rrefine::refine_upload("ignore/Output/locations_raw.csv", project.name = "bppeep_locations", open.browser = TRUE)
 
 # On local machine this is at:
 # http://127.0.0.1:3333/project?project=2454790870924&ui=%7B%22facets%22%3A%5B%5D%7D
@@ -1343,87 +1350,54 @@ sqlite_tables[["strip_counts"]] <- cleaned$strip_counts
 ## - 12.3 BP COUNTS + DAILY CONDITIONS ----
 # 'counts' and 'daily_conditions' will be two separate tables,
 # but there are some redundant columns between the two - 
-# may be good to pull weather data from 'counts' and move to 
-# 'daily_conditions' table. tbd
+# therefore need to pull weather data from 'counts' and move to 
+# 'daily_conditions' table.
 c <- cleaned$counts
 dc <- cleaned$daily_conditions
 
 c$date <- as.Date(c$date_time_pdt, format = "%Y-%m-%d", tz = "Canada/Pacific")
 
-# This will result in some duplicated column names. Only the
-# 'notes' columns need to be concatenated. 
-tmp <- merge(c, dc, by = "date", all = TRUE)
-tmp$notes <- apply(tmp[,c("notes.x", "notes.y")], 1, function(x) paste(x[!is.na(x)], collapse = "; "))
+# Split out weather related info from counts df
+# TODO: this is not ideal and could still be further cleaned up to 
+# ensure only one weather record for each date. At the moment there
+# are some duplicates, e.g. for days where sampling occured both in
+# morning and evenings
+weather <- c %>% dplyr::select(date, tide, high_tide_height_ft, high_tide_time_pdt,
+                               weather, cloud_cover_percent, precipitation,
+                               wind, wind_direction, wind_speed_kn, raw_datafile) %>%
+  tidyr::unite(col="allNA", c(2:10), remove = FALSE, na.rm = TRUE) %>%
+  dplyr::filter(!(allNA %in% c("", "high-dropping", "rising", "dropping", "high", "rising-high", "slack"))) %>% # Remove records where there's no weather info OR the only weather info is just the tide (and missing other weather categories)
+  dplyr::select(-allNA)
 
-# Remaining can simply be ifelse statements - choose whichever
-# column is not null for the value
-dupes <- names(tmp)[grepl("\\.x", names(tmp)) & !grepl("notes", names(tmp))]
-dupes <- gsub(".x", "", dupes)
+c <- c %>% dplyr::select(-(names(weather)))
+c$julian_date <- lubridate::yday(c$date)
+c$final_count <- round(c$final_count, digits = 0)
 
-for (i in 1:length(dupes)){
-  col.x <- paste0(dupes[i], ".x")
-  col.y <- paste0(dupes[i], ".y")
-  # If/else gets wonky with factors if levels don't exactly
-  # match between the two columns
-  if (class(tmp[[col.x]])[1] == "factor") {
-    tmp[[col.x]] <- as.character(tmp[[col.x]])
-    tmp[[col.y]] <- as.character(tmp[[col.y]])
-    }
-  tmp[[dupes[i]]] <- dplyr::if_else(is.na(tmp[[col.x]]),
-                                    tmp[[col.y]],
-                                    tmp[[col.x]])
-}
-rm(col.x)
-rm(col.y)
-rm(dupes)
-rm(i)
-
-# Select final columns
-tmp <- tmp %>% dplyr::select(date,
-              date_time_pdt,
-              location,
-              weekday,
-              sweep_start_pdt,
-              sweep_end_pdt,
-              survey_start_pdt,
-              survey_end_pdt,
-              approx_11_5_ft_tide_or_best_survey_pdt,
-              count_1,
-              count_2,
-              count_3,
-              count_4,
-              count_5,
-              final_count, 
-              in_daily_total_yn,
-              other_birds,
-              high_tide_time_pdt,
-              high_tide_height_ft,
-              high_tide_height_m,
-              tide,
-              degrees_c,
-              weather,
-              cloud_cover_percent,
-              precipitation,
-              wind,
-              wind_direction,
-              wind_speed_kn,
-              wind_speed_kmh,
-              notes,
-              observer,
-              julian_date,
-              raw_datafile)
-
-tmp$tide <- as.factor(tmp$tide)
-tmp$wind_direction <- as.factor(tmp$wind_direction)
-tmp$julian_date <- lubridate::yday(tmp$date)
+# Merge weather with dc
+dc <- dplyr::bind_rows(weather, dc) %>%
+  dplyr::select(date, sweep_start_pdt, sweep_end_pdt,
+                survey_start_pdt, survey_end_pdt, 
+                approx_11_5_ft_tide_or_best_survey_pdt,
+                tide, high_tide_time_pdt, high_tide_height_ft,
+                high_tide_height_m, weather, degrees_c,
+                cloud_cover_percent, precipitation, wind,
+                wind_direction, wind_speed_kn, wind_speed_kmh,
+                observer, notes, raw_datafile
+                )
 
 # Convert dates to strings for SQLite compatibility
-tmp <- tmp %>% 
+c <- c %>% 
   dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
   dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
 
-sqlite_tables[["bp_counts"]] <- tmp
-rm(tmp)
+dc <- dc %>% 
+  dplyr::mutate(dplyr::across(where(lubridate::is.POSIXct), as.character)) %>%
+  dplyr::mutate(dplyr::across(where(lubridate::is.Date), as.character))
+
+# Add to sqlite tables list
+sqlite_tables[["bp_counts_all"]] <- c
+sqlite_tables[["daily_conditions"]] <- dc
+rm(weather)
 rm(c)
 rm(dc)
 
@@ -1448,13 +1422,15 @@ sqlite_tables[["raptors"]] <- cleaned$raptors
 # above.
 # bppeep_locations <- rrefine::refine_export(project.name = "bppeep_locations",
 #                                            show_col_types = FALSE)
-bppeep_locations <- read.csv("supporting_files/bppeep_locations-2.csv")
+bppeep_locations <- read.csv("supporting_files/bppeep_locations.csv")
+bppeep_locations[bppeep_locations == ""] <- NA # Replace empty strings w NA
 
 # [Further modifications as needed can be done in R here]
 sqlite_tables[["locations"]] <- bppeep_locations
 
 # 13 POPULATE SQLITE DB ----
-bppeeps <- DBI::dbConnect(RSQLite::SQLite(), "Output/bppeeps.db")
+dir.create("temp", showWarnings = F)
+bppeeps <- DBI::dbConnect(RSQLite::SQLite(), "temp/bppeeps.db")
 
 # Populate tables
 for (i in 1:length(sqlite_tables)) {
@@ -1463,11 +1439,11 @@ for (i in 1:length(sqlite_tables)) {
 
 # 13.1 CREATE VIEWS ----
 # Daily percentage WESA/DUNL view
-DBI::dbExecute(bppeeps, "drop view if exists daily_percent_ratios;")
-DBI::dbExecute(bppeeps, "create view daily_percent_ratios as 
-               with temp as (select date(date_time_pdt) as date, 
-               avg(wesa) as wesa, 
-               avg(dunl) as dunl 
+DBI::dbExecute(bppeeps, "drop view if exists daily_percent_ratio;")
+DBI::dbExecute(bppeeps, "create view daily_percent_ratio as 
+               with temp as (select date(date_time_pdt) as survey_date, 
+               sum(wesa) as wesa, 
+               sum(dunl) as dunl 
                from species_ratios 
                group by date(date_time_pdt)) 
                select *, 
@@ -1476,22 +1452,70 @@ DBI::dbExecute(bppeeps, "create view daily_percent_ratios as
                (dunl / (wesa + dunl) * 100) as p_dunl 
                from temp;")
 
+# Location-level peeps counts
+DBI::dbExecute(bppeeps, "drop view if exists bp_counts_loc;")
+DBI::dbExecute(bppeeps, "create view bp_counts_loc as
+                      select date(date_time_pdt) as survey_date,
+                      strftime('%H:%M', date_time_pdt) as start_time,
+                      cleaned as station,
+                      station_n,
+                      station_s,
+                      mumblies_yn,
+                      mud_yn,
+                      marsh_yn,
+                      tide_edge_yn,
+                      flying_yn,
+                      sum(final_count) as final_count
+                      from bp_counts_all c
+                      left join locations l
+                      on c.location = l.original_location_name
+                      where in_daily_total_yn in ('TRUE')
+                        or in_daily_total_yn is null
+                        and c.location is not null
+                      group by survey_date, station;")
+
+# Daily population total view
+DBI::dbExecute(bppeeps, "drop view if exists daily_total;")
+DBI::dbExecute(bppeeps, "create view daily_total as
+               select date(date_time_pdt) as survey_date,
+               sum(final_count) as total_count
+               from bp_counts_all bca
+               where in_daily_total_yn in ('TRUE')
+               or in_daily_total_yn is null
+               group by survey_date
+               order by survey_date;")
+
+
 # Daily WESA/DUNL population totals view
-DBI::dbExecute(bppeeps, "drop view if exists daily_wesa_dunl_population;")
-DBI::dbExecute(bppeeps, "create view daily_wesa_dunl_population as
-               with temp as (select date, 
-               sum(mean_count) as daily_count, 
-               cleaned 
-               from bp_counts 
-               inner join locations 
-               on bp_counts.location = locations.original_location_name
-                group by date, cleaned)
-               select temp.date, 
-                cleaned as location, 
-                round(((p_wesa/100) * daily_count), 0) as pop_wesa, 
-                round(((p_dunl/100) * daily_count), 0) as pop_dunl 
-                from temp 
-                inner join daily_percent_ratios d 
-                on temp.date = d.date;")
+DBI::dbExecute(bppeeps, "drop view if exists daily_wesa_dunl_total;")
+DBI::dbExecute(bppeeps, "create view daily_wesa_dunl_total as
+               select dt.survey_date,
+               total_count,
+               round(((p_wesa/100) * total_count), 0) as pop_wesa, 
+               round(((p_dunl/100) * total_count), 0) as pop_dunl 
+               from daily_total dt
+               inner join daily_percent_ratio dpr 
+               on dt.survey_date = dpr.survey_date
+               order by dt.survey_date;")
+
+# Location level WESA/DUNL population (WIP)
+# TODO: figure out how to get this query working
+DBI::dbExecute(bppeeps, "drop view if exists wesa_dunl_loc;")
+# DBI::dbExecute(bppeeps, "create view wesa_dunl_loc as
+#                select date(c.date_time_pdt) as survey_date,
+#                location,
+#                final_count,
+#                round(((p_wesa/100) * final_count), 0) as pop_wesa, 
+#                round(((p_dunl/100) * final_count), 0) as pop_dunl 
+#                from bp_counts_all c
+#                inner join daily_percent_ratios dpr 
+#                on survey_date = dpr.date
+#                where c.in_daily_total_yn in ('total', 'only total')
+#                or c.in_daily_total_yn is null
+#                order by survey_date;")
 
 DBI::dbDisconnect(bppeeps)
+
+# 14 CLEAN UP ----
+rm(list = ls())
+gc()

@@ -1,0 +1,221 @@
+---
+title: "NS binomial"
+author: "Sarah Popov"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE)
+
+library(ggplot2)
+
+# Source the data file, which connects to the bppeeps database and then queries and processes the data
+# This will produce two datasets: 
+# 1) dat [counts + environmental covariates]
+# 2) sr [daily species ratios]
+source(here::here("models", "prepare_dat.R"))
+
+## GLMM N-S model
+# First, create our dataset
+ns_dat <- tidyr::pivot_wider(dat[,c("year", "julian_day", "survey_date", "n_s", "final_count", "elev_range", "flow", "total_precip", "mean_temp", "u", "v")], 
+                   id_cols = c("year", "julian_day", "survey_date"),
+                   names_from = "n_s",
+                   values_from = "final_count",
+                   values_fn = sum,
+                   unused_fn = mean)
+
+# Remove NA or 0 in N/S
+ns_dat <- ns_dat[!is.na(ns_dat$N),]
+ns_dat <- ns_dat[!is.na(ns_dat$S),]
+ns_dat <- ns_dat[which(ns_dat$N != 0),]
+ns_dat <- ns_dat[which(ns_dat$S != 0),]
+
+# Rescale/center some vars
+ns_dat$dos <- scale(ns_dat$julian_day)
+ns_dat$log_N <- log(ns_dat$N + 1)
+ns_dat$log_S <- log(ns_dat$S + 1)
+
+# Extract complete cases of ns_dat
+ns_dat <- ns_dat[complete.cases(ns_dat),]
+```
+
+Testing out a binomial GLMM where the response variable is total number of birds in North vs. South stations.
+
+```{r summary ns_dat}
+summary(ns_dat)
+```
+
+Check for correlation in response variables
+
+```{r res cor}
+# Correlation matrix in response ('res') variables
+res <- ns_dat[,c("elev_range", "flow", "total_precip", "mean_temp", "u", "v")]
+cor(res, use = "complete.obs")
+```
+
+Simple model with day of season and year - same exact models as in the WESA ratio model
+
+```{r 5 models}
+# Now, create our response variable: 
+# N:S ratio - at a given survey time, N birds at northern vs southern station
+ns <- cbind(ns_dat$N, ns_dat$S)
+
+# And build our 5 models 
+# Response variable: ratio of count of N birds to count of S birds
+# Predictor variables:
+# - dos: day of season (recentered/scaled julian date)
+# - year: year (as a factor)
+lme1 <- lme4::glmer(ns ~ dos + I(dos^2) + (dos + I(dos^2)|year),
+                    family = binomial, 
+                    data = ns_dat)
+lme2 <- lme4::glmer(ns  ~ dos + I(dos^2) + (1|year), 
+                    family = binomial, 
+                    data = ns_dat)
+lme3 <- lme4::glmer(ns ~ dos + (dos|year), 
+                    family = binomial, 
+                    data = ns_dat)
+lme4 <- lme4::glmer(ns ~ dos + (1|year), 
+                    family = binomial, 
+                    data = ns_dat)
+lme5 <- lme4::glmer(ns ~ 1 + (1|year), 
+                    family = binomial, 
+                    data = ns_dat)
+
+## Compare AIC values 
+anova(lme1, lme2, lme3, lme4, lme5)
+```
+
+Overall the models are quite similar. In this case I simply just chose `lme1` as a base model to compare the effects of environmental variables, which are below. All models except for `flow_glmm` result in a `Model is nearly unidentifiable: very large eigenvalue. Rescale variables?` warning.
+
+```{r lme1 + env variables}
+flow_glmm <- lme4::glmer(ns ~ dos + I(dos^2) + (dos + I(dos^2)|year) + scale(flow),
+                    family = binomial, 
+                    data = ns_dat,
+                    control = lme4::glmerControl(optimizer = "bobyqa"))
+
+elev_glmm <- lme4::glmer(ns ~ dos + I(dos^2) + (dos + I(dos^2)|year) + scale(elev_range),
+                         family = binomial, 
+                         data = ns_dat,
+                         control = lme4::glmerControl(optimizer = "bobyqa"))
+
+precip_glmm <- lme4::glmer(ns ~ dos + I(dos^2) + (dos + I(dos^2)|year) + scale(total_precip),
+                         family = binomial, 
+                         data = ns_dat,
+                         control = lme4::glmerControl(optimizer = "bobyqa"))
+
+temp_glmm <- lme4::glmer(ns ~ dos + I(dos^2) + (dos + I(dos^2)|year) + scale(mean_temp),
+                           family = binomial, 
+                           data = ns_dat,
+                           control = lme4::glmerControl(optimizer = "bobyqa"))
+
+u_glmm <- lme4::glmer(ns ~ dos + I(dos^2) + (dos + I(dos^2)|year) + scale(u),
+                         family = binomial, 
+                         data = ns_dat,
+                         control = lme4::glmerControl(optimizer = "bobyqa"))
+
+v_glmm <- lme4::glmer(ns ~ dos + I(dos^2) + (dos + I(dos^2)|year) + scale(v),
+                      family = binomial, 
+                      data = ns_dat,
+                      control = lme4::glmerControl(optimizer = "bobyqa"))
+
+## Compare AIC values 
+anova(lme1, flow_glmm, elev_glmm, precip_glmm, temp_glmm, u_glmm, v_glmm)
+```
+
+\newpage
+
+## Flow GLMM summary
+
+```{r flow glmm summary}
+summary(flow_glmm)
+```
+
+\newpage
+## Flow GLMM fit plots
+
+```{r add resids and predicted to ns_dat}
+ns_dat$resids <- resid(flow_glmm)
+ns_dat$ns_ratio <- ns_dat$N / (ns_dat$N + ns_dat$S)
+ns_dat$predicted_ratio <- fitted(flow_glmm)
+```
+
+```{r plot: observed vs predicted}
+ggplot(ns_dat, aes(x = ns_ratio, y = predicted_ratio)) +
+  geom_point() + 
+  ggtitle("Observed vs. Predicted values") +
+  xlab("Observed") + 
+  ylab("Predicted") +
+  theme_minimal()
+```
+
+```{r plot: heteroskedasicity}
+ggplot(ns_dat, aes(x = predicted_ratio, y = resids)) +
+  geom_point() + 
+  ggtitle("Heteroskedasticity",
+          subtitle = "Fitted values vs. Residuals") +
+  xlab("Fitted") + 
+  ylab("Residuals") +
+  theme_minimal()
+```
+
+```{r qqplot}
+ggplot(ns_dat, aes(sample = resids)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Quantile-Quantile") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+## Flow GLMM residuals vs. other predictors
+
+```{r plot: resid vs elev_range}
+ggplot(ns_dat, aes(y = resids, x = elev_range)) +
+  geom_point() + 
+  ggtitle("Tidal amplitude vs Residuals") +
+  ylab("Residuals") + 
+  xlab("Tidal amplitude") +
+  theme_minimal()
+```
+
+```{r plot: resid vs precip}
+ggplot(ns_dat, aes(y = resids, x = total_precip)) +
+  geom_point() + 
+  ggtitle("Total precipitation vs Residuals") +
+  ylab("Residuals") + 
+  xlab("Total precipitation") +
+  theme_minimal()
+```
+
+```{r plot: resid vs mean_temp}
+ggplot(ns_dat, aes(y = resids, x = mean_temp)) +
+  geom_point() + 
+  ggtitle("Mean temp vs Residuals") +
+  ylab("Residuals") + 
+  xlab("Mean temp") +
+  theme_minimal()
+```
+
+```{r plot: resid vs u}
+ggplot(ns_dat, aes(y = resids, x = u)) +
+  geom_point() + 
+  ggtitle("u vs Residuals") +
+  ylab("Residuals") + 
+  xlab("u") +
+  theme_minimal()
+```
+
+```{r plot: resid vs v}
+ggplot(ns_dat, aes(y = resids, x = v)) +
+  geom_point() + 
+  ggtitle("v vs Residuals") +
+  ylab("Residuals") + 
+  xlab("v") +
+  theme_minimal()
+```
