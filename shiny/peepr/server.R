@@ -13,14 +13,7 @@ server <- shinyServer(function(input, output, session) {
     station_levels <- c("Canoe Pass", "Brunswick dike", "Brunswick Point", "View corner", "Pilings", "Bend", "34th St pullout", "Coal Port")
     data$station_n <- factor(data$station_n, levels = station_levels)
     data$station_s <- factor(data$station_s, levels = station_levels)
-    data$n_s <- as.factor(data$n_s)
-    
-    data %<>% dplyr::mutate_at(c("mumblies_yn",
-                                 "mud_yn",
-                                 "marsh_yn",
-                                 "tide_edge_yn",
-                                 "flying_yn"),
-                               as.logical)
+    data$n_s <- factor(data$n_s, levels = c("N", "S"))
     
     # Now filter
     if (input$canoe_pass) {
@@ -79,12 +72,17 @@ server <- shinyServer(function(input, output, session) {
   response <- reactive({
     sub("\\s\\~.*", "", input$model)
   })
+  
+  data_plot <- eventReactive(input$run, {
+    data_plot <- broom.mixed::augment(fit(), data_filtered())
+    data_plot <- janitor::clean_names(data_plot)
+  })
 
   # Define outputs for the model diagnostic plots
   output$observed_vs_predicted <- renderPlot({
-    ggplot(data_filtered(), 
+    ggplot(data_plot(), 
            aes_string(x = response(),
-                      y = fitted(fit())
+                      y = "fitted"
                       )) +
       geom_point() + 
       #ggtitle("Observed vs. Predicted") +
@@ -94,9 +92,9 @@ server <- shinyServer(function(input, output, session) {
   })
   
   output$residuals_vs_fitted <- renderPlot({
-    ggplot(data_filtered(), 
-           aes_string(y = resid(fit()),
-                      x = fitted(fit())
+    ggplot(data_plot(), 
+           aes_string(y = "resid",
+                      x = "fitted"
                       )) +
       geom_point() +
       #ggtitle("Fitted vs. Residuals") +
@@ -106,7 +104,7 @@ server <- shinyServer(function(input, output, session) {
   })
   
   output$qq_plot <- renderPlot({
-    ggplot(data_filtered(), aes_string(sample = resid(fit()))) +
+    ggplot(data_plot(), aes_string(sample = "resid")) +
       stat_qq() + 
       stat_qq_line() +
       geom_hline(yintercept = 0,

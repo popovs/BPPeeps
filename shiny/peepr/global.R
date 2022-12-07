@@ -1,1 +1,1 @@
-data <- read.csv("bppeep_model_dat.csv")
+data <- read.csv("peepr_dat.csv")
