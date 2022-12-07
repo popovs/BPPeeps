@@ -8,15 +8,19 @@
 library(magrittr) # for %>% and %<>%
 
 # Connect to DB
-db <- DBI::dbConnect(RSQLite::SQLite(), "../temp/bppeeps.db")
+db <- DBI::dbConnect(RSQLite::SQLite(), here::here("temp", "bppeeps.db"))
 
 # DAT ==============================================================
 # Query table
-dat <- DBI::dbGetQuery(db, "select bcl.*, p_wesa, ec.* 
+dat <- DBI::dbGetQuery(db, "with dr as (select date(date_time_pdt) as r_date, sum(count) as count
+                       from raptors group by r_date)
+                       select bcl.survey_date, start_time, station_n, station_s, final_count, 
+                       p_wesa, count as raptor_count, ec.*
                        from bp_counts_loc bcl 
                        left join daily_percent_ratio dpr on bcl.survey_date = dpr.survey_date 
-                       left join environmental_covariates ec on ec.date = bcl.survey_date ;")
-dat <- dplyr::select(dat, -date)
+                       left join environmental_covariates ec on ec.date = bcl.survey_date
+                       left join dr on r_date = bcl.survey_date;")
+dat <- dplyr::select(dat, c(-date))
 
 # Extract nrow of full dataset
 # This will be used to keep track of how many datapoints are lost
@@ -31,13 +35,6 @@ station_levels <- c("Canoe Pass", "Brunswick dike", "Brunswick Point", "View cor
 dat$station_n <- factor(dat$station_n, levels = station_levels)
 dat$station_s <- factor(dat$station_s, levels = station_levels)
 rm(station_levels)
-
-dat %<>% dplyr::mutate_at(c("mumblies_yn", 
-                            "mud_yn",
-                            "marsh_yn",
-                            "tide_edge_yn",
-                            "flying_yn"),
-                          as.logical)
 
 # We want to later filter out any records where birds span 
 # across >2 stations
@@ -90,9 +87,12 @@ filter_d <- c(filter_d, length(unique(dat$survey_date)))
 dat$year <- as.factor(lubridate::year(dat$survey_date))
 dat$julian_day <- lubridate::yday(dat$survey_date)
 dat$dos <- scale(dat$julian_day) # day of season variable
-dat$n_s <- ifelse(dat$station_n %in% c("Canoe Pass", "Brunswick Point", "View corner"),
+dat$n_s <- ifelse(dat$station_n %in% c("Canoe Pass", "Brunswick Point", "View corner", "Pilings", "Bend"),
                   "N", "S")
 dat$n_s <- as.factor(dat$n_s)
+
+# Remove dat columns as needed
+dat <- dplyr::select(dat, -c(station_n_no, station_s_no, station_diff))
 
 # Filtering steps table
 filtering <- data.frame(cbind(filter_s, filter_d, filter_n))
@@ -105,7 +105,7 @@ filtering$total_records_lost <- c('NA', diff(filtering[[3]]))
 rm(filter_d, filter_n, filter_s, tmp)
 
 # Add updated data to shiny app
-write.csv(dat, "../shiny/peepr/bppeep_model_dat.csv", na = "", row.names = F)
+#write.csv(dat, "../shiny/peepr/bppeep_model_dat.csv", na = "", row.names = F)
 
 # SR ===============================================================
 # Daily species ratio

@@ -6,8 +6,10 @@ ui <- shinyUI(fluidPage(
   # Add a sidebar
   sidebarLayout(
     sidebarPanel(
-      
-      h4("Filter dataset prior to modeling"),
+      width = 2,
+      h2("PeepR:"),
+      h4("Explore and model peeps data"),
+      "Note that if you filter the data, you will need to re-run the model to use the updated data.",
       
       # Add a checkbox to filter out records that say "Canoe Pass" in the "station_n" column
       checkboxInput("canoe_pass", "Filter out 'Canoe Pass'", FALSE),
@@ -35,7 +37,10 @@ ui <- shinyUI(fluidPage(
         # First tab
         tabPanel("Model",
                  # Add a text input for the user to type in a linear model
-                 textAreaInput("model", "Linear model:", value = "log(final_count + 1) ~ n_s + year + dos + I(dos^2) + (dos + I(dos^2) | year)"),
+                 textAreaInput("model", 
+                               "Linear model:", 
+                               value = "log_wesa ~ n_s + dos + I(dos^2) + scale(flow) + n_s*scale(flow) + (dos + I(dos^2) | year)",
+                               width = "80%"),
                  # Add a button to run the model
                  actionButton("run", "Run model"),
                  checkboxInput("stepwise", "Use backwards stepwise selection"),
