@@ -150,6 +150,24 @@ server <- shinyServer(function(input, output, session) {
       theme_minimal()
   })
   
+  output$residuals_hist <- renderPlot({
+    ggplot(data_plot(), aes_string("resid")) +
+      geom_histogram() +
+      xlab("Residuals") + 
+      ylab("Frequency") +
+      theme_minimal()
+  })
+  
+  # Residuals vs all other vars of interest
+  # TODO: under development
+  data_plot %>% 
+    dplyr::select(year:resid, -fitted) %>%
+    tidyr::gather(-resid, key = "var", value = "value") %>% 
+    ggplot(aes(x = value, y = resid)) + 
+    geom_point() + 
+    facet_wrap( ~ var, scales = "free") + 
+    theme_minimal()
+  
   # 04 Custom plots tab ----
   # When data_filtered is filtered...
   observe({

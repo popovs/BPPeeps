@@ -61,7 +61,9 @@ ui <- shinyUI(fluidPage(
                  h2("Fitted vs. Residuals"),
                  plotOutput("residuals_vs_fitted"),
                  h2("Quantile-Quantile"),
-                 plotOutput("qq_plot")
+                 plotOutput("qq_plot"),
+                 h2("Residuals frequency"),
+                 plotOutput("residuals_hist")
         ),
         
         # Third tab
