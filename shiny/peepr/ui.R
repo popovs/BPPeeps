@@ -27,7 +27,11 @@ ui <- shinyUI(fluidPage(
                   selected = unique(data[["station_n"]][data$n_s == "N"]), # Defaults to whatever is already labelled as N in base dataset
                   multiple = TRUE,
                   options = list(maxOptions = 6)
-                  )
+                  ),
+      
+      # Add a checkbox to aggregate data by N/S
+      checkboxInput("aggregate_ns", "Aggregate data by N/S station", TRUE),
+      
       ), # Close sidebar panel
     
     # Add tabs in the main panel
