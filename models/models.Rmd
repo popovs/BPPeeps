@@ -55,7 +55,7 @@ The total bird count for several surveys were obtained by taking the average tot
 
 Additionally, certain survey dates only included a total bird count for the day, but no location-level information. These records were excluded from the initial database query (24 survey dates out of a total of 538).
 
-After excluding these surveys, the initial dataset queried from the `bppeeps` dataset included `r filtering$n_records[1]` records from a total of `r filtering$n_survey_dates[1]`. This is termed the 'full dataset' and was filtered further in `R`.
+After excluding these surveys, the initial dataset queried from the `bppeeps` dataset included `r filtering$n_records[1]` records from a total of `r filtering$n_survey_dates[1]`. This is termed the 'full dataset' and was filtered further in `R`. The full dataset includes one survey per station per day. 
 
 ```{r filtering table}
 knitr::kable(filtering, col.names = c("Filtering step", "No. survey dates", "No. records", "No. survey dates lost", "No. records lost"))
@@ -69,7 +69,7 @@ summary(dat)
 ```
 
 \newpage
-```{r sr binomial, child = "canham_extended.Rmd"}
+```{r canham extended, child = "canham_extended.Rmd"}
 ```
 
 \newpage

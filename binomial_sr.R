@@ -1,22 +1,19 @@
-## ----setup, include=FALSE--------------------------------------------------------------------------------------
+## ----binomial setup, include=FALSE------------------------------------------------------------
 knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE, 
                       message = FALSE)
 
 library(ggplot2)
 
-# Source the data file, which connects to the bppeeps database and then queries and processes the data
-# This will produce two datasets: 
-# 1) dat [counts + environmental covariates]
-# 2) sr [daily species ratios]
-source(here::here("models", "prepare_dat.R"))
+# This RMD is NOT intended as a standalone script, but rather to be sourced
+# from models.Rmd. The data used in this Rmd file is generated in models.Rmd.
 
 
-## ----sr summary------------------------------------------------------------------------------------------------
+## ----sr summary-------------------------------------------------------------------------------
 summary(sr)
 
 
-## ----sr glmm fitting-------------------------------------------------------------------------------------------
+## ----sr glmm fitting--------------------------------------------------------------------------
 # First, create our response variable: 
 # WESA:DUNL proportion from our daily_percent_ratio table
 y <- cbind(sr$wesa, sr$dunl)
@@ -46,7 +43,7 @@ lme5 <- lme4::glmer(y ~ 1 + (1|year),
 anova(lme1, lme2, lme3, lme4, lme5)
 
 
-## ----best fit sr-----------------------------------------------------------------------------------------------
+## ----best fit sr------------------------------------------------------------------------------
 sr$resids <- residuals(lme1)
 
 # Add residuals into model to examine coefficients
@@ -63,11 +60,11 @@ sr$predicted_ratio <- fitted(sr_glmm)
 rm(lme1, lme2, lme3, lme4, lme5)
 
 
-## ----summary best fit sr---------------------------------------------------------------------------------------
+## ----summary best fit sr----------------------------------------------------------------------
 summary(sr_glmm)
 
 
-## ----sr plot: observed vs predicted----------------------------------------------------------------------------
+## ----sr plot: observed vs predicted-----------------------------------------------------------
 ggplot(sr, aes(x = p_wesa, y = predicted_ratio)) +
   geom_point() + 
   ggtitle("Observed vs. Predicted values") +
@@ -76,7 +73,7 @@ ggplot(sr, aes(x = p_wesa, y = predicted_ratio)) +
   theme_minimal()
 
 
-## ----sr plot: heteroskedasticity-------------------------------------------------------------------------------
+## ----sr plot: heteroskedasticity--------------------------------------------------------------
 ggplot(sr, aes(x = predicted_ratio, y = resids)) +
   geom_point() + 
   ggtitle("Heteroskedasticity",
@@ -86,7 +83,7 @@ ggplot(sr, aes(x = predicted_ratio, y = resids)) +
   theme_minimal()
 
 
-## ----sr plot: qq plot------------------------------------------------------------------------------------------
+## ----sr plot: qq plot-------------------------------------------------------------------------
 ggplot(sr, aes(sample = resids)) +
   stat_qq() + 
   stat_qq_line() +
@@ -98,12 +95,12 @@ ggplot(sr, aes(sample = resids)) +
   theme_minimal()
 
 
-## ----sr year effects, include = FALSE--------------------------------------------------------------------------
+## ----sr year effects, include = FALSE---------------------------------------------------------
 year_effects <- lme4::ranef(sr_glmm)$year
 year_effects <- janitor::clean_names(year_effects)
 
 
-## ----sr plot: year intercept plot------------------------------------------------------------------------------
+## ----sr plot: year intercept plot-------------------------------------------------------------
 ggplot(year_effects, aes(sample = intercept)) +
   stat_qq() + 
   stat_qq_line() +
@@ -116,7 +113,7 @@ ggplot(year_effects, aes(sample = intercept)) +
   theme_minimal()
 
 
-## ----sr plot: year slope plot----------------------------------------------------------------------------------
+## ----sr plot: year slope plot-----------------------------------------------------------------
 ggplot(year_effects, aes(sample = dos)) +
   stat_qq() + 
   stat_qq_line() +
@@ -129,7 +126,7 @@ ggplot(year_effects, aes(sample = dos)) +
   theme_minimal()
 
 
-## ----sr plot: year slope quadratic plot------------------------------------------------------------------------
+## ----sr plot: year slope quadratic plot-------------------------------------------------------
 ggplot(year_effects, aes(sample = i_dos_2)) +
   stat_qq() + 
   stat_qq_line() +
@@ -142,7 +139,7 @@ ggplot(year_effects, aes(sample = i_dos_2)) +
   theme_minimal()
 
 
-## ----predict wesa ratio, include = FALSE-----------------------------------------------------------------------
+## ----predict wesa ratio, include = FALSE------------------------------------------------------
 # Create yrs df, which is a df containing all possible
 # julian_day-year combinations
 yrs <- expand.grid(julian_day = seq(min(dat$julian_day), max(dat$julian_day), 1),
@@ -168,7 +165,7 @@ yrs$odds <- yrs$intercept + yrs$jd_parm * yrs$dos + yrs$jd2_parm * yrs$dos^2
 yrs$predicted_ratio <- exp(yrs$odds) / (1 + exp(yrs$odds))
 
 
-## ----plot predicted wesa ratios, fig.height = 8----------------------------------------------------------------
+## ----plot predicted wesa ratios, fig.height = 8-----------------------------------------------
 ggplot() +
   geom_line(data = yrs, aes(x = julian_day, y = predicted_ratio, group = year)) +
   geom_point(data = sr, aes(x = julian_day, y = (p_wesa/100), group = year), color = 'blue') +

@@ -30,6 +30,39 @@ server <- shinyServer(function(input, output, session) {
                                    n_s = ifelse(station_n %in% input$selected_stations,
                                                 "N", "S"))
     
+    # Group data by selected N/S
+    data_filtered <- sqldf::sqldf("select year, 
+                                  survey_date, 
+                                  julian_day, 
+                                  min(start_time) as start_time, 
+                                  n_s, 
+                                  sum(final_count) as final_count, 
+                                  sum(wesa_count) as wesa_count, 
+                                  sum(dunl_count) as dunl_count, 
+                                  p_wesa, 
+                                  predicted_p_wesa, 
+                                  avg(raptor_count) as raptor_count, 
+                                  elev_min, 
+                                  elev_max, 
+                                  elev_median, 
+                                  elev_mean, 
+                                  elev_range, 
+                                  flow, 
+                                  total_precip, 
+                                  mean_temp, 
+                                  u, 
+                                  v, 
+                                  windspd, 
+                                  wind_deg 
+                                  from data_filtered 
+                                  group by survey_date, n_s;") %>%
+      dplyr::mutate(dos = scale(julian_day),
+                    log_wesa = log(wesa_count + 1),
+                    log_dunl = log(dunl_count + 1)) %>%
+      dplyr::select(year, survey_date, julian_day, dos, start_time, n_s, 
+                    final_count, wesa_count, dunl_count, log_wesa, log_dunl,
+                    dplyr::everything())
+    
     # Return filtered data
     data_filtered
   })
