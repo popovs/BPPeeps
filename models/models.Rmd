@@ -83,12 +83,57 @@ Two simpler models can get at these questions:
 1. The 'mechanism' model: `log_wesa ~ year_c + n_s * scale(flow) + dos + I(dos^2) + (dos + I(dos^2) | year)`
 2. The 'temporal' model: `log_wesa ~ n_s * year_c + dos + I(dos^2) + (dos + I(dos^2) | year)`
 
+## Data changes
+
+These simpler models necessitate further data aggregation. We are primarily interested in N vs S distribution of peeps: therefore, the data are grouped by N/S such that there are two data points per survey date: number of peeps in the northern stations (Canoe Pass, Brunswick Point, Bend, Pilings, View corner) vs southern (34th St pullout, Coal Port). Any NA values in our variables of interest are also removed.
+
+```{r aggregate by NS, include=FALSE}
+dat3 <- sqldf::sqldf("select year, 
+                      survey_date, 
+                      julian_day, 
+                      min(start_time) as start_time, 
+                      n_s, 
+                      sum(final_count) as final_count, 
+                      sum(predicted_wesa) as predicted_wesa, 
+                      sum(predicted_dunl) as predicted_dunl, 
+                      p_wesa, 
+                      predicted_ratio, 
+                      avg(raptor_count) as raptor_count, 
+                      elev_min, 
+                      elev_max, 
+                      elev_median, 
+                      elev_mean, 
+                      elev_range, 
+                      flow, 
+                      total_precip, 
+                      mean_temp, 
+                      u, 
+                      v, 
+                      windspd, 
+                      wind_deg 
+                      from dat 
+                      group by survey_date, n_s;") %>%
+  dplyr::mutate(dos = scale(julian_day),
+                log_wesa = log(predicted_wesa + 1),
+                log_dunl = log(predicted_dunl + 1),
+                year_c = scale(as.numeric(year))) %>%
+  dplyr::select(year, survey_date, julian_day, dos, start_time, n_s,
+                final_count, predicted_wesa, predicted_dunl, log_wesa, 
+                log_dunl, dplyr::everything()) %>%
+  dplyr::filter(!is.na(flow), !is.na(total_precip))
+```
+
+```{r head dat3}
+head(dat3)
+```
+
+```{r summary of dat3}
+summary(dat3)
+```
+
 ## The 'mechanism' model
 
 ```{r mechanism model}
-# Exclude incomplete cases 
-dat3 <- dat[!is.na(dat$flow),]
-
 mech_model <- lme4::lmer(log_wesa ~ year_c + n_s * scale(flow) + dos + I(dos^2) + (dos + I(dos^2) | year),
                          data = dat3)
 summary(mech_model)
