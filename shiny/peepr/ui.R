@@ -43,7 +43,7 @@ ui <- shinyUI(fluidPage(
                  # Add a text input for the user to type in a linear model
                  textAreaInput("model", 
                                "Linear model:", 
-                               value = "log_wesa ~ n_s + dos + I(dos^2) + scale(flow) + n_s*scale(flow) + (dos + I(dos^2) | year)",
+                               value = "log_wesa ~ n_s + dos + I(dos^2) + year + scale(flow) + n_s*scale(flow) + (dos + I(dos^2) | year)",
                                width = "80%"),
                  # Add a button to run the model
                  actionButton("run", "Run model"),
