@@ -78,6 +78,70 @@ summary(dat)
 
 \newpage
 
+# WESA variable plots
+
+```{r}
+ggplot(dat3, aes(x = year, y = log_wesa, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("Year vs log(WESA)") +
+  xlab("Year") + 
+  ylab("log(WESA)") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(dat3, aes(x = dos, y = log_wesa, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("Day of Season vs log(WESA)") +
+  xlab("DOS") + 
+  ylab("log(WESA)") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(dat3, aes(x = flow, y = log_wesa, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("Flow vs log(WESA)") +
+  xlab("Flow") + 
+  ylab("log(WESA)") +
+  theme_minimal()
+```
+```{r}
+ggplot(dat3, aes(x = u, y = log_wesa, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("u vs log(WESA)") +
+  xlab("u") + 
+  ylab("log(WESA)") +
+  theme_minimal()
+```
+```{r}
+ggplot(dat3, aes(x = v, y = log_wesa, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("v vs log(WESA)") +
+  xlab("v") + 
+  ylab("log(WESA)") +
+  theme_minimal()
+```
+```{r}
+ggplot(dat3, aes(x = windspd, y = log_wesa, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("Windspeed vs log(WESA)") +
+  xlab("Windspeed") + 
+  ylab("log(WESA)") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(dat3, aes(x = elev_range, y = log_wesa, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("Tidal amplitude vs log(WESA)") +
+  xlab("Tidal amplitude") + 
+  ylab("log(WESA)") +
+  theme_minimal()
+```
+
+\newpage
+
 # WESA model
 
 Full model:
@@ -103,12 +167,12 @@ final_wesa_model <- lme4::lmer(lmerTest::get_model(s)@call$formula, data = dat3)
 
 ## Final model diagnostics
 
-```{r make temp plot data}
+```{r wesa make temp plot data}
 temp_plot <- broom.mixed::augment(final_wesa_model, dat3)
 temp_plot <- janitor::clean_names(temp_plot)
 ```
 
-```{r temp plot: observed vs predicted}
+```{r wesa temp plot: observed vs predicted}
 ggplot(temp_plot, aes(x = log_wesa, y = fitted)) +
   geom_point() + 
   ggtitle("Observed vs. Fitted values") +
@@ -118,7 +182,7 @@ ggplot(temp_plot, aes(x = log_wesa, y = fitted)) +
 ```
 
 
-```{r temp plot: heteroskedasticity}
+```{r wesa temp plot: heteroskedasticity}
 ggplot(temp_plot, aes(x = fitted, y = resid)) +
   geom_point() + 
   ggtitle("Heteroskedasticity",
@@ -129,7 +193,7 @@ ggplot(temp_plot, aes(x = fitted, y = resid)) +
 ```
 
 
-```{r temp plot: qq plot}
+```{r wesa temp plot: qq plot}
 ggplot(temp_plot, aes(sample = resid)) +
   stat_qq() + 
   stat_qq_line() +
@@ -178,6 +242,72 @@ temp_plot %>%
   theme_minimal()
 ```
 
+# DUNL variable plots
+
+```{r}
+ggplot(dat3, aes(x = year, y = log_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("Year vs log(DUNL)") +
+  xlab("Year") + 
+  ylab("log(DUNL)") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(dat3, aes(x = dos, y = log_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("Day of Season vs log(DUNL)") +
+  xlab("DOS") + 
+  ylab("log(DUNL)") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(dat3, aes(x = flow, y = log_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("Flow vs log(DUNL)") +
+  xlab("Flow") + 
+  ylab("log(DUNL)") +
+  theme_minimal()
+```
+```{r}
+ggplot(dat3, aes(x = u, y = log_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("u vs log(DUNL)") +
+  xlab("u") + 
+  ylab("log(DUNL)") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(dat3, aes(x = v, y = log_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("v vs log(DUNL)") +
+  xlab("v") + 
+  ylab("log(DUNL)") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(dat3, aes(x = windspd, y = log_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("Windspeed vs log(DUNL)") +
+  xlab("Windspeed") + 
+  ylab("log(DUNL)") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(dat3, aes(x = elev_range, y = log_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  ggtitle("Tidal amplitude vs log(DUNL)") +
+  xlab("Tidal amplitude") + 
+  ylab("log(DUNL)") +
+  theme_minimal()
+```
+
+\newpage
+
 # DUNL model
 
 Full model:
@@ -202,12 +332,12 @@ final_dunl_model <- lme4::lmer(lmerTest::get_model(s)@call$formula, data = dat3)
 
 ## Final model diagnostics
 
-```{r make temp plot data}
+```{r dunl make temp plot data}
 temp_plot <- broom.mixed::augment(final_dunl_model, dat3)
 temp_plot <- janitor::clean_names(temp_plot)
 ```
 
-```{r temp plot: observed vs predicted}
+```{r dunl temp plot: observed vs predicted}
 ggplot(temp_plot, aes(x = log_wesa, y = fitted)) +
   geom_point() + 
   ggtitle("Observed vs. Fitted values") +
@@ -217,7 +347,7 @@ ggplot(temp_plot, aes(x = log_wesa, y = fitted)) +
 ```
 
 
-```{r temp plot: heteroskedasticity}
+```{r dunl temp plot: heteroskedasticity}
 ggplot(temp_plot, aes(x = fitted, y = resid)) +
   geom_point() + 
   ggtitle("Heteroskedasticity",
@@ -228,7 +358,7 @@ ggplot(temp_plot, aes(x = fitted, y = resid)) +
 ```
 
 
-```{r temp plot: qq plot}
+```{r dunl temp plot: qq plot}
 ggplot(temp_plot, aes(sample = resid)) +
   stat_qq() + 
   stat_qq_line() +
@@ -276,3 +406,4 @@ temp_plot %>%
   ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 3) +
   theme_minimal()
 ```
+
