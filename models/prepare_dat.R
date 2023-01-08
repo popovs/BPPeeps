@@ -122,6 +122,12 @@ sr$dos <- scale(sr$julian_day) # day of season
 # Filter to appropriate data
 sr <- sr[!(is.na(sr$wesa) | sr$total == 0), ]
 
+# DAILY TOTALS =====================================================
+# Daily totals, for use in yearly population trend model
+dt <- DBI::dbGetQuery(db, "select * from daily_total left join environmental_covariates ec on survey_date = ec.date;")
+
+# DISCONNECT =======================================================
 # Disconnect from db
 DBI::dbDisconnect(db)
 rm(db)
+
