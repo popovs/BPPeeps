@@ -407,3 +407,6 @@ temp_plot %>%
   theme_minimal()
 ```
 
+\newpage
+```{r yearly trend, child = "yearly_trend.Rmd"}
+```

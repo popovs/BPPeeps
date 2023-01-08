@@ -1,0 +1,165 @@
+---
+title: "Yearly trends"
+author: "Sarah Popov"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r yearly trends setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE)
+
+# This RMD is NOT intended as a standalone script, but rather to be sourced
+# from models.Rmd. The data used in this Rmd file is generated in models.Rmd
+# and binomial_sr.Rmd.
+
+# Run binomial sr model on the daily count data
+# NOTE THE RESULTS WILL BE SLIGHTLY DIFFERENT TO THE CANHAM PAPER BECAUSE THIS 
+# SR MODEL DOES NOT INCLUDE 1991-1993 DATA AND DOES INCLUDE 2020-2022.
+
+# Create yrs df, which is a df containing all possible
+# julian_day-year combinations
+yrs2 <- expand.grid(julian_day = seq(min(dt$julian_day), 
+                                     max(dt$julian_day), 1),
+                    year = as.factor(unique(lubridate::year(dt$survey_date))))
+# Add day of season variable
+yrs2$dos <- (yrs2$julian_day - mean(sr$julian_day))/sd(sr$julian_day)
+
+# Merge yrs2 and coefs (coefs is created in binomial_sr.Rmd) together
+yrs2 <- merge(yrs2, coefs, by = "year", all.x = TRUE)
+
+# Add mean coefficients across all years to any years of data with NA
+# coeffs (same methodology as used in original Canham paper)
+yrs2[["intercept"]][is.na(yrs2$intercept)] <- mean(yrs2$intercept, na.rm = T)
+yrs2[["jd_parm"]][is.na(yrs2$jd_parm)] <- mean(yrs2$jd_parm, na.rm = T)
+yrs2[["jd2_parm"]][is.na(yrs2$jd2_parm)] <- mean(yrs2$jd2_parm, na.rm = T)
+
+# Now calculate odds & predict ratios for all survey dates
+yrs2$odds <- yrs2$intercept + yrs2$jd_parm * yrs2$dos + yrs2$jd2_parm * yrs2$dos^2
+yrs2$predicted_ratio <- exp(yrs2$odds) / (1 + exp(yrs2$odds))
+
+# Now merge predicted wesa ratio generated above to the dt dataset
+dt <- merge(dt, yrs2[,c("year", "julian_day", "predicted_ratio")], 
+            by = c("year", "julian_day"))
+
+# Scale and log-transform variables of interest
+dt$predicted_wesa <- round(dt$total_count * dt$predicted_ratio, 0)
+dt$predicted_dunl <- dt$total_count - dt$predicted_wesa
+dt$log_wesa <- log(dt$predicted_wesa + 1)
+dt$log_dunl <- log(dt$predicted_dunl + 1)
+dt$year_c <- scale(as.numeric(dt$year))
+```
+
+# Yearly trends in peep population
+
+The original Canham et al. (2021) paper provided yearly population trends of WESA and DUNL at Brunswick Point. These same population trends are extended here with 2020-2022 data, using the same population models derived in the orginal paper (i.e., no north vs. south component). Values represent population indices (with 95% confidence intervals) calculated as predicted values for each year from final models for each species, with independent variables held at median values for each year. Daily total counts (not broken down by survey station) are used as the data for this model; differences between the original Canham data is that this dataset only goes back to 1994 (rather than 1991) and goes up to 2022 (rather than 2019).
+
+*WESA model*:
+
+$ log(WESA) \sim year + dos + I(dos^2) + scale(elev.range) + scale(flow) + scale(u) + (dos + I(dos^2) | year) $
+
+*DUNL model*:
+
+$ log(DUNL) \sim year + dos + I(dos^2) + scale(elev.range) + scale(flow) + scale(u) + (dos + I(dos^2) | year)  $
+
+```{r canham yearly trend model}
+wesa_trend <- lmerTest::lmer(log_wesa ~ year_c + dos + I(dos^2) + scale(elev_range) + scale(flow) + scale(u) + (dos + I(dos^2) | year), 
+                   data = dt,
+                   REML = T, 
+                   lme4::lmerControl(optimizer = 'bobyqa'))
+
+dunl_trend <- lmerTest::lmer(log_dunl ~ year_c + dos + I(dos^2) + scale(elev_range) + scale(flow) + scale(u) + (dos + I(dos^2) | year), 
+                   data = dt,
+                   REML = T, 
+                   lme4::lmerControl(optimizer = 'bobyqa')) 
+```
+
+
+```{r index df setup, include=FALSE}
+index <- dt %>%
+  dplyr::group_by(year) %>%
+  dplyr::summarize(dos = median(dos, na.rm = T),
+                   elev_range = median(elev_range, na.rm = T),
+                   flow = median(flow, na.rm = T),
+                   u = median(u, na.rm = T),
+                   v = median(v, na.rm = T),
+                   windspd = median(windspd, na.rm = T)) %>%
+  dplyr::mutate(year_n = as.numeric(as.character(year)),
+                year_c = scale(year_n))
+
+# Calculate predicted WESA/DUNL numbers for each year
+# NOTE this is specifically using merMod::predict
+# param 're.form = NA' indicates to include NO random effects
+index$pred_wesa <- exp(predict(wesa_trend, index, re.form = NA))
+index$pred_dunl <- exp(predict(dunl_trend, index, re.form = NA))
+
+# Calculate fixed-effects only se for WESA/DUNL numbers for each year, incl residual error
+index[,c("wesa_fit_t", "wesa_upr", "wesa_lwr")] <- 
+  exp(merTools::predictInterval(merMod = wesa_trend,
+                                newdata = index,
+                                level = 0.95,
+                                stat = "median",
+                                type = "linear.prediction",
+                                include.resid.var = FALSE)) / 1000
+
+index[,c("dunl_fit_t", "dunl_upr", "dunl_lwr")] <- 
+  exp(merTools::predictInterval(merMod = dunl_trend,
+                                newdata = index,
+                                level = 0.95,
+                                stat = "median",
+                                type = "linear.prediction",
+                                include.resid.var = FALSE)) / 1000
+```
+## Yearly population trend model summaries
+
+The westerly wind vector, `u`, is not significant in either model, deviating from the original Canham paper. As in the original Canham paper, however, `year` remains insignificant in the DUNL model.
+
+### WESA
+
+```{r wesa trend model summary}
+summary(wesa_trend)
+```
+
+### DUNL
+
+```{r dunl trend model summary}
+summary(dunl_trend)
+```
+
+
+```{r wesa index plot}
+index %>%
+  ggplot(aes(x = year_n, y = wesa_fit_t)) +
+  geom_smooth(method = lm, color = 'red') + 
+  geom_pointrange(aes(ymin = wesa_lwr, ymax = wesa_upr),
+                  fatten = 2) +
+  scale_y_continuous(trans = 'log10') +
+  theme(text=element_text(size=16),
+        panel.background = element_rect(fill="white"),
+        panel.grid.minor=element_blank(),
+        strip.background = element_blank(),
+        axis.line=element_line(colour="black")) +
+  labs(title = 'Western Sandpiper', 
+       x = 'Year', 
+       y = expression(paste("Index (", 10^3, " birds; ", log[10],  " scale)"))
+       )
+```
+
+```{r dunl index plot}
+index %>%
+  ggplot(aes(x = year_n, y = dunl_fit_t)) +
+  geom_smooth(method = lm, color = 'red', linetype = "dashed") + 
+  geom_pointrange(aes(ymin = dunl_lwr, ymax = dunl_upr),
+                  fatten = 2) +
+  scale_y_continuous(trans = 'log10') +
+  theme(text=element_text(size=16),
+        panel.background = element_rect(fill="white"),
+        panel.grid.minor=element_blank(),
+        strip.background = element_blank(),
+        axis.line=element_line(colour="black")) +
+  labs(title = 'Dunlin', 
+       x = 'Year', 
+       y = expression(paste("Index (", 10^3, " birds; ", log[10],  " scale)"))
+       )
+```

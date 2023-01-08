@@ -126,6 +126,17 @@ sr <- sr[!(is.na(sr$wesa) | sr$total == 0), ]
 # Daily totals, for use in yearly population trend model
 dt <- DBI::dbGetQuery(db, "select * from daily_total left join environmental_covariates ec on survey_date = ec.date;")
 
+dt$survey_date <- as.Date(dt$survey_date)
+
+# Include only survey dates
+dt <- dt[(format(dt$survey_date, "%m-%d") >= "04-15"), ]
+dt <- dt[(format(dt$survey_date, "%m-%d") <= "05-15"), ]
+
+# Add columns as needed
+dt$year <- as.factor(lubridate::year(dt$survey_date))
+dt$julian_day <- lubridate::yday(dt$survey_date)
+dt$dos <- scale(dt$julian_day) # day of season variable
+
 # DISCONNECT =======================================================
 # Disconnect from db
 DBI::dbDisconnect(db)
