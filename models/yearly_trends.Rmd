@@ -57,11 +57,11 @@ The original Canham et al. (2021) paper provided yearly population trends of WES
 
 *WESA model*:
 
-$ log(WESA) \sim year + dos + I(dos^2) + scale(elev.range) + scale(flow) + scale(u) + (dos + I(dos^2) | year) $
+$log(WESA) \sim year + dos + I(dos^2) + scale(elev.range) + scale(flow) + scale(u) + (dos + I(dos^2) | year)$
 
 *DUNL model*:
 
-$ log(DUNL) \sim year + dos + I(dos^2) + scale(elev.range) + scale(flow) + scale(u) + (dos + I(dos^2) | year)  $
+$log(DUNL) \sim year + dos + I(dos^2) + scale(elev.range) + scale(flow) + scale(u) + (dos + I(dos^2) | year)$
 
 ```{r canham yearly trend model}
 wesa_trend <- lmerTest::lmer(log_wesa ~ year_c + dos + I(dos^2) + scale(elev_range) + scale(flow) + scale(u) + (dos + I(dos^2) | year), 

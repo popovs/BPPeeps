@@ -81,7 +81,9 @@ summary(dat)
 
 \newpage
 
-# WESA variable plots
+# Final WESA model
+
+## WESA vs. variable plots
 
 ```{r wesa vs year}
 ggplot(dat3, aes(x = year_n, y = log_wesa, color = n_s)) +
@@ -166,7 +168,7 @@ ggplot(dat3, aes(x = elev_range, y = log_wesa, color = n_s)) +
 
 \newpage
 
-# WESA model
+## WESA model
 
 Full model:
 
@@ -188,6 +190,17 @@ s <- lmerTest::step(full_wesa_model, data = dat3)
 final_wesa_model <- lme4::lmer(lmerTest::get_model(s)@call$formula, data = dat3)
 ```
 
+```{r wesa model forest plot}
+sjPlot::plot_model(final_wesa_model, type = "std") +
+  ggtitle("Final WESA model - standardized fixed effect sizes") +
+  scale_x_discrete(labels = rev(c("n_s [S]", "flow", "elev_range", 
+                              "u", "v", "windspd", "dos^2", "n_s : elev_range",
+                              "n_s : u", "n_s : v", "n_s : windspd")))
+```
+
+```{r wesa random effects forest plot}
+sjPlot::plot_model(final_wesa_model, type = "re")
+```
 
 ## Final model diagnostics
 
@@ -229,6 +242,12 @@ ggplot(temp_plot, aes(sample = resid)) +
   theme_minimal()
 ```
 
+```{r wesa slope coeff}
+sjPlot::plot_model(final_wesa_model, type = "slope") +
+  ggtitle("Coefficient slopes vs Response")
+```
+
+
 ```{r wesa vars p1}
 temp_plot %>%
   dplyr::select(year:resid, -fitted) %>%
@@ -236,8 +255,9 @@ temp_plot %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = resid)) +
   geom_point() +
+  geom_smooth() +
   scale_x_continuous(n.breaks = 3) +
-  ggtitle("Variables vs. Residuals") + 
+  ggtitle("Full dataset variables vs. Residuals") + 
   ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 1) +
   theme_minimal()
 ```
@@ -249,6 +269,7 @@ temp_plot %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = resid)) +
   geom_point() +
+  geom_smooth() +
   scale_x_continuous(n.breaks = 3) +
   ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 2) +
   theme_minimal()
@@ -261,12 +282,16 @@ temp_plot %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = resid)) +
   geom_point() +
+  geom_smooth() +
   scale_x_continuous(n.breaks = 3) +
   ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 3) +
   theme_minimal()
 ```
 
-# DUNL variable plots
+\newpage
+# Final DUNL model
+
+## DUNL vs. variable plots
 
 ```{r dunl vs year}
 ggplot(dat3, aes(x = year_n, y = log_dunl, color = n_s)) +
@@ -375,6 +400,20 @@ s <- lmerTest::step(full_dunl_model, data = dat3)
 final_dunl_model <- lme4::lmer(lmerTest::get_model(s)@call$formula, data = dat3)
 ```
 
+```{r dunl model forest plot}
+sjPlot::plot_model(final_dunl_model, type = "std") +
+  ggtitle("Final WESA model - standardized fixed effect sizes") +
+  scale_x_discrete(labels = rev(c("n_s [S]", "flow", "elev_range", 
+                              "u", "v", "windspd", "dos", "dos^2",
+                              "year", "n_s : elev_range",
+                              "n_s : u", "n_s : v", "n_s : windspd")))
+```
+
+```{r dunl random effects forest plot}
+sjPlot::plot_model(final_dunl_model, type = "re")
+```
+
+
 ## Final model diagnostics
 
 ```{r dunl make temp plot data}
@@ -415,6 +454,11 @@ ggplot(temp_plot, aes(sample = resid)) +
   theme_minimal()
 ```
 
+```{r dunl slope coeff}
+sjPlot::plot_model(final_dunl_model, type = "slope") +
+  ggtitle("Coefficient slopes vs Response")
+```
+
 ```{r dunl vars p1}
 temp_plot %>%
   dplyr::select(year:resid, -fitted) %>%
@@ -422,6 +466,7 @@ temp_plot %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = resid)) +
   geom_point() +
+  geom_smooth() +
   scale_x_continuous(n.breaks = 3) +
   ggtitle("Variables vs. Residuals") + 
   ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 1) +
@@ -435,6 +480,7 @@ temp_plot %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = resid)) +
   geom_point() +
+  geom_smooth() +
   scale_x_continuous(n.breaks = 3) +
   ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 2) +
   theme_minimal()
@@ -447,11 +493,12 @@ temp_plot %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = resid)) +
   geom_point() +
+  geom_smooth() +
   scale_x_continuous(n.breaks = 3) +
   ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 3) +
   theme_minimal()
 ```
 
 \newpage
-```{r yearly trend, child = "yearly_trend.Rmd"}
+```{r yearly trend, child = "yearly_trends.Rmd"}
 ```
