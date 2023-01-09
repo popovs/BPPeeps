@@ -30,6 +30,41 @@ server <- shinyServer(function(input, output, session) {
                                    n_s = ifelse(station_n %in% input$selected_stations,
                                                 "N", "S"))
     
+    # Aggregate data by selected N/S
+    if (input$aggregate_ns) {
+      data_filtered <- sqldf::sqldf("select year, 
+                                  survey_date, 
+                                  julian_day, 
+                                  min(start_time) as start_time, 
+                                  n_s, 
+                                  sum(final_count) as final_count, 
+                                  sum(wesa_count) as wesa_count, 
+                                  sum(dunl_count) as dunl_count, 
+                                  p_wesa, 
+                                  predicted_p_wesa, 
+                                  avg(raptor_count) as raptor_count, 
+                                  elev_min, 
+                                  elev_max, 
+                                  elev_median, 
+                                  elev_mean, 
+                                  elev_range, 
+                                  flow, 
+                                  total_precip, 
+                                  mean_temp, 
+                                  u, 
+                                  v, 
+                                  windspd, 
+                                  wind_deg 
+                                  from data_filtered 
+                                  group by survey_date, n_s;") %>%
+        dplyr::mutate(dos = scale(julian_day),
+                      log_wesa = log(wesa_count + 1),
+                      log_dunl = log(dunl_count + 1)) %>%
+        dplyr::select(year, survey_date, julian_day, dos, start_time, n_s, 
+                      final_count, wesa_count, dunl_count, log_wesa, log_dunl,
+                      dplyr::everything())
+    } 
+    
     # Return filtered data
     data_filtered
   })
@@ -114,6 +149,24 @@ server <- shinyServer(function(input, output, session) {
       ylab("Sample") +
       theme_minimal()
   })
+  
+  output$residuals_hist <- renderPlot({
+    ggplot(data_plot(), aes_string("resid")) +
+      geom_histogram() +
+      xlab("Residuals") + 
+      ylab("Frequency") +
+      theme_minimal()
+  })
+  
+  # Residuals vs all other vars of interest
+  # TODO: under development
+  # data_plot %>% 
+  #   dplyr::select(year:resid, -fitted) %>%
+  #   tidyr::gather(-resid, key = "var", value = "value") %>% 
+  #   ggplot(aes(x = value, y = resid)) + 
+  #   geom_point() + 
+  #   facet_wrap( ~ var, scales = "free") + 
+  #   theme_minimal()
   
   # 04 Custom plots tab ----
   # When data_filtered is filtered...

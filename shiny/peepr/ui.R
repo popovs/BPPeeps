@@ -27,7 +27,11 @@ ui <- shinyUI(fluidPage(
                   selected = unique(data[["station_n"]][data$n_s == "N"]), # Defaults to whatever is already labelled as N in base dataset
                   multiple = TRUE,
                   options = list(maxOptions = 6)
-                  )
+                  ),
+      
+      # Add a checkbox to aggregate data by N/S
+      checkboxInput("aggregate_ns", "Aggregate data by N/S station", TRUE),
+      
       ), # Close sidebar panel
     
     # Add tabs in the main panel
@@ -39,7 +43,7 @@ ui <- shinyUI(fluidPage(
                  # Add a text input for the user to type in a linear model
                  textAreaInput("model", 
                                "Linear model:", 
-                               value = "log_wesa ~ n_s + dos + I(dos^2) + scale(flow) + n_s*scale(flow) + (dos + I(dos^2) | year)",
+                               value = "log_wesa ~ n_s + dos + I(dos^2) + year + scale(flow) + n_s*scale(flow) + (dos + I(dos^2) | year)",
                                width = "80%"),
                  # Add a button to run the model
                  actionButton("run", "Run model"),
@@ -57,7 +61,9 @@ ui <- shinyUI(fluidPage(
                  h2("Fitted vs. Residuals"),
                  plotOutput("residuals_vs_fitted"),
                  h2("Quantile-Quantile"),
-                 plotOutput("qq_plot")
+                 plotOutput("qq_plot"),
+                 h2("Residuals frequency"),
+                 plotOutput("residuals_hist")
         ),
         
         # Third tab
