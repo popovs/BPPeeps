@@ -16,6 +16,9 @@ knitr::opts_chunk$set(echo = FALSE,
 
 library(ggplot2)
 
+# Color palette (using blue & yellow from wesanderson Zissou1 palette)
+pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue = 255))
+
 # Source the data file, which connects to the bppeeps database and then queries and processes the data
 # This will produce two datasets: 
 # 1) dat [counts + environmental covariates]
@@ -80,64 +83,85 @@ summary(dat)
 
 # WESA variable plots
 
-```{r}
-ggplot(dat3, aes(x = year, y = log_wesa, color = n_s)) +
+```{r wesa vs year}
+ggplot(dat3, aes(x = year_n, y = log_wesa, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("Year vs log(WESA)") +
-  xlab("Year") + 
-  ylab("log(WESA)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Year vs log(WESA)",
+       x = "Year", 
+       y = "log(WESA)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
 
-```{r}
+```{r wesa vs dos}
 ggplot(dat3, aes(x = dos, y = log_wesa, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("Day of Season vs log(WESA)") +
-  xlab("DOS") + 
-  ylab("log(WESA)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Day of Season vs log(WESA)",
+       x = "DOS", 
+       y = "log(WESA)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
 
-```{r}
+```{r wesa vs flow}
 ggplot(dat3, aes(x = flow, y = log_wesa, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("Flow vs log(WESA)") +
-  xlab("Flow") + 
-  ylab("log(WESA)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Flow vs log(WESA)",
+       x = "Flow", 
+       y = "log(WESA)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
-```{r}
+```{r wesa vs u}
 ggplot(dat3, aes(x = u, y = log_wesa, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  ggtitle("u vs log(WESA)") +
-  xlab("u") + 
-  ylab("log(WESA)") +
-  theme_minimal()
+  geom_point(alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "u (westerly winds) vs log(WESA)",
+       x = "u (westerly winds)", 
+       y = "log(WESA)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
-```{r}
+```{r wesa vs v}
 ggplot(dat3, aes(x = v, y = log_wesa, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("v vs log(WESA)") +
-  xlab("v") + 
-  ylab("log(WESA)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "v (southerly winds) vs log(WESA)",
+       x = "v (southerly winds)", 
+       y = "log(WESA)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
-```{r}
+```{r wesa vs windspd}
 ggplot(dat3, aes(x = windspd, y = log_wesa, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("Windspeed vs log(WESA)") +
-  xlab("Windspeed") + 
-  ylab("log(WESA)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Wind speed vs log(WESA)",
+       x = "Wind speed (km/h)", 
+       y = "log(WESA)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
 
-```{r}
+```{r wesa vs tide}
 ggplot(dat3, aes(x = elev_range, y = log_wesa, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("Tidal amplitude vs log(WESA)") +
-  xlab("Tidal amplitude") + 
-  ylab("log(WESA)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Tidal amplitude vs log(WESA)",
+       x = "Tidal amplitude (m)", 
+       y = "log(WESA)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
 
 \newpage
@@ -147,7 +171,7 @@ ggplot(dat3, aes(x = elev_range, y = log_wesa, color = n_s)) +
 Full model:
 
 ```{r full wesa model}
-full_wesa_model <- lmerTest::lmer("log_wesa ~ n_s*scale(flow) + n_s*elev_range + n_s*u + n_s*v + n_s*windspd + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)",
+full_wesa_model <- lmerTest::lmer("log_wesa ~ n_s*scale(flow) + n_s*scale(elev_range) + n_s*scale(u) + n_s*scale(v) + n_s*scale(windspd) + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)",
            data = dat3)
 
 summary(full_wesa_model)
@@ -244,66 +268,87 @@ temp_plot %>%
 
 # DUNL variable plots
 
-```{r}
-ggplot(dat3, aes(x = year, y = log_dunl, color = n_s)) +
+```{r dunl vs year}
+ggplot(dat3, aes(x = year_n, y = log_dunl, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("Year vs log(DUNL)") +
-  xlab("Year") + 
-  ylab("log(DUNL)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Year vs log(DUNL)",
+       x = "Year", 
+       y = "log(DUNL)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
 
-```{r}
+```{r dunl vs dos}
 ggplot(dat3, aes(x = dos, y = log_dunl, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("Day of Season vs log(DUNL)") +
-  xlab("DOS") + 
-  ylab("log(DUNL)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Day of Season vs log(DUNL)",
+       x = "DOS", 
+       y = "log(DUNL)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
 
-```{r}
+```{r dunl vs flow}
 ggplot(dat3, aes(x = flow, y = log_dunl, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("Flow vs log(DUNL)") +
-  xlab("Flow") + 
-  ylab("log(DUNL)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Flow vs log(DUNL)",
+       x = "Flow", 
+       y = "log(DUNL)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
-```{r}
+```{r dunl vs u}
 ggplot(dat3, aes(x = u, y = log_dunl, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("u vs log(DUNL)") +
-  xlab("u") + 
-  ylab("log(DUNL)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "u (westerly winds) vs log(DUNL)",
+       x = "u (westerly winds)", 
+       y = "log(DUNL)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
 
-```{r}
+```{r dunl vs v}
 ggplot(dat3, aes(x = v, y = log_dunl, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("v vs log(DUNL)") +
-  xlab("v") + 
-  ylab("log(DUNL)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "v (southerly winds) vs log(DUNL)",
+       x = "v (southerly winds)", 
+       y = "log(DUNL)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
 
-```{r}
+```{r dunl vs windspd}
 ggplot(dat3, aes(x = windspd, y = log_dunl, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("Windspeed vs log(DUNL)") +
-  xlab("Windspeed") + 
-  ylab("log(DUNL)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Wind speed vs log(DUNL)",
+       x = "Wind speed (km/h)", 
+       y = "log(DUNL)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
 
-```{r}
+```{r dunl vs tide}
 ggplot(dat3, aes(x = elev_range, y = log_dunl, color = n_s)) +
   geom_point(alpha = 0.5) + 
-  ggtitle("Tidal amplitude vs log(DUNL)") +
-  xlab("Tidal amplitude") + 
-  ylab("log(DUNL)") +
-  theme_minimal()
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Tidal amplitude vs log(DUNL)",
+       x = "Tidal amplitude (m)", 
+       y = "log(DUNL)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
 ```
 
 \newpage
@@ -313,7 +358,7 @@ ggplot(dat3, aes(x = elev_range, y = log_dunl, color = n_s)) +
 Full model:
 
 ```{r full dunl model}
-full_dunl_model <- lmerTest::lmer("log_dunl ~ n_s*scale(flow) + n_s*elev_range + n_s*u + n_s*v + n_s*windspd + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)",
+full_dunl_model <- lmerTest::lmer("log_dunl ~ n_s*scale(flow) + n_s*scale(elev_range) + n_s*scale(u) + n_s*scale(v) + n_s*scale(windspd) + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)",
            data = dat3)
 
 summary(full_dunl_model)

@@ -135,15 +135,16 @@ index %>%
   geom_pointrange(aes(ymin = wesa_lwr, ymax = wesa_upr),
                   fatten = 2) +
   scale_y_continuous(trans = 'log10') +
-  theme(text=element_text(size=16),
-        panel.background = element_rect(fill="white"),
-        panel.grid.minor=element_blank(),
-        strip.background = element_blank(),
-        axis.line=element_line(colour="black")) +
+  # theme(text=element_text(size=16),
+  #       panel.background = element_rect(fill="white"),
+  #       panel.grid.minor=element_blank(),
+  #       strip.background = element_blank(),
+  #       axis.line=element_line(colour="black")) +
   labs(title = 'Western Sandpiper', 
        x = 'Year', 
        y = expression(paste("Index (", 10^3, " birds; ", log[10],  " scale)"))
-       )
+       ) +
+  cowplot::theme_cowplot()
 ```
 
 ```{r dunl index plot}
@@ -153,13 +154,9 @@ index %>%
   geom_pointrange(aes(ymin = dunl_lwr, ymax = dunl_upr),
                   fatten = 2) +
   scale_y_continuous(trans = 'log10') +
-  theme(text=element_text(size=16),
-        panel.background = element_rect(fill="white"),
-        panel.grid.minor=element_blank(),
-        strip.background = element_blank(),
-        axis.line=element_line(colour="black")) +
   labs(title = 'Dunlin', 
        x = 'Year', 
        y = expression(paste("Index (", 10^3, " birds; ", log[10],  " scale)"))
-       )
+       ) +
+  cowplot::theme_cowplot()
 ```

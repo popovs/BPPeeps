@@ -57,7 +57,8 @@ dat3 <- sqldf::sqldf("select year,
   dplyr::mutate(dos = scale(julian_day),
                 log_wesa = log(predicted_wesa + 1),
                 log_dunl = log(predicted_dunl + 1),
-                year_c = scale(as.numeric(year))) %>%
+                year_n = as.numeric(year),
+                year_c = scale(year_n)) %>%
   dplyr::select(year, survey_date, julian_day, dos, start_time, n_s,
                 final_count, predicted_wesa, predicted_dunl, log_wesa, 
                 log_dunl, dplyr::everything()) %>%
