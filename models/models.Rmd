@@ -378,7 +378,7 @@ ggplot(dat3, aes(x = elev_range, y = log_dunl, color = n_s)) +
 
 \newpage
 
-# DUNL model
+## DUNL model
 
 Full model:
 
