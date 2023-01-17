@@ -1,4 +1,4 @@
-## ----canham extended setup, include=FALSE-----------------------------------------
+## ----canham extended setup, include=FALSE-----------------------------------------------------
 knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE, 
                       message = FALSE)
@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = FALSE,
 # and binomial_sr.Rmd.
 
 
-## ----wesa ~ base model------------------------------------------------------------
+## ----wesa ~ base model------------------------------------------------------------------------
 # First, add predicted wesa ratio generated above to the dat dataset
 dat <- merge(dat, yrs[,c("year", "julian_day", "predicted_ratio")], 
              by = c("year", "julian_day"))
@@ -32,28 +32,28 @@ wesa_base_mod <- lmerTest::lmer(log_wesa ~ year_c + dos + I(dos^2) + (dos + I(do
 summary(wesa_base_mod)
 
 
-## ----reduce dat to complete cases-------------------------------------------------
+## ----reduce dat to complete cases-------------------------------------------------------------
 # Reduce dataset to our variables of interest, and only keep 
 # complete cases
 dat2 <- dat[,c("predicted_wesa", "log_wesa", "year", "year_c", "dos", "elev_range", "total_precip", "mean_temp", "flow", "u", "v", "n_s")]
 dat2 <- dat2[complete.cases(dat2),]
 
 
-## ----wesa ~ canham + n_s model, warning=FALSE-------------------------------------
+## ----wesa ~ canham + n_s model, warning=FALSE-------------------------------------------------
 wesa_full_mod <- lmerTest::lmer(log_wesa ~ year_c + dos + I(dos^2) + scale(elev_range) + scale(total_precip) + scale(mean_temp) + scale(flow) + scale(u) + scale(v) + n_s + (dos + I(dos^2) | year) + (scale(flow) | n_s),
                             data = dat2,
                             REML = TRUE)
 summary(wesa_full_mod)
 
 
-## ----selection--------------------------------------------------------------------
+## ----selection--------------------------------------------------------------------------------
 lmerTest::step(wesa_full_mod, 
                direction = "backward", 
                reduce.random = F,
                keep=c("year_c", "dos", "I(dos^2)"))
 
 
-## ----summary n_s best fit, warning=FALSE------------------------------------------
+## ----summary n_s best fit, warning=FALSE------------------------------------------------------
 wesa_best_fit <- lmerTest::lmer(log_wesa ~ year_c + dos + I(dos^2) + scale(elev_range) + scale(v) + (dos + I(dos^2) | year) + (scale(flow) | n_s),
                                 data = dat2,
                                 REML = TRUE)
@@ -61,13 +61,13 @@ wesa_best_fit <- lmerTest::lmer(log_wesa ~ year_c + dos + I(dos^2) + scale(elev_
 summary(wesa_best_fit)
 
 
-## ----add predicted n-s values to dat2, include=FALSE------------------------------
+## ----add predicted n-s values to dat2, include=FALSE------------------------------------------
 # Add predicted values to dat2
 dat2$predicted_log_wesa <- fitted(wesa_best_fit)
 dat2$resids <- resid(wesa_best_fit)
 
 
-## ----wesa n-s plot: observed vs predicted-----------------------------------------
+## ----wesa n-s plot: observed vs predicted-----------------------------------------------------
 ggplot(dat2, aes(x = predicted_log_wesa, y = log_wesa)) +
   geom_point() + 
   ggtitle("Observed vs. Predicted values") +
@@ -76,7 +76,7 @@ ggplot(dat2, aes(x = predicted_log_wesa, y = log_wesa)) +
   theme_minimal()
 
 
-## ----wesa n-s plot: heteroskedasticity--------------------------------------------
+## ----wesa n-s plot: heteroskedasticity--------------------------------------------------------
 ggplot(dat2, aes(x = predicted_log_wesa, y = resids)) +
   geom_point() + 
   ggtitle("Heteroskedasticity",
@@ -86,7 +86,7 @@ ggplot(dat2, aes(x = predicted_log_wesa, y = resids)) +
   theme_minimal()
 
 
-## ----wesa n-s plot: qq plot-------------------------------------------------------
+## ----wesa n-s plot: qq plot-------------------------------------------------------------------
 ggplot(dat2, aes(sample = resids)) +
   stat_qq() + 
   stat_qq_line() +

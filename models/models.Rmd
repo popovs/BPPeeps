@@ -10,11 +10,14 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+library(ggplot2)
+library(formatR)
+
 knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE, 
-                      message = FALSE)
-
-library(ggplot2)
+                      message = FALSE,
+                      tidy.opts = list(width.cutoff = 60), 
+                      tidy = TRUE)
 
 # Color palette (using blue & yellow from wesanderson Zissou1 palette)
 pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue = 255))
@@ -109,6 +112,30 @@ ggplot(dat3, aes(x = dos, y = log_wesa, color = n_s)) +
   cowplot::theme_cowplot()
 ```
 
+```{r wesa vs mean temp}
+ggplot(dat3, aes(x = mean_temp, y = log_wesa, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Mean temperature (C°) vs log(WESA)",
+       x = "C°", 
+       y = "log(WESA)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r wesa vs total_precip}
+ggplot(dat3, aes(x = total_precip, y = log_wesa, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Total precipitation (mm) vs log(WESA)",
+       x = "mm", 
+       y = "log(WESA)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
 ```{r wesa vs flow}
 ggplot(dat3, aes(x = flow, y = log_wesa, color = n_s)) +
   geom_point(alpha = 0.5) + 
@@ -170,31 +197,32 @@ ggplot(dat3, aes(x = elev_range, y = log_wesa, color = n_s)) +
 
 ## WESA model
 
-Full model:
+### Full model
 
 ```{r full wesa model}
-full_wesa_model <- lmerTest::lmer("log_wesa ~ n_s*scale(flow) + n_s*scale(elev_range) + n_s*scale(u) + n_s*scale(v) + n_s*scale(windspd) + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)",
+full_wesa_model <- lmerTest::lmer("log_wesa ~ scale(total_precip) + scale(mean_temp) + n_s*scale(flow) + n_s*scale(elev_range) + n_s*scale(u) + n_s*scale(v) + n_s*scale(windspd) + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)",
            data = dat3)
 
 summary(full_wesa_model)
 ```
 
-Backwards stepwise selection:
+### Backwards stepwise selection
 
 ```{r wesa stepwise}
-lmerTest::step(full_wesa_model, data = dat3)
+lmerTest::step(full_wesa_model, data = dat3, reduce.random = F, keep = c("year_c","dos", "I(dos^2)"))
 ```
 
 ```{r final wesa model}
-s <- lmerTest::step(full_wesa_model, data = dat3)
+s <- lmerTest::step(full_wesa_model, data = dat3, reduce.random = F, keep = c("year_c","dos", "I(dos^2)"))
 final_wesa_model <- lme4::lmer(lmerTest::get_model(s)@call$formula, data = dat3)
 ```
 
 ```{r wesa model forest plot}
 sjPlot::plot_model(final_wesa_model, type = "std") +
   ggtitle("Final WESA model - standardized fixed effect sizes") +
-  scale_x_discrete(labels = rev(c("n_s [S]", "flow", "elev_range", 
-                              "u", "v", "windspd", "dos^2", "n_s : elev_range",
+  scale_x_discrete(labels = rev(c("n_s [S]", "elev_range", 
+                              "u", "v", "windspd", "dos", "dos^2", 
+                              "year", "n_s : elev_range",
                               "n_s : u", "n_s : v", "n_s : windspd")))
 ```
 
@@ -317,6 +345,30 @@ ggplot(dat3, aes(x = dos, y = log_dunl, color = n_s)) +
   cowplot::theme_cowplot()
 ```
 
+```{r dunl vs mean temp}
+ggplot(dat3, aes(x = mean_temp, y = log_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Mean temperature (C°) vs log(DUNL)",
+       x = "C°", 
+       y = "log(DUNL)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r wesa vs total_precip}
+ggplot(dat3, aes(x = total_precip, y = log_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Total precipitation (mm) vs log(DUNL)",
+       x = "mm", 
+       y = "log(DUNL)",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
 ```{r dunl vs flow}
 ggplot(dat3, aes(x = flow, y = log_dunl, color = n_s)) +
   geom_point(alpha = 0.5) + 
@@ -380,29 +432,30 @@ ggplot(dat3, aes(x = elev_range, y = log_dunl, color = n_s)) +
 
 ## DUNL model
 
-Full model:
+### Full model
 
 ```{r full dunl model}
-full_dunl_model <- lmerTest::lmer("log_dunl ~ n_s*scale(flow) + n_s*scale(elev_range) + n_s*scale(u) + n_s*scale(v) + n_s*scale(windspd) + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)",
+full_dunl_model <- lmerTest::lmer("log_dunl ~ scale(total_precip) + scale(mean_temp) + n_s*scale(flow) + n_s*scale(elev_range) + n_s*scale(u) + n_s*scale(v) + n_s*scale(windspd) + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)",
            data = dat3)
 
 summary(full_dunl_model)
 ```
 
-Backwards stepwise selection:
+### Backwards stepwise selection
 
 ```{r dunl stepwise}
-lmerTest::step(full_dunl_model, data = dat3)
+lmerTest::step(full_dunl_model, data = dat3, reduce.random = F, keep = c("year_c","dos", "I(dos^2)"))
 ```
 
+
 ```{r final dunl model}
-s <- lmerTest::step(full_dunl_model, data = dat3)
+s <- lmerTest::step(full_dunl_model, data = dat3, reduce.random = F, keep = c("year_c","dos", "I(dos^2)"))
 final_dunl_model <- lme4::lmer(lmerTest::get_model(s)@call$formula, data = dat3)
 ```
 
 ```{r dunl model forest plot}
 sjPlot::plot_model(final_dunl_model, type = "std") +
-  ggtitle("Final WESA model - standardized fixed effect sizes") +
+  ggtitle("Final DUNL model - standardized fixed effect sizes") +
   scale_x_discrete(labels = rev(c("n_s [S]", "flow", "elev_range", 
                               "u", "v", "windspd", "dos", "dos^2",
                               "year", "n_s : elev_range",
