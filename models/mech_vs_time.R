@@ -53,6 +53,12 @@ head(dat3)
 summary(dat3)
 
 
+## ----base model-------------------------------------------------------------------
+base_model <- lme4::lmer(log_wesa ~ n_s + dos + I(dos^2) + (dos + I(dos^2) | year),
+                         data = dat3)
+summary(base_model)
+
+
 ## ----mechanism model--------------------------------------------------------------
 mech_model <- lme4::lmer(log_wesa ~ n_s * scale(flow) + dos + I(dos^2) + (dos + I(dos^2) | year),
                          data = dat3)

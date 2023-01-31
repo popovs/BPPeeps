@@ -357,7 +357,7 @@ ggplot(dat3, aes(x = mean_temp, y = log_dunl, color = n_s)) +
   cowplot::theme_cowplot()
 ```
 
-```{r wesa vs total_precip}
+```{r dunl vs total_precip}
 ggplot(dat3, aes(x = total_precip, y = log_dunl, color = n_s)) +
   geom_point(alpha = 0.5) + 
   geom_smooth(se = FALSE) +
