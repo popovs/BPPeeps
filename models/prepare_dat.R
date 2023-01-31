@@ -71,9 +71,9 @@ filter_n <- c(filter_n, nrow(dat))
 filter_d <- c(filter_d, length(unique(dat$survey_date)))
 
 # Include only stations of interest
-dat <- dat[!(dat$station_n %in% c("Intercauseway")) & !is.na(dat$station_n), ]
+dat <- dat[!(dat$station_n %in% c("Canoe Pass", "Intercauseway")) & !is.na(dat$station_n), ]
 
-filter_s <- c(filter_s, "Exclude Intercauseway and NA stations (e.g. location was simply 'inner mud', 'mumblies', 'flying', etc.)")
+filter_s <- c(filter_s, "Exclude Canoe Pass, Intercauseway, and NA stations (e.g. location was simply 'inner mud', 'mumblies', 'flying', etc.)")
 filter_n <- c(filter_n, nrow(dat))
 filter_d <- c(filter_d, length(unique(dat$survey_date)))
 
