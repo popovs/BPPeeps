@@ -31,11 +31,27 @@ filter_s <- "Full dataset" # filter step
 filter_n <- nrow(dat) # n records
 filter_d <- length(unique(dat$survey_date)) # n dates affected
 
+# Add tide rising/falling
+dat$date_time_pdt <- as.POSIXct(paste(dat$survey_date, dat$start_time), format = "%Y-%m-%d %H:%M")
+dat$date_time_utc <- lubridate::as_datetime(dat$date_time_pdt, tz = "UTC")
+# Now calculate tides - at the time/date of the survey, and one hour later
+t <- earthtide::calc_earthtide(utc = dat$date_time_utc,
+                               method = 'gravity',
+                               latitude = 49.054646, 
+                               longitude = -123.144756)
+t2 <- earthtide::calc_earthtide(utc = (dat$date_time_utc + 3600), 
+                                method = 'gravity',
+                                latitude = 49.054646, 
+                                longitude = -123.144756)
+t_diff <- t2$gravity - t$gravity # if gravity @ time 2 > gravity at time 1, the tide is HIGHER
+dat$tide <- ifelse(t_diff > 0, "rising", "falling")
+
 # Set dates, factors etc.
 dat$survey_date <- as.Date(dat$survey_date)
 station_levels <- c("Canoe Pass", "Brunswick dike", "Brunswick Point", "View corner", "Pilings", "Bend", "34th St pullout", "Coal Port")
 dat$station_n <- factor(dat$station_n, levels = station_levels)
 dat$station_s <- factor(dat$station_s, levels = station_levels)
+dat$tide <- as.factor(dat$tide)
 rm(station_levels)
 
 # We want to later filter out any records where birds span 
