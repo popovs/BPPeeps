@@ -33,36 +33,40 @@ server <- shinyServer(function(input, output, session) {
     # Aggregate data by selected N/S
     if (input$aggregate_ns) {
       data_filtered <- sqldf::sqldf("select year, 
-                                  survey_date, 
-                                  julian_day, 
-                                  min(start_time) as start_time, 
-                                  n_s, 
-                                  sum(final_count) as final_count, 
-                                  sum(wesa_count) as wesa_count, 
-                                  sum(dunl_count) as dunl_count, 
-                                  p_wesa, 
-                                  predicted_p_wesa, 
-                                  avg(raptor_count) as raptor_count, 
-                                  elev_min, 
-                                  elev_max, 
-                                  elev_median, 
-                                  elev_mean, 
-                                  elev_range, 
-                                  flow, 
-                                  total_precip, 
-                                  mean_temp, 
-                                  u, 
-                                  v, 
-                                  windspd, 
-                                  wind_deg 
-                                  from data_filtered 
-                                  group by survey_date, n_s;") %>%
+                      survey_date, 
+                      julian_day, 
+                      min(start_time) as start_time, 
+                      n_s, 
+                      sum(final_count) as final_count, 
+                      sum(predicted_wesa) as predicted_wesa, 
+                      sum(predicted_dunl) as predicted_dunl, 
+                      p_wesa, 
+                      predicted_ratio, 
+                      avg(raptor_count) as raptor_count, 
+                      tide,
+                      elev_min, 
+                      elev_max, 
+                      elev_median, 
+                      elev_mean, 
+                      elev_range, 
+                      flow, 
+                      total_precip, 
+                      mean_temp, 
+                      u, 
+                      v, 
+                      windspd, 
+                      wind_deg
+                      from dat 
+                      group by survey_date, n_s;") %>%
         dplyr::mutate(dos = scale(julian_day),
-                      log_wesa = log(wesa_count + 1),
-                      log_dunl = log(dunl_count + 1)) %>%
-        dplyr::select(year, survey_date, julian_day, dos, start_time, n_s, 
-                      final_count, wesa_count, dunl_count, log_wesa, log_dunl,
-                      dplyr::everything())
+                      log_wesa = log(predicted_wesa + 1),
+                      log_dunl = log(predicted_dunl + 1),
+                      year_n = as.numeric(year),
+                      year_c = scale(year_n)) %>%
+        dplyr::select(year, survey_date, julian_day, dos, start_time, n_s,
+                      final_count, predicted_wesa, predicted_dunl, log_wesa, 
+                      log_dunl, dplyr::everything()) %>%
+        dplyr::filter(!is.na(flow), !is.na(total_precip))
     } 
     
     # Return filtered data
@@ -170,12 +174,27 @@ server <- shinyServer(function(input, output, session) {
   
   # 04 Custom plots tab ----
   # When data_filtered is filtered...
-  observe({
-    updateSelectInput(session, "custom_x", choices = names(data_filtered()), selected = "flow")
-    updateSelectInput(session, "custom_y", choices = names(data_filtered()), selected = "final_count")
-    updateSelectInput(session, "custom_color_by", choices = names(data_filtered()), selected = "station_n")
-    updateSelectInput(session, "facet_rows", choices = names(data_filtered()))
-    updateSelectInput(session, "facet_cols", choices = names(data_filtered()), selected = "station_n")
+  # observe({
+  #   updateSelectInput(session, "custom_x", choices = names(data_filtered()), selected = "flow")
+  #   updateSelectInput(session, "custom_y", choices = names(data_filtered()), selected = "final_count")
+  #   updateSelectInput(session, "custom_color_by", choices = names(data_filtered()), selected = "station_n")
+  #   updateSelectInput(session, "facet_rows", choices = names(data_filtered()))
+  #   updateSelectInput(session, "facet_cols", choices = names(data_filtered()), selected = "station_n")
+  # })
+  output$custom_x = renderUI({
+    selectInput('custom_x', 'x-axis', names(data_filtered()), selected = "year")
+  })
+  output$custom_y = renderUI({
+    selectInput('custom_y', 'y-axis', names(data_filtered()), selected = "predicted_wesa")
+  })
+  output$custom_color_by = renderUI({
+    selectizeInput('custom_color_by', 'Color by', names(data_filtered()), selected = "station_n", multiple = TRUE, options = list(maxItems = 1))
+  })
+  output$facet_rows = renderUI({
+    selectizeInput('facet_rows', 'Facet 1', names(data_filtered()), multiple = TRUE, options = list(maxItems = 1))
+  })
+  output$facet_cols = renderUI({
+    selectizeInput('facet_cols', 'Facet 2', names(data_filtered()), multiple = TRUE, options = list(maxItems = 1))
   })
   
   # ** Custom LM ----
@@ -220,7 +239,7 @@ server <- shinyServer(function(input, output, session) {
       formula <- y ~ x
       
       p <- p + ggplot2::geom_point() + 
-        ggplot2::stat_smooth(method = "lm")
+        ggplot2::stat_smooth()
       
     } else if (input$plot_type == "boxplot") {
       

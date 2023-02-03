@@ -79,38 +79,43 @@ ui <- shinyUI(fluidPage(
                                                 "Plot type",
                                                 c("scatter", "boxplot"))),
                             column(width = 2,
-                                   selectInput("custom_x",
-                                               "x-axis",
-                                               c("placeholder"))
+                                   uiOutput('custom_x')
+                                   # selectInput("custom_x",
+                                   #             "x-axis",
+                                   #             c("placeholder"))
                             ), # end first column
                             column(width = 2,
-                                   selectInput("custom_y",
-                                               "y-axis",
-                                               c("placeholder"))
+                                   uiOutput('custom_y')
+                                   # selectInput("custom_y",
+                                   #             "y-axis",
+                                   #             c("placeholder"))
                             ), # end second column
                             column(width = 2,
-                                   selectizeInput("custom_color_by",
-                                                  "Color by",
-                                                  c("placeholder"),
-                                                  multiple = TRUE,
-                                                  options = list(maxItems = 1)
-                                   )
+                                   uiOutput('custom_color_by')
+                                   # selectizeInput("custom_color_by",
+                                   #                "Color by",
+                                   #                c("placeholder"),
+                                   #                multiple = TRUE,
+                                   #                options = list(maxItems = 1)
+                                   # )
                             ), # end third column
                             column(width = 2,
-                                   selectizeInput("facet_rows",
-                                                  "Facet 1",
-                                                  c("placeholder"),
-                                                  multiple = TRUE,
-                                                  options = list(maxItems = 1)
-                                   )
+                                   uiOutput('facet_rows')
+                                   # selectizeInput("facet_rows",
+                                   #                "Facet 1",
+                                   #                c("placeholder"),
+                                   #                multiple = TRUE,
+                                   #                options = list(maxItems = 1)
+                                   # )
                             ), # end fourth column
                             column(width = 2,
-                                   selectizeInput("facet_cols",
-                                                  "Facet 2",
-                                                  c("placeholder"),
-                                                  multiple = TRUE,
-                                                  options = list(maxItems = 1)
-                                   )
+                                   uiOutput('facet_cols')
+                                   # selectizeInput("facet_cols",
+                                   #                "Facet 2",
+                                   #                c("placeholder"),
+                                   #                multiple = TRUE,
+                                   #                options = list(maxItems = 1)
+                                   # )
                             ) # end fifth column
                           ), # close fluidRow
                           
