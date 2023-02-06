@@ -22,6 +22,12 @@ server <- shinyServer(function(input, output, session) {
       data_filtered <- data
     }
     
+    if (input$brunswick_point) {
+      data_filtered <- data[data$station_n != "Brunswick Point", ]
+    } else {
+      data_filtered <- data
+    }
+    
     # Filter the data by "year" range
     data_filtered <- dplyr::filter(data_filtered, year >= input$year_range[1], year <= input$year_range[2])
     
@@ -38,10 +44,10 @@ server <- shinyServer(function(input, output, session) {
                       min(start_time) as start_time, 
                       n_s, 
                       sum(final_count) as final_count, 
-                      sum(predicted_wesa) as predicted_wesa, 
-                      sum(predicted_dunl) as predicted_dunl, 
+                      sum(wesa_count) as wesa_count, 
+                      sum(dunl_count) as dunl_count, 
                       p_wesa, 
-                      predicted_ratio, 
+                      predicted_p_wesa, 
                       avg(raptor_count) as raptor_count, 
                       tide,
                       elev_min, 
@@ -56,15 +62,15 @@ server <- shinyServer(function(input, output, session) {
                       v, 
                       windspd, 
                       wind_deg
-                      from dat 
+                      from data_filtered
                       group by survey_date, n_s;") %>%
         dplyr::mutate(dos = scale(julian_day),
-                      log_wesa = log(predicted_wesa + 1),
-                      log_dunl = log(predicted_dunl + 1),
+                      log_wesa = log(wesa_count + 1),
+                      log_dunl = log(dunl_count + 1),
                       year_n = as.numeric(year),
                       year_c = scale(year_n)) %>%
         dplyr::select(year, survey_date, julian_day, dos, start_time, n_s,
-                      final_count, predicted_wesa, predicted_dunl, log_wesa, 
+                      final_count, wesa_count, dunl_count, log_wesa, 
                       log_dunl, dplyr::everything()) %>%
         dplyr::filter(!is.na(flow), !is.na(total_precip))
     } 
@@ -181,21 +187,21 @@ server <- shinyServer(function(input, output, session) {
   #   updateSelectInput(session, "facet_rows", choices = names(data_filtered()))
   #   updateSelectInput(session, "facet_cols", choices = names(data_filtered()), selected = "station_n")
   # })
-  output$custom_x = renderUI({
-    selectInput('custom_x', 'x-axis', names(data_filtered()), selected = "year")
-  })
-  output$custom_y = renderUI({
-    selectInput('custom_y', 'y-axis', names(data_filtered()), selected = "predicted_wesa")
-  })
-  output$custom_color_by = renderUI({
-    selectizeInput('custom_color_by', 'Color by', names(data_filtered()), selected = "station_n", multiple = TRUE, options = list(maxItems = 1))
-  })
-  output$facet_rows = renderUI({
-    selectizeInput('facet_rows', 'Facet 1', names(data_filtered()), multiple = TRUE, options = list(maxItems = 1))
-  })
-  output$facet_cols = renderUI({
-    selectizeInput('facet_cols', 'Facet 2', names(data_filtered()), multiple = TRUE, options = list(maxItems = 1))
-  })
+  # output$custom_x = renderUI({
+  #   selectInput('custom_x', 'x-axis', names(data_filtered()), selected = "year")
+  # })
+  # output$custom_y = renderUI({
+  #   selectInput('custom_y', 'y-axis', names(data_filtered()), selected = "wesa_count")
+  # })
+  # output$custom_color_by = renderUI({
+  #   selectizeInput('custom_color_by', 'Color by', names(data_filtered()), selected = "station_n", multiple = TRUE, options = list(maxItems = 1))
+  # })
+  # output$facet_rows = renderUI({
+  #   selectizeInput('facet_rows', 'Facet 1', names(data_filtered()), multiple = TRUE, options = list(maxItems = 1))
+  # })
+  # output$facet_cols = renderUI({
+  #   selectizeInput('facet_cols', 'Facet 2', names(data_filtered()), multiple = TRUE, options = list(maxItems = 1))
+  # })
   
   # ** Custom LM ----
   customLM <- reactive({

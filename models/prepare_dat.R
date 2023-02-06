@@ -45,6 +45,7 @@ t2 <- earthtide::calc_earthtide(utc = (dat$date_time_utc + 3600),
                                 longitude = -123.144756)
 t_diff <- t2$gravity - t$gravity # if gravity @ time 2 > gravity at time 1, the tide is HIGHER
 dat$tide <- ifelse(t_diff > 0, "rising", "falling")
+rm(t, t2, t_diff)
 
 # Set dates, factors etc.
 dat$survey_date <- as.Date(dat$survey_date)

@@ -11,8 +11,9 @@ ui <- shinyUI(fluidPage(
       h4("Explore and model peeps data"),
       "Note that if you filter the data, you will need to re-run the model to use the updated data.",
       
-      # Add a checkbox to filter out records that say "Canoe Pass" in the "station_n" column
-      checkboxInput("canoe_pass", "Filter out 'Canoe Pass'", FALSE),
+      # Add a checkbox to filter out records that say "Canoe Pass" & "Brunswick Point" in the "station_n" column
+      checkboxInput("canoe_pass", "Filter out 'Canoe Pass'", TRUE),
+      checkboxInput("brunswick_point", "Filter out 'Brunswick Point'", TRUE),
       
       # Add a slider to filter the data by "year" range
       sliderInput("year_range", "Year range:",
@@ -79,43 +80,46 @@ ui <- shinyUI(fluidPage(
                                                 "Plot type",
                                                 c("scatter", "boxplot"))),
                             column(width = 2,
-                                   uiOutput('custom_x')
-                                   # selectInput("custom_x",
-                                   #             "x-axis",
-                                   #             c("placeholder"))
+                                   #uiOutput('custom_x')
+                                   selectInput("custom_x",
+                                               "x-axis",
+                                               c(names(data)),
+                                               selected = "year")
                             ), # end first column
                             column(width = 2,
-                                   uiOutput('custom_y')
-                                   # selectInput("custom_y",
-                                   #             "y-axis",
-                                   #             c("placeholder"))
+                                   #uiOutput('custom_y')
+                                   selectInput("custom_y",
+                                               "y-axis",
+                                               c(names(data)),
+                                               selected = "wesa_count")
                             ), # end second column
                             column(width = 2,
-                                   uiOutput('custom_color_by')
-                                   # selectizeInput("custom_color_by",
-                                   #                "Color by",
-                                   #                c("placeholder"),
-                                   #                multiple = TRUE,
-                                   #                options = list(maxItems = 1)
-                                   # )
+                                   #uiOutput('custom_color_by')
+                                   selectizeInput("custom_color_by",
+                                                  "Color by",
+                                                  c(names(data)),
+                                                  selected = "n_s",
+                                                  multiple = TRUE,
+                                                  options = list(maxItems = 1)
+                                   )
                             ), # end third column
                             column(width = 2,
-                                   uiOutput('facet_rows')
-                                   # selectizeInput("facet_rows",
-                                   #                "Facet 1",
-                                   #                c("placeholder"),
-                                   #                multiple = TRUE,
-                                   #                options = list(maxItems = 1)
-                                   # )
+                                   #uiOutput('facet_rows')
+                                   selectizeInput("facet_rows",
+                                                  "Facet 1",
+                                                  c(names(data)),
+                                                  multiple = TRUE,
+                                                  options = list(maxItems = 1)
+                                   )
                             ), # end fourth column
                             column(width = 2,
-                                   uiOutput('facet_cols')
-                                   # selectizeInput("facet_cols",
-                                   #                "Facet 2",
-                                   #                c("placeholder"),
-                                   #                multiple = TRUE,
-                                   #                options = list(maxItems = 1)
-                                   # )
+                                   #uiOutput('facet_cols')
+                                   selectizeInput("facet_cols",
+                                                  "Facet 2",
+                                                  c(names(data)),
+                                                  multiple = TRUE,
+                                                  options = list(maxItems = 1)
+                                   )
                             ) # end fifth column
                           ), # close fluidRow
                           

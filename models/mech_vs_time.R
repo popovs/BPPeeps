@@ -144,5 +144,5 @@ ggplot(temp_plot, aes(sample = resid)) +
 
 
 ## ---------------------------------------------------------------------------------
-anova(mech_model, temp_model)
+anova(base_model, mech_model, temp_model)
 
