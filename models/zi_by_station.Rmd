@@ -1,0 +1,293 @@
+---
+title: "WESA GAM, ZIP, & ZINB models by station"
+author: "Sarah Popov"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(formatR)
+
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE,
+                      tidy.opts = list(width.cutoff = 60), 
+                      tidy = TRUE)
+
+# Color palette (using blue & yellow from wesanderson Zissou1 palette)
+pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue = 255))
+
+# Source the data file, which connects to the bppeeps database and then queries and processes the data
+# This will produce two datasets: 
+# 1) dat [counts + environmental covariates]
+# 2) sr [daily species ratios]
+source(here::here("models", "prepare_dat.R"))
+source(here::here("models", "binomial_sr.R"))
+```
+
+```{r merge sr results in, include = FALSE}
+# Add predicted wesa ratio generated above to the dat dataset
+dat <- merge(dat, yrs[,c("year", "julian_day", "predicted_ratio")], 
+             by = c("year", "julian_day"))
+
+# Scale and log-transform variables of interest
+dat$predicted_wesa <- round(dat$final_count * dat$predicted_ratio, 0)
+dat$predicted_dunl <- dat$final_count - dat$predicted_wesa
+dat$log_wesa <- log(dat$predicted_wesa + 1)
+dat$log_dunl <- log(dat$predicted_dunl + 1)
+dat$year_c <- scale(as.numeric(dat$year))
+
+# Remove records with NA in important environmental covariates
+dat <- dat[!is.na(dat$flow) & !is.na(dat$total_precip),]
+
+# Proportion of zeroes
+dat_p0 <- sum(dat$predicted_wesa == 0) / length(dat$predicted_wesa)
+```
+
+```{r aggregate by NS, include=FALSE}
+dat <- sqldf::sqldf("select year, 
+                      survey_date, 
+                      julian_day, 
+                      min(start_time) as start_time, 
+                      station_n, 
+                      sum(final_count) as final_count, 
+                      sum(predicted_wesa) as predicted_wesa, 
+                      sum(predicted_dunl) as predicted_dunl, 
+                      p_wesa, 
+                      predicted_ratio, 
+                      avg(raptor_count) as raptor_count, 
+                      tide,
+                      elev_min, 
+                      elev_max, 
+                      elev_median, 
+                      elev_mean, 
+                      elev_range, 
+                      flow, 
+                      total_precip, 
+                      mean_temp, 
+                      u, 
+                      v, 
+                      windspd, 
+                      wind_deg 
+                      from dat 
+                      group by survey_date, station_n;") %>%
+  dplyr::mutate(dos = scale(julian_day),
+                log_wesa = log(predicted_wesa + 1),
+                log_dunl = log(predicted_dunl + 1),
+                year_n = as.numeric(year),
+                year_c = scale(year_n)) %>%
+  dplyr::select(year, survey_date, julian_day, dos, start_time, station_n,
+                final_count, predicted_wesa, predicted_dunl, log_wesa, 
+                log_dunl, dplyr::everything())
+
+# Proportion of zeroes
+dat_p0 <- sum(dat$predicted_wesa == 0) / length(dat$predicted_wesa)
+```
+
+# Data summary
+
+### Data summary
+
+Dataset: one count record per station per survey date, `r nrow(dat)` records. `r round(dat_p0*100, 1)`% of the records are zeroes.
+
+```{r station response distribution, fig.cap="Histogram of WESA count per station per survey date. Plenty of zeroes..."}
+hist(dat$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab = "WESA count")
+```
+
+```{r wesa response vs all vars p1}
+(dat %>%
+  dplyr::select(predicted_wesa, year, julian_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
+  tidyr::gather(-predicted_wesa, key = "var", value = "value") %>%
+  dplyr::mutate(value = as.numeric(value)) %>%
+  ggplot(aes(x = value, y = predicted_wesa)) +
+  geom_point(size = 0.3) +
+  geom_smooth() +
+  scale_x_continuous(n.breaks = 3) +
+  ggtitle("Full dataset variables vs. WESA count") + 
+  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 1) +
+  theme_minimal())
+```
+```{r wesa response vs all vars p2}
+(dat %>%
+  dplyr::select(predicted_wesa, year, julian_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
+  tidyr::gather(-predicted_wesa, key = "var", value = "value") %>%
+  dplyr::mutate(value = as.numeric(value)) %>%
+  ggplot(aes(x = value, y = predicted_wesa)) +
+  geom_point(size = 0.3) +
+  geom_smooth() +
+  scale_x_continuous(n.breaks = 3) +
+  ggtitle("Full dataset variables vs. WESA count") + 
+  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 2) +
+  theme_minimal())
+```
+```{r wesa correlation plot, fig.cap="Correlation matrix between numeric explanatory variables."}
+dat %>%
+    dplyr::select(predicted_wesa, julian_day, dos, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>% 
+  cor() %>% 
+  corrplot::corrplot(order="hclust")
+```
+
+\newpage
+# Models
+
+From the initial `glmmTMB` explorations, two things jumped out: 
+
+1. The negative binomial distribution fits the data best.
+2. A simplified random effects structure eliminates all model convergence issues.
+3. A non-linear approach (GAM) potentially might fit the data better.
+
+
+```{r wesa gam base models, include=TRUE, echo=TRUE}
+# Base script by Gavin Simpson
+# https://fromthebottomoftheheap.net/2017/05/04/compare-mgcv-with-glmmtmb/
+# https://gist.github.com/gavinsimpson/8a0f0e072b095295cf5f7af2762e05a7
+
+library("mgcv")
+library("glmmTMB")
+
+## Poisson Models
+pgam0 <- gam(predicted_wesa ~ station_n + year_c + s(dos) + s(year, bs = "re"), data = dat, family = poisson, method = "ML")
+pgam1 <- gam(predicted_wesa ~ station_n + s(flow) + year_c + s(dos) + s(year, bs = "re"), data = dat, family = poisson, method = "ML")
+pgam2 <- gam(predicted_wesa ~ station_n + s(flow) + station_n:flow + year_c + s(dos) + s(year, bs = "re"), data = dat, family = poisson, method = "ML")
+
+pm0 <- glmmTMB(predicted_wesa ~ station_n + year_c + I(dos^2) + (1|year), data = dat, family = poisson)
+pm1 <- glmmTMB(predicted_wesa ~ station_n + scale(flow) + year_c + I(dos^2) + (1|year), data = dat, family = poisson)
+pm2 <- glmmTMB(predicted_wesa ~ station_n * scale(flow) + year_c + I(dos^2) + (1|year), data = dat, family = poisson)
+
+AIC(pgam0, pgam1, pgam2)
+AIC(pm0, pm1, pm2)
+
+## Negative binomial models
+nbgam0 <- gam(predicted_wesa ~ station_n + year_c + s(dos) + s(year, bs = "re"), data = dat, family = nb, method = "ML")
+nbgam1 <- gam(predicted_wesa ~ station_n + s(flow) + year_c + s(dos) + s(year, bs = "re"), data = dat, family = nb, method = "ML")
+nbgam2 <- gam(predicted_wesa ~ station_n + s(flow) + station_n:flow + year_c + s(dos) + s(year, bs = "re"), data = dat, family = nb, method = "ML")
+
+nbm0 <- glmmTMB(predicted_wesa ~ station_n + year_c + I(dos^2) + (1|year), data = dat, family = nbinom2)
+nbm1 <- glmmTMB(predicted_wesa ~ station_n + scale(flow) + year_c + I(dos^2) + (1|year), data = dat, family = nbinom2)
+nbm2 <- glmmTMB(predicted_wesa ~ station_n * scale(flow) + year_c + I(dos^2) + (1|year), data = dat, family = nbinom2)
+
+AIC(nbgam0, nbgam1, nbgam2)
+AIC(nbm0, nbm1, nbm2)
+
+## Zero-inflated Poisson
+## mgcv's ziplss can only fit using REML
+zipgam0 <- gam(list(predicted_wesa ~ station_n + year_c + s(dos) + s(year, bs = "re"), ~ station_n),
+               data = dat, family = ziplss, method = "REML")
+zipgam1 <- gam(list(predicted_wesa ~ station_n + s(flow) + year_c + s(dos) + s(year, bs = "re"), ~ station_n),
+               data = dat, family = ziplss, method = "REML")
+zipgam2 <- gam(list(predicted_wesa ~ station_n + s(flow) + station_n:flow + year_c + s(dos) + s(year, bs = "re"), ~ station_n + flow),
+               data = dat, family = ziplss, method = "REML")
+zipgam3 <- gam(list(predicted_wesa ~ station_n + year_c + s(dos) + s(year, bs = "re"), ~ station_n * flow),
+               data = dat, family = ziplss, method = "REML")
+## check the things converged
+#zipgam0$outer.info ## full convergence
+#zipgam1$outer.info ## full convergence
+#zipgam2$outer.info ## full convergence
+#zipgam3$outer.info ## full convergence
+
+zipm0 <- glmmTMB(predicted_wesa ~ station_n + year_c + I(dos^2) + (1|year), zi = ~ station_n, data = dat, family = poisson)
+zipm1 <- glmmTMB(predicted_wesa ~ station_n + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ station_n, data = dat, family = poisson)
+zipm2 <- glmmTMB(predicted_wesa ~ station_n + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ station_n + flow, data = dat, family = poisson)
+zipm3 <- glmmTMB(predicted_wesa ~ station_n * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ station_n * flow, data = dat, family = poisson)
+
+# nbinom2 better fit than nbinom1 in all 3
+zinb0 <- glmmTMB(predicted_wesa ~ station_n + year_c + I(dos^2) + (1|year), zi = ~ station_n, data = dat, family = nbinom2)
+zinb1 <- glmmTMB(predicted_wesa ~ station_n + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ station_n + flow, data = dat, family = nbinom2)
+zinb2 <- glmmTMB(predicted_wesa ~ station_n * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ station_n + flow, data = dat, family = nbinom2)
+
+AIC(zipgam0, zipgam1, zipgam2, zipgam3)
+AIC(zipm0, zipm1, zipm2, zipm3, zinb0, zinb1, zinb2)
+
+# Compare them all
+bbmle::AICtab(pgam0, pgam1, pgam2, pm0, pm1, pm2, nbgam0, nbgam1, nbgam2, nbm0, nbm1, nbm2, zipgam0, zipgam1, zipgam2, zipm0, zipm1, zipm2, zinb0, zinb1, zinb2)
+```
+
+## Best-fit diagnostics
+
+Diagnostics indicate underdispersion in our data. Even though it's the best-fit model, it's underpredicting zeros.
+
+```{r}
+DHARMa::testResiduals(zinb1, plot = T)
+```
+
+Test for zero inflation
+
+```{r, fig.cap="The zero-inflation test indicates we're fitting the zeros very well with the base model."}
+resid_sim <- DHARMa::simulateResiduals(zinb1)
+DHARMa::testZeroInflation(resid_sim)
+```
+
+## Full model
+
+```{r full model}
+full_zinb <- glmmTMB(predicted_wesa ~ station_n * scale(flow) + year_c + scale(mean_temp) 
+                     + scale(elev_range) + tide + scale(total_precip) + scale(u) 
+                     + I(dos^2) + (1|year), 
+                     zi = ~ ., 
+                     data = dat, 
+                     family = nbinom2)
+summary(full_zinb)
+```
+
+
+```{r model selection, include = FALSE}
+# Doing this the old-fashioned way...
+# First dropping insignificant terms from the zi model
+summary(full_zinb)
+full_zinb <- glmmTMB(predicted_wesa ~ station_n * scale(flow) + year_c + scale(mean_temp) 
+                     + scale(elev_range) + tide + scale(total_precip) + scale(u) 
+                     + I(dos^2) + (1|year), 
+                     zi = ~ station_n + year_c + tide + I(dos^2) + station_n:flow, 
+                     data = dat, 
+                     family = nbinom2)
+summary(full_zinb)
+# Now manually dropping terms from full model
+drop1(full_zinb)
+full_zinb <- update(full_zinb, formula = .~.-station_n:scale(flow))
+drop1(full_zinb)
+full_zinb <- update(full_zinb, formula = .~.-scale(u))
+drop1(full_zinb)
+full_zinb <- update(full_zinb, formula = .~.-scale(mean_temp))
+drop1(full_zinb)
+full_zinb <- update(full_zinb, formula = .~.-scale(total_precip))
+drop1(full_zinb)
+summary(full_zinb)
+
+final_mod <- full_zinb
+```
+
+## Final model
+
+Backwards stepwise selection; first removed insignificant terms from zi model, then subsequently removed insignificant terms from full model using AIC backwards selection (`drop1` command).
+
+```{r final model summary}
+summary(final_mod)
+```
+
+```{r final model plot}
+sjPlot::plot_model(final_mod)
+```
+
+## Final model diagnostics
+
+```{r diagnostics, fig.cap="Residual diagnostics."}
+DHARMa::testResiduals(final_mod)
+```
+
+```{r, fig.cap="Testing for overdispersion. Still not quite predicting the number of zeroes exactly correctly but better than before."}
+resid_sim <- DHARMa::simulateResiduals(final_mod)
+DHARMa::testZeroInflation(resid_sim)
+```
+
+
+### Residuals vs. predicted
+
+```{r residuals vs predicted}
+varsList <- c("dos", "year_c", "year", "tide", "flow", "mean_temp", "elev_range", "total_precip", "u")
+for (i in varsList) {
+  cat("\n", i)
+  DHARMa::plotResiduals(final_mod, dat[[i]], rank = TRUE)
+}
+```
+
