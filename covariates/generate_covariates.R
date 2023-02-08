@@ -202,5 +202,5 @@ cov <- dates %>%
 
 # UPDATE DB ----
 # Add the newly generated cov file to the bppeeps db as a table
-DBI::dbWriteTable(bppeeps, "environmental_covariates", cov, overwrite = TRUE)
+DBI::dbWriteTable(db, "environmental_covariates", cov, overwrite = TRUE)
 DBI::dbDisconnect(db)
