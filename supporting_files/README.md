@@ -9,7 +9,7 @@ Certain data cleaning processes were not done in R as it was not the most expedi
 Any pre-2014 raw data includes daily population count data tallied up into a *daily count total*. However, the methodology for adding up count data varies year-by-year and indeed even day-by-day. As such it was more expedient to simply go through each raw data point and manually determine whether or not certain count data was included in the daily total for a given day rather than figuring out some hacky and needlessly complex programmatic workaround. The result of this manual data check is **`supporting_files/in_total_yn.csv`**. 
 - `TRUE` - means the `final_count` for that location was included in the daily total.
 - `FALSE` - means the `final_count` for that location was excluded from the daily total.
-- `AVG` - means that there were likely multiple bird surveys ('sweeps') undertaken that day; the `final_count` values for each sweep were added together for a daily *subtotal*, and the subtotals were then averaged together to get the daily *total* for that day.
-- `only total` - means that there were no locations counts for that day - `final_count` is the daily total population estimate for that day
-- `total` - means that that the value in `final_count` for a particular record is the daily total
-- `NA` - means that there was no daily total for that day calculated, and that the data in `final_count` can just be used as-is (this is the case for any data 2014-onwards).
+- `AVG` - means that there were multiple bird surveys ('sweeps') undertaken that day; the `final_count` values for each sweep were added together for a daily *subtotal*, and the subtotals were then averaged together to get the daily *total* for that day.
+- `total` - means that that the value in `final_count` for a particular record is the manually calculated daily total (only applies to pre-2013 data).
+- `only total` - means that there were no locations counts for that day - `final_count` is the daily total population estimate for that day (only applies to pre-2013 data).
+= `no survey` - no survey data for that day
