@@ -17,12 +17,14 @@ knitr::opts_chunk$set(echo = FALSE,
 
 # Exploring mechanism (flow) vs. time (year)
 
-Given the Canham extended model has some issues, the next step is to run two models with a slightly simpler approach. We are still interested in seeing if the discharge (`flow`) has an impact on the north-south distribution of peeps. In addition, we are interested in seeing any temporal changes in this distribution.
+Given the Canham extended model has some issues, the next step is to run two models with a slightly simpler approach. First, we want to see what the baseline trend is in north-south distributions - from plotting the data it appears that the birds prefer the north. We are also still interested in seeing if the discharge (`flow`) has an impact on the north-south distribution of peeps. In addition, we are interested in seeing any temporal changes in this distribution.
 
-Two simpler models can get at these questions:
+Three simpler models can get at these questions:
 
-1. The 'mechanism' model: `log_wesa ~ n_s * scale(flow) + dos + I(dos^2) + (dos + I(dos^2) | year)`
-2. The 'temporal' model: `log_wesa ~ n_s * year_c + dos + I(dos^2) + (dos + I(dos^2) | year)`
+1. The base model: `log_wesa ~ n_s + dos + I(dos^2) + (dos + I(dos^2) | year)`
+2. The 'mechanism' model: `log_wesa ~ n_s * scale(flow) + dos + I(dos^2) + (dos + I(dos^2) | year)`
+3. The 'temporal' model: `log_wesa ~ n_s * year_c + dos + I(dos^2) + (dos + I(dos^2) | year)`
+
 
 ## Data changes
 
@@ -71,6 +73,14 @@ head(dat3)
 
 ```{r summary of dat3}
 summary(dat3)
+```
+
+## The base model
+
+```{r base model}
+base_model <- lme4::lmer(log_wesa ~ n_s + dos + I(dos^2) + (dos + I(dos^2) | year),
+                         data = dat3)
+summary(base_model)
 ```
 
 ## The 'mechanism' model
@@ -170,8 +180,8 @@ ggplot(temp_plot, aes(sample = resid)) +
   theme_minimal()
 ```
 
-## Comparing the two
+## Comparing the three
 
 ```{r}
-anova(mech_model, temp_model)
+anova(base_model, mech_model, temp_model)
 ```

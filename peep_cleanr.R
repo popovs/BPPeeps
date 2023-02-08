@@ -4,6 +4,7 @@ library(magrittr) # for assignment pipe '%<>%' operator
 # Relative file paths to this source file
 f <- list.files("RobertsBankShorebirdSurveys/")
 f <- f[!grepl("^~", f)] # Drop hidden excel files, if present
+f <- f[!grepl("2013_", f)] # Drop extra 2013 data files
 raw <- list()
 for (i in 1:length(f)) {
   message("Reading ", f[[i]], "...")
@@ -515,15 +516,12 @@ counts$julian_date <- lubridate::yday(counts$date_time_pdt)
 # Standardize 'observer'
 counts[["observer"]][which(counts$observer == "RB")] <- "R.B."
 counts[["observer"]][which(counts$observer == "ML")] <- "M.L."
+counts[["observer"]][which(counts$observer == "MD")] <- "M.D."
 counts$observer <- as.factor(counts$observer)
 
 # Misc data fixes
-# 2013-04-23 - bird count was cut off short, and the location
-# counts do not line up with the 60k total. 
-# Per 2022-11-15 email w Mark Drever, add the remaining difference
-# to the View corner location.
-counts[["count_1"]][counts$record_id == 4190] <- 15000
-counts[["mean_count"]][counts$record_id == 4190] <- 15000
+# 1998 - all counts are in the count_1 column
+counts[["mean_count"]][which(lubridate::year(counts$date_time_pdt) == 1998)] <- counts[["count_1"]][which(lubridate::year(counts$date_time_pdt) == 1998)]
 
 # Data checks
 # Some simple & quick data checks to see if excel data is 
@@ -1480,39 +1478,9 @@ DBI::dbExecute(bppeeps, "create view daily_total as
                select date(date_time_pdt) as survey_date,
                sum(final_count) as total_count
                from bp_counts_all bca
-               where in_daily_total_yn in ('TRUE')
-               or in_daily_total_yn is null
+               where in_daily_total_yn in ('TRUE', 'only total')
                group by survey_date
                order by survey_date;")
-
-
-# Daily WESA/DUNL population totals view
-DBI::dbExecute(bppeeps, "drop view if exists daily_wesa_dunl_total;")
-DBI::dbExecute(bppeeps, "create view daily_wesa_dunl_total as
-               select dt.survey_date,
-               total_count,
-               round(((p_wesa/100) * total_count), 0) as pop_wesa, 
-               round(((p_dunl/100) * total_count), 0) as pop_dunl 
-               from daily_total dt
-               inner join daily_percent_ratio dpr 
-               on dt.survey_date = dpr.survey_date
-               order by dt.survey_date;")
-
-# Location level WESA/DUNL population (WIP)
-# TODO: figure out how to get this query working
-DBI::dbExecute(bppeeps, "drop view if exists wesa_dunl_loc;")
-# DBI::dbExecute(bppeeps, "create view wesa_dunl_loc as
-#                select date(c.date_time_pdt) as survey_date,
-#                location,
-#                final_count,
-#                round(((p_wesa/100) * final_count), 0) as pop_wesa, 
-#                round(((p_dunl/100) * final_count), 0) as pop_dunl 
-#                from bp_counts_all c
-#                inner join daily_percent_ratios dpr 
-#                on survey_date = dpr.date
-#                where c.in_daily_total_yn in ('total', 'only total')
-#                or c.in_daily_total_yn is null
-#                order by survey_date;")
 
 DBI::dbDisconnect(bppeeps)
 
