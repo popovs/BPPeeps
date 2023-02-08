@@ -50,7 +50,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 49,22-Apr-00,dropping,10:10,bend edge,0,,,0,TRUE,BPPEEP00.xls
 50,22-Apr-00,dropping,10:15,Bruns.corner,28000,26000,26000,26700,TRUE,BPPEEP00.xls
 51,22-Apr-00,,,TOTAL,,,,58300,total,BPPEEP00.xls
-52,23-Apr-00,,,,,,,,NA,BPPEEP00.xls
+52,23-Apr-00,,,,,,,,no survey,BPPEEP00.xls
 53,24-Apr-00,dropping,9:30,TOTAL,200000,,,200000,only total,BPPEEP00.xls
 54,25-Apr-00,high,9:05,Bruns.corner,5000,,,5000,FALSE,BPPEEP00.xls
 55,25-Apr-00,high-dropping,9:15,mudislet,9500,,,9500,FALSE,BPPEEP00.xls
@@ -88,7 +88,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 87,29-Apr-00,dropping,15:45,C.Port corner,1500,,,1500,TRUE,BPPEEP00.xls
 88,29-Apr-00,dropping,15:45,Bruns.corner,73000,,,73000,TRUE,BPPEEP00.xls
 89,29-Apr-00,,,2nd TOTAL,,,,74500,total,BPPEEP00.xls
-90,30-Apr-00,,,,,,,,NA,BPPEEP00.xls
+90,30-Apr-00,,,,,,,,no survey,BPPEEP00.xls
 91,1-May-00,rising,15:30,C.Port corner,1750,,,1750,TRUE,BPPEEP00.xls
 92,1-May-00,rising,15:30,jetty side,0,,,0,TRUE,BPPEEP00.xls
 93,1-May-00,rising,15:30,before marsh,2200,,,2200,TRUE,BPPEEP00.xls
@@ -113,7 +113,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 112,3-May-00,rising,16:56,C.Port corner,0,,,0,TRUE,BPPEEP00.xls
 113,3-May-00,rising,16:56,jetty side,0,,,0,TRUE,BPPEEP00.xls
 114,3-May-00,,,TOTAL,,,,22650,total,BPPEEP00.xls
-115,4-May-00,,,,,,,,NA,BPPEEP00.xls
+115,4-May-00,,,,,,,,no survey,BPPEEP00.xls
 116,5-May-00,dropping,9:40,C.Port corner,0,,,0,TRUE,BPPEEP00.xls
 117,5-May-00,dropping,9:40,jetty side,2500,,,2500,TRUE,BPPEEP00.xls
 118,5-May-00,dropping,9:45,pilings,0,,,0,TRUE,BPPEEP00.xls
@@ -163,8 +163,8 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 162,20-Apr-01,dropping,18:25,bend edge,0,,,0,TRUE,BPPEEP01.xls
 163,20-Apr-01,dropping,18:25,Bruns.corner,0,,,0,TRUE,BPPEEP01.xls
 164,20-Apr-01,,,TOTAL,,,,14800,total,BPPEEP01.xls
-165,21-Apr-01,,,,,,,,NA,BPPEEP01.xls
-166,22-Apr-01,,,,,,,,NA,BPPEEP01.xls
+165,21-Apr-01,,,,,,,,no survey,BPPEEP01.xls
+166,22-Apr-01,,,,,,,,no survey,BPPEEP01.xls
 167,23-Apr-01,rising,17:20,mudflat,20000,,,,FALSE,BPPEEP01.xls
 168,23-Apr-01,rising,17:25,C.Port corner,8000,10000,,9000,TRUE,BPPEEP01.xls
 169,23-Apr-01,rising,17:25,,4000,,,4000,TRUE,BPPEEP01.xls
@@ -375,7 +375,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 374,9-May-01,dropping,9:05,Bruns.corner,5500,5100,,5300,TRUE,BPPEEP01.xls
 375,9-May-01,dropping,9:10,WNW side Bruns,0,,,0,TRUE,BPPEEP01.xls
 376,9-May-01,,,TOTAL,,,,9870,total,BPPEEP01.xls
-377,10-May-01,,,,,,,,NA,BPPEEP01.xls
+377,10-May-01,,,,,,,,no survey,BPPEEP01.xls
 378,11-May-01,dropping,9:10,Bruns.corner,3200,,,3200,FALSE,BPPEEP01.xls
 379,11-May-01,dropping,9:15,pilings,0,,,0,FALSE,BPPEEP01.xls
 380,11-May-01,dropping,9:20,C.Port corner,0,,,0,FALSE,BPPEEP01.xls
@@ -387,8 +387,8 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 386,11-May-01,dropping,9:51,Bruns.corner,3900,3600,,3750,TRUE,BPPEEP01.xls
 387,11-May-01,dropping,10:00,WNW side Bruns,0,,,0,TRUE,BPPEEP01.xls
 388,11-May-01,,,TOTAL,,,,6300,total,BPPEEP01.xls
-389,12-May-01,,,,,,,,NA,BPPEEP01.xls
-390,13-May-01,,,,,,,,NA,BPPEEP01.xls
+389,12-May-01,,,,,,,,no survey,BPPEEP01.xls
+390,13-May-01,,,,,,,,no survey,BPPEEP01.xls
 391,14-May-01,high,8:50,WNW side Bruns,0,,,0,FALSE,BPPEEP01.xls
 392,14-May-01,high,9:05,C.Port corner,0,,,0,TRUE,BPPEEP01.xls
 393,14-May-01,high,9:05,jetty side,60,,,60,TRUE,BPPEEP01.xls
@@ -404,8 +404,8 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 403,15-May-01,dropping,11:55,Bruns.corner,30,,,30,TRUE,BPPEEP01.xls
 404,15-May-01,dropping,11:57,WNW side Bruns,0,,,0,TRUE,BPPEEP01.xls
 405,15-May-01,,,TOTAL,,,,30,total,BPPEEP01.xls
-406,16-May-01,,,,,,,,NA,BPPEEP01.xls
-407,17-May-01,,,,,,,,NA,BPPEEP01.xls
+406,16-May-01,,,,,,,,no survey,BPPEEP01.xls
+407,17-May-01,,,,,,,,no survey,BPPEEP01.xls
 408,18-May-01,rising,14:30,Bruns dike,0,,,0,TRUE,BPPEEP01.xls
 409,18-May-01,high,16:00,Bruns dike,0,,,0,TRUE,BPPEEP01.xls
 410,18-May-01,,,TOTAL,,,,0,total,BPPEEP01.xls
@@ -439,7 +439,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 438,20-Apr-02,high,9:55,mumblies (east end) far edge,6500,,,6500,TRUE,BPPEEP2002.xls
 439,20-Apr-02,high,10:15,Bruns.corner,30000,,,30000,TRUE,BPPEEP2002.xls
 440,20-Apr-02,,,TOTAL,,,,39800,total,BPPEEP2002.xls
-441,21-Apr-02,,,,,,,,NA,BPPEEP2002.xls
+441,21-Apr-02,,,,,,,,no survey,BPPEEP2002.xls
 442,22-Apr-02,high,13:10,WNW side Bruns,0,,,0,FALSE,BPPEEP2002.xls
 443,22-Apr-02,high,13:10,Bruns.corner,22000,,,22000,FALSE,BPPEEP2002.xls
 444,22-Apr-02,high,13:15,mumblies(from pilings),18000,,,18000,FALSE,BPPEEP2002.xls
@@ -619,8 +619,8 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 618,10-May-02,rising,17:25,mid pilings(on mumblies),3800,4200,,4000,TRUE,BPPEEP2002.xls
 619,10-May-02,rising,17:30,Bruns. corner,0,,,0,TRUE,BPPEEP2002.xls
 620,10-May-02,,,TOTAL,,,,4000,total,BPPEEP2002.xls
-621,11-May-02,,,,,,,,NA,BPPEEP2002.xls
-622,12-May-02,,,,,,,,NA,BPPEEP2002.xls
+621,11-May-02,,,,,,,,no survey,BPPEEP2002.xls
+622,12-May-02,,,,,,,,no survey,BPPEEP2002.xls
 623,13-May-02,dropping,7:45,WNW side Bruns,0,,,0,FALSE,BPPEEP2002.xls
 624,13-May-02,dropping,7:50,Bruns. corner,70,,,70,FALSE,BPPEEP2002.xls
 625,13-May-02,dropping,8:00,marsh west of banding site,100,,,100,FALSE,BPPEEP2002.xls
@@ -631,7 +631,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 630,13-May-02,dropping,8:25,west end mumblies,10,,,10,TRUE,BPPEEP2002.xls
 631,13-May-02,dropping,8:30,Bruns. corner,230,,,230,TRUE,BPPEEP2002.xls
 632,13-May-02,,,TOTAL,,,,802,total,BPPEEP2002.xls
-633,14-May-02,,,,,,,,NA,BPPEEP2002.xls
+633,14-May-02,,,,,,,,no survey,BPPEEP2002.xls
 634,15-May-02,dropping,8:30,WNW side Bruns,0,,,0,FALSE,BPPEEP2002.xls
 635,15-May-02,dropping,8:39,Bruns corner (flying),80,,,80,FALSE,BPPEEP2002.xls
 636,15-May-02,dropping,8:50,CP corner(towards band site),48,,,48,TRUE,BPPEEP2002.xls
@@ -931,8 +931,8 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 930,16-Apr-04,rising,15:40,Bruns.corner,0,,,0,TRUE,BPPEEP2004.xls
 931,16-Apr-04,rising,15:50,WNW side Bruns (Canoe Pass)near tip,110000,,,110000,TRUE,BPPEEP2004.xls
 932,16-Apr-04,,,TOTAL,,,,110000,total,BPPEEP2004.xls
-933,17-Apr-04,,,,,,,,NA,BPPEEP2004.xls
-934,18-Apr-04,,,,,,,,NA,BPPEEP2004.xls
+933,17-Apr-04,,,,,,,,no survey,BPPEEP2004.xls
+934,18-Apr-04,,,,,,,,no survey,BPPEEP2004.xls
 935,19-Apr-04,rising,16:50,WNW side Bruns (Canoe Pass)near tip,10000,,,10000,TRUE,BPPEEP2004.xls
 936,19-Apr-04,rising,16:50,Bruns.corner - tide edge,4000,,,4000,TRUE,BPPEEP2004.xls
 937,19-Apr-04,rising,16:50,Bruns.corner - near shore,16500,,,16500,TRUE,BPPEEP2004.xls
@@ -965,21 +965,21 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 964,21-Apr-04,dropping,8:19,Bruns.corner,0,,,0,FALSE,BPPEEP2004.xls
 965,21-Apr-04,dropping,8:26,WNW side Bruns (Canoe Pass)near tip,0,,,0,FALSE,BPPEEP2004.xls
 966,21-Apr-04,dropping,8:35,Bruns.corner,400,,,400,FALSE,BPPEEP2004.xls
-967,21-Apr-04,dropping,9:05,jetty side marsh,0,,,0,?,BPPEEP2004.xls
-968,21-Apr-04,dropping,9:05,C.Port corner,5000,,,5000,?,BPPEEP2004.xls
-969,21-Apr-04,dropping,9:10,east end mumblies,7500,,,7500,?,BPPEEP2004.xls
-970,21-Apr-04,dropping,9:15,east of pilings,1200,,,1200,?,BPPEEP2004.xls
-971,21-Apr-04,dropping,9:20,mid-pilings,700,,,700,?,BPPEEP2004.xls
-972,21-Apr-04,dropping,9:30,west end mumblies,23500,27000,,25250,?,BPPEEP2004.xls
+967,21-Apr-04,dropping,9:05,jetty side marsh,0,,,0,FALSE,BPPEEP2004.xls
+968,21-Apr-04,dropping,9:05,C.Port corner,5000,,,5000,FALSE,BPPEEP2004.xls
+969,21-Apr-04,dropping,9:10,east end mumblies,7500,,,7500,FALSE,BPPEEP2004.xls
+970,21-Apr-04,dropping,9:15,east of pilings,1200,,,1200,FALSE,BPPEEP2004.xls
+971,21-Apr-04,dropping,9:20,mid-pilings,700,,,700,FALSE,BPPEEP2004.xls
+972,21-Apr-04,dropping,9:30,west end mumblies,23500,27000,,25250,FALSE,BPPEEP2004.xls
 973,21-Apr-04,,,TOTAL - morning dropping tide,,,,39650,total,BPPEEP2004.xls
 974,21-Apr-04,rising,17:30,WNW side Bruns (Canoe Pass)near tip,650,,,650,FALSE,BPPEEP2004.xls
 975,21-Apr-04,rising,17:45,west end mumblies,50000,,,50000,FALSE,BPPEEP2004.xls
 976,21-Apr-04,rising,17:45,view corner,2500,,,2500,FALSE,BPPEEP2004.xls
-977,21-Apr-04,rising,18:10,jetty side marsh,0,,,0,?,BPPEEP2004.xls
-978,21-Apr-04,rising,18:10,C.Port corner,0,,,0,?,BPPEEP2004.xls
-979,21-Apr-04,rising,18:10,from CP to BP,47200,,,47200,?,BPPEEP2004.xls
-980,21-Apr-04,rising,18:50,Bruns.corner,,,,,?,BPPEEP2004.xls
-981,21-Apr-04,rising,18:50,WNW side Bruns (Canoe Pass)near tip,,,,,?,BPPEEP2004.xls
+977,21-Apr-04,rising,18:10,jetty side marsh,0,,,0,FALSE,BPPEEP2004.xls
+978,21-Apr-04,rising,18:10,C.Port corner,0,,,0,FALSE,BPPEEP2004.xls
+979,21-Apr-04,rising,18:10,from CP to BP,47200,,,47200,TRUE,BPPEEP2004.xls
+980,21-Apr-04,rising,18:50,Bruns.corner,,,,,FALSE,BPPEEP2004.xls
+981,21-Apr-04,rising,18:50,WNW side Bruns (Canoe Pass)near tip,,,,,FALSE,BPPEEP2004.xls
 982,21-Apr-04,,,TOTAL - afternoon rising tide,,,,47200,total,BPPEEP2004.xls
 983,22-Apr-04,dropping,8:35,WNW side Bruns (Canoe Pass)near tip,15000,,,15000,TRUE,BPPEEP2004.xls
 984,22-Apr-04,dropping,8:50,Bruns. Corner-west end mumblies,25000,,,25000,TRUE,BPPEEP2004.xls
@@ -1418,7 +1418,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 1417,7-May-05,dropping,8:05,Bruns. Corner,1900,1800,,1850,TRUE,BPPEEP2005.xls
 1418,7-May-05,dropping,8:15,WNW side Bruns (Canoe Pass),0,,,0,TRUE,BPPEEP2005.xls
 1419,7-May-05,,,TOTAL,,,,2450,total,BPPEEP2005.xls
-1420,8-May-05,,,,,,,,NA,BPPEEP2005.xls
+1420,8-May-05,,,,,,,,no survey,BPPEEP2005.xls
 1421,9-May-05,dropping,8:10,WNW side Bruns (Canoe Pass),0,,,0,FALSE,BPPEEP2005.xls
 1422,9-May-05,dropping,8:23,Bruns. Corner,700,,,700,FALSE,BPPEEP2005.xls
 1423,9-May-05,dropping,8:25,mumblies,90,,,90,FALSE,BPPEEP2005.xls
@@ -2217,28 +2217,28 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 2216,14-May-07,rising-high,16:55,Brunswick Point corner - mudroost,60,,,60,FALSE,BPPeep2007.xls
 2217,14-May-07,rising-high,17:00,WNW side Bruns(Canoe Pass),200,,,200,FALSE,BPPeep2007.xls
 2218,14-May-07,,,TOTAL for day - count BP to CP,,,,700,total,BPPeep2007.xls
-2219,20-Apr-94,,,,50000,100000,,75000,NA,BPPEEP94.xls
-2220,22-Apr-94,,,,200000,300000,,250000,NA,BPPEEP94.xls
-2221,25-Apr-94,,,,20000,,,20000,NA,BPPEEP94.xls
-2222,26-Apr-94,,,,820000,,,820000,NA,BPPEEP94.xls
-2223,28-Apr-94,,,,500000,,,500000,NA,BPPEEP94.xls
-2224,30-Apr-94,,,,500000,,,500000,NA,BPPEEP94.xls
-2225,2-May-94,,,,280000,700000,,490000,NA,BPPEEP94.xls
-2226,4-May-94,,,,750000,1500000,,1125000,NA,BPPEEP94.xls
-2227,5-May-94,,,,300000,400000,,350000,NA,BPPEEP94.xls
-2228,6-May-94,,,,200000,560000,,380000,NA,BPPEEP94.xls
-2229,9-May-94,,,,3000,4000,,3500,NA,BPPEEP94.xls
-2230,10-May-94,,,,4000,4400,,4200,NA,BPPEEP94.xls
-2231,14-Apr-95,,,,0,,,0,NA,BPPEEP95.xls
-2232,16-Apr-95,,,,600,,,600,NA,BPPEEP95.xls
-2233,21-Apr-95,,,,3000,11000,,7000,NA,BPPEEP95.xls
-2234,24-Apr-95,,,,2100,7375,,4738,NA,BPPEEP95.xls
-2235,25-Apr-95,,,,50000,90000,,70000,NA,BPPEEP95.xls
-2236,26-Apr-95,,,,300000,700000,,500000,NA,BPPEEP95.xls
-2237,28-Apr-95,,,,200000,500000,,350000,NA,BPPEEP95.xls
-2238,30-Apr-95,,,,220000,440000,,330000,NA,BPPEEP95.xls
-2239,1-May-95,,,,50000,80000,,65000,NA,BPPEEP95.xls
-2240,3-May-95,,,,38000,150000,,94000,NA,BPPEEP95.xls
+2219,20-Apr-94,,,,50000,100000,,75000,only total,BPPEEP94.xls
+2220,22-Apr-94,,,,200000,300000,,250000,only total,BPPEEP94.xls
+2221,25-Apr-94,,,,20000,,,20000,only total,BPPEEP94.xls
+2222,26-Apr-94,,,,820000,,,820000,only total,BPPEEP94.xls
+2223,28-Apr-94,,,,500000,,,500000,only total,BPPEEP94.xls
+2224,30-Apr-94,,,,500000,,,500000,only total,BPPEEP94.xls
+2225,2-May-94,,,,280000,700000,,490000,only total,BPPEEP94.xls
+2226,4-May-94,,,,750000,1500000,,1125000,only total,BPPEEP94.xls
+2227,5-May-94,,,,300000,400000,,350000,only total,BPPEEP94.xls
+2228,6-May-94,,,,200000,560000,,380000,only total,BPPEEP94.xls
+2229,9-May-94,,,,3000,4000,,3500,only total,BPPEEP94.xls
+2230,10-May-94,,,,4000,4400,,4200,only total,BPPEEP94.xls
+2231,14-Apr-95,,,,0,,,0,only total,BPPEEP95.xls
+2232,16-Apr-95,,,,600,,,600,only total,BPPEEP95.xls
+2233,21-Apr-95,,,,3000,11000,,7000,only total,BPPEEP95.xls
+2234,24-Apr-95,,,,2100,7375,,4738,only total,BPPEEP95.xls
+2235,25-Apr-95,,,,50000,90000,,70000,only total,BPPEEP95.xls
+2236,26-Apr-95,,,,300000,700000,,500000,only total,BPPEEP95.xls
+2237,28-Apr-95,,,,200000,500000,,350000,only total,BPPEEP95.xls
+2238,30-Apr-95,,,,220000,440000,,330000,only total,BPPEEP95.xls
+2239,1-May-95,,,,50000,80000,,65000,only total,BPPEEP95.xls
+2240,3-May-95,,,,38000,150000,,94000,only total,BPPEEP95.xls
 2241,21-Apr-97,rising,17:35,Bruns. Pt. end,12000,,,12000,TRUE,BPPEEP97.xls
 2242,21-Apr-97,rising,17:35,Bruns.corner,80,,,80,TRUE,BPPEEP97.xls
 2243,21-Apr-97,rising,,along dike,1700,2000,,1850,TRUE,BPPEEP97.xls
@@ -2328,16 +2328,16 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 2327,12-May-97,dropping,10:25,Bruns. dike,550,,,550,TRUE,BPPEEP97.xls
 2328,12-May-97,,,TOTAL,,,,555,total,BPPEEP97.xls
 2329,12-May-97,,,TOT.incl.causew,,,,655,total,BPPEEP97.xls
-2330,2-May-98,,,,19500,,,,NA,BPPEEP98.xls
-2331,3-May-98,,,,460000,,,,NA,BPPEEP98.xls
-2332,4-May-98,,,,105000,,,,NA,BPPEEP98.xls
-2333,5-May-98,,,,,,,,NA,BPPEEP98.xls
-2334,6-May-98,,,,15800,,,,NA,BPPEEP98.xls
-2335,7-May-98,,,,5000,,,,NA,BPPEEP98.xls
-2336,8-May-98,,,,16500,,,,NA,BPPEEP98.xls
-2337,9-May-98,,,,40000,,,,NA,BPPEEP98.xls
-2338,10-May-98,,,,29000,,,,NA,BPPEEP98.xls
-2339,11-May-98,,,,41000,,,,NA,BPPEEP98.xls
+2330,2-May-98,,,,19500,,,,only total,BPPEEP98.xls
+2331,3-May-98,,,,460000,,,,only total,BPPEEP98.xls
+2332,4-May-98,,,,105000,,,,only total,BPPEEP98.xls
+2333,5-May-98,,,,,,,,no survey,BPPEEP98.xls
+2334,6-May-98,,,,15800,,,,only total,BPPEEP98.xls
+2335,7-May-98,,,,5000,,,,only total,BPPEEP98.xls
+2336,8-May-98,,,,16500,,,,only total,BPPEEP98.xls
+2337,9-May-98,,,,40000,,,,only total,BPPEEP98.xls
+2338,10-May-98,,,,29000,,,,only total,BPPEEP98.xls
+2339,11-May-98,,,,41000,,,,only total,BPPEEP98.xls
 2340,20-Apr-99,dropping,10:15,C.Port corner,3000,,,3000,TRUE,BPPEEP99.xls
 2341,20-Apr-99,dropping,10:30,jetty side,1450,,,1450,TRUE,BPPEEP99.xls
 2342,20-Apr-99,dropping,10:40,pilings,170,,,170,TRUE,BPPEEP99.xls
@@ -2428,7 +2428,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 2427,8-May-99,rising,9:40,pilings,10500,,,10500,TRUE,BPPEEP99.xls
 2428,8-May-99,rising,10:00,Bruns.corner,51000,,,51000,TRUE,BPPEEP99.xls
 2429,8-May-99,,,TOTAL,,,,76250,total,BPPEEP99.xls
-2430,9-May-99,,,,,,,no survey,NA,BPPEEP99.xls
+2430,9-May-99,,,,,,,no survey,no survey,BPPEEP99.xls
 2431,10-May-99,high,13:45,C.Port corner,0,,,0,TRUE,BPPEEP99.xls
 2432,10-May-99,high,13:45,jetty side,0,,,0,TRUE,BPPEEP99.xls
 2433,10-May-99,high,13:45,before pilings,0,,,0,TRUE,BPPEEP99.xls
@@ -3432,8 +3432,8 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 3431,10-May-10,,,TOTAL of sweep count (1) BP to CP,,,,4050,total,BPPeeps2010.xls
 3432,10-May-10,,,TOTAL of sweep count (2) CP to BP,,,,4250,total,BPPeeps2010.xls
 3433,10-May-10,,,TOTAL - average of 2 counts,,,,4150,total,BPPeeps2010.xls
-3434,11-May-10,,,,,,,,NA,BPPeeps2010.xls
-3435,12-May-10,,,,,,,,NA,BPPeeps2010.xls
+3434,11-May-10,,,,,,,,no survey,BPPeeps2010.xls
+3435,12-May-10,,,,,,,,no survey,BPPeeps2010.xls
 3436,13-May-10,rising,16:55,WNW side Bruns(Canoe Pass),0,,,0,FALSE,BPPeeps2010.xls
 3437,13-May-10,rising,17:00,Bruns Pt corner marsh tip -west end mumblies,0,,,0,FALSE,BPPeeps2010.xls
 3438,13-May-10,rising,17:08,C.Port corner,0,,,0,TRUE,BPPeeps2010.xls
@@ -4153,694 +4153,758 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 4152,10-May-12,dropping,10:30,pilings pullout,0,,,0,TRUE,BPPeeps2012.xls
 4153,10-May-12,dropping,10:35,view corner (BP corner&West end mumblies),1450,,,1450,TRUE,BPPeeps2012.xls
 4154,10-May-12,dropping,,TOTAL of sweep count CP to BP,,,,1480,total,BPPeeps2012.xls
-4155,11-Apr-13,dropping,7:46,WNW side Bruns(Canoe Pass),35000,,,35000,FALSE,BPPeeps2013_ML.xls
-4156,11-Apr-13,dropping,7:52,BP mudroost viewpoint,16000,,,16000,FALSE,BPPeeps2013_ML.xls
-4157,11-Apr-13,dropping,8:01,west end mumblies,33000,,,33000,FALSE,BPPeeps2013_ML.xls
-4158,11-Apr-13,dropping,8:01,BP mudroost,18000,,,18000,FALSE,BPPeeps2013_ML.xls
-4159,11-Apr-13,dropping,8:13,view corner (BP corner&West end mumblies),55000,,,55000,FALSE,BPPeeps2013_ML.xls
-4160,11-Apr-13,dropping,8:32,C.Port corner,0,0,,0,FALSE,BPPeeps2013_ML.xls
-4161,11-Apr-13,dropping,8:32,CP jetty side marsh,6200,7400,,6800,FALSE,BPPeeps2013_ML.xls
-4162,11-Apr-13,dropping,9:04,C.Port corner,0,,,0,TRUE,BPPeeps2013_ML.xls
-4163,11-Apr-13,dropping,9:04,CP jetty side marsh,13000,,,13000,TRUE,BPPeeps2013_ML.xls
-4164,11-Apr-13,dropping,9:04,east end mumblies,1000,,,1000,TRUE,BPPeeps2013_ML.xls
-4165,11-Apr-13,dropping,9:05,east of east end pilings (near bend) mumblies,9000,10000,,9500,TRUE,BPPeeps2013_ML.xls
-4166,11-Apr-13,dropping,9:10,pilings viewpoint,3000,,,3000,TRUE,BPPeeps2013_ML.xls
-4167,11-Apr-13,dropping,9:15,view corner (outer West end mumblies),22000,28000,,25000,TRUE,BPPeeps2013_ML.xls
-4168,11-Apr-13,dropping,9:15,view corner (inner mud),1300,900,,1100,TRUE,BPPeeps2013_ML.xls
-4169,11-Apr-13,dropping,9:15,view corner (BP marsh tip),1500,800,,1150,TRUE,BPPeeps2013_ML.xls
-4170,11-Apr-13,,,TOTAL of sweep count CP to BP,,,,53750,total,BPPeeps2013_ML.xls
-4171,22-Apr-13,rising,14:15,WNW side Bruns(Canoe Pass),150,,,150,FALSE,BPPeeps2013_ML.xls
-4172,22-Apr-13,rising,,BP mudroost viewpoint,,,,,FALSE,BPPeeps2013_ML.xls
-4173,22-Apr-13,rising,,view corner,,,,,FALSE,BPPeeps2013_ML.xls
-4174,22-Apr-13,rising,,pilings viewpoint,5500,,,5500,FALSE,BPPeeps2013_ML.xls
-4175,22-Apr-13,rising,14:57,C.Port corner,,,,,FALSE,BPPeeps2013_ML.xls
-4176,22-Apr-13,rising,15:22,C.Port corner,,,,,TRUE,BPPeeps2013_ML.xls
-4177,22-Apr-13,rising,15:22,CP jetty side marsh,,,,,TRUE,BPPeeps2013_ML.xls
-4178,22-Apr-13,rising,15:38,view corner (BP corner&West end mumblies),80000,100000,,90000,TRUE,BPPeeps2013_ML.xls
-4179,22-Apr-13,,,TOTAL of sweep count CP to BP,,,,90000,total,BPPeeps2013_ML.xls
-4180,23-Apr-13,rising,14:48,WNW side Bruns(Canoe Pass),18000,20000,,19000,TRUE,BPPeeps2013_ML.xls
-4181,23-Apr-13,rising,14:58,BP mudroost viewpoint,0,,,0,TRUE,BPPeeps2013_ML.xls
-4182,23-Apr-13,rising,15:05,view corner,,,,,TRUE,BPPeeps2013_ML.xls
-4183,23-Apr-13,rising,15:35,C.Port corner,0,,,0,TRUE,BPPeeps2013_ML.xls
-4184,23-Apr-13,rising,15:47,C.Port corner,0,,,0,TRUE,BPPeeps2013_ML.xls
-4185,23-Apr-13,rising,15:47,CP jetty side marsh,0,,,0,TRUE,BPPeeps2013_ML.xls
-4186,23-Apr-13,rising,15:50,west of 34th,2500,,,2500,TRUE,BPPeeps2013_ML.xls
-4187,23-Apr-13,rising,15:50,east of east end pilings (near bend) mumblies,13500,,,13500,TRUE,BPPeeps2013_ML.xls
-4188,23-Apr-13,rising,15:55,pilings viewpoint,0,,,0,TRUE,BPPeeps2013_ML.xls
-4189,23-Apr-13,rising,15:59,view corner,10000,,,10000,TRUE,BPPeeps2013_ML.xls
-4190,23-Apr-13,rising,16:00,view corner (outer West end mumblies),0,,,0,TRUE,BPPeeps2013_ML.xls
-4191,23-Apr-13,rising,16:00,,,,,,FALSE,BPPeeps2013_ML.xls
-4192,23-Apr-13,,,TOTAL of sweep count CP to BP,,,,60000,total,BPPeeps2013_ML.xls
-4193,24-Apr-13,rising,15:15,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2013_ML.xls
-4194,24-Apr-13,rising,15:20,BP mudroost viewpoint,,,,,FALSE,BPPeeps2013_ML.xls
-4195,24-Apr-13,rising,15:25,view corner,27000,,,27000,FALSE,BPPeeps2013_ML.xls
-4196,24-Apr-13,rising,,east of east end pilings (near bend),80000,,,80000,FALSE,BPPeeps2013_ML.xls
-4197,24-Apr-13,rising,,in air over BP tip and Canoe Pass,70000,,,70000,FALSE,BPPeeps2013_ML.xls
-4198,24-Apr-13,rising,16:00,CP jetty side marsh,0,,,0,TRUE,BPPeeps2013_ML.xls
-4199,24-Apr-13,rising,16:00,"C.Port corner, thru 34th to bend",70000,,,70000,TRUE,BPPeeps2013_ML.xls
-4200,24-Apr-13,rising,16:05,pilings viewpoint (tide edge outer mumblies),10500,,,10500,TRUE,BPPeeps2013_ML.xls
-4201,24-Apr-13,rising,16:10,view corner (BP corner&West end mumblies),0,,,0,TRUE,BPPeeps2013_ML.xls
-4202,24-Apr-13,rising,16:10,WNW side Bruns(Canoe Pass),0,,,0,TRUE,BPPeeps2013_ML.xls
-4203,24-Apr-13,,,TOTAL of sweep count CP to BP,,,,80500,total,BPPeeps2013_ML.xls
-4204,25-Apr-13,dropping,7:10,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2013_ML.xls
-4205,25-Apr-13,dropping,7:17,BP mudroost viewpoint,39000,45000,,42000,FALSE,BPPeeps2013_ML.xls
-4206,25-Apr-13,dropping,7:22,view corner viewpoint (BP marsh tip),20000,,,20000,FALSE,BPPeeps2013_ML.xls
-4207,25-Apr-13,dropping,7:25,34th pullout,300,,,300,FALSE,BPPeeps2013_ML.xls
-4208,25-Apr-13,dropping,7:25,C.Port corner,4000,,,4000,FALSE,BPPeeps2013_ML.xls
-4209,25-Apr-13,dropping,7:25,CP jetty side marsh,7000,,,7000,FALSE,BPPeeps2013_ML.xls
-4210,25-Apr-13,dropping,7:41,34th pullout,1000,,,1000,AVG,BPPeeps2013_ML.xls
-4211,25-Apr-13,dropping,7:41,C.Port corner,1100,,,1100,AVG,BPPeeps2013_ML.xls
-4212,25-Apr-13,dropping,7:41,CP jetty side marsh,5500,,,5500,AVG,BPPeeps2013_ML.xls
-4213,25-Apr-13,dropping,7:45,east of east end pilings (near bend) mumblies,500,,,500,AVG,BPPeeps2013_ML.xls
-4214,25-Apr-13,dropping,7:47,pilings viewpoint,600,,,600,AVG,BPPeeps2013_ML.xls
-4215,25-Apr-13,dropping,7:50,view corner viewpoint (outer tide line),21000,26000,,23500,AVG,BPPeeps2013_ML.xls
-4216,25-Apr-13,dropping,7:50,view corner viewpoint (inner mud),32000,38000,,35000,AVG,BPPeeps2013_ML.xls
-4217,25-Apr-13,dropping,8:15,34th pullout,1000,,,1000,AVG,BPPeeps2013_ML.xls
-4218,25-Apr-13,dropping,8:15,C.Port corner,0,,,0,AVG,BPPeeps2013_ML.xls
-4219,25-Apr-13,dropping,8:15,CP jetty side marsh,11000,,,11000,AVG,BPPeeps2013_ML.xls
-4220,25-Apr-13,dropping,8:20,bend viewpoint (east of east end pilings),1400,,,1400,AVG,BPPeeps2013_ML.xls
-4221,25-Apr-13,dropping,8:22,pilings viewpoint,0,,,0,AVG,BPPeeps2013_ML.xls
-4222,25-Apr-13,dropping,8:25,view corner - tide edge & into BP marsh tip,64000,59000,,61500,AVG,BPPeeps2013_ML.xls
-4223,25-Apr-13,,,TOTAL of sweep count CP to BP (count 1),,,,67200,total,BPPeeps2013_ML.xls
-4224,25-Apr-13,,,TOTAL of sweep count CP to BP (count 2),,,,74900,total,BPPeeps2013_ML.xls
-4225,25-Apr-13,,,TOTAL - average of 2 counts,,,,71050,total,BPPeeps2013_ML.xls
-4226,26-Apr-13,dropping,6:56,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2013_ML.xls
-4227,26-Apr-13,dropping,7:05,BP mudroost viewpoint,14000,,,14000,FALSE,BPPeeps2013_ML.xls
-4228,26-Apr-13,dropping,8:15,34th pullout,2000,,,2000,TRUE,BPPeeps2013_ML.xls
-4229,26-Apr-13,dropping,8:15,CP jetty side marsh thru CP corner,36000,,,36000,TRUE,BPPeeps2013_ML.xls
-4230,26-Apr-13,dropping,8:15,marsh to west of 34th pullout,1000,,,1000,TRUE,BPPeeps2013_ML.xls
-4231,26-Apr-13,dropping,8:24,pilings (inner mud),250,,,250,TRUE,BPPeeps2013_ML.xls
-4232,26-Apr-13,dropping,8:37,viewcorner (west of west end pilings),1500,,,1500,TRUE,BPPeeps2013_ML.xls
-4233,26-Apr-13,dropping,8:37,view corner (inner mud to BP marsh),13000,12000,,12500,TRUE,BPPeeps2013_ML.xls
-4234,26-Apr-13,dropping,8:37,view corner (outer tide line to corner),66500,71000,,68750,TRUE,BPPeeps2013_ML.xls
-4235,26-Apr-13,dropping,,TOTAL of sweep count CP to BP (A.M.),,,,122000,total,BPPeeps2013_ML.xls
-4236,26-Apr-13,rising,16:33,WNW side Bruns(Canoe Pass),0,,,0,FALSE,BPPeeps2013_ML.xls
-4237,26-Apr-13,rising,,BP mudroost viewpoint,0,,,0,FALSE,BPPeeps2013_ML.xls
-4238,26-Apr-13,rising,,viewcorner,,,,,FALSE,BPPeeps2013_ML.xls
-4239,26-Apr-13,rising,17:15,CP corner end,39000,,,39000,FALSE,BPPeeps2013_ML.xls
-4240,26-Apr-13,rising,17:22,34th pullout,0,,,0,TRUE,BPPeeps2013_ML.xls
-4241,26-Apr-13,rising,17:22,CP jetty side marsh thru CP corner,8000,,,8000,TRUE,BPPeeps2013_ML.xls
-4242,26-Apr-13,rising,17:30,Pilings  (outer tide edge),29000,,,29000,TRUE,BPPeeps2013_ML.xls
-4243,26-Apr-13,rising,17:30,Pilings  (on mumblies),1500,,,1500,TRUE,BPPeeps2013_ML.xls
-4244,26-Apr-13,rising,17:40,view corner (inner mud to BP marsh),28000,32000,,30000,TRUE,BPPeeps2013_ML.xls
-4245,26-Apr-13,rising,17:40,view corner (outer tide line to corner),32000,30000,,31000,TRUE,BPPeeps2013_ML.xls
-4246,26-Apr-13,rising,,TOTAL of sweep count CP to BP (P.M.),,,,99500,total,BPPeeps2013_ML.xls
-4247,29-Apr-13,dropping,9:21,WNW side Bruns(Canoe Pass),3000,,,3000,FALSE,BPPeeps2013_ML.xls
-4248,29-Apr-13,dropping,9:28,BP mudroost viewpoint,5500,,,5500,FALSE,BPPeeps2013_ML.xls
-4249,29-Apr-13,dropping,9:40,pilings viewpoint,2000,,,2000,FALSE,BPPeeps2013_ML.xls
-4250,29-Apr-13,dropping,10:11,CP corner end,5000,,,5000,FALSE,BPPeeps2013_ML.xls
-4251,29-Apr-13,dropping,10:40,34th pullout,0,,,0,TRUE,BPPeeps2013_ML.xls
-4252,29-Apr-13,dropping,10:40,C.Port corner (along closer side of jetty),3500,3000,,3250,TRUE,BPPeeps2013_ML.xls
-4253,29-Apr-13,dropping,10:40,CP jetty side marsh (far),7000,9500,,8250,TRUE,BPPeeps2013_ML.xls
-4254,29-Apr-13,dropping,10:45,bend viewpoint ( inner mud),500,,,500,TRUE,BPPeeps2013_ML.xls
-4255,29-Apr-13,dropping,10:45,bend viewpoint (on mumblies),400,,,400,TRUE,BPPeeps2013_ML.xls
-4256,29-Apr-13,dropping,10:48,pilings (inner mud),24000,,,,TRUE,BPPeeps2013_ML.xls
-4257,29-Apr-13,dropping,10:50,view corner (inner mud to BP marsh),46000,,,,TRUE,BPPeeps2013_ML.xls
-4258,29-Apr-13,dropping,10:50,view corner (outer tide line to corner),15000,,,,TRUE,BPPeeps2013_ML.xls
-4259,29-Apr-13,dropping,11:00,pilings (inner mud),6000,,,6000,TRUE,BPPeeps2013_ML.xls
-4260,29-Apr-13,dropping,11:00,view corner (inner mud to BP marsh),46000,,,46000,TRUE,BPPeeps2013_ML.xls
-4261,29-Apr-13,dropping,11:00,view corner (outer tide line to corner),21000,,,21000,TRUE,BPPeeps2013_ML.xls
-4262,29-Apr-13,,,TOTAL of sweep count CP to BP,,,,85400,total,BPPeeps2013_ML.xls
-4263,30-Apr-13,dropping,9:43,WNW side Bruns(Canoe Pass),8000,,,8000,FALSE,BPPeeps2013_ML.xls
-4264,30-Apr-13,dropping,9:50,BP mudroost viewpoint  (mudroost),25000,,,25000,FALSE,BPPeeps2013_ML.xls
-4265,30-Apr-13,dropping,9:50,BP mudroost viewpoint (on west end mumblies),25000,,,25000,FALSE,BPPeeps2013_ML.xls
-4266,30-Apr-13,dropping,10:10,CP jetty side marsh thru CP corner,3500,,,3500,FALSE,BPPeeps2013_ML.xls
-4267,30-Apr-13,dropping,10:28,C.Port corner,8000,,,8000,TRUE,BPPeeps2013_ML.xls
-4268,30-Apr-13,dropping,10:28,CP jetty side marsh,6500,,,6500,TRUE,BPPeeps2013_ML.xls
-4269,30-Apr-13,dropping,10:28,34th pullout,1500,,,1500,TRUE,BPPeeps2013_ML.xls
-4270,30-Apr-13,dropping,10:35,bend viewpoint,2800,,,2800,TRUE,BPPeeps2013_ML.xls
-4271,30-Apr-13,dropping,10:40,pilings (inner mud),15000,,,15000,TRUE,BPPeeps2013_ML.xls
-4272,30-Apr-13,dropping,10:45,view corner (inner mud to BP marsh),66000,55000,,60500,TRUE,BPPeeps2013_ML.xls
-4273,30-Apr-13,dropping,10:45,view corner (outer tide line to corner),12500,15000,,13750,TRUE,BPPeeps2013_ML.xls
-4274,30-Apr-13,,,TOTAL of sweep count CP to BP,,,,108050,total,BPPeeps2013_ML.xls
-4275,1-May-13,rising,~7:05,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2013_ML.xls
-4276,1-May-13,rising,7:15,BP mudroost viewpoint  (inner mud thru corner marsh),45000,50000,,47500,FALSE,BPPeeps2013_ML.xls
-4277,1-May-13,rising,7:15,BP mudroost viewpoint (outer tide line off mumblies),20000,,,20000,FALSE,BPPeeps2013_ML.xls
-4278,1-May-13,rising,7:20,pilings viewpoint to 34th,17000,,,17000,FALSE,BPPeeps2013_ML.xls
-4279,1-May-13,rising,7:30,CP corner end,5000,,,5000,FALSE,BPPeeps2013_ML.xls
-4280,1-May-13,rising,8:24,34th pullout - tide edge,700,,,700,TRUE,BPPeeps2013_ML.xls
-4281,1-May-13,rising,8:24,CP jetty side marsh (far),1500,,,1500,TRUE,BPPeeps2013_ML.xls
-4282,1-May-13,rising,8:24,CP jetty side marsh thru to CP corner,13000,,,13000,TRUE,BPPeeps2013_ML.xls
-4283,1-May-13,rising,8:24,C.Port corner thru to 34th,21500,,,21500,TRUE,BPPeeps2013_ML.xls
-4284,1-May-13,rising,8:30,bend viewpoint,0,,,0,TRUE,BPPeeps2013_ML.xls
-4285,1-May-13,rising,8:30,pilings (inner mud),0,,,0,TRUE,BPPeeps2013_ML.xls
-4286,1-May-13,rising,8:34,view corner (inner mud to BP marsh),27000,28000,,27500,TRUE,BPPeeps2013_ML.xls
-4287,1-May-13,rising,8:45,view corner (outer tide line to corner),55000,51000,,53000,TRUE,BPPeeps2013_ML.xls
-4288,1-May-13,,,TOTAL of sweep count CP to BP,,,,117200,total,BPPeeps2013_ML.xls
-4289,3-May-13,rising,11:37,WNW side Bruns(Canoe Pass),300,,,300,FALSE,BPPeeps2013_ML.xls
-4290,3-May-13,rising,11:44,BP mudroost viewpoint  (inner mud thru corner marsh),28000,,,28000,FALSE,BPPeeps2013_ML.xls
-4291,3-May-13,rising,11:44,BP mudroost viewpoint (outer tide line off BP marsh tip),15000,,,15000,FALSE,BPPeeps2013_ML.xls
-4292,3-May-13,rising,11:53,view corner (outer tide line),24000,,,24000,FALSE,BPPeeps2013_ML.xls
-4293,3-May-13,rising,12:06,C.Port corner,75,,,75,FALSE,BPPeeps2013_ML.xls
-4294,3-May-13,high,12:21,CP jetty side marsh,600,,,600,TRUE,BPPeeps2013_ML.xls
-4295,3-May-13,high,12:21,C.Port corner,170,,,170,TRUE,BPPeeps2013_ML.xls
-4296,3-May-13,high,12:21,34th pullout (inner mud),90,,,90,TRUE,BPPeeps2013_ML.xls
-4297,3-May-13,high,12:21,34th pullout (outer mumblies),5000,4500,,4750,TRUE,BPPeeps2013_ML.xls
-4298,3-May-13,high,12:30,bend viewpoint (inner mud),500,,,500,TRUE,BPPeeps2013_ML.xls
-4299,3-May-13,high,12:35,view corner (outer tide line to corner),18500,,,18500,TRUE,BPPeeps2013_ML.xls
-4300,3-May-13,high,12:35,view corner (inner mud to BP marsh),58000,,,58000,TRUE,BPPeeps2013_ML.xls
-4301,3-May-13,,,TOTAL of sweep count CP to BP,,,,82610,total,BPPeeps2013_ML.xls
-4302,6-May-13,rising,14:20,WNW side Bruns(Canoe Pass),50,,,50,FALSE,BPPeeps2013_ML.xls
-4303,6-May-13,rising,14:29,BP mudroost viewpoint (marshedge to tideline to pilings),50000,,,50000,FALSE,BPPeeps2013_ML.xls
-4304,6-May-13,rising,14:35,view corner,5000,,,5000,FALSE,BPPeeps2013_ML.xls
-4305,6-May-13,rising,15:00,CP jetty side marsh,300,,,300,TRUE,BPPeeps2013_ML.xls
-4306,6-May-13,rising,15:00,C.Port corner,0,,,0,TRUE,BPPeeps2013_ML.xls
-4307,6-May-13,rising,15:00,34th pullout (outer mumblies-scattered),60,,,60,TRUE,BPPeeps2013_ML.xls
-4308,6-May-13,rising,15:05,bend viewpoint,0,,,0,TRUE,BPPeeps2013_ML.xls
-4309,6-May-13,rising,15:10,flying,4000,,,4000,TRUE,BPPeeps2013_ML.xls
-4310,6-May-13,rising,15:15,pilings (inner mud),14500,,,14500,TRUE,BPPeeps2013_ML.xls
-4311,6-May-13,rising,15:20,view corner (outer tide line to corner),7500,8500,,8000,TRUE,BPPeeps2013_ML.xls
-4312,6-May-13,rising,15:20,view corner (inner mud to BP marsh),67000,68000,,67500,TRUE,BPPeeps2013_ML.xls
-4313,6-May-13,,,TOTAL of sweep count CP to BP,,,,94360,total,BPPeeps2013_ML.xls
-4314,7-May-13,rising,15:10,WNW side Bruns(Canoe Pass),150,,,150,FALSE,BPPeeps2013_ML.xls
-4315,7-May-13,rising,15:15,BP mudroost viewpoint (inner mud),0,,,0,FALSE,BPPeeps2013_ML.xls
-4316,7-May-13,rising,15:20,BP mudroost viewpoint (tideline to pilings),12000,,,12000,FALSE,BPPeeps2013_ML.xls
-4317,7-May-13,rising,15:36,CP jetty side marsh thru to CP corner,4500,,,4500,FALSE,BPPeeps2013_ML.xls
-4318,7-May-13,rising,15:44,CP jetty side marsh,4800,,,4800,TRUE,BPPeeps2013_ML.xls
-4319,7-May-13,rising,15:44,C.Port corner,0,,,0,TRUE,BPPeeps2013_ML.xls
-4320,7-May-13,rising,15:44,34th pullout (near mud),900,,,900,TRUE,BPPeeps2013_ML.xls
-4321,7-May-13,rising,15:50,bend viewpoint,5100,,,5100,TRUE,BPPeeps2013_ML.xls
-4322,7-May-13,rising,15:55,pilings (inner mud),50,,,50,TRUE,BPPeeps2013_ML.xls
-4323,7-May-13,rising,15:55,Pilings  (outer mumblies on tideline),1500,,,1500,TRUE,BPPeeps2013_ML.xls
-4324,7-May-13,rising,16:00,view corner (outer tide line to corner),2200,2400,,2300,TRUE,BPPeeps2013_ML.xls
-4325,7-May-13,rising,16:00,view corner (inner mud to BP marsh),6500,6800,,6650,TRUE,BPPeeps2013_ML.xls
-4326,7-May-13,,,TOTAL of sweep count CP to BP,,,,21300,total,BPPeeps2013_ML.xls
-4327,8-May-13,rising,15:45,WNW side Bruns(Canoe Pass),0,,,0,FALSE,BPPeeps2013_ML.xls
-4328,8-May-13,rising,15:52,BP mudroost viewpoint (inner mud),0,,,0,FALSE,BPPeeps2013_ML.xls
-4329,8-May-13,rising,15:52,BP mudroost viewpoint (tideline to pilings),0,,,0,FALSE,BPPeeps2013_ML.xls
-4330,8-May-13,rising,15:55,view corner (tideline),300,,,300,FALSE,BPPeeps2013_ML.xls
-4331,8-May-13,rising,16:00,pilings (tideline),200,,,200,FALSE,BPPeeps2013_ML.xls
-4332,8-May-13,rising,16:19,CP jetty side marsh thru to CP corner,0,,,0,FALSE,BPPeeps2013_ML.xls
-4333,8-May-13,rising,16:25,CP jetty side marsh,0,,,0,TRUE,BPPeeps2013_ML.xls
-4334,8-May-13,rising,16:25,C.Port corner,0,,,0,TRUE,BPPeeps2013_ML.xls
-4335,8-May-13,rising,16:25,34th pullout,0,,,0,TRUE,BPPeeps2013_ML.xls
-4336,8-May-13,rising,16:30,bend viewpoint,0,,,0,TRUE,BPPeeps2013_ML.xls
-4337,8-May-13,rising,16:35,pilings (tideline),3,,,3,TRUE,BPPeeps2013_ML.xls
-4338,8-May-13,rising,16:35,pilings - flying east,55,,,55,TRUE,BPPeeps2013_ML.xls
-4339,8-May-13,rising,16:40,view corner (inner mud to tide edge) some flying,19,,,19,TRUE,BPPeeps2013_ML.xls
-4340,8-May-13,,,TOTAL of sweep count CP to BP,,,,77,total,BPPeeps2013_ML.xls
-4341,9-May-13,dropping,6:53,WNW side Bruns(Canoe Pass),0,,,0,FALSE,BPPeeps2013_ML.xls
-4342,9-May-13,dropping,6:59,BP mudroost viewpoint (inner mud),0,,,0,FALSE,BPPeeps2013_ML.xls
-4343,9-May-13,dropping,6:59,BP mudroost viewpoint (on mumblie ridge),5,,,5,FALSE,BPPeeps2013_ML.xls
-4344,9-May-13,dropping,7:15,CP corner (flying),250,,,250,FALSE,BPPeeps2013_ML.xls
-4345,9-May-13,dropping,7:20,CP corner - inner mud,250,320,,285,FALSE,BPPeeps2013_ML.xls
-4346,9-May-13,dropping,7:25,CP jetty side marsh,0,,,0,TRUE,BPPeeps2013_ML.xls
-4347,9-May-13,dropping,7:25,C.Port corner,0,,,0,TRUE,BPPeeps2013_ML.xls
-4348,9-May-13,dropping,7:25,34th pullout (on mumblies to west),230,,,230,TRUE,BPPeeps2013_ML.xls
-4349,9-May-13,dropping,7:30,bend viewpoint,0,,,0,TRUE,BPPeeps2013_ML.xls
-4350,9-May-13,dropping,7:35,pilings (in mumblies),15,,,15,TRUE,BPPeeps2013_ML.xls
-4351,9-May-13,dropping,7:44,view corner (inner mud to BP marsh),30,,,30,TRUE,BPPeeps2013_ML.xls
-4352,9-May-13,,,TOTAL of sweep count CP to BP,,,,275,total,BPPeeps2013_ML.xls
-4353,15-Apr-14,,8:21,34th street pullout,8500,,,8500,NA,BPPeeps2014MD.xlsx
-4354,15-Apr-14,,8:28,pilings,4000,,,4000,NA,BPPeeps2014MD.xlsx
-4355,15-Apr-14,,8:31,pilings pullout,2500,,,2500,NA,BPPeeps2014MD.xlsx
-4356,15-Apr-14,,8:35,view corner,47000,29500,31500,36000,NA,BPPeeps2014MD.xlsx
-4357,16-Apr-14,,8:48,34th street pullout,4200,,,700,NA,BPPeeps2014MD.xlsx
-4358,16-Apr-14,,8:53,pilings bend,500,,,1000,NA,BPPeeps2014MD.xlsx
-4359,16-Apr-14,,8:57,pilings pullout,7500,,,7500,NA,BPPeeps2014MD.xlsx
-4360,16-Apr-14,,9:05,view corner,38000,29000,,33500,NA,BPPeeps2014MD.xlsx
-4361,17-Apr-14,,9:30,34th street pullout,3000,,,3000,NA,BPPeeps2014MD.xlsx
-4362,17-Apr-14,,9:36,pilings bend,2100,,,2100,NA,BPPeeps2014MD.xlsx
-4363,17-Apr-14,,9:39,pilings pullout,5200,,,5200,NA,BPPeeps2014MD.xlsx
-4364,17-Apr-14,,9:44,view corner,20000,,,20000,NA,BPPeeps2014MD.xlsx
-4365,18-Apr-14,,9:45,34th street pullout,2000,,,2000,NA,BPPeeps2014MD.xlsx
-4366,18-Apr-14,,9:54,the bend,1700,,,1700,NA,BPPeeps2014MD.xlsx
-4367,18-Apr-14,,9:58,pilings pullout,750,,,750,NA,BPPeeps2014MD.xlsx
-4368,18-Apr-14,,10:02,view corner,52000,45500,,48750,NA,BPPeeps2014MD.xlsx
-4369,19-Apr-14,,10:25,34th street pullout,5200,,,5200,NA,BPPeeps2014MD.xlsx
-4370,19-Apr-14,,10:30,pilings bend,2500,,,2500,NA,BPPeeps2014MD.xlsx
-4371,19-Apr-14,,10:34,pilings pullout,1500,,,1500,NA,BPPeeps2014MD.xlsx
-4372,19-Apr-14,,10:38,view corner,28500,23500,,26000,NA,BPPeeps2014MD.xlsx
-4373,20-Apr-14,,10:40,34th street pullout,3200,,,3200,NA,BPPeeps2014MD.xlsx
-4374,20-Apr-14,,10:42,pilings bend,1700,,,1700,NA,BPPeeps2014MD.xlsx
-4375,20-Apr-14,,10:46,pilings pullout,6900,,,6900,NA,BPPeeps2014MD.xlsx
-4376,20-Apr-14,,10:54,view corner,48000,,,48000,NA,BPPeeps2014MD.xlsx
-4377,21-Apr-14,,11:25,34th street pullout,3400,,,3400,NA,BPPeeps2014MD.xlsx
-4378,21-Apr-14,,11:35,pilings bend,37000,,,37000,NA,BPPeeps2014MD.xlsx
-4379,21-Apr-14,,11:40,pilings pullout,750,,,750,NA,BPPeeps2014MD.xlsx
-4380,21-Apr-14,,11:44,view corner,37500,,,37500,NA,BPPeeps2014MD.xlsx
-4381,22-Apr-14,,11:06,pilings,90000,,,90000,NA,BPPeeps2014MD.xlsx
-4382,23-Apr-14,,13:30,34th street pullout,12500,,,12500,NA,BPPeeps2014MD.xlsx
-4383,23-Apr-14,,13:37,pilings bend,10000,7500,,8750,NA,BPPeeps2014MD.xlsx
-4384,23-Apr-14,,13:44,view corner,38000,44000,41000,41000,NA,BPPeeps2014MD.xlsx
-4385,23-Apr-14,,13:58,view corner,4000,,,4000,NA,BPPeeps2014MD.xlsx
-4386,24-Apr-14,,14:50,view corner,58200,,,58200,NA,BPPeeps2014MD.xlsx
-4387,25-Apr-14,,14:10,34th street pullout,500,,,500,NA,BPPeeps2014MD.xlsx
-4388,25-Apr-14,,14:16,pilings bend,4500,,,4500,NA,BPPeeps2014MD.xlsx
-4389,25-Apr-14,,14:18,piilngs pullout,23500,25000,,24250,NA,BPPeeps2014MD.xlsx
-4390,25-Apr-14,,14:21,view corner,32000,32500,,32250,NA,BPPeeps2014MD.xlsx
-4391,26-Apr-14,,14:45,34th street pullout,2500,,,2500,NA,BPPeeps2014MD.xlsx
-4392,26-Apr-14,,14:48,pilings bend,1500,,,1500,NA,BPPeeps2014MD.xlsx
-4393,26-Apr-14,,14:53,pilings pullout,18000,,,18000,NA,BPPeeps2014MD.xlsx
-4394,26-Apr-14,,14:57,view corner,61000,75000,,68000,NA,BPPeeps2014MD.xlsx
-4395,27-Apr-14,,15:40,34th street pullout,1500,,,1500,NA,BPPeeps2014MD.xlsx
-4396,27-Apr-14,,15:45,pilings bend,21000,,,21000,NA,BPPeeps2014MD.xlsx
-4397,27-Apr-14,,15:48,view corner,35000,,,35000,NA,BPPeeps2014MD.xlsx
-4398,28-Apr-14,,7:42,34th street pullout,12200,,,12200,NA,BPPeeps2014MD.xlsx
-4399,28-Apr-14,,7:47,pilings bend,2200,,,2200,NA,BPPeeps2014MD.xlsx
-4400,28-Apr-14,,7:50,pilings pullout,3200,,,3200,NA,BPPeeps2014MD.xlsx
-4401,28-Apr-14,,7:56,view corner,47000,,,47000,NA,BPPeeps2014MD.xlsx
-4402,29-Apr-14,,8:10,34th street pullout,7500,,,7500,NA,BPPeeps2014MD.xlsx
-4403,29-Apr-14,,8:18,pilings bend,450,,,450,NA,BPPeeps2014MD.xlsx
-4404,29-Apr-14,,8:22,pilings pullout,3500,,,3500,NA,BPPeeps2014MD.xlsx
-4405,29-Apr-14,,8:27,view corner,41000,38000,,39500,NA,BPPeeps2014MD.xlsx
-4406,30-Apr-14,,8:36,34th street pullout,2800,,,2800,NA,BPPeeps2014MD.xlsx
-4407,30-Apr-14,,8:45,pilings pullout,2300,,,2300,NA,BPPeeps2014MD.xlsx
-4408,30-Apr-14,,8:50,view corner,39000,35000,,37000,NA,BPPeeps2014MD.xlsx
-4409,1-May-14,,9:05,34th street pullout,5100,,,5100,NA,BPPeeps2014MD.xlsx
-4410,1-May-14,,9:15,pilings pullout,1000,,,1000,NA,BPPeeps2014MD.xlsx
-4411,1-May-14,,9:20,view corner,24000,23000,,23500,NA,BPPeeps2014MD.xlsx
-4412,3-May-14,,10:10,34th street pullout,3550,,,3550,NA,BPPeeps2014MD.xlsx
-4413,3-May-14,,10:15,pilings bend,300,,,300,NA,BPPeeps2014MD.xlsx
-4414,3-May-14,,10:20,pilings pullout,1500,,,1500,NA,BPPeeps2014MD.xlsx
-4415,3-May-14,,10:23,view corner,14500,12500,,13500,NA,BPPeeps2014MD.xlsx
-4416,2-May-14,,9:35,34th street pullout,2500,,,2500,NA,BPPeeps2014MD.xlsx
-4417,2-May-14,,9:40,pilings bend,900,,,900,NA,BPPeeps2014MD.xlsx
-4418,2-May-14,,9:46,pilings pullout,500,,,500,NA,BPPeeps2014MD.xlsx
-4419,2-May-14,,9:50,view corner,31000,27000,,29000,NA,BPPeeps2014MD.xlsx
-4420,5-May-14,,9:50,34th street pullout,0,,,0,NA,BPPeeps2014MD.xlsx
-4421,5-May-14,,10:00,pilings pullout,3200,,,3200,NA,BPPeeps2014MD.xlsx
-4422,5-May-14,,10:05,view corner,6500,,,6500,NA,BPPeeps2014MD.xlsx
-4423,6-May-14,,10:32,34th street pullout,0,,,0,NA,BPPeeps2014MD.xlsx
-4424,6-May-14,,10:42,view corner,600,,,600,NA,BPPeeps2014MD.xlsx
-4425,9-Apr-15,,10:48,34th street pullout,5200,,,5200,NA,BPPeeps2015.xlsx
-4426,9-Apr-15,,10:58,the bend,750,,,750,NA,BPPeeps2015.xlsx
-4427,9-Apr-15,,11:00,pilings pullout,1100,,,1100,NA,BPPeeps2015.xlsx
-4428,9-Apr-15,,11:10,view corner,29500,35000,,32250,NA,BPPeeps2015.xlsx
-4429,15-Apr-15,,6:40,34th street pullout,11000,,,11000,NA,BPPeeps2015.xlsx
-4430,15-Apr-15,,6:45,pilings bend,2700,,,2700,NA,BPPeeps2015.xlsx
-4431,15-Apr-15,,6:57,view corner,33000,,,33000,NA,BPPeeps2015.xlsx
-4432,16-Apr-15,,7:05,34th street pullout,12000,,,12000,NA,BPPeeps2015.xlsx
-4433,16-Apr-15,,7:11,pilings bend,1200,,,1200,NA,BPPeeps2015.xlsx
-4434,16-Apr-15,,7:14,pilings pullout,900,,,900,NA,BPPeeps2015.xlsx
-4435,16-Apr-15,,9:44,view corner,26500,26000,,26250,NA,BPPeeps2015.xlsx
-4436,17-Apr-15,,7:45,34th street pullout,5500,,,5500,NA,BPPeeps2015.xlsx
-4437,17-Apr-15,,7:53,the bend,3600,,,3600,NA,BPPeeps2015.xlsx
-4438,17-Apr-15,,7:57,pilings pullout,1900,,,1900,NA,BPPeeps2015.xlsx
-4439,17-Apr-15,,8:05,view corner,37000,,,37000,NA,BPPeeps2015.xlsx
-4440,18-Apr-15,,8:05,34th street pullout,2500,,,2500,NA,BPPeeps2015.xlsx
-4441,18-Apr-15,,8:13,pilings bend,4400,,,4400,NA,BPPeeps2015.xlsx
-4442,18-Apr-15,,8:17,pilings pullout,1700,,,1700,NA,BPPeeps2015.xlsx
-4443,18-Apr-15,,8:22,view corner,22000,,,22000,NA,BPPeeps2015.xlsx
-4444,19-Apr-15,,8:45,coal port corner,2100,,,2100,NA,BPPeeps2015.xlsx
-4445,19-Apr-15,,8:53,34th street pullout,750,,,750,NA,BPPeeps2015.xlsx
-4446,19-Apr-15,,8:55,pilings bend,3200,,,3200,NA,BPPeeps2015.xlsx
-4447,19-Apr-15,,8:58,pilings pullout,1700,,,1700,NA,BPPeeps2015.xlsx
-4448,19-Apr-15,,9:05,view corner,31750,32500,,32125,NA,BPPeeps2015.xlsx
-4449,20-Apr-15,,9:20,coal port corner,5000,,,5000,NA,BPPeeps2015.xlsx
-4450,20-Apr-15,,9:28,34th street pullout,3000,,,3000,NA,BPPeeps2015.xlsx
-4451,20-Apr-15,,9:33,pilings bend,5000,,,5000,NA,BPPeeps2015.xlsx
-4452,20-Apr-15,,9:36,pilings pullout,3500,,,3500,NA,BPPeeps2015.xlsx
-4453,20-Apr-15,,9:41,view corner,41000,42500,,41750,NA,BPPeeps2015.xlsx
-4454,21-Apr-15,,10:05,34th street pullout,10300,,,10300,NA,BPPeeps2015.xlsx
-4455,21-Apr-15,,10:12,pilings bend,2400,,,2400,NA,BPPeeps2015.xlsx
-4456,21-Apr-15,,10:14,pilings pullout,4000,,,4000,NA,BPPeeps2015.xlsx
-4457,21-Apr-15,,10:18,view corner,42500,,,42500,NA,BPPeeps2015.xlsx
-4458,23-Apr-15,,10:55,coal port corner,36000,32000,,34000,NA,BPPeeps2015.xlsx
-4459,23-Apr-15,,11:06,pilings bend,3350,,,3350,NA,BPPeeps2015.xlsx
-4460,23-Apr-15,,11:09,piilngs pullout,12000,,,12000,NA,BPPeeps2015.xlsx
-4461,23-Apr-15,,11:15,view corner,48000,53000,,50500,NA,BPPeeps2015.xlsx
-4462,24-Apr-15,,11:48,34th street pullout,14000,,,14000,NA,BPPeeps2015.xlsx
-4463,24-Apr-15,,11:55,pilings bend,5000,,,5000,NA,BPPeeps2015.xlsx
-4464,24-Apr-15,,11:57,pilings,500,,,500,NA,BPPeeps2015.xlsx
-4465,24-Apr-15,,11:58,pilings pullout,12500,,,12500,NA,BPPeeps2015.xlsx
-4466,24-Apr-15,,12:06,view corner,53000,,,53000,NA,BPPeeps2015.xlsx
-4467,25-Apr-15,,10:30,34th street pullout,3200,,,3200,NA,BPPeeps2015.xlsx
-4468,25-Apr-15,,10:47,pilings bend,31000,,,31000,NA,BPPeeps2015.xlsx
-4469,25-Apr-15,,10:56,view corner,71000,79000,,75000,NA,BPPeeps2015.xlsx
-4470,26-Apr-15,,12:11,coal port corner,6500,,,6500,NA,BPPeeps2015.xlsx
-4471,26-Apr-15,,12:30,view corner,116000,103000,,109500,NA,BPPeeps2015.xlsx
-4472,27-Apr-15,,13:55,34th street pullout,0,,,0,NA,BPPeeps2015.xlsx
-4473,27-Apr-15,,14:03,pilings pullout,68000,,,68000,NA,BPPeeps2015.xlsx
-4474,27-Apr-15,,14:05,view corner,89000,88000,,88500,NA,BPPeeps2015.xlsx
-4475,28-Apr-15,,15:33,view corner,125000,,,125000,NA,BPPeeps2015.xlsx
-4476,29-Apr-15,,16:10,coal port corner,7600,,,7600,NA,BPPeeps2015.xlsx
-4477,29-Apr-15,,16:11,pilings bend,5400,,,5400,NA,BPPeeps2015.xlsx
-4478,29-Apr-15,,16:17,pilings pullout,10500,,,10500,NA,BPPeeps2015.xlsx
-4479,29-Apr-15,,16:22,view corner,106009,85000,,95504.5,NA,BPPeeps2015.xlsx
-4480,30-Apr-15,,6:44,34th street pullout,24000,,,24000,NA,BPPeeps2015.xlsx
-4481,30-Apr-15,,6:50,pilings bend,2200,,,2200,NA,BPPeeps2015.xlsx
-4482,30-Apr-15,,6:52,pilings pullout,9000,,,9000,NA,BPPeeps2015.xlsx
-4483,30-Apr-15,,6:57,view corner,32000,40000,,36000,NA,BPPeeps2015.xlsx
-4484,1-May-15,,7:05,34th street pullout,10700,,,10700,NA,BPPeeps2015.xlsx
-4485,1-May-15,,7:10,pilings bend,1300,,,1300,NA,BPPeeps2015.xlsx
-4486,1-May-15,,7:17,view corner,33500,,,33500,NA,BPPeeps2015.xlsx
-4487,2-May-15,,16:40,pilings pullout,1000,,,1000,NA,BPPeeps2015.xlsx
-4488,2-May-15,,16:45,view corner,71000,75000,,73000,NA,BPPeeps2015.xlsx
-4489,3-May-15,,17:00,34th street pullout,5500,,,5500,NA,BPPeeps2015.xlsx
-4490,3-May-15,,17:12,view corner,57000,62000,64000,61000,NA,BPPeeps2015.xlsx
-4491,4-May-15,,8:20,34th street pullout,12500,,,12500,NA,BPPeeps2015.xlsx
-4492,4-May-15,,8:24,pilings bend,7600,,,7600,NA,BPPeeps2015.xlsx
-4493,4-May-15,,8:28,pilings pullout,1400,,,1400,NA,BPPeeps2015.xlsx
-4494,4-May-15,,8:33,view corner,11500,,,11500,NA,BPPeeps2015.xlsx
-4495,5-May-15,,8:50,coal port corner,4300,,,4300,NA,BPPeeps2015.xlsx
-4496,5-May-15,,8:54,34th street pullout,800,,,800,NA,BPPeeps2015.xlsx
-4497,5-May-15,,9:00,pilings pullout,550,,,550,NA,BPPeeps2015.xlsx
-4498,5-May-15,,9:02,view corner,7000,7500,,7250,NA,BPPeeps2015.xlsx
-4499,6-May-15,,9:10,coal port corner,2600,,,2600,NA,BPPeeps2015.xlsx
-4500,6-May-15,,9:15,pilings pullout,150,,,150,NA,BPPeeps2015.xlsx
-4501,6-May-15,,9:16,view corner,9700,8400,,9050,NA,BPPeeps2015.xlsx
-4502,7-May-15,,9:30,coal port corner,350,,,350,NA,BPPeeps2015.xlsx
-4503,7-May-15,,9:37,pilings pullout,50,,,50,NA,BPPeeps2015.xlsx
-4504,7-May-15,,9:41,view corner,7500,,,7500,NA,BPPeeps2015.xlsx
-4505,8-May-15,,10:00,34th street pullout,25,,,25,NA,BPPeeps2015.xlsx
-4506,8-May-15,,10:16,view corner,3400,4900,,4150,NA,BPPeeps2015.xlsx
-4507,11-May-15,,11:10,34th street pullout,55,,,55,NA,BPPeeps2015.xlsx
-4508,11-May-15,,11:15,view corner,3500,,,3500,NA,BPPeeps2015.xlsx
-4509,12-May-15,,13:00,view corner,930,1100,,1015,NA,BPPeeps2015.xlsx
-4510,14-Apr-16,,10:56,34th street pullout,40000,,,40000,NA,BPPeeps2016.xlsx
-4511,15-Apr-16,,13:11,the bend,7200,6500,,6850,NA,BPPeeps2016.xlsx
-4512,15-Apr-16,,13:18,pilings bend,2500,,,2500,NA,BPPeeps2016.xlsx
-4513,15-Apr-16,,13:21,pilings,1500,,,1500,NA,BPPeeps2016.xlsx
-4514,15-Apr-16,,13:23,view corner,27000,29000,,28000,NA,BPPeeps2016.xlsx
-4515,16-Apr-16,,14:32,34th street pullout,1700,,,1700,NA,BPPeeps2016.xlsx
-4516,16-Apr-16,,14:40,pilings bend,8000,,,8000,NA,BPPeeps2016.xlsx
-4517,16-Apr-16,,14:45,pilings pullout,9500,,,9500,NA,BPPeeps2016.xlsx
-4518,16-Apr-16,,14:48,view corner,28000,29500,,28750,NA,BPPeeps2016.xlsx
-4519,18-Apr-16,,7:15,34th street pullout,7200,,,7200,NA,BPPeeps2016.xlsx
-4520,18-Apr-16,,7:21,pilings bend,1500,,,1500,NA,BPPeeps2016.xlsx
-4521,18-Apr-16,,7:25,pilings,1000,,,1000,NA,BPPeeps2016.xlsx
-4522,18-Apr-16,,7:30,view corner,39500,37000,,38250,NA,BPPeeps2016.xlsx
-4523,19-Apr-16,,7:40,34th street pullout,9250,,,9250,NA,BPPeeps2016.xlsx
-4524,19-Apr-16,,7:47,pilings bend,3500,,,3500,NA,BPPeeps2016.xlsx
-4525,19-Apr-16,,7:51,pilings pullout,12000,,,12000,NA,BPPeeps2016.xlsx
-4526,19-Apr-16,,7:55,view corner,35000,40000,,37500,NA,BPPeeps2016.xlsx
-4527,20-Apr-16,,7:55,coal port corner,8800,,,8800,NA,BPPeeps2016.xlsx
-4528,20-Apr-16,,8:04,pilings bend,4200,,,4200,NA,BPPeeps2016.xlsx
-4529,20-Apr-16,,8:08,pilings pullout,1200,,,1200,NA,BPPeeps2016.xlsx
-4530,20-Apr-16,,8:12,view corner,22000,27000,,27000,NA,BPPeeps2016.xlsx
-4531,21-Apr-16,,8:30,34th street pullout,3500,,,3500,NA,BPPeeps2016.xlsx
-4532,21-Apr-16,,8:40,pilings bend,4250,,,4250,NA,BPPeeps2016.xlsx
-4533,21-Apr-16,,8:44,pilings pullout,53000,,,53000,NA,BPPeeps2016.xlsx
-4534,21-Apr-16,,8:45,view corner,37000,,,,NA,BPPeeps2016.xlsx
-4535,22-Apr-16,,9:00,34th street pullout,5200,,,5200,NA,BPPeeps2016.xlsx
-4536,22-Apr-16,,9:06,pilings bend,1850,,,1850,NA,BPPeeps2016.xlsx
-4537,22-Apr-16,,9:10,pilings pullout,34100,,,,NA,BPPeeps2016.xlsx
-4538,22-Apr-16,,9:14,view corner,35000,,,35000,NA,BPPeeps2016.xlsx
-4539,24-Apr-16,,9:34,34th street pullout,6500,,,6500,NA,BPPeeps2016.xlsx
-4540,24-Apr-16,,9:38,pilings bend,1700,,,1700,NA,BPPeeps2016.xlsx
-4541,24-Apr-16,,9:44,pilings pullout,17500,,,17500,NA,BPPeeps2016.xlsx
-4542,24-Apr-16,,9:46,view corner,22000,,,22000,NA,BPPeeps2016.xlsx
-4543,25-Apr-16,,9:30,34th street pullout,500,,,500,NA,BPPeeps2016.xlsx
-4544,25-Apr-16,,9:35,pilings bend,1500,,,1500,NA,BPPeeps2016.xlsx
-4545,25-Apr-16,,9:38,pilings pullout,18500,,,,NA,BPPeeps2016.xlsx
-4546,25-Apr-16,,9:43,view corner,23500,,,23500,NA,BPPeeps2016.xlsx
-4547,27-Apr-16,,7:50,coal port corner,350,,,350,NA,BPPeeps2016.xlsx
-4548,27-Apr-16,,10:30,pilings pullout,750,,,750,NA,BPPeeps2016.xlsx
-4549,27-Apr-16,,10:34,view corner,52000,60000,,56000,NA,BPPeeps2016.xlsx
-4550,28-Apr-16,,8:22,34th street pullout,700,,,700,NA,BPPeeps2016.xlsx
-4551,28-Apr-16,,8:25,pilings bend,12000,,,12000,NA,BPPeeps2016.xlsx
-4552,28-Apr-16,,8:32,view corner,34000,35000,,34500,NA,BPPeeps2016.xlsx
-4553,2-May-16,,14:44,34th street pullout,0,,,0,NA,BPPeeps2016.xlsx
-4554,2-May-16,,14:48,pilings pullout,4500,,,4500,NA,BPPeeps2016.xlsx
-4555,2-May-16,,14:52,view corner,42000,,,42000,NA,BPPeeps2016.xlsx
-4556,3-May-16,,7:35,coal port corner,2700,,,2700,NA,BPPeeps2016.xlsx
-4557,3-May-16,,7:44,pilings bend,10500,,,10500,NA,BPPeeps2016.xlsx
-4558,3-May-16,,7:50,view corner,5700,,,5700,NA,BPPeeps2016.xlsx
-4559,4-May-16,,15:20,34th street pullout,0,,,0,NA,BPPeeps2016.xlsx
-4560,4-May-16,,15:23,pilings bend,12500,,,12500,NA,BPPeeps2016.xlsx
-4561,4-May-16,,15:29,view corner,14000,20000,,17000,NA,BPPeeps2016.xlsx
-4562,5-May-16,,7:39,34th street pullout,9500,,,9500,NA,BPPeeps2016.xlsx
-4563,5-May-16,,7:46,pilings bend,1700,,,1700,NA,BPPeeps2016.xlsx
-4564,5-May-16,,7:49,pilings pullout,8500,,,8500,NA,BPPeeps2016.xlsx
-4565,5-May-16,,7:54,view corner,22000,15000,,18500,NA,BPPeeps2016.xlsx
-4566,10-May-16,,10:15,34th street pullout,75,,,75,NA,BPPeeps2016.xlsx
-4567,10-May-16,,10:19,pilings pullout,175,,,175,NA,BPPeeps2016.xlsx
-4568,10-May-16,,10:25,view corner,150,,,150,NA,BPPeeps2016.xlsx
-4569,13-Apr-17,,10:14,CPC,3200,,,3200,NA,BPPeeps2017.xlsx
-4570,13-Apr-17,,10:17,34th st pullout,3200,,,3200,NA,BPPeeps2017.xlsx
-4571,13-Apr-17,,10:18,the bend,5700,,,5700,NA,BPPeeps2017.xlsx
-4572,13-Apr-17,,10:23,pilings,4700,,,4700,NA,BPPeeps2017.xlsx
-4573,13-Apr-17,,10:28,viewcorner,7000,,,7000,NA,BPPeeps2017.xlsx
-4574,15-Apr-17,,10:30,34th st pullout,535,,,535,NA,BPPeeps2017.xlsx
-4575,15-Apr-17,,10:39,pilings,19700,,,19700,NA,BPPeeps2017.xlsx
-4576,15-Apr-17,,10:44,viewcorner,3500,,,3500,NA,BPPeeps2017.xlsx
-4577,17-Apr-17,,11:00,34th st pullout,500,,,500,NA,BPPeeps2017.xlsx
-4578,17-Apr-17,,11:03,pilings bend,5700,,,5700,NA,BPPeeps2017.xlsx
-4579,17-Apr-17,,11:07,pilings pullout,31000,28000,,29500,NA,BPPeeps2017.xlsx
-4580,18-Apr-17,,11:22,34th st pullout,1500,,,1500,NA,BPPeeps2017.xlsx
-4581,18-Apr-17,,11:29,pilings pullout,0,,,0,NA,BPPeeps2017.xlsx
-4582,18-Apr-17,,11:33,viewcorner,44000,37000,,40500,NA,BPPeeps2017.xlsx
-4583,20-Apr-17,,12:05,34th st pullout,0,,,0,NA,BPPeeps2017.xlsx
-4584,20-Apr-17,,12:08,pilings bend,250,,,250,NA,BPPeeps2017.xlsx
-4585,20-Apr-17,,12:15,viewcorner,750,,,750,NA,BPPeeps2017.xlsx
-4586,20-Apr-17,,12:15,viewcorner,35000,38000,,36500,NA,BPPeeps2017.xlsx
-4587,22-Apr-17,,15:13,viewcorner,70000,,,70000,NA,BPPeeps2017.xlsx
-4588,25-Apr-17,,8:20,coal port corner,15000,,,15000,NA,BPPeeps2017.xlsx
-4589,25-Apr-17,,8:26,34th st pullout,5000,,,5000,NA,BPPeeps2017.xlsx
-4590,25-Apr-17,,8:29,pilings,28000,31000,29000,29333.33333,NA,BPPeeps2017.xlsx
-4591,25-Apr-17,,8:35,viewcorner,13000,,,13000,NA,BPPeeps2017.xlsx
-4592,26-Apr-17,,9:05,coal port corner,2500,,,2500,NA,BPPeeps2017.xlsx
-4593,26-Apr-17,,9:12,34th st pullout,3700,,,3700,NA,BPPeeps2017.xlsx
-4594,26-Apr-17,,9:17,pilings pullout,750,,,750,NA,BPPeeps2017.xlsx
-4595,26-Apr-17,,9:22,viewcorner,20000,25000,,22500,NA,BPPeeps2017.xlsx
-4596,27-Apr-17,,9:15,coal port corner,9500,,,9500,NA,BPPeeps2017.xlsx
-4597,27-Apr-17,,9:23,pilings pullout,0,,,0,NA,BPPeeps2017.xlsx
-4598,27-Apr-17,,9:28,viewcorner,25500,,,25500,NA,BPPeeps2017.xlsx
-4599,28-Apr-17,,9:31,coal port corner,5200,,,5200,NA,BPPeeps2017.xlsx
-4600,28-Apr-17,,9:33,pilings bend,200,,,200,NA,BPPeeps2017.xlsx
-4601,28-Apr-17,,9:38,viewcorner,25500,,,25500,NA,BPPeeps2017.xlsx
-4602,29-Apr-17,,10:08,coal port corner,7800,,,7800,NA,BPPeeps2017.xlsx
-4603,29-Apr-17,,10:12,34th st pullout,200,,,200,NA,BPPeeps2017.xlsx
-4604,29-Apr-17,,10:17,pilings pullout,750,,,750,NA,BPPeeps2017.xlsx
-4605,29-Apr-17,,10:21,viewcorner,26000,28000,,27000,NA,BPPeeps2017.xlsx
-4606,1-May-17,,11:22,34th st pullout,9300,,,9300,NA,BPPeeps2017.xlsx
-4607,1-May-17,,11:29,pilings pullout,4200,,,4200,NA,BPPeeps2017.xlsx
-4608,1-May-17,,11:32,viewcorner,27000,23000,26500,25500,NA,BPPeeps2017.xlsx
-4609,3-May-17,,11:04,34th st pullout,9700,,,9700,NA,BPPeeps2017.xlsx
-4610,3-May-17,,11:08,pilings bend,200,,,200,NA,BPPeeps2017.xlsx
-4611,3-May-17,,11:11,pilings pullout,4700,,,4700,NA,BPPeeps2017.xlsx
-4612,3-May-17,,11:16,viewcorner,7400,7500,,7450,NA,BPPeeps2017.xlsx
-4613,4-May-17,,13:11,coal port corner,0,,,0,NA,BPPeeps2017.xlsx
-4614,4-May-17,,13:16,pilings bend,700,,,700,NA,BPPeeps2017.xlsx
-4615,4-May-17,,12:22,viewcorner,0,,,0,NA,BPPeeps2017.xlsx
-4616,5-May-17,,6:36,coal port corner,6700,,,6700,NA,BPPeeps2017.xlsx
-4617,5-May-17,,6:44,34th st pullout,253,,,253,NA,BPPeeps2017.xlsx
-4618,5-May-17,,6:52,viewcorner,3700,,,3700,NA,BPPeeps2017.xlsx
-4619,8-May-17,,7:21,34th st pullout,5,,,5,NA,BPPeeps2017.xlsx
-4620,8-May-17,,7:24,pilings pullout,4200,,,4200,NA,BPPeeps2017.xlsx
-4621,8-May-17,,7:28,viewcorner,100,,,100,NA,BPPeeps2017.xlsx
-4622,9-May-17,,7:50,34th st pullout,0,,,0,NA,BPPeeps2017.xlsx
-4623,9-May-17,,7:51,pilings bend,50,,,50,NA,BPPeeps2017.xlsx
-4624,9-May-17,,7:55,viewcorner,750,650,,700,NA,BPPeeps2017.xlsx
-4625,15-Apr-18,,8:43,34th St pullout,21500,,,21500,NA,BPPeeps2018.xlsx
-4626,15-Apr-18,,8:54,Pilings bend,24000,17000,15000,18666.66667,NA,BPPeeps2018.xlsx
-4627,15-Apr-18,,8:57,viewcorner,6500,,,6500,NA,BPPeeps2018.xlsx
-4628,16-Apr-18,,9:28,coalport corner,1150,,,1150,NA,BPPeeps2018.xlsx
-4629,16-Apr-18,,9:34,34th St pullout,1250,,,1250,NA,BPPeeps2018.xlsx
-4630,16-Apr-18,,9:36,the bend,1200,,,1200,NA,BPPeeps2018.xlsx
-4631,16-Apr-18,,9:39,Pilings bend,300,,,300,NA,BPPeeps2018.xlsx
-4632,16-Apr-18,,9:41,pilings pullout,825,,,825,NA,BPPeeps2018.xlsx
-4633,16-Apr-18,,9:46,viewcorner,15250,,,15250,NA,BPPeeps2018.xlsx
-4634,18-Apr-18,,9:34,coalport corner,7000,,,7000,NA,BPPeeps2018.xlsx
-4635,18-Apr-18,,9:41,34th St pullout,27000,26500,,26750,NA,BPPeeps2018.xlsx
-4636,18-Apr-18,,9:51,viewcorner,26500,25000,,25750,NA,BPPeeps2018.xlsx
-4637,20-Apr-18,,10:40,34th St pullout,6300,,,6300,NA,BPPeeps2018.xlsx
-4638,20-Apr-18,,10:47,Pilings bend,3200,,,3200,NA,BPPeeps2018.xlsx
-4639,20-Apr-18,,10:56,viewcorner,39500,42000,42000,41166.66667,NA,BPPeeps2018.xlsx
-4640,23-Apr-18,,11:40,34th St pullout,8800,,,8800,NA,BPPeeps2018.xlsx
-4641,23-Apr-18,,11:49,Pilings bend,3000,,,3000,NA,BPPeeps2018.xlsx
-4642,23-Apr-18,,11:58,viewcorner,45000,38500,41000,41500,NA,BPPeeps2018.xlsx
-4643,25-Apr-18,,14:25,34th St pullout,2300,,,2300,NA,BPPeeps2018.xlsx
-4644,25-Apr-18,,14:33,the bend,5700,4500,,5100,NA,BPPeeps2018.xlsx
-4645,25-Apr-18,,14:36,Pilings bend,3700,,,3700,NA,BPPeeps2018.xlsx
-4646,25-Apr-18,,14:45,viewcorner,67500,62000,60000,63166.66667,NA,BPPeeps2018.xlsx
-4647,26-Apr-18,,14:35,34th St pullout,5000,,,5000,NA,BPPeeps2018.xlsx
-4648,26-Apr-18,,14:38,the bend,42000,33000,44000,39666.66667,NA,BPPeeps2018.xlsx
-4649,26-Apr-18,,14:46,viewcorner,45500,36000,37000,39500,NA,BPPeeps2018.xlsx
-4650,27-Apr-08,,7:52,34th St pullout,7900,,,7900,NA,BPPeeps2018.xlsx
-4651,27-Apr-08,,8:05,the bend,15400,,,15400,NA,BPPeeps2018.xlsx
-4652,27-Apr-08,,8:15,viewcorner,45000,41000,,43000,NA,BPPeeps2018.xlsx
-4653,28-Apr-18,,8:11,34th St pullout,8100,,,8100,NA,BPPeeps2018.xlsx
-4654,28-Apr-18,,8:20,the bend,1200,,,1200,NA,BPPeeps2018.xlsx
-4655,28-Apr-18,,8:21,pilings pullout,900,,,900,NA,BPPeeps2018.xlsx
-4656,28-Apr-18,,8:25,pilings pullout,12000,14000,,13000,NA,BPPeeps2018.xlsx
-4657,28-Apr-18,,8:30,viewcorner,17000,14000,,15500,NA,BPPeeps2018.xlsx
-4658,30-Apr-18,,8:45,34th St pullout,8100,,,8100,NA,BPPeeps2018.xlsx
-4659,30-Apr-18,,8:46,Pilings bend,800,,,800,NA,BPPeeps2018.xlsx
-4660,30-Apr-18,,8:50,viewcorner,17000,20500,16000,17833.33333,NA,BPPeeps2018.xlsx
-4661,3-May-18,,9:30,34th St pullout,5200,,,5200,NA,BPPeeps2018.xlsx
-4662,3-May-18,,9:38,Pilings bend,750,,,750,NA,BPPeeps2018.xlsx
-4663,3-May-18,,9:44,viewcorner,5500,,,5500,NA,BPPeeps2018.xlsx
-4664,8-May-18,,11:20,34th St pullout,0,,,0,NA,BPPeeps2018.xlsx
-4665,8-May-18,,11:24,Pilings bend,0,,,0,NA,BPPeeps2018.xlsx
-4666,8-May-18,,11:35,viewcorner,2600,1850,,2225,NA,BPPeeps2018.xlsx
-4667,,,,34th St pullout,9500,,,9500,NA,BPPeeps2019.xlsx
-4668,,,,the bend,130,,,130,NA,BPPeeps2019.xlsx
-4669,,,,pilings pullout,1100,,,1100,NA,BPPeeps2019.xlsx
-4670,,,,viewcorner,11000,9500,,10250,NA,BPPeeps2019.xlsx
-4671,,,,viewcorner,1900,,,1900,NA,BPPeeps2019.xlsx
-4672,,,,coalport corner,0,,,0,NA,BPPeeps2019.xlsx
-4673,,,,pilings pullout,28000,29500,27800,28433.33333,NA,BPPeeps2019.xlsx
-4674,,,,viewcorner,10800,10500,6600,9300,NA,BPPeeps2019.xlsx
-4675,,,,coalport corner,2000,,,2000,NA,BPPeeps2019.xlsx
-4676,,,,34th St pullout,14100,,,14100,NA,BPPeeps2019.xlsx
-4677,,,,the bend,1500,,,1500,NA,BPPeeps2019.xlsx
-4678,,,,Pilings bend,800,,,800,NA,BPPeeps2019.xlsx
-4679,,,,pilings pullout,16200,20100,23700,20000,NA,BPPeeps2019.xlsx
-4680,,,,viewcorner,2100,,,2100,NA,BPPeeps2019.xlsx
-4681,,,,coalport corner,7100,10900,,9000,NA,BPPeeps2019.xlsx
-4682,,,,34th St pullout,5950,,,5950,NA,BPPeeps2019.xlsx
-4683,,,,the bend,2550,6200,,4375,NA,BPPeeps2019.xlsx
-4684,,,,Pilings bend,3700,6300,,5000,NA,BPPeeps2019.xlsx
-4685,,,,pilings pullout,7200,6000,,6600,NA,BPPeeps2019.xlsx
-4686,,,,viewcorner,1000,,,1000,NA,BPPeeps2019.xlsx
-4687,,,,coalport corner,10500,18000,13500,14000,NA,BPPeeps2019.xlsx
-4688,,,,34th St pullout,1900,,,1900,NA,BPPeeps2019.xlsx
-4689,,,,the bend,100,,,100,NA,BPPeeps2019.xlsx
-4690,,,,Pilings bend,800,,,800,NA,BPPeeps2019.xlsx
-4691,,,,pilings pullout,700,,,700,NA,BPPeeps2019.xlsx
-4692,,,,viewcorner,20600,22400,17400,20133.33333,NA,BPPeeps2019.xlsx
-4693,,,,34th St pullout,9500,10400,,9950,NA,BPPeeps2019.xlsx
-4694,,,,the bend,8700,,,8700,NA,BPPeeps2019.xlsx
-4695,,,,Pilings bend,6700,,,6700,NA,BPPeeps2019.xlsx
-4696,,,,pilings pullout,800,,,800,NA,BPPeeps2019.xlsx
-4697,,,,viewcorner,34500,30500,34000,33000,NA,BPPeeps2019.xlsx
-4698,,,,coalport corner,9600,,,9600,NA,BPPeeps2019.xlsx
-4699,,,,34th St pullout,6500,,,6500,NA,BPPeeps2019.xlsx
-4700,,,,the bend,6500,,,6500,NA,BPPeeps2019.xlsx
-4701,,,,Pilings bend,600,1100,,850,NA,BPPeeps2019.xlsx
-4702,,,,viewcorner,35143,,,35143,NA,BPPeeps2019.xlsx
-4703,,,,coalport corner,6200,6200,7000,6466.666667,NA,BPPeeps2019.xlsx
-4704,,,,34th St pullout,7600,6800,5600,6666.666667,NA,BPPeeps2019.xlsx
-4705,,,,the bend,6700,,,6700,NA,BPPeeps2019.xlsx
-4706,,,,Pilings bend,100,,,100,NA,BPPeeps2019.xlsx
-4707,,,,viewcorner,44300,54500,55900,51566.66667,NA,BPPeeps2019.xlsx
-4708,,,,coalport corner,23600,25300,,24450,NA,BPPeeps2019.xlsx
-4709,,,,34th St pullout,9600,,,9600,NA,BPPeeps2019.xlsx
-4710,,,,the bend,600,,,600,NA,BPPeeps2019.xlsx
-4711,,,,Pilings bend,1000,,,1000,NA,BPPeeps2019.xlsx
-4712,,,,pilings pullout,600,,,600,NA,BPPeeps2019.xlsx
-4713,,,,viewcorner,36900,38800,,37850,NA,BPPeeps2019.xlsx
-4714,,,,coalport corner,10500,9500,,10000,NA,BPPeeps2019.xlsx
-4715,,,,34th St pullout,500,,,500,NA,BPPeeps2019.xlsx
-4716,,,,the bend,3200,,,3200,NA,BPPeeps2019.xlsx
-4717,,,,pilings pullout,400,,,400,NA,BPPeeps2019.xlsx
-4718,,,,viewcorner,88500,60200,69700,72800,NA,BPPeeps2019.xlsx
-4719,,,,coalport corner,100,,,100,NA,BPPeeps2019.xlsx
-4720,,,,34th St pullout,50,,,50,NA,BPPeeps2019.xlsx
-4721,,,,the bend,21900,,,21900,NA,BPPeeps2019.xlsx
-4722,,,,Pilings bend,18400,,,18400,NA,BPPeeps2019.xlsx
-4723,,,,pilings pullout,2200,,,2200,NA,BPPeeps2019.xlsx
-4724,,,,viewcorner,75500,68900,,72200,NA,BPPeeps2019.xlsx
-4725,,,,coalport corner,1100,1200,,1150,NA,BPPeeps2019.xlsx
-4726,,,,34th St pullout,3200,3200,,3200,NA,BPPeeps2019.xlsx
-4727,,,,the bend,7300,,,7300,NA,BPPeeps2019.xlsx
-4728,,,,pilings pullout,6000,,,6000,NA,BPPeeps2019.xlsx
-4729,,,,viewcorner,126900,,,126900,NA,BPPeeps2019.xlsx
-4730,,,,34th St pullout,32200,,,32200,NA,BPPeeps2019.xlsx
-4731,,,,the bend,30,,,30,NA,BPPeeps2019.xlsx
-4732,,,,Pilings bend,1900,,,1900,NA,BPPeeps2019.xlsx
-4733,,,,pilings pullout,8900,,,8900,NA,BPPeeps2019.xlsx
-4734,,,,viewcorner,29500,36000,,32750,NA,BPPeeps2019.xlsx
-4735,,,,34th St pullout,36000,33500,,34750,NA,BPPeeps2019.xlsx
-4736,,,,the bend,800,,,800,NA,BPPeeps2019.xlsx
-4737,,,,Pilings bend,1800,,,1800,NA,BPPeeps2019.xlsx
-4738,,,,pilings pullout,31700,33300,,32500,NA,BPPeeps2019.xlsx
-4739,,,,viewcorner,44850,,,44850,NA,BPPeeps2019.xlsx
-4740,,,,34th St pullout,43300,41000,,42150,NA,BPPeeps2019.xlsx
-4741,,,,pilings pullout,33500,34400,,33950,NA,BPPeeps2019.xlsx
-4742,,,,viewcorner,14600,16500,,15550,NA,BPPeeps2019.xlsx
-4743,,,,34th St pullout,42800,45300,,44050,NA,BPPeeps2019.xlsx
-4744,,,,the bend,1200,1200,,1200,NA,BPPeeps2019.xlsx
-4745,,,,pilings pullout,14000,,,14000,NA,BPPeeps2019.xlsx
-4746,,,,viewcorner,22700,25000,,23850,NA,BPPeeps2019.xlsx
-4747,,,,34th St pullout,5500,,,5500,NA,BPPeeps2019.xlsx
-4748,,,,the bend,26500,24600,,25550,NA,BPPeeps2019.xlsx
-4749,,,,Pilings bend,1000,,,1000,NA,BPPeeps2019.xlsx
-4750,,,,pilings pullout,6300,8600,6900,7266.666667,NA,BPPeeps2019.xlsx
-4751,,,,viewcorner,28100,27800,,27950,NA,BPPeeps2019.xlsx
-4752,,,,coalport corner,6200,5600,,5900,NA,BPPeeps2019.xlsx
-4753,,,,the bend,2400,,,2400,NA,BPPeeps2019.xlsx
-4754,,,,Pilings bend,9200,9200,,9200,NA,BPPeeps2019.xlsx
-4755,,,,pilings pullout,6000,6200,,6100,NA,BPPeeps2019.xlsx
-4756,,,,viewcorner,32000,32000,,32000,NA,BPPeeps2019.xlsx
-4757,,,,34th St pullout,22200,,,22200,NA,BPPeeps2019.xlsx
-4758,,,,the bend,5500,5600,,5550,NA,BPPeeps2019.xlsx
-4759,,,,Pilings bend,2700,,,2700,NA,BPPeeps2019.xlsx
-4760,,,,pilings pullout,4100,,,4100,NA,BPPeeps2019.xlsx
-4761,,,,viewcorner,13500,,,13500,NA,BPPeeps2019.xlsx
-4762,,,,coalport corner,18500,19000,,18750,NA,BPPeeps2019.xlsx
-4763,,,,34th St pullout,1800,,,1800,NA,BPPeeps2019.xlsx
-4764,,,,the bend,1700,,,1700,NA,BPPeeps2019.xlsx
-4765,,,,Pilings bend,600,,,600,NA,BPPeeps2019.xlsx
-4766,,,,pilings pullout,7300,,,7300,NA,BPPeeps2019.xlsx
-4767,,,,viewcorner,23700,,,23700,NA,BPPeeps2019.xlsx
-4768,,,,34th St pullout,12300,11800,,12050,NA,BPPeeps2019.xlsx
-4769,,,,Pilings bend,500,,,500,NA,BPPeeps2019.xlsx
-4770,,,,pilings pullout,1800,1600,,1700,NA,BPPeeps2019.xlsx
-4771,,,,viewcorner,23100,25600,26000,24900,NA,BPPeeps2019.xlsx
-4772,,,,34th St pullout,18600,16900,,17750,NA,BPPeeps2019.xlsx
-4773,,,,pilings pullout,4300,,,4300,NA,BPPeeps2019.xlsx
-4774,,,,viewcorner,11900,12400,,12150,NA,BPPeeps2019.xlsx
-4775,,,,34th St pullout,6300,,,6300,NA,BPPeeps2019.xlsx
-4776,,,,the bend,400,,,400,NA,BPPeeps2019.xlsx
-4777,,,,Pilings bend,300,,,300,NA,BPPeeps2019.xlsx
-4778,,,,pilings pullout,4300,,,4300,NA,BPPeeps2019.xlsx
-4779,,,,viewcorner,17800,17000,16900,17233.33333,NA,BPPeeps2019.xlsx
-4780,,,,34th St pullout,13000,12400,,12700,NA,BPPeeps2019.xlsx
-4781,,,,Pilings bend,2500,,,2500,NA,BPPeeps2019.xlsx
-4782,,,,pilings pullout,500,600,,550,NA,BPPeeps2019.xlsx
-4783,,,,viewcorner,8000,8600,,8300,NA,BPPeeps2019.xlsx
-4784,,,,34th St pullout,8800,,,8800,NA,BPPeeps2019.xlsx
-4785,,,,the bend,1300,,,1300,NA,BPPeeps2019.xlsx
-4786,,,,pilings pullout,3100,,,3100,NA,BPPeeps2019.xlsx
-4787,,,,viewcorner,12300,12700,,12500,NA,BPPeeps2019.xlsx
-4788,,,,34th St pullout,1500,,,1500,NA,BPPeeps2019.xlsx
-4789,,,,Pilings bend,4000,3900,,3950,NA,BPPeeps2019.xlsx
-4790,,,,viewcorner,2700,2800,,2750,NA,BPPeeps2019.xlsx
-4791,,,,the bend,36,,,36,NA,BPPeeps2019.xlsx
-4792,,,,viewcorner,2780,2800,2500,2693.333333,NA,BPPeeps2019.xlsx
-4793,,,,coalport corner,30,,,30,NA,BPPeeps2019.xlsx
-4794,,,,34th St pullout,10,,,10,NA,BPPeeps2019.xlsx
-4795,,,,viewcorner,25,,,25,NA,BPPeeps2019.xlsx
-4796,24-Apr-21,,7:15,viewcorner,20100,21800,21000,20966.66667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4797,24-Apr-21,,7:29,pilings pullout,12200,12500,11800,12166.66667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4798,24-Apr-21,,7:40,the bend,3000,3300,3200,3166.666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4799,24-Apr-21,,7:49,34th St pullout,2900,4000,3500,3466.666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4800,24-Apr-21,,7:59,coalport corner,3300,4200,4100,3866.666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4801,25-Apr-21,,7:32,viewcorner,29000,33000,25000,29000,NA,RobertsBankShorebirdSurveys2021.xlsx
-4802,25-Apr-21,,8:07,pilings pullout,7500,8600,6200,7433.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4803,25-Apr-21,,8:25,the bend,4800,5200,4900,4966.666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4804,25-Apr-21,,8:35,34th St pullout,4200,3800,3700,3900,NA,RobertsBankShorebirdSurveys2021.xlsx
-4805,25-Apr-21,,8:45,coalport corner,4600,5500,4400,4833.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4806,26-Apr-21,,8:00,viewcorner,41300,42400,41000,41566.66667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4807,26-Apr-21,,8:12,pilings pullout,3600,6000,9900,6500,NA,RobertsBankShorebirdSurveys2021.xlsx
-4808,26-Apr-21,,8:23,the bend,1900,2500,2900,2433.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4809,26-Apr-21,,8:33,34th St pullout,6800,7600,7900,7433.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4810,26-Apr-21,,8:43,coalport corner,2000,2800,2800,2533.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4811,27-Apr-21,,8:11,viewcorner,5500,5100,7900,6166.666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4812,27-Apr-21,,8:22,pilings pullout,550,750,950,750,NA,RobertsBankShorebirdSurveys2021.xlsx
-4813,27-Apr-21,,8:32,the bend,15,500,120,211.6666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4814,27-Apr-21,,8:40,34th St pullout,3400,2900,3500,3266.666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4815,27-Apr-21,,8:51,coalport corner,3500,4200,4000,3900,NA,RobertsBankShorebirdSurveys2021.xlsx
-4816,29-Apr-21,,9:07,viewcorner,8300,9100,8700,8700,NA,RobertsBankShorebirdSurveys2021.xlsx
-4817,29-Apr-21,,9:18,pilings pullout,2500,2400,1900,2266.666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4818,29-Apr-21,,9:27,the bend,105,110,80,98.33333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4819,29-Apr-21,,9:35,34th St pullout,2500,2450,2100,2350,NA,RobertsBankShorebirdSurveys2021.xlsx
-4820,29-Apr-21,,9:44,coalport corner,11000,7900,7000,8633.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4821,1-May-21,,9:57,viewcorner,4400,5900,5600,5300,NA,RobertsBankShorebirdSurveys2021.xlsx
-4822,1-May-21,,10:27,pilings pullout,3000,3800,4000,3600,NA,RobertsBankShorebirdSurveys2021.xlsx
-4823,1-May-21,,10:36,the bend,8000,7800,8000,7933.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4824,1-May-21,,10:44,34th St pullout,7500,6800,8200,7500,NA,RobertsBankShorebirdSurveys2021.xlsx
-4825,1-May-21,,10:56,coalport corner,300,300,350,316.6666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4826,3-May-21,,9:25,viewcorner,19500,15300,17600,17466.66667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4827,3-May-21,,9:42,pilings pullout,2600,2500,2750,2616.666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4828,3-May-21,,9:57,the bend,3900,5100,5400,4800,NA,RobertsBankShorebirdSurveys2021.xlsx
-4829,3-May-21,,10:06,34th St pullout,6600,7800,6400,6933.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4830,3-May-21,,10:12,coalport corner,3200,4900,4200,4100,NA,RobertsBankShorebirdSurveys2021.xlsx
-4831,5-May-21,,6:29,viewcorner,9700,9300,10400,9800,NA,RobertsBankShorebirdSurveys2021.xlsx
-4832,5-May-21,,6:45,pilings pullout,5400,6100,6200,5900,NA,RobertsBankShorebirdSurveys2021.xlsx
-4833,5-May-21,,6:56,the bend,2800,2000,2600,2466.666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4834,5-May-21,,7:05,34th St pullout,1300,1600,1700,1533.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4835,5-May-21,,7:12,coalport corner,800,900,850,850,NA,RobertsBankShorebirdSurveys2021.xlsx
-4836,7-May-21,,6:24,viewcorner,9600,9800,10400,9933.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4837,7-May-21,,6:41,pilings pullout,80,0,10,30,NA,RobertsBankShorebirdSurveys2021.xlsx
-4838,7-May-21,,6:48,the bend,950,700,550,733.3333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4839,7-May-21,,6:56,34th St pullout,2500,2550,2900,2650,NA,RobertsBankShorebirdSurveys2021.xlsx
-4840,7-May-21,,7:06,coalport corner,2700,3300,3400,3133.333333,NA,RobertsBankShorebirdSurveys2021.xlsx
-4841,10-May-21,,7:30,viewcorner,2600,2750,2950,2766.666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4842,10-May-21,,7:45,pilings pullout,90,310,470,290,NA,RobertsBankShorebirdSurveys2021.xlsx
-4843,10-May-21,,7:55,the bend,60,65,205,110,NA,RobertsBankShorebirdSurveys2021.xlsx
-4844,10-May-21,,8:03,34th St pullout,20,35,13,22.66666667,NA,RobertsBankShorebirdSurveys2021.xlsx
-4845,10-May-21,,8:12,coalport corner,16,40,26,27.33333333,NA,RobertsBankShorebirdSurveys2021.xlsx
+4155,11-Apr-13,dropping,7:46,WNW side Bruns(Canoe Pass),35000,,,35000,FALSE,BPPeeps2013.xlsx
+4156,11-Apr-13,dropping,7:52,BP mudroost viewpoint,16000,,,16000,FALSE,BPPeeps2013.xlsx
+4157,11-Apr-13,dropping,8:01,west end mumblies,33000,,,33000,FALSE,BPPeeps2013.xlsx
+4158,11-Apr-13,dropping,8:01,BP mudroost,18000,,,18000,FALSE,BPPeeps2013.xlsx
+4159,11-Apr-13,dropping,8:13,view corner (BP corner&West end mumblies),55000,,,55000,FALSE,BPPeeps2013.xlsx
+4160,11-Apr-13,dropping,8:32,C.Port corner,0,0,,0,FALSE,BPPeeps2013.xlsx
+4161,11-Apr-13,dropping,8:32,CP jetty side marsh,6200,7400,,6800,FALSE,BPPeeps2013.xlsx
+4162,11-Apr-13,dropping,9:04,C.Port corner,0,,,0,TRUE,BPPeeps2013.xlsx
+4163,11-Apr-13,dropping,9:04,CP jetty side marsh,13000,,,13000,TRUE,BPPeeps2013.xlsx
+4164,11-Apr-13,dropping,9:04,east end mumblies,1000,,,1000,TRUE,BPPeeps2013.xlsx
+4165,11-Apr-13,dropping,9:05,east of east end pilings (near bend) mumblies,9000,10000,,9500,TRUE,BPPeeps2013.xlsx
+4166,11-Apr-13,dropping,9:10,pilings viewpoint,3000,,,3000,TRUE,BPPeeps2013.xlsx
+4167,11-Apr-13,dropping,9:15,view corner (outer West end mumblies),22000,28000,,25000,TRUE,BPPeeps2013.xlsx
+4168,11-Apr-13,dropping,9:15,view corner (inner mud),1300,900,,1100,TRUE,BPPeeps2013.xlsx
+4169,11-Apr-13,dropping,9:15,view corner (BP marsh tip),1500,800,,1150,TRUE,BPPeeps2013.xlsx
+4170,11-Apr-13,,,TOTAL of sweep count CP to BP,,,,53750,total,BPPeeps2013.xlsx
+4171,15-Apr-13,,9:57,34th,700,,,700,TRUE,BPPeeps2013.xlsx
+4172,15-Apr-13,,10:06,pilings,1000,,,1000,TRUE,BPPeeps2013.xlsx
+4173,15-Apr-13,,10:06,pilings,5000,10000,,7500,TRUE,BPPeeps2013.xlsx
+4174,15-Apr-13,,10:12,view corner,63000,51000,67000,60333,TRUE,BPPeeps2013.xlsx
+4175,16-Apr-13,,9:48,34th street pullout,1500,,,1500,TRUE,BPPeeps2013.xlsx
+4176,16-Apr-13,,9:48,34th street pullout,8000,,,8000,TRUE,BPPeeps2013.xlsx
+4177,16-Apr-13,,10:00,view corner,43000,38000,41000,40667,TRUE,BPPeeps2013.xlsx
+4178,17-Apr-13,,9:53,34th street pullout,27000,,,27000,TRUE,BPPeeps2013.xlsx
+4179,17-Apr-13,,10:07,view corner,42000,35000,,38500,TRUE,BPPeeps2013.xlsx
+4180,18-Apr-13,,11:00,34th street pullout,15000,,,15000,TRUE,BPPeeps2013.xlsx
+4181,18-Apr-13,,11:05,the bend,650,,,650,TRUE,BPPeeps2013.xlsx
+4182,18-Apr-13,,11:08,pilings,12000,,,12000,TRUE,BPPeeps2013.xlsx
+4183,18-Apr-13,,11:14,view corner,43000,36000,,39500,TRUE,BPPeeps2013.xlsx
+4184,19-Apr-13,,12:27,the bend,1500,,,1500,TRUE,BPPeeps2013.xlsx
+4185,19-Apr-13,,12:38,south pilings,42000,37000,,39500,TRUE,BPPeeps2013.xlsx
+4186,19-Apr-13,,12:49,view corner,25000,,,25000,TRUE,BPPeeps2013.xlsx
+4187,20-Apr-13,,14:00,34th street pullout,500,,,500,TRUE,BPPeeps2013.xlsx
+4188,20-Apr-13,,14:09,view corner,72000,64000,70000,,TRUE,BPPeeps2013.xlsx
+4189,20-Apr-13,,14:09,view corner,,68000,,68500,TRUE,BPPeeps2013.xlsx
+4190,21-Apr-13,,15:20,34th street pullout,41000,,,41000,TRUE,BPPeeps2013.xlsx
+4191,21-Apr-13,,15:30,view corner,40000,37000,38000,38333,TRUE,BPPeeps2013.xlsx
+4192,22-Apr-13,rising,14:15,WNW side Bruns(Canoe Pass),150,,,150,FALSE,BPPeeps2013.xlsx
+4193,22-Apr-13,rising,,BP mudroost viewpoint,,,,,FALSE,BPPeeps2013.xlsx
+4194,22-Apr-13,rising,,view corner,,,,,FALSE,BPPeeps2013.xlsx
+4195,22-Apr-13,rising,,pilings viewpoint,5500,,,5500,FALSE,BPPeeps2013.xlsx
+4196,22-Apr-13,rising,14:57,C.Port corner,,,,,FALSE,BPPeeps2013.xlsx
+4197,22-Apr-13,rising,15:22,C.Port corner,,,,,FALSE,BPPeeps2013.xlsx
+4198,22-Apr-13,rising,15:22,CP jetty side marsh,,,,,FALSE,BPPeeps2013.xlsx
+4199,22-Apr-13,rising,15:38,view corner (BP corner&West end mumblies),80000,100000,,90000,TRUE,BPPeeps2013.xlsx
+4200,22-Apr-13,,,TOTAL of sweep count CP to BP,,,,90000,total,BPPeeps2013.xlsx
+4201,23-Apr-13,,15:49,34th street pullout,55000,,,55000,TRUE,BPPeeps2013.xlsx
+4202,23-Apr-13,,15:54,pilings,35000,,,35000,TRUE,BPPeeps2013.xlsx
+4203,24-Apr-13,rising,15:15,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2013.xlsx
+4204,24-Apr-13,rising,15:20,BP mudroost viewpoint,,,,,FALSE,BPPeeps2013.xlsx
+4205,24-Apr-13,rising,15:25,view corner,27000,,,27000,FALSE,BPPeeps2013.xlsx
+4206,24-Apr-13,rising,,east of east end pilings (near bend),80000,,,80000,FALSE,BPPeeps2013.xlsx
+4207,24-Apr-13,rising,,in air over BP tip and Canoe Pass,70000,,,70000,FALSE,BPPeeps2013.xlsx
+4208,24-Apr-13,rising,16:00,CP jetty side marsh,0,,,0,TRUE,BPPeeps2013.xlsx
+4209,24-Apr-13,rising,16:00,"C.Port corner, thru 34th to bend",70000,,,70000,TRUE,BPPeeps2013.xlsx
+4210,24-Apr-13,rising,16:05,pilings viewpoint (tide edge outer mumblies),10500,,,10500,TRUE,BPPeeps2013.xlsx
+4211,24-Apr-13,rising,16:10,view corner (BP corner&West end mumblies),0,,,0,TRUE,BPPeeps2013.xlsx
+4212,24-Apr-13,rising,16:10,WNW side Bruns(Canoe Pass),0,,,0,TRUE,BPPeeps2013.xlsx
+4213,24-Apr-13,,,TOTAL of sweep count CP to BP,,,,80500,total,BPPeeps2013.xlsx
+4214,25-Apr-13,dropping,7:10,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2013.xlsx
+4215,25-Apr-13,dropping,7:17,BP mudroost viewpoint,39000,45000,,42000,FALSE,BPPeeps2013.xlsx
+4216,25-Apr-13,dropping,7:22,view corner viewpoint (BP marsh tip),20000,,,20000,FALSE,BPPeeps2013.xlsx
+4217,25-Apr-13,dropping,7:25,34th pullout,300,,,300,FALSE,BPPeeps2013.xlsx
+4218,25-Apr-13,dropping,7:25,C.Port corner,4000,,,4000,FALSE,BPPeeps2013.xlsx
+4219,25-Apr-13,dropping,7:25,CP jetty side marsh,7000,,,7000,FALSE,BPPeeps2013.xlsx
+4220,25-Apr-13,dropping,7:41,34th pullout,1000,,,1000,AVG,BPPeeps2013.xlsx
+4221,25-Apr-13,dropping,7:41,C.Port corner,1100,,,1100,AVG,BPPeeps2013.xlsx
+4222,25-Apr-13,dropping,7:41,CP jetty side marsh,5500,,,5500,AVG,BPPeeps2013.xlsx
+4223,25-Apr-13,dropping,7:45,east of east end pilings (near bend) mumblies,500,,,500,AVG,BPPeeps2013.xlsx
+4224,25-Apr-13,dropping,7:47,pilings viewpoint,600,,,600,AVG,BPPeeps2013.xlsx
+4225,25-Apr-13,dropping,7:50,view corner viewpoint (outer tide line),21000,26000,,23500,AVG,BPPeeps2013.xlsx
+4226,25-Apr-13,dropping,7:50,view corner viewpoint (inner mud),32000,38000,,35000,AVG,BPPeeps2013.xlsx
+4227,25-Apr-13,dropping,8:15,34th pullout,1000,,,1000,AVG,BPPeeps2013.xlsx
+4228,25-Apr-13,dropping,8:15,C.Port corner,0,,,0,AVG,BPPeeps2013.xlsx
+4229,25-Apr-13,dropping,8:15,CP jetty side marsh,11000,,,11000,AVG,BPPeeps2013.xlsx
+4230,25-Apr-13,dropping,8:20,bend viewpoint (east of east end pilings),1400,,,1400,AVG,BPPeeps2013.xlsx
+4231,25-Apr-13,dropping,8:22,pilings viewpoint,0,,,0,AVG,BPPeeps2013.xlsx
+4232,25-Apr-13,dropping,8:25,view corner - tide edge & into BP marsh tip,64000,59000,,61500,AVG,BPPeeps2013.xlsx
+4233,25-Apr-13,,,TOTAL of sweep count CP to BP (count 1),,,,67200,AVG,BPPeeps2013.xlsx
+4234,25-Apr-13,,,TOTAL of sweep count CP to BP (count 2),,,,74900,AVG,BPPeeps2013.xlsx
+4235,25-Apr-13,,,TOTAL - average of 2 counts,,,,71050,total,BPPeeps2013.xlsx
+4236,26-Apr-13,dropping,6:56,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2013.xlsx
+4237,26-Apr-13,dropping,7:05,BP mudroost viewpoint,14000,,,14000,FALSE,BPPeeps2013.xlsx
+4238,26-Apr-13,dropping,8:15,34th pullout,2000,,,2000,TRUE,BPPeeps2013.xlsx
+4239,26-Apr-13,dropping,8:15,CP jetty side marsh thru CP corner,36000,,,36000,TRUE,BPPeeps2013.xlsx
+4240,26-Apr-13,dropping,8:15,marsh to west of 34th pullout,1000,,,1000,TRUE,BPPeeps2013.xlsx
+4241,26-Apr-13,dropping,8:24,pilings (inner mud),250,,,250,TRUE,BPPeeps2013.xlsx
+4242,26-Apr-13,dropping,8:37,viewcorner (west of west end pilings),1500,,,1500,TRUE,BPPeeps2013.xlsx
+4243,26-Apr-13,dropping,8:37,view corner (inner mud to BP marsh),13000,12000,,12500,TRUE,BPPeeps2013.xlsx
+4244,26-Apr-13,dropping,8:37,view corner (outer tide line to corner),66500,71000,,68750,TRUE,BPPeeps2013.xlsx
+4245,26-Apr-13,dropping,,TOTAL of sweep count CP to BP (A.M.),,,,122000,total,BPPeeps2013.xlsx
+4246,26-Apr-13,rising,16:33,WNW side Bruns(Canoe Pass),0,,,0,FALSE,BPPeeps2013.xlsx
+4247,26-Apr-13,rising,,BP mudroost viewpoint,0,,,0,FALSE,BPPeeps2013.xlsx
+4248,26-Apr-13,rising,,viewcorner,,,,,FALSE,BPPeeps2013.xlsx
+4249,26-Apr-13,rising,17:15,CP corner end,39000,,,39000,FALSE,BPPeeps2013.xlsx
+4250,26-Apr-13,rising,17:22,34th pullout,0,,,0,FALSE,BPPeeps2013.xlsx
+4251,26-Apr-13,rising,17:22,CP jetty side marsh thru CP corner,8000,,,8000,FALSE,BPPeeps2013.xlsx
+4252,26-Apr-13,rising,17:30,Pilings  (outer tide edge),29000,,,29000,FALSE,BPPeeps2013.xlsx
+4253,26-Apr-13,rising,17:30,Pilings  (on mumblies),1500,,,1500,FALSE,BPPeeps2013.xlsx
+4254,26-Apr-13,rising,17:40,view corner (inner mud to BP marsh),28000,32000,,30000,FALSE,BPPeeps2013.xlsx
+4255,26-Apr-13,rising,17:40,view corner (outer tide line to corner),32000,30000,,31000,FALSE,BPPeeps2013.xlsx
+4256,26-Apr-13,rising,,TOTAL of sweep count CP to BP (P.M.),,,,99500,total,BPPeeps2013.xlsx
+4257,27-Apr-13,,8:52,34th street pullout,26500,,,26500,TRUE,BPPeeps2013.xlsx
+4258,27-Apr-13,,8:52,34th street pullout,2000,,,2000,TRUE,BPPeeps2013.xlsx
+4259,27-Apr-13,,8:56,the bend,500,,,500,TRUE,BPPeeps2013.xlsx
+4260,27-Apr-13,,9:05,view corner,55000,61000,,58000,TRUE,BPPeeps2013.xlsx
+4261,28-Apr-13,,9:28,34th street pullout,30000,,,30000,TRUE,BPPeeps2013.xlsx
+4262,28-Apr-13,,9:31,pilings south,500,,,500,TRUE,BPPeeps2013.xlsx
+4263,28-Apr-13,,9:35,pilings,1500,,,1500,TRUE,BPPeeps2013.xlsx
+4264,28-Apr-13,,9:40,view corner,73000,85000,72000,76667,TRUE,BPPeeps2013.xlsx
+4265,29-Apr-13,dropping,9:21,WNW side Bruns(Canoe Pass),3000,,,3000,FALSE,BPPeeps2013.xlsx
+4266,29-Apr-13,dropping,9:28,BP mudroost viewpoint,5500,,,5500,FALSE,BPPeeps2013.xlsx
+4267,29-Apr-13,dropping,9:40,pilings viewpoint,2000,,,2000,FALSE,BPPeeps2013.xlsx
+4268,29-Apr-13,dropping,10:11,CP corner end,5000,,,5000,FALSE,BPPeeps2013.xlsx
+4269,29-Apr-13,dropping,10:40,34th pullout,0,,,0,FALSE,BPPeeps2013.xlsx
+4270,29-Apr-13,dropping,10:40,C.Port corner (along closer side of jetty),3500,3000,,3250,TRUE,BPPeeps2013.xlsx
+4271,29-Apr-13,dropping,10:40,CP jetty side marsh (far),7000,9500,,8250,TRUE,BPPeeps2013.xlsx
+4272,29-Apr-13,dropping,10:45,bend viewpoint ( inner mud),500,,,500,TRUE,BPPeeps2013.xlsx
+4273,29-Apr-13,dropping,10:45,bend viewpoint (on mumblies),400,,,400,TRUE,BPPeeps2013.xlsx
+4274,29-Apr-13,dropping,10:48,pilings (inner mud),24000,,,,TRUE,BPPeeps2013.xlsx
+4275,29-Apr-13,dropping,10:50,view corner (inner mud to BP marsh),46000,,,,TRUE,BPPeeps2013.xlsx
+4276,29-Apr-13,dropping,10:50,view corner (outer tide line to corner),15000,,,,TRUE,BPPeeps2013.xlsx
+4277,29-Apr-13,dropping,11:00,pilings (inner mud),6000,,,6000,TRUE,BPPeeps2013.xlsx
+4278,29-Apr-13,dropping,11:00,view corner (inner mud to BP marsh),46000,,,46000,TRUE,BPPeeps2013.xlsx
+4279,29-Apr-13,dropping,11:00,view corner (outer tide line to corner),21000,,,21000,TRUE,BPPeeps2013.xlsx
+4280,29-Apr-13,,,TOTAL of sweep count CP to BP,,,,85400,total,BPPeeps2013.xlsx
+4281,30-Apr-13,dropping,9:43,WNW side Bruns(Canoe Pass),8000,,,8000,FALSE,BPPeeps2013.xlsx
+4282,30-Apr-13,dropping,9:50,BP mudroost viewpoint  (mudroost),25000,,,25000,FALSE,BPPeeps2013.xlsx
+4283,30-Apr-13,dropping,9:50,BP mudroost viewpoint (on west end mumblies),25000,,,25000,FALSE,BPPeeps2013.xlsx
+4284,30-Apr-13,dropping,10:10,CP jetty side marsh thru CP corner,3500,,,3500,FALSE,BPPeeps2013.xlsx
+4285,30-Apr-13,dropping,10:28,C.Port corner,8000,,,8000,TRUE,BPPeeps2013.xlsx
+4286,30-Apr-13,dropping,10:28,CP jetty side marsh,6500,,,6500,TRUE,BPPeeps2013.xlsx
+4287,30-Apr-13,dropping,10:28,34th pullout,1500,,,1500,TRUE,BPPeeps2013.xlsx
+4288,30-Apr-13,dropping,10:35,bend viewpoint,2800,,,2800,TRUE,BPPeeps2013.xlsx
+4289,30-Apr-13,dropping,10:40,pilings (inner mud),15000,,,15000,TRUE,BPPeeps2013.xlsx
+4290,30-Apr-13,dropping,10:45,view corner (inner mud to BP marsh),66000,55000,,60500,TRUE,BPPeeps2013.xlsx
+4291,30-Apr-13,dropping,10:45,view corner (outer tide line to corner),12500,15000,,13750,TRUE,BPPeeps2013.xlsx
+4292,30-Apr-13,,,TOTAL of sweep count CP to BP,,,,108050,total,BPPeeps2013.xlsx
+4293,1-May-13,rising,~7:05,WNW side Bruns(Canoe Pass),,,,,FALSE,BPPeeps2013.xlsx
+4294,1-May-13,rising,7:15,BP mudroost viewpoint  (inner mud thru corner marsh),45000,50000,,47500,FALSE,BPPeeps2013.xlsx
+4295,1-May-13,rising,7:15,BP mudroost viewpoint (outer tide line off mumblies),20000,,,20000,FALSE,BPPeeps2013.xlsx
+4296,1-May-13,rising,7:20,pilings viewpoint to 34th,17000,,,17000,FALSE,BPPeeps2013.xlsx
+4297,1-May-13,rising,7:30,CP corner end,5000,,,5000,FALSE,BPPeeps2013.xlsx
+4298,1-May-13,rising,8:24,34th pullout - tide edge,700,,,700,TRUE,BPPeeps2013.xlsx
+4299,1-May-13,rising,8:24,CP jetty side marsh (far),1500,,,1500,TRUE,BPPeeps2013.xlsx
+4300,1-May-13,rising,8:24,CP jetty side marsh thru to CP corner,13000,,,13000,TRUE,BPPeeps2013.xlsx
+4301,1-May-13,rising,8:24,C.Port corner thru to 34th,21500,,,21500,TRUE,BPPeeps2013.xlsx
+4302,1-May-13,rising,8:30,bend viewpoint,0,,,0,TRUE,BPPeeps2013.xlsx
+4303,1-May-13,rising,8:30,pilings (inner mud),0,,,0,TRUE,BPPeeps2013.xlsx
+4304,1-May-13,rising,8:34,view corner (inner mud to BP marsh),27000,28000,,27500,TRUE,BPPeeps2013.xlsx
+4305,1-May-13,rising,8:45,view corner (outer tide line to corner),55000,51000,,53000,TRUE,BPPeeps2013.xlsx
+4306,1-May-13,,,TOTAL of sweep count CP to BP,,,,117200,total,BPPeeps2013.xlsx
+4307,2-May-13,,11:00,34th street pullout,9000,,,9000,FALSE,BPPeeps2013.xlsx
+4308,2-May-13,,11:10,pilings,2000,,,2000,FALSE,BPPeeps2013.xlsx
+4309,2-May-13,,11:15,view corner,74000,84000,,79000,FALSE,BPPeeps2013.xlsx
+4310,3-May-13,rising,11:37,WNW side Bruns(Canoe Pass),300,,,300,FALSE,BPPeeps2013.xlsx
+4311,3-May-13,rising,11:44,BP mudroost viewpoint  (inner mud thru corner marsh),28000,,,28000,FALSE,BPPeeps2013.xlsx
+4312,3-May-13,rising,11:44,BP mudroost viewpoint (outer tide line off BP marsh tip),15000,,,15000,FALSE,BPPeeps2013.xlsx
+4313,3-May-13,rising,11:53,view corner (outer tide line),24000,,,24000,FALSE,BPPeeps2013.xlsx
+4314,3-May-13,rising,12:06,C.Port corner,75,,,75,FALSE,BPPeeps2013.xlsx
+4315,3-May-13,high,12:21,CP jetty side marsh,600,,,600,TRUE,BPPeeps2013.xlsx
+4316,3-May-13,high,12:21,C.Port corner,170,,,170,TRUE,BPPeeps2013.xlsx
+4317,3-May-13,high,12:21,34th pullout (inner mud),90,,,90,TRUE,BPPeeps2013.xlsx
+4318,3-May-13,high,12:21,34th pullout (outer mumblies),5000,4500,,4750,TRUE,BPPeeps2013.xlsx
+4319,3-May-13,high,12:30,bend viewpoint (inner mud),500,,,500,TRUE,BPPeeps2013.xlsx
+4320,3-May-13,high,12:35,view corner (outer tide line to corner),18500,,,18500,TRUE,BPPeeps2013.xlsx
+4321,3-May-13,high,12:35,view corner (inner mud to BP marsh),58000,,,58000,TRUE,BPPeeps2013.xlsx
+4322,3-May-13,,,TOTAL of sweep count CP to BP,,,,82610,total,BPPeeps2013.xlsx
+4323,4-May-13,,14:35,34th street pullout,5000,,,5000,FALSE,BPPeeps2013.xlsx
+4324,4-May-13,,14:42,pilings,2000,,,2000,FALSE,BPPeeps2013.xlsx
+4325,4-May-13,,14:50,view corner,72000,73500,,72750,FALSE,BPPeeps2013.xlsx
+4326,6-May-13,rising,14:20,WNW side Bruns(Canoe Pass),50,,,50,FALSE,BPPeeps2013.xlsx
+4327,6-May-13,rising,14:29,BP mudroost viewpoint (marshedge to tideline to pilings),50000,,,50000,FALSE,BPPeeps2013.xlsx
+4328,6-May-13,rising,14:35,view corner,5000,,,5000,FALSE,BPPeeps2013.xlsx
+4329,6-May-13,rising,15:00,CP jetty side marsh,300,,,300,TRUE,BPPeeps2013.xlsx
+4330,6-May-13,rising,15:00,C.Port corner,0,,,0,TRUE,BPPeeps2013.xlsx
+4331,6-May-13,rising,15:00,34th pullout (outer mumblies-scattered),60,,,60,TRUE,BPPeeps2013.xlsx
+4332,6-May-13,rising,15:05,bend viewpoint,0,,,0,TRUE,BPPeeps2013.xlsx
+4333,6-May-13,rising,15:10,flying,4000,,,4000,TRUE,BPPeeps2013.xlsx
+4334,6-May-13,rising,15:15,pilings (inner mud),14500,,,14500,TRUE,BPPeeps2013.xlsx
+4335,6-May-13,rising,15:20,view corner (outer tide line to corner),7500,8500,,8000,TRUE,BPPeeps2013.xlsx
+4336,6-May-13,rising,15:20,view corner (inner mud to BP marsh),67000,68000,,67500,TRUE,BPPeeps2013.xlsx
+4337,6-May-13,,,TOTAL of sweep count CP to BP,,,,94360,total,BPPeeps2013.xlsx
+4338,7-May-13,rising,15:10,WNW side Bruns(Canoe Pass),150,,,150,FALSE,BPPeeps2013.xlsx
+4339,7-May-13,rising,15:15,BP mudroost viewpoint (inner mud),0,,,0,FALSE,BPPeeps2013.xlsx
+4340,7-May-13,rising,15:20,BP mudroost viewpoint (tideline to pilings),12000,,,12000,FALSE,BPPeeps2013.xlsx
+4341,7-May-13,rising,15:36,CP jetty side marsh thru to CP corner,4500,,,4500,FALSE,BPPeeps2013.xlsx
+4342,7-May-13,rising,15:44,CP jetty side marsh,4800,,,4800,TRUE,BPPeeps2013.xlsx
+4343,7-May-13,rising,15:44,C.Port corner,0,,,0,TRUE,BPPeeps2013.xlsx
+4344,7-May-13,rising,15:44,34th pullout (near mud),900,,,900,TRUE,BPPeeps2013.xlsx
+4345,7-May-13,rising,15:50,bend viewpoint,5100,,,5100,TRUE,BPPeeps2013.xlsx
+4346,7-May-13,rising,15:55,pilings (inner mud),50,,,50,TRUE,BPPeeps2013.xlsx
+4347,7-May-13,rising,15:55,Pilings  (outer mumblies on tideline),1500,,,1500,TRUE,BPPeeps2013.xlsx
+4348,7-May-13,rising,16:00,view corner (outer tide line to corner),2200,2400,,2300,TRUE,BPPeeps2013.xlsx
+4349,7-May-13,rising,16:00,view corner (inner mud to BP marsh),6500,6800,,6650,TRUE,BPPeeps2013.xlsx
+4350,7-May-13,,,TOTAL of sweep count CP to BP,,,,21300,total,BPPeeps2013.xlsx
+4351,8-May-13,rising,15:45,WNW side Bruns(Canoe Pass),0,,,0,FALSE,BPPeeps2013.xlsx
+4352,8-May-13,rising,15:52,BP mudroost viewpoint (inner mud),0,,,0,FALSE,BPPeeps2013.xlsx
+4353,8-May-13,rising,15:52,BP mudroost viewpoint (tideline to pilings),0,,,0,FALSE,BPPeeps2013.xlsx
+4354,8-May-13,rising,15:55,view corner (tideline),300,,,300,FALSE,BPPeeps2013.xlsx
+4355,8-May-13,rising,16:00,pilings (tideline),200,,,200,FALSE,BPPeeps2013.xlsx
+4356,8-May-13,rising,16:19,CP jetty side marsh thru to CP corner,0,,,0,TRUE,BPPeeps2013.xlsx
+4357,8-May-13,rising,16:25,CP jetty side marsh,0,,,0,TRUE,BPPeeps2013.xlsx
+4358,8-May-13,rising,16:25,C.Port corner,0,,,0,TRUE,BPPeeps2013.xlsx
+4359,8-May-13,rising,16:25,34th pullout,0,,,0,TRUE,BPPeeps2013.xlsx
+4360,8-May-13,rising,16:30,bend viewpoint,0,,,0,TRUE,BPPeeps2013.xlsx
+4361,8-May-13,rising,16:35,pilings (tideline),3,,,3,TRUE,BPPeeps2013.xlsx
+4362,8-May-13,rising,16:35,pilings - flying east,55,,,55,TRUE,BPPeeps2013.xlsx
+4363,8-May-13,rising,16:40,view corner (inner mud to tide edge) some flying,19,,,19,TRUE,BPPeeps2013.xlsx
+4364,8-May-13,,,TOTAL of sweep count CP to BP,,,,77,total,BPPeeps2013.xlsx
+4365,9-May-13,dropping,6:53,WNW side Bruns(Canoe Pass),0,,,0,FALSE,BPPeeps2013.xlsx
+4366,9-May-13,dropping,6:59,BP mudroost viewpoint (inner mud),0,,,0,FALSE,BPPeeps2013.xlsx
+4367,9-May-13,dropping,6:59,BP mudroost viewpoint (on mumblie ridge),5,,,5,FALSE,BPPeeps2013.xlsx
+4368,9-May-13,dropping,7:15,CP corner (flying),250,,,250,FALSE,BPPeeps2013.xlsx
+4369,9-May-13,dropping,7:20,CP corner - inner mud,250,320,,285,FALSE,BPPeeps2013.xlsx
+4370,9-May-13,dropping,7:25,CP jetty side marsh,0,,,0,TRUE,BPPeeps2013.xlsx
+4371,9-May-13,dropping,7:25,C.Port corner,0,,,0,TRUE,BPPeeps2013.xlsx
+4372,9-May-13,dropping,7:25,34th pullout (on mumblies to west),230,,,230,TRUE,BPPeeps2013.xlsx
+4373,9-May-13,dropping,7:30,bend viewpoint,0,,,0,TRUE,BPPeeps2013.xlsx
+4374,9-May-13,dropping,7:35,pilings (in mumblies),15,,,15,TRUE,BPPeeps2013.xlsx
+4375,9-May-13,dropping,7:44,view corner (inner mud to BP marsh),30,,,30,TRUE,BPPeeps2013.xlsx
+4376,9-May-13,,,TOTAL of sweep count CP to BP,,,,275,TRUE,BPPeeps2013.xlsx
+4377,15-Apr-14,,8:21,34th street pullout,8500,,,8500,TRUE,BPPeeps2014MD.xlsx
+4378,15-Apr-14,,8:28,pilings,4000,,,4000,TRUE,BPPeeps2014MD.xlsx
+4379,15-Apr-14,,8:31,pilings pullout,2500,,,2500,TRUE,BPPeeps2014MD.xlsx
+4380,15-Apr-14,,8:35,view corner,47000,29500,31500,36000,TRUE,BPPeeps2014MD.xlsx
+4381,16-Apr-14,,8:48,34th street pullout,4200,,,700,TRUE,BPPeeps2014MD.xlsx
+4382,16-Apr-14,,8:53,pilings bend,500,,,1000,TRUE,BPPeeps2014MD.xlsx
+4383,16-Apr-14,,8:57,pilings pullout,7500,,,7500,TRUE,BPPeeps2014MD.xlsx
+4384,16-Apr-14,,9:05,view corner,38000,29000,,33500,TRUE,BPPeeps2014MD.xlsx
+4385,17-Apr-14,,9:30,34th street pullout,3000,,,3000,TRUE,BPPeeps2014MD.xlsx
+4386,17-Apr-14,,9:36,pilings bend,2100,,,2100,TRUE,BPPeeps2014MD.xlsx
+4387,17-Apr-14,,9:39,pilings pullout,5200,,,5200,TRUE,BPPeeps2014MD.xlsx
+4388,17-Apr-14,,9:44,view corner,20000,,,20000,TRUE,BPPeeps2014MD.xlsx
+4389,18-Apr-14,,9:45,34th street pullout,2000,,,2000,TRUE,BPPeeps2014MD.xlsx
+4390,18-Apr-14,,9:54,the bend,1700,,,1700,TRUE,BPPeeps2014MD.xlsx
+4391,18-Apr-14,,9:58,pilings pullout,750,,,750,TRUE,BPPeeps2014MD.xlsx
+4392,18-Apr-14,,10:02,view corner,52000,45500,,48750,TRUE,BPPeeps2014MD.xlsx
+4393,19-Apr-14,,10:25,34th street pullout,5200,,,5200,TRUE,BPPeeps2014MD.xlsx
+4394,19-Apr-14,,10:30,pilings bend,2500,,,2500,TRUE,BPPeeps2014MD.xlsx
+4395,19-Apr-14,,10:34,pilings pullout,1500,,,1500,TRUE,BPPeeps2014MD.xlsx
+4396,19-Apr-14,,10:38,view corner,28500,23500,,26000,TRUE,BPPeeps2014MD.xlsx
+4397,20-Apr-14,,10:40,34th street pullout,3200,,,3200,TRUE,BPPeeps2014MD.xlsx
+4398,20-Apr-14,,10:42,pilings bend,1700,,,1700,TRUE,BPPeeps2014MD.xlsx
+4399,20-Apr-14,,10:46,pilings pullout,6900,,,6900,TRUE,BPPeeps2014MD.xlsx
+4400,20-Apr-14,,10:54,view corner,48000,,,48000,TRUE,BPPeeps2014MD.xlsx
+4401,21-Apr-14,,11:25,34th street pullout,3400,,,3400,TRUE,BPPeeps2014MD.xlsx
+4402,21-Apr-14,,11:35,pilings bend,37000,,,37000,TRUE,BPPeeps2014MD.xlsx
+4403,21-Apr-14,,11:40,pilings pullout,750,,,750,TRUE,BPPeeps2014MD.xlsx
+4404,21-Apr-14,,11:44,view corner,37500,,,37500,TRUE,BPPeeps2014MD.xlsx
+4405,22-Apr-14,,11:06,pilings,90000,,,90000,TRUE,BPPeeps2014MD.xlsx
+4406,23-Apr-14,,13:30,34th street pullout,12500,,,12500,TRUE,BPPeeps2014MD.xlsx
+4407,23-Apr-14,,13:37,pilings bend,10000,7500,,8750,TRUE,BPPeeps2014MD.xlsx
+4408,23-Apr-14,,13:44,view corner,38000,44000,41000,41000,TRUE,BPPeeps2014MD.xlsx
+4409,23-Apr-14,,13:58,view corner,4000,,,4000,TRUE,BPPeeps2014MD.xlsx
+4410,24-Apr-14,,14:50,view corner,58200,,,58200,TRUE,BPPeeps2014MD.xlsx
+4411,25-Apr-14,,14:10,34th street pullout,500,,,500,TRUE,BPPeeps2014MD.xlsx
+4412,25-Apr-14,,14:16,pilings bend,4500,,,4500,TRUE,BPPeeps2014MD.xlsx
+4413,25-Apr-14,,14:18,piilngs pullout,23500,25000,,24250,TRUE,BPPeeps2014MD.xlsx
+4414,25-Apr-14,,14:21,view corner,32000,32500,,32250,TRUE,BPPeeps2014MD.xlsx
+4415,26-Apr-14,,14:45,34th street pullout,2500,,,2500,TRUE,BPPeeps2014MD.xlsx
+4416,26-Apr-14,,14:48,pilings bend,1500,,,1500,TRUE,BPPeeps2014MD.xlsx
+4417,26-Apr-14,,14:53,pilings pullout,18000,,,18000,TRUE,BPPeeps2014MD.xlsx
+4418,26-Apr-14,,14:57,view corner,61000,75000,,68000,TRUE,BPPeeps2014MD.xlsx
+4419,27-Apr-14,,15:40,34th street pullout,1500,,,1500,TRUE,BPPeeps2014MD.xlsx
+4420,27-Apr-14,,15:45,pilings bend,21000,,,21000,TRUE,BPPeeps2014MD.xlsx
+4421,27-Apr-14,,15:48,view corner,35000,,,35000,TRUE,BPPeeps2014MD.xlsx
+4422,28-Apr-14,,7:42,34th street pullout,12200,,,12200,TRUE,BPPeeps2014MD.xlsx
+4423,28-Apr-14,,7:47,pilings bend,2200,,,2200,TRUE,BPPeeps2014MD.xlsx
+4424,28-Apr-14,,7:50,pilings pullout,3200,,,3200,TRUE,BPPeeps2014MD.xlsx
+4425,28-Apr-14,,7:56,view corner,47000,,,47000,TRUE,BPPeeps2014MD.xlsx
+4426,29-Apr-14,,8:10,34th street pullout,7500,,,7500,TRUE,BPPeeps2014MD.xlsx
+4427,29-Apr-14,,8:18,pilings bend,450,,,450,TRUE,BPPeeps2014MD.xlsx
+4428,29-Apr-14,,8:22,pilings pullout,3500,,,3500,TRUE,BPPeeps2014MD.xlsx
+4429,29-Apr-14,,8:27,view corner,41000,38000,,39500,TRUE,BPPeeps2014MD.xlsx
+4430,30-Apr-14,,8:36,34th street pullout,2800,,,2800,TRUE,BPPeeps2014MD.xlsx
+4431,30-Apr-14,,8:45,pilings pullout,2300,,,2300,TRUE,BPPeeps2014MD.xlsx
+4432,30-Apr-14,,8:50,view corner,39000,35000,,37000,TRUE,BPPeeps2014MD.xlsx
+4433,1-May-14,,9:05,34th street pullout,5100,,,5100,TRUE,BPPeeps2014MD.xlsx
+4434,1-May-14,,9:15,pilings pullout,1000,,,1000,TRUE,BPPeeps2014MD.xlsx
+4435,1-May-14,,9:20,view corner,24000,23000,,23500,TRUE,BPPeeps2014MD.xlsx
+4436,3-May-14,,10:10,34th street pullout,3550,,,3550,TRUE,BPPeeps2014MD.xlsx
+4437,3-May-14,,10:15,pilings bend,300,,,300,TRUE,BPPeeps2014MD.xlsx
+4438,3-May-14,,10:20,pilings pullout,1500,,,1500,TRUE,BPPeeps2014MD.xlsx
+4439,3-May-14,,10:23,view corner,14500,12500,,13500,TRUE,BPPeeps2014MD.xlsx
+4440,2-May-14,,9:35,34th street pullout,2500,,,2500,TRUE,BPPeeps2014MD.xlsx
+4441,2-May-14,,9:40,pilings bend,900,,,900,TRUE,BPPeeps2014MD.xlsx
+4442,2-May-14,,9:46,pilings pullout,500,,,500,TRUE,BPPeeps2014MD.xlsx
+4443,2-May-14,,9:50,view corner,31000,27000,,29000,TRUE,BPPeeps2014MD.xlsx
+4444,5-May-14,,9:50,34th street pullout,0,,,0,TRUE,BPPeeps2014MD.xlsx
+4445,5-May-14,,10:00,pilings pullout,3200,,,3200,TRUE,BPPeeps2014MD.xlsx
+4446,5-May-14,,10:05,view corner,6500,,,6500,TRUE,BPPeeps2014MD.xlsx
+4447,6-May-14,,10:32,34th street pullout,0,,,0,TRUE,BPPeeps2014MD.xlsx
+4448,6-May-14,,10:42,view corner,600,,,600,TRUE,BPPeeps2014MD.xlsx
+4449,9-Apr-15,,10:48,34th street pullout,5200,,,5200,TRUE,BPPeeps2015.xlsx
+4450,9-Apr-15,,10:58,the bend,750,,,750,TRUE,BPPeeps2015.xlsx
+4451,9-Apr-15,,11:00,pilings pullout,1100,,,1100,TRUE,BPPeeps2015.xlsx
+4452,9-Apr-15,,11:10,view corner,29500,35000,,32250,TRUE,BPPeeps2015.xlsx
+4453,15-Apr-15,,6:40,34th street pullout,11000,,,11000,TRUE,BPPeeps2015.xlsx
+4454,15-Apr-15,,6:45,pilings bend,2700,,,2700,TRUE,BPPeeps2015.xlsx
+4455,15-Apr-15,,6:57,view corner,33000,,,33000,TRUE,BPPeeps2015.xlsx
+4456,16-Apr-15,,7:05,34th street pullout,12000,,,12000,TRUE,BPPeeps2015.xlsx
+4457,16-Apr-15,,7:11,pilings bend,1200,,,1200,TRUE,BPPeeps2015.xlsx
+4458,16-Apr-15,,7:14,pilings pullout,900,,,900,TRUE,BPPeeps2015.xlsx
+4459,16-Apr-15,,9:44,view corner,26500,26000,,26250,TRUE,BPPeeps2015.xlsx
+4460,17-Apr-15,,7:45,34th street pullout,5500,,,5500,TRUE,BPPeeps2015.xlsx
+4461,17-Apr-15,,7:53,the bend,3600,,,3600,TRUE,BPPeeps2015.xlsx
+4462,17-Apr-15,,7:57,pilings pullout,1900,,,1900,TRUE,BPPeeps2015.xlsx
+4463,17-Apr-15,,8:05,view corner,37000,,,37000,TRUE,BPPeeps2015.xlsx
+4464,18-Apr-15,,8:05,34th street pullout,2500,,,2500,TRUE,BPPeeps2015.xlsx
+4465,18-Apr-15,,8:13,pilings bend,4400,,,4400,TRUE,BPPeeps2015.xlsx
+4466,18-Apr-15,,8:17,pilings pullout,1700,,,1700,TRUE,BPPeeps2015.xlsx
+4467,18-Apr-15,,8:22,view corner,22000,,,22000,TRUE,BPPeeps2015.xlsx
+4468,19-Apr-15,,8:45,coal port corner,2100,,,2100,TRUE,BPPeeps2015.xlsx
+4469,19-Apr-15,,8:53,34th street pullout,750,,,750,TRUE,BPPeeps2015.xlsx
+4470,19-Apr-15,,8:55,pilings bend,3200,,,3200,TRUE,BPPeeps2015.xlsx
+4471,19-Apr-15,,8:58,pilings pullout,1700,,,1700,TRUE,BPPeeps2015.xlsx
+4472,19-Apr-15,,9:05,view corner,31750,32500,,32125,TRUE,BPPeeps2015.xlsx
+4473,20-Apr-15,,9:20,coal port corner,5000,,,5000,TRUE,BPPeeps2015.xlsx
+4474,20-Apr-15,,9:28,34th street pullout,3000,,,3000,TRUE,BPPeeps2015.xlsx
+4475,20-Apr-15,,9:33,pilings bend,5000,,,5000,TRUE,BPPeeps2015.xlsx
+4476,20-Apr-15,,9:36,pilings pullout,3500,,,3500,TRUE,BPPeeps2015.xlsx
+4477,20-Apr-15,,9:41,view corner,41000,42500,,41750,TRUE,BPPeeps2015.xlsx
+4478,21-Apr-15,,10:05,34th street pullout,10300,,,10300,TRUE,BPPeeps2015.xlsx
+4479,21-Apr-15,,10:12,pilings bend,2400,,,2400,TRUE,BPPeeps2015.xlsx
+4480,21-Apr-15,,10:14,pilings pullout,4000,,,4000,TRUE,BPPeeps2015.xlsx
+4481,21-Apr-15,,10:18,view corner,42500,,,42500,TRUE,BPPeeps2015.xlsx
+4482,23-Apr-15,,10:55,coal port corner,36000,32000,,34000,TRUE,BPPeeps2015.xlsx
+4483,23-Apr-15,,11:06,pilings bend,3350,,,3350,TRUE,BPPeeps2015.xlsx
+4484,23-Apr-15,,11:09,piilngs pullout,12000,,,12000,TRUE,BPPeeps2015.xlsx
+4485,23-Apr-15,,11:15,view corner,48000,53000,,50500,TRUE,BPPeeps2015.xlsx
+4486,24-Apr-15,,11:48,34th street pullout,14000,,,14000,TRUE,BPPeeps2015.xlsx
+4487,24-Apr-15,,11:55,pilings bend,5000,,,5000,TRUE,BPPeeps2015.xlsx
+4488,24-Apr-15,,11:57,pilings,500,,,500,TRUE,BPPeeps2015.xlsx
+4489,24-Apr-15,,11:58,pilings pullout,12500,,,12500,TRUE,BPPeeps2015.xlsx
+4490,24-Apr-15,,12:06,view corner,53000,,,53000,TRUE,BPPeeps2015.xlsx
+4491,25-Apr-15,,10:30,34th street pullout,3200,,,3200,TRUE,BPPeeps2015.xlsx
+4492,25-Apr-15,,10:47,pilings bend,31000,,,31000,TRUE,BPPeeps2015.xlsx
+4493,25-Apr-15,,10:56,view corner,71000,79000,,75000,TRUE,BPPeeps2015.xlsx
+4494,26-Apr-15,,12:11,coal port corner,6500,,,6500,TRUE,BPPeeps2015.xlsx
+4495,26-Apr-15,,12:30,view corner,116000,103000,,109500,TRUE,BPPeeps2015.xlsx
+4496,27-Apr-15,,13:55,34th street pullout,0,,,0,TRUE,BPPeeps2015.xlsx
+4497,27-Apr-15,,14:03,pilings pullout,68000,,,68000,TRUE,BPPeeps2015.xlsx
+4498,27-Apr-15,,14:05,view corner,89000,88000,,88500,TRUE,BPPeeps2015.xlsx
+4499,28-Apr-15,,15:33,view corner,125000,,,125000,TRUE,BPPeeps2015.xlsx
+4500,29-Apr-15,,16:10,coal port corner,7600,,,7600,TRUE,BPPeeps2015.xlsx
+4501,29-Apr-15,,16:11,pilings bend,5400,,,5400,TRUE,BPPeeps2015.xlsx
+4502,29-Apr-15,,16:17,pilings pullout,10500,,,10500,TRUE,BPPeeps2015.xlsx
+4503,29-Apr-15,,16:22,view corner,106009,85000,,95504.5,TRUE,BPPeeps2015.xlsx
+4504,30-Apr-15,,6:44,34th street pullout,24000,,,24000,TRUE,BPPeeps2015.xlsx
+4505,30-Apr-15,,6:50,pilings bend,2200,,,2200,TRUE,BPPeeps2015.xlsx
+4506,30-Apr-15,,6:52,pilings pullout,9000,,,9000,TRUE,BPPeeps2015.xlsx
+4507,30-Apr-15,,6:57,view corner,32000,40000,,36000,TRUE,BPPeeps2015.xlsx
+4508,1-May-15,,7:05,34th street pullout,10700,,,10700,TRUE,BPPeeps2015.xlsx
+4509,1-May-15,,7:10,pilings bend,1300,,,1300,TRUE,BPPeeps2015.xlsx
+4510,1-May-15,,7:17,view corner,33500,,,33500,TRUE,BPPeeps2015.xlsx
+4511,2-May-15,,16:40,pilings pullout,1000,,,1000,TRUE,BPPeeps2015.xlsx
+4512,2-May-15,,16:45,view corner,71000,75000,,73000,TRUE,BPPeeps2015.xlsx
+4513,3-May-15,,17:00,34th street pullout,5500,,,5500,TRUE,BPPeeps2015.xlsx
+4514,3-May-15,,17:12,view corner,57000,62000,64000,61000,TRUE,BPPeeps2015.xlsx
+4515,4-May-15,,8:20,34th street pullout,12500,,,12500,TRUE,BPPeeps2015.xlsx
+4516,4-May-15,,8:24,pilings bend,7600,,,7600,TRUE,BPPeeps2015.xlsx
+4517,4-May-15,,8:28,pilings pullout,1400,,,1400,TRUE,BPPeeps2015.xlsx
+4518,4-May-15,,8:33,view corner,11500,,,11500,TRUE,BPPeeps2015.xlsx
+4519,5-May-15,,8:50,coal port corner,4300,,,4300,TRUE,BPPeeps2015.xlsx
+4520,5-May-15,,8:54,34th street pullout,800,,,800,TRUE,BPPeeps2015.xlsx
+4521,5-May-15,,9:00,pilings pullout,550,,,550,TRUE,BPPeeps2015.xlsx
+4522,5-May-15,,9:02,view corner,7000,7500,,7250,TRUE,BPPeeps2015.xlsx
+4523,6-May-15,,9:10,coal port corner,2600,,,2600,TRUE,BPPeeps2015.xlsx
+4524,6-May-15,,9:15,pilings pullout,150,,,150,TRUE,BPPeeps2015.xlsx
+4525,6-May-15,,9:16,view corner,9700,8400,,9050,TRUE,BPPeeps2015.xlsx
+4526,7-May-15,,9:30,coal port corner,350,,,350,TRUE,BPPeeps2015.xlsx
+4527,7-May-15,,9:37,pilings pullout,50,,,50,TRUE,BPPeeps2015.xlsx
+4528,7-May-15,,9:41,view corner,7500,,,7500,TRUE,BPPeeps2015.xlsx
+4529,8-May-15,,10:00,34th street pullout,25,,,25,TRUE,BPPeeps2015.xlsx
+4530,8-May-15,,10:16,view corner,3400,4900,,4150,TRUE,BPPeeps2015.xlsx
+4531,11-May-15,,11:10,34th street pullout,55,,,55,TRUE,BPPeeps2015.xlsx
+4532,11-May-15,,11:15,view corner,3500,,,3500,TRUE,BPPeeps2015.xlsx
+4533,12-May-15,,13:00,view corner,930,1100,,1015,TRUE,BPPeeps2015.xlsx
+4534,14-Apr-16,,10:56,34th street pullout,40000,,,40000,TRUE,BPPeeps2016.xlsx
+4535,15-Apr-16,,13:11,the bend,7200,6500,,6850,TRUE,BPPeeps2016.xlsx
+4536,15-Apr-16,,13:18,pilings bend,2500,,,2500,TRUE,BPPeeps2016.xlsx
+4537,15-Apr-16,,13:21,pilings,1500,,,1500,TRUE,BPPeeps2016.xlsx
+4538,15-Apr-16,,13:23,view corner,27000,29000,,28000,TRUE,BPPeeps2016.xlsx
+4539,16-Apr-16,,14:32,34th street pullout,1700,,,1700,TRUE,BPPeeps2016.xlsx
+4540,16-Apr-16,,14:40,pilings bend,8000,,,8000,TRUE,BPPeeps2016.xlsx
+4541,16-Apr-16,,14:45,pilings pullout,9500,,,9500,TRUE,BPPeeps2016.xlsx
+4542,16-Apr-16,,14:48,view corner,28000,29500,,28750,TRUE,BPPeeps2016.xlsx
+4543,18-Apr-16,,7:15,34th street pullout,7200,,,7200,TRUE,BPPeeps2016.xlsx
+4544,18-Apr-16,,7:21,pilings bend,1500,,,1500,TRUE,BPPeeps2016.xlsx
+4545,18-Apr-16,,7:25,pilings,1000,,,1000,TRUE,BPPeeps2016.xlsx
+4546,18-Apr-16,,7:30,view corner,39500,37000,,38250,TRUE,BPPeeps2016.xlsx
+4547,19-Apr-16,,7:40,34th street pullout,9250,,,9250,TRUE,BPPeeps2016.xlsx
+4548,19-Apr-16,,7:47,pilings bend,3500,,,3500,TRUE,BPPeeps2016.xlsx
+4549,19-Apr-16,,7:51,pilings pullout,12000,,,12000,TRUE,BPPeeps2016.xlsx
+4550,19-Apr-16,,7:55,view corner,35000,40000,,37500,TRUE,BPPeeps2016.xlsx
+4551,20-Apr-16,,7:55,coal port corner,8800,,,8800,TRUE,BPPeeps2016.xlsx
+4552,20-Apr-16,,8:04,pilings bend,4200,,,4200,TRUE,BPPeeps2016.xlsx
+4553,20-Apr-16,,8:08,pilings pullout,1200,,,1200,TRUE,BPPeeps2016.xlsx
+4554,20-Apr-16,,8:12,view corner,22000,27000,,27000,TRUE,BPPeeps2016.xlsx
+4555,21-Apr-16,,8:30,34th street pullout,3500,,,3500,TRUE,BPPeeps2016.xlsx
+4556,21-Apr-16,,8:40,pilings bend,4250,,,4250,TRUE,BPPeeps2016.xlsx
+4557,21-Apr-16,,8:44,pilings pullout,53000,,,53000,TRUE,BPPeeps2016.xlsx
+4558,21-Apr-16,,8:45,view corner,37000,,,,TRUE,BPPeeps2016.xlsx
+4559,22-Apr-16,,9:00,34th street pullout,5200,,,5200,TRUE,BPPeeps2016.xlsx
+4560,22-Apr-16,,9:06,pilings bend,1850,,,1850,TRUE,BPPeeps2016.xlsx
+4561,22-Apr-16,,9:10,pilings pullout,34100,,,,TRUE,BPPeeps2016.xlsx
+4562,22-Apr-16,,9:14,view corner,35000,,,35000,TRUE,BPPeeps2016.xlsx
+4563,24-Apr-16,,9:34,34th street pullout,6500,,,6500,TRUE,BPPeeps2016.xlsx
+4564,24-Apr-16,,9:38,pilings bend,1700,,,1700,TRUE,BPPeeps2016.xlsx
+4565,24-Apr-16,,9:44,pilings pullout,17500,,,17500,TRUE,BPPeeps2016.xlsx
+4566,24-Apr-16,,9:46,view corner,22000,,,22000,TRUE,BPPeeps2016.xlsx
+4567,25-Apr-16,,9:30,34th street pullout,500,,,500,TRUE,BPPeeps2016.xlsx
+4568,25-Apr-16,,9:35,pilings bend,1500,,,1500,TRUE,BPPeeps2016.xlsx
+4569,25-Apr-16,,9:38,pilings pullout,18500,,,,TRUE,BPPeeps2016.xlsx
+4570,25-Apr-16,,9:43,view corner,23500,,,23500,TRUE,BPPeeps2016.xlsx
+4571,27-Apr-16,,7:50,coal port corner,350,,,350,TRUE,BPPeeps2016.xlsx
+4572,27-Apr-16,,10:30,pilings pullout,750,,,750,TRUE,BPPeeps2016.xlsx
+4573,27-Apr-16,,10:34,view corner,52000,60000,,56000,TRUE,BPPeeps2016.xlsx
+4574,28-Apr-16,,8:22,34th street pullout,700,,,700,TRUE,BPPeeps2016.xlsx
+4575,28-Apr-16,,8:25,pilings bend,12000,,,12000,TRUE,BPPeeps2016.xlsx
+4576,28-Apr-16,,8:32,view corner,34000,35000,,34500,TRUE,BPPeeps2016.xlsx
+4577,2-May-16,,14:44,34th street pullout,0,,,0,TRUE,BPPeeps2016.xlsx
+4578,2-May-16,,14:48,pilings pullout,4500,,,4500,TRUE,BPPeeps2016.xlsx
+4579,2-May-16,,14:52,view corner,42000,,,42000,TRUE,BPPeeps2016.xlsx
+4580,3-May-16,,7:35,coal port corner,2700,,,2700,TRUE,BPPeeps2016.xlsx
+4581,3-May-16,,7:44,pilings bend,10500,,,10500,TRUE,BPPeeps2016.xlsx
+4582,3-May-16,,7:50,view corner,5700,,,5700,TRUE,BPPeeps2016.xlsx
+4583,4-May-16,,15:20,34th street pullout,0,,,0,TRUE,BPPeeps2016.xlsx
+4584,4-May-16,,15:23,pilings bend,12500,,,12500,TRUE,BPPeeps2016.xlsx
+4585,4-May-16,,15:29,view corner,14000,20000,,17000,TRUE,BPPeeps2016.xlsx
+4586,5-May-16,,7:39,34th street pullout,9500,,,9500,TRUE,BPPeeps2016.xlsx
+4587,5-May-16,,7:46,pilings bend,1700,,,1700,TRUE,BPPeeps2016.xlsx
+4588,5-May-16,,7:49,pilings pullout,8500,,,8500,TRUE,BPPeeps2016.xlsx
+4589,5-May-16,,7:54,view corner,22000,15000,,18500,TRUE,BPPeeps2016.xlsx
+4590,10-May-16,,10:15,34th street pullout,75,,,75,TRUE,BPPeeps2016.xlsx
+4591,10-May-16,,10:19,pilings pullout,175,,,175,TRUE,BPPeeps2016.xlsx
+4592,10-May-16,,10:25,view corner,150,,,150,TRUE,BPPeeps2016.xlsx
+4593,13-Apr-17,,10:14,CPC,3200,,,3200,TRUE,BPPeeps2017.xlsx
+4594,13-Apr-17,,10:17,34th st pullout,3200,,,3200,TRUE,BPPeeps2017.xlsx
+4595,13-Apr-17,,10:18,the bend,5700,,,5700,TRUE,BPPeeps2017.xlsx
+4596,13-Apr-17,,10:23,pilings,4700,,,4700,TRUE,BPPeeps2017.xlsx
+4597,13-Apr-17,,10:28,viewcorner,7000,,,7000,TRUE,BPPeeps2017.xlsx
+4598,15-Apr-17,,10:30,34th st pullout,535,,,535,TRUE,BPPeeps2017.xlsx
+4599,15-Apr-17,,10:39,pilings,19700,,,19700,TRUE,BPPeeps2017.xlsx
+4600,15-Apr-17,,10:44,viewcorner,3500,,,3500,TRUE,BPPeeps2017.xlsx
+4601,17-Apr-17,,11:00,34th st pullout,500,,,500,TRUE,BPPeeps2017.xlsx
+4602,17-Apr-17,,11:03,pilings bend,5700,,,5700,TRUE,BPPeeps2017.xlsx
+4603,17-Apr-17,,11:07,pilings pullout,31000,28000,,29500,TRUE,BPPeeps2017.xlsx
+4604,18-Apr-17,,11:22,34th st pullout,1500,,,1500,TRUE,BPPeeps2017.xlsx
+4605,18-Apr-17,,11:29,pilings pullout,0,,,0,TRUE,BPPeeps2017.xlsx
+4606,18-Apr-17,,11:33,viewcorner,44000,37000,,40500,TRUE,BPPeeps2017.xlsx
+4607,20-Apr-17,,12:05,34th st pullout,0,,,0,TRUE,BPPeeps2017.xlsx
+4608,20-Apr-17,,12:08,pilings bend,250,,,250,TRUE,BPPeeps2017.xlsx
+4609,20-Apr-17,,12:15,viewcorner,750,,,750,TRUE,BPPeeps2017.xlsx
+4610,20-Apr-17,,12:15,viewcorner,35000,38000,,36500,TRUE,BPPeeps2017.xlsx
+4611,22-Apr-17,,15:13,viewcorner,70000,,,70000,TRUE,BPPeeps2017.xlsx
+4612,25-Apr-17,,8:20,coal port corner,15000,,,15000,TRUE,BPPeeps2017.xlsx
+4613,25-Apr-17,,8:26,34th st pullout,5000,,,5000,TRUE,BPPeeps2017.xlsx
+4614,25-Apr-17,,8:29,pilings,28000,31000,29000,29333.33333,TRUE,BPPeeps2017.xlsx
+4615,25-Apr-17,,8:35,viewcorner,13000,,,13000,TRUE,BPPeeps2017.xlsx
+4616,26-Apr-17,,9:05,coal port corner,2500,,,2500,TRUE,BPPeeps2017.xlsx
+4617,26-Apr-17,,9:12,34th st pullout,3700,,,3700,TRUE,BPPeeps2017.xlsx
+4618,26-Apr-17,,9:17,pilings pullout,750,,,750,TRUE,BPPeeps2017.xlsx
+4619,26-Apr-17,,9:22,viewcorner,20000,25000,,22500,TRUE,BPPeeps2017.xlsx
+4620,27-Apr-17,,9:15,coal port corner,9500,,,9500,TRUE,BPPeeps2017.xlsx
+4621,27-Apr-17,,9:23,pilings pullout,0,,,0,TRUE,BPPeeps2017.xlsx
+4622,27-Apr-17,,9:28,viewcorner,25500,,,25500,TRUE,BPPeeps2017.xlsx
+4623,28-Apr-17,,9:31,coal port corner,5200,,,5200,TRUE,BPPeeps2017.xlsx
+4624,28-Apr-17,,9:33,pilings bend,200,,,200,TRUE,BPPeeps2017.xlsx
+4625,28-Apr-17,,9:38,viewcorner,25500,,,25500,TRUE,BPPeeps2017.xlsx
+4626,29-Apr-17,,10:08,coal port corner,7800,,,7800,TRUE,BPPeeps2017.xlsx
+4627,29-Apr-17,,10:12,34th st pullout,200,,,200,TRUE,BPPeeps2017.xlsx
+4628,29-Apr-17,,10:17,pilings pullout,750,,,750,TRUE,BPPeeps2017.xlsx
+4629,29-Apr-17,,10:21,viewcorner,26000,28000,,27000,TRUE,BPPeeps2017.xlsx
+4630,1-May-17,,11:22,34th st pullout,9300,,,9300,TRUE,BPPeeps2017.xlsx
+4631,1-May-17,,11:29,pilings pullout,4200,,,4200,TRUE,BPPeeps2017.xlsx
+4632,1-May-17,,11:32,viewcorner,27000,23000,26500,25500,TRUE,BPPeeps2017.xlsx
+4633,3-May-17,,11:04,34th st pullout,9700,,,9700,TRUE,BPPeeps2017.xlsx
+4634,3-May-17,,11:08,pilings bend,200,,,200,TRUE,BPPeeps2017.xlsx
+4635,3-May-17,,11:11,pilings pullout,4700,,,4700,TRUE,BPPeeps2017.xlsx
+4636,3-May-17,,11:16,viewcorner,7400,7500,,7450,TRUE,BPPeeps2017.xlsx
+4637,4-May-17,,13:11,coal port corner,0,,,0,TRUE,BPPeeps2017.xlsx
+4638,4-May-17,,13:16,pilings bend,700,,,700,TRUE,BPPeeps2017.xlsx
+4639,4-May-17,,12:22,viewcorner,0,,,0,TRUE,BPPeeps2017.xlsx
+4640,5-May-17,,6:36,coal port corner,6700,,,6700,TRUE,BPPeeps2017.xlsx
+4641,5-May-17,,6:44,34th st pullout,253,,,253,TRUE,BPPeeps2017.xlsx
+4642,5-May-17,,6:52,viewcorner,3700,,,3700,TRUE,BPPeeps2017.xlsx
+4643,8-May-17,,7:21,34th st pullout,5,,,5,TRUE,BPPeeps2017.xlsx
+4644,8-May-17,,7:24,pilings pullout,4200,,,4200,TRUE,BPPeeps2017.xlsx
+4645,8-May-17,,7:28,viewcorner,100,,,100,TRUE,BPPeeps2017.xlsx
+4646,9-May-17,,7:50,34th st pullout,0,,,0,TRUE,BPPeeps2017.xlsx
+4647,9-May-17,,7:51,pilings bend,50,,,50,TRUE,BPPeeps2017.xlsx
+4648,9-May-17,,7:55,viewcorner,750,650,,700,TRUE,BPPeeps2017.xlsx
+4649,15-Apr-18,,8:43,34th St pullout,21500,,,21500,TRUE,BPPeeps2018.xlsx
+4650,15-Apr-18,,8:54,Pilings bend,24000,17000,15000,18666.66667,TRUE,BPPeeps2018.xlsx
+4651,15-Apr-18,,8:57,viewcorner,6500,,,6500,TRUE,BPPeeps2018.xlsx
+4652,16-Apr-18,,9:28,coalport corner,1150,,,1150,TRUE,BPPeeps2018.xlsx
+4653,16-Apr-18,,9:34,34th St pullout,1250,,,1250,TRUE,BPPeeps2018.xlsx
+4654,16-Apr-18,,9:36,the bend,1200,,,1200,TRUE,BPPeeps2018.xlsx
+4655,16-Apr-18,,9:39,Pilings bend,300,,,300,TRUE,BPPeeps2018.xlsx
+4656,16-Apr-18,,9:41,pilings pullout,825,,,825,TRUE,BPPeeps2018.xlsx
+4657,16-Apr-18,,9:46,viewcorner,15250,,,15250,TRUE,BPPeeps2018.xlsx
+4658,18-Apr-18,,9:34,coalport corner,7000,,,7000,TRUE,BPPeeps2018.xlsx
+4659,18-Apr-18,,9:41,34th St pullout,27000,26500,,26750,TRUE,BPPeeps2018.xlsx
+4660,18-Apr-18,,9:51,viewcorner,26500,25000,,25750,TRUE,BPPeeps2018.xlsx
+4661,20-Apr-18,,10:40,34th St pullout,6300,,,6300,TRUE,BPPeeps2018.xlsx
+4662,20-Apr-18,,10:47,Pilings bend,3200,,,3200,TRUE,BPPeeps2018.xlsx
+4663,20-Apr-18,,10:56,viewcorner,39500,42000,42000,41166.66667,TRUE,BPPeeps2018.xlsx
+4664,23-Apr-18,,11:40,34th St pullout,8800,,,8800,TRUE,BPPeeps2018.xlsx
+4665,23-Apr-18,,11:49,Pilings bend,3000,,,3000,TRUE,BPPeeps2018.xlsx
+4666,23-Apr-18,,11:58,viewcorner,45000,38500,41000,41500,TRUE,BPPeeps2018.xlsx
+4667,25-Apr-18,,14:25,34th St pullout,2300,,,2300,TRUE,BPPeeps2018.xlsx
+4668,25-Apr-18,,14:33,the bend,5700,4500,,5100,TRUE,BPPeeps2018.xlsx
+4669,25-Apr-18,,14:36,Pilings bend,3700,,,3700,TRUE,BPPeeps2018.xlsx
+4670,25-Apr-18,,14:45,viewcorner,67500,62000,60000,63166.66667,TRUE,BPPeeps2018.xlsx
+4671,26-Apr-18,,14:35,34th St pullout,5000,,,5000,TRUE,BPPeeps2018.xlsx
+4672,26-Apr-18,,14:38,the bend,42000,33000,44000,39666.66667,TRUE,BPPeeps2018.xlsx
+4673,26-Apr-18,,14:46,viewcorner,45500,36000,37000,39500,TRUE,BPPeeps2018.xlsx
+4674,27-Apr-08,,7:52,34th St pullout,7900,,,7900,TRUE,BPPeeps2018.xlsx
+4675,27-Apr-08,,8:05,the bend,15400,,,15400,TRUE,BPPeeps2018.xlsx
+4676,27-Apr-08,,8:15,viewcorner,45000,41000,,43000,TRUE,BPPeeps2018.xlsx
+4677,28-Apr-18,,8:11,34th St pullout,8100,,,8100,TRUE,BPPeeps2018.xlsx
+4678,28-Apr-18,,8:20,the bend,1200,,,1200,TRUE,BPPeeps2018.xlsx
+4679,28-Apr-18,,8:21,pilings pullout,900,,,900,TRUE,BPPeeps2018.xlsx
+4680,28-Apr-18,,8:25,pilings pullout,12000,14000,,13000,TRUE,BPPeeps2018.xlsx
+4681,28-Apr-18,,8:30,viewcorner,17000,14000,,15500,TRUE,BPPeeps2018.xlsx
+4682,30-Apr-18,,8:45,34th St pullout,8100,,,8100,TRUE,BPPeeps2018.xlsx
+4683,30-Apr-18,,8:46,Pilings bend,800,,,800,TRUE,BPPeeps2018.xlsx
+4684,30-Apr-18,,8:50,viewcorner,17000,20500,16000,17833.33333,TRUE,BPPeeps2018.xlsx
+4685,3-May-18,,9:30,34th St pullout,5200,,,5200,TRUE,BPPeeps2018.xlsx
+4686,3-May-18,,9:38,Pilings bend,750,,,750,TRUE,BPPeeps2018.xlsx
+4687,3-May-18,,9:44,viewcorner,5500,,,5500,TRUE,BPPeeps2018.xlsx
+4688,8-May-18,,11:20,34th St pullout,0,,,0,TRUE,BPPeeps2018.xlsx
+4689,8-May-18,,11:24,Pilings bend,0,,,0,TRUE,BPPeeps2018.xlsx
+4690,8-May-18,,11:35,viewcorner,2600,1850,,2225,TRUE,BPPeeps2018.xlsx
+4691,,,,34th St pullout,9500,,,9500,TRUE,BPPeeps2019.xlsx
+4692,,,,the bend,130,,,130,TRUE,BPPeeps2019.xlsx
+4693,,,,pilings pullout,1100,,,1100,TRUE,BPPeeps2019.xlsx
+4694,,,,viewcorner,11000,9500,,10250,TRUE,BPPeeps2019.xlsx
+4695,,,,viewcorner,1900,,,1900,TRUE,BPPeeps2019.xlsx
+4696,,,,coalport corner,0,,,0,TRUE,BPPeeps2019.xlsx
+4697,,,,pilings pullout,28000,29500,27800,28433.33333,TRUE,BPPeeps2019.xlsx
+4698,,,,viewcorner,10800,10500,6600,9300,TRUE,BPPeeps2019.xlsx
+4699,,,,coalport corner,2000,,,2000,TRUE,BPPeeps2019.xlsx
+4700,,,,34th St pullout,14100,,,14100,TRUE,BPPeeps2019.xlsx
+4701,,,,the bend,1500,,,1500,TRUE,BPPeeps2019.xlsx
+4702,,,,Pilings bend,800,,,800,TRUE,BPPeeps2019.xlsx
+4703,,,,pilings pullout,16200,20100,23700,20000,TRUE,BPPeeps2019.xlsx
+4704,,,,viewcorner,2100,,,2100,TRUE,BPPeeps2019.xlsx
+4705,,,,coalport corner,7100,10900,,9000,TRUE,BPPeeps2019.xlsx
+4706,,,,34th St pullout,5950,,,5950,TRUE,BPPeeps2019.xlsx
+4707,,,,the bend,2550,6200,,4375,TRUE,BPPeeps2019.xlsx
+4708,,,,Pilings bend,3700,6300,,5000,TRUE,BPPeeps2019.xlsx
+4709,,,,pilings pullout,7200,6000,,6600,TRUE,BPPeeps2019.xlsx
+4710,,,,viewcorner,1000,,,1000,TRUE,BPPeeps2019.xlsx
+4711,,,,coalport corner,10500,18000,13500,14000,TRUE,BPPeeps2019.xlsx
+4712,,,,34th St pullout,1900,,,1900,TRUE,BPPeeps2019.xlsx
+4713,,,,the bend,100,,,100,TRUE,BPPeeps2019.xlsx
+4714,,,,Pilings bend,800,,,800,TRUE,BPPeeps2019.xlsx
+4715,,,,pilings pullout,700,,,700,TRUE,BPPeeps2019.xlsx
+4716,,,,viewcorner,20600,22400,17400,20133.33333,TRUE,BPPeeps2019.xlsx
+4717,,,,34th St pullout,9500,10400,,9950,TRUE,BPPeeps2019.xlsx
+4718,,,,the bend,8700,,,8700,TRUE,BPPeeps2019.xlsx
+4719,,,,Pilings bend,6700,,,6700,TRUE,BPPeeps2019.xlsx
+4720,,,,pilings pullout,800,,,800,TRUE,BPPeeps2019.xlsx
+4721,,,,viewcorner,34500,30500,34000,33000,TRUE,BPPeeps2019.xlsx
+4722,,,,coalport corner,9600,,,9600,TRUE,BPPeeps2019.xlsx
+4723,,,,34th St pullout,6500,,,6500,TRUE,BPPeeps2019.xlsx
+4724,,,,the bend,6500,,,6500,TRUE,BPPeeps2019.xlsx
+4725,,,,Pilings bend,600,1100,,850,TRUE,BPPeeps2019.xlsx
+4726,,,,viewcorner,35143,,,35143,TRUE,BPPeeps2019.xlsx
+4727,,,,coalport corner,6200,6200,7000,6466.666667,TRUE,BPPeeps2019.xlsx
+4728,,,,34th St pullout,7600,6800,5600,6666.666667,TRUE,BPPeeps2019.xlsx
+4729,,,,the bend,6700,,,6700,TRUE,BPPeeps2019.xlsx
+4730,,,,Pilings bend,100,,,100,TRUE,BPPeeps2019.xlsx
+4731,,,,viewcorner,44300,54500,55900,51566.66667,TRUE,BPPeeps2019.xlsx
+4732,,,,coalport corner,23600,25300,,24450,TRUE,BPPeeps2019.xlsx
+4733,,,,34th St pullout,9600,,,9600,TRUE,BPPeeps2019.xlsx
+4734,,,,the bend,600,,,600,TRUE,BPPeeps2019.xlsx
+4735,,,,Pilings bend,1000,,,1000,TRUE,BPPeeps2019.xlsx
+4736,,,,pilings pullout,600,,,600,TRUE,BPPeeps2019.xlsx
+4737,,,,viewcorner,36900,38800,,37850,TRUE,BPPeeps2019.xlsx
+4738,,,,coalport corner,10500,9500,,10000,TRUE,BPPeeps2019.xlsx
+4739,,,,34th St pullout,500,,,500,TRUE,BPPeeps2019.xlsx
+4740,,,,the bend,3200,,,3200,TRUE,BPPeeps2019.xlsx
+4741,,,,pilings pullout,400,,,400,TRUE,BPPeeps2019.xlsx
+4742,,,,viewcorner,88500,60200,69700,72800,TRUE,BPPeeps2019.xlsx
+4743,,,,coalport corner,100,,,100,TRUE,BPPeeps2019.xlsx
+4744,,,,34th St pullout,50,,,50,TRUE,BPPeeps2019.xlsx
+4745,,,,the bend,21900,,,21900,TRUE,BPPeeps2019.xlsx
+4746,,,,Pilings bend,18400,,,18400,TRUE,BPPeeps2019.xlsx
+4747,,,,pilings pullout,2200,,,2200,TRUE,BPPeeps2019.xlsx
+4748,,,,viewcorner,75500,68900,,72200,TRUE,BPPeeps2019.xlsx
+4749,,,,coalport corner,1100,1200,,1150,TRUE,BPPeeps2019.xlsx
+4750,,,,34th St pullout,3200,3200,,3200,TRUE,BPPeeps2019.xlsx
+4751,,,,the bend,7300,,,7300,TRUE,BPPeeps2019.xlsx
+4752,,,,pilings pullout,6000,,,6000,TRUE,BPPeeps2019.xlsx
+4753,,,,viewcorner,126900,,,126900,TRUE,BPPeeps2019.xlsx
+4754,,,,34th St pullout,32200,,,32200,TRUE,BPPeeps2019.xlsx
+4755,,,,the bend,30,,,30,TRUE,BPPeeps2019.xlsx
+4756,,,,Pilings bend,1900,,,1900,TRUE,BPPeeps2019.xlsx
+4757,,,,pilings pullout,8900,,,8900,TRUE,BPPeeps2019.xlsx
+4758,,,,viewcorner,29500,36000,,32750,TRUE,BPPeeps2019.xlsx
+4759,,,,34th St pullout,36000,33500,,34750,TRUE,BPPeeps2019.xlsx
+4760,,,,the bend,800,,,800,TRUE,BPPeeps2019.xlsx
+4761,,,,Pilings bend,1800,,,1800,TRUE,BPPeeps2019.xlsx
+4762,,,,pilings pullout,31700,33300,,32500,TRUE,BPPeeps2019.xlsx
+4763,,,,viewcorner,44850,,,44850,TRUE,BPPeeps2019.xlsx
+4764,,,,34th St pullout,43300,41000,,42150,TRUE,BPPeeps2019.xlsx
+4765,,,,pilings pullout,33500,34400,,33950,TRUE,BPPeeps2019.xlsx
+4766,,,,viewcorner,14600,16500,,15550,TRUE,BPPeeps2019.xlsx
+4767,,,,34th St pullout,42800,45300,,44050,TRUE,BPPeeps2019.xlsx
+4768,,,,the bend,1200,1200,,1200,TRUE,BPPeeps2019.xlsx
+4769,,,,pilings pullout,14000,,,14000,TRUE,BPPeeps2019.xlsx
+4770,,,,viewcorner,22700,25000,,23850,TRUE,BPPeeps2019.xlsx
+4771,,,,34th St pullout,5500,,,5500,TRUE,BPPeeps2019.xlsx
+4772,,,,the bend,26500,24600,,25550,TRUE,BPPeeps2019.xlsx
+4773,,,,Pilings bend,1000,,,1000,TRUE,BPPeeps2019.xlsx
+4774,,,,pilings pullout,6300,8600,6900,7266.666667,TRUE,BPPeeps2019.xlsx
+4775,,,,viewcorner,28100,27800,,27950,TRUE,BPPeeps2019.xlsx
+4776,,,,coalport corner,6200,5600,,5900,TRUE,BPPeeps2019.xlsx
+4777,,,,the bend,2400,,,2400,TRUE,BPPeeps2019.xlsx
+4778,,,,Pilings bend,9200,9200,,9200,TRUE,BPPeeps2019.xlsx
+4779,,,,pilings pullout,6000,6200,,6100,TRUE,BPPeeps2019.xlsx
+4780,,,,viewcorner,32000,32000,,32000,TRUE,BPPeeps2019.xlsx
+4781,,,,34th St pullout,22200,,,22200,TRUE,BPPeeps2019.xlsx
+4782,,,,the bend,5500,5600,,5550,TRUE,BPPeeps2019.xlsx
+4783,,,,Pilings bend,2700,,,2700,TRUE,BPPeeps2019.xlsx
+4784,,,,pilings pullout,4100,,,4100,TRUE,BPPeeps2019.xlsx
+4785,,,,viewcorner,13500,,,13500,TRUE,BPPeeps2019.xlsx
+4786,,,,coalport corner,18500,19000,,18750,TRUE,BPPeeps2019.xlsx
+4787,,,,34th St pullout,1800,,,1800,TRUE,BPPeeps2019.xlsx
+4788,,,,the bend,1700,,,1700,TRUE,BPPeeps2019.xlsx
+4789,,,,Pilings bend,600,,,600,TRUE,BPPeeps2019.xlsx
+4790,,,,pilings pullout,7300,,,7300,TRUE,BPPeeps2019.xlsx
+4791,,,,viewcorner,23700,,,23700,TRUE,BPPeeps2019.xlsx
+4792,,,,34th St pullout,12300,11800,,12050,TRUE,BPPeeps2019.xlsx
+4793,,,,Pilings bend,500,,,500,TRUE,BPPeeps2019.xlsx
+4794,,,,pilings pullout,1800,1600,,1700,TRUE,BPPeeps2019.xlsx
+4795,,,,viewcorner,23100,25600,26000,24900,TRUE,BPPeeps2019.xlsx
+4796,,,,34th St pullout,18600,16900,,17750,TRUE,BPPeeps2019.xlsx
+4797,,,,pilings pullout,4300,,,4300,TRUE,BPPeeps2019.xlsx
+4798,,,,viewcorner,11900,12400,,12150,TRUE,BPPeeps2019.xlsx
+4799,,,,34th St pullout,6300,,,6300,TRUE,BPPeeps2019.xlsx
+4800,,,,the bend,400,,,400,TRUE,BPPeeps2019.xlsx
+4801,,,,Pilings bend,300,,,300,TRUE,BPPeeps2019.xlsx
+4802,,,,pilings pullout,4300,,,4300,TRUE,BPPeeps2019.xlsx
+4803,,,,viewcorner,17800,17000,16900,17233.33333,TRUE,BPPeeps2019.xlsx
+4804,,,,34th St pullout,13000,12400,,12700,TRUE,BPPeeps2019.xlsx
+4805,,,,Pilings bend,2500,,,2500,TRUE,BPPeeps2019.xlsx
+4806,,,,pilings pullout,500,600,,550,TRUE,BPPeeps2019.xlsx
+4807,,,,viewcorner,8000,8600,,8300,TRUE,BPPeeps2019.xlsx
+4808,,,,34th St pullout,8800,,,8800,TRUE,BPPeeps2019.xlsx
+4809,,,,the bend,1300,,,1300,TRUE,BPPeeps2019.xlsx
+4810,,,,pilings pullout,3100,,,3100,TRUE,BPPeeps2019.xlsx
+4811,,,,viewcorner,12300,12700,,12500,TRUE,BPPeeps2019.xlsx
+4812,,,,34th St pullout,1500,,,1500,TRUE,BPPeeps2019.xlsx
+4813,,,,Pilings bend,4000,3900,,3950,TRUE,BPPeeps2019.xlsx
+4814,,,,viewcorner,2700,2800,,2750,TRUE,BPPeeps2019.xlsx
+4815,,,,the bend,36,,,36,TRUE,BPPeeps2019.xlsx
+4816,,,,viewcorner,2780,2800,2500,2693.333333,TRUE,BPPeeps2019.xlsx
+4817,,,,coalport corner,30,,,30,TRUE,BPPeeps2019.xlsx
+4818,,,,34th St pullout,10,,,10,TRUE,BPPeeps2019.xlsx
+4819,,,,viewcorner,25,,,25,TRUE,BPPeeps2019.xlsx
+4820,24-Apr-21,,7:15,viewcorner,20100,21800,21000,20966.66667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4821,24-Apr-21,,7:29,pilings pullout,12200,12500,11800,12166.66667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4822,24-Apr-21,,7:40,the bend,3000,3300,3200,3166.666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4823,24-Apr-21,,7:49,34th St pullout,2900,4000,3500,3466.666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4824,24-Apr-21,,7:59,coalport corner,3300,4200,4100,3866.666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4825,25-Apr-21,,7:32,viewcorner,29000,33000,25000,29000,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4826,25-Apr-21,,8:07,pilings pullout,7500,8600,6200,7433.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4827,25-Apr-21,,8:25,the bend,4800,5200,4900,4966.666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4828,25-Apr-21,,8:35,34th St pullout,4200,3800,3700,3900,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4829,25-Apr-21,,8:45,coalport corner,4600,5500,4400,4833.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4830,26-Apr-21,,8:00,viewcorner,41300,42400,41000,41566.66667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4831,26-Apr-21,,8:12,pilings pullout,3600,6000,9900,6500,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4832,26-Apr-21,,8:23,the bend,1900,2500,2900,2433.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4833,26-Apr-21,,8:33,34th St pullout,6800,7600,7900,7433.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4834,26-Apr-21,,8:43,coalport corner,2000,2800,2800,2533.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4835,27-Apr-21,,8:11,viewcorner,5500,5100,7900,6166.666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4836,27-Apr-21,,8:22,pilings pullout,550,750,950,750,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4837,27-Apr-21,,8:32,the bend,15,500,120,211.6666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4838,27-Apr-21,,8:40,34th St pullout,3400,2900,3500,3266.666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4839,27-Apr-21,,8:51,coalport corner,3500,4200,4000,3900,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4840,29-Apr-21,,9:07,viewcorner,8300,9100,8700,8700,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4841,29-Apr-21,,9:18,pilings pullout,2500,2400,1900,2266.666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4842,29-Apr-21,,9:27,the bend,105,110,80,98.33333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4843,29-Apr-21,,9:35,34th St pullout,2500,2450,2100,2350,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4844,29-Apr-21,,9:44,coalport corner,11000,7900,7000,8633.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4845,1-May-21,,9:57,viewcorner,4400,5900,5600,5300,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4846,1-May-21,,10:27,pilings pullout,3000,3800,4000,3600,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4847,1-May-21,,10:36,the bend,8000,7800,8000,7933.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4848,1-May-21,,10:44,34th St pullout,7500,6800,8200,7500,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4849,1-May-21,,10:56,coalport corner,300,300,350,316.6666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4850,3-May-21,,9:25,viewcorner,19500,15300,17600,17466.66667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4851,3-May-21,,9:42,pilings pullout,2600,2500,2750,2616.666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4852,3-May-21,,9:57,the bend,3900,5100,5400,4800,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4853,3-May-21,,10:06,34th St pullout,6600,7800,6400,6933.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4854,3-May-21,,10:12,coalport corner,3200,4900,4200,4100,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4855,5-May-21,,6:29,viewcorner,9700,9300,10400,9800,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4856,5-May-21,,6:45,pilings pullout,5400,6100,6200,5900,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4857,5-May-21,,6:56,the bend,2800,2000,2600,2466.666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4858,5-May-21,,7:05,34th St pullout,1300,1600,1700,1533.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4859,5-May-21,,7:12,coalport corner,800,900,850,850,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4860,7-May-21,,6:24,viewcorner,9600,9800,10400,9933.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4861,7-May-21,,6:41,pilings pullout,80,0,10,30,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4862,7-May-21,,6:48,the bend,950,700,550,733.3333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4863,7-May-21,,6:56,34th St pullout,2500,2550,2900,2650,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4864,7-May-21,,7:06,coalport corner,2700,3300,3400,3133.333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4865,10-May-21,,7:30,viewcorner,2600,2750,2950,2766.666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4866,10-May-21,,7:45,pilings pullout,90,310,470,290,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4867,10-May-21,,7:55,the bend,60,65,205,110,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4868,10-May-21,,8:03,34th St pullout,20,35,13,22.66666667,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4869,10-May-21,,8:12,coalport corner,16,40,26,27.33333333,TRUE,RobertsBankShorebirdSurveys2021.xlsx
+4870,20-Apr-22,,10:34,coalport corner,9250,8000,,8625,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4871,20-Apr-22,,10:34,34 St pullout,4200,3500,,3850,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4872,20-Apr-22,,10:34,the bend,8400,9300,,8850,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4873,20-Apr-22,,10:34,pilings pullout,4200,4500,,4350,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4874,20-Apr-22,,10:34,view corner,4800,7800,,6300,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4875,22-Apr-22,,11:16,coalport corner,11500,,,11500,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4876,22-Apr-22,,11:16,34 St pullout,6100,,,6100,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4877,22-Apr-22,,11:16,the bend,2500,,,2500,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4878,22-Apr-22,,11:16,pilings pullout,7000,,,7000,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4879,22-Apr-22,,11:16,view corner,13500,,,13500,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4880,27-Apr-22,,9:00,coalport corner,150,,,150,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4881,27-Apr-22,,9:00,34 St pullout,300,,,300,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4882,27-Apr-22,,9:00,the bend,35000,,,35000,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4883,27-Apr-22,,9:00,pilings pullout,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4884,27-Apr-22,,9:00,view corner,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4885,28-Apr-22,,9:30,coalport corner,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4886,28-Apr-22,,9:30,34 St pullout,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4887,28-Apr-22,,9:30,the bend,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4888,28-Apr-22,,9:30,pilings pullout,30000,,,30000,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4889,28-Apr-22,,9:30,view corner,60000,,,60000,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4890,3-May-22,,9:21,coalport corner,6500,,,6500,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4891,3-May-22,,9:21,34 St pullout,500,,,500,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4892,3-May-22,,9:21,the bend,2300,,,2300,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4893,3-May-22,,9:21,pilings pullout,2500,,,2500,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4894,3-May-22,,9:21,view corner,600,,,600,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4895,4-May-22,,9:00,coalport corner,1520,,,1520,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4896,4-May-22,,9:00,34 St pullout,320,,,320,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4897,4-May-22,,9:00,the bend,2600,,,2600,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4898,4-May-22,,9:00,pilings pullout,3500,,,3500,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4899,4-May-22,,9:00,view corner,3700,,,3700,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4900,10-May-22,,13:30,coalport corner,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4901,10-May-22,,13:30,34 St pullout,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4902,10-May-22,,13:30,the bend,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4903,10-May-22,,13:30,pilings pullout,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4904,10-May-22,,13:30,view corner,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4905,11-May-22,,9:21,coalport corner,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4906,11-May-22,,9:21,34 St pullout,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4907,11-May-22,,9:21,the bend,0,,,0,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4908,11-May-22,,9:21,pilings pullout,1,,,1,TRUE,RobertsBankShorebirdSurveys2022.xlsx
+4909,11-May-22,,9:21,view corner,12,,,12,TRUE,RobertsBankShorebirdSurveys2022.xlsx
