@@ -173,9 +173,9 @@ zipgam0 <- gam(list(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"),
                data = dat3, family = ziplss, method = "REML")
 zipgam1 <- gam(list(predicted_wesa ~ n_s + s(flow) + year_c + s(dos) + s(year, bs = "re"), ~ n_s),
                data = dat3, family = ziplss, method = "REML")
-zipgam2 <- gam(list(predicted_wesa ~ n_s + s(flow) + n_s:flow + year_c + s(dos) + s(year, bs = "re"), ~ n_s + flow),
+zipgam2 <- gam(list(predicted_wesa ~ n_s + s(flow) + n_s:flow + year_c + s(dos) + s(year, bs = "re"), ~ n_s + s(flow)),
                data = dat3, family = ziplss, method = "REML")
-zipgam3 <- gam(list(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"), ~ n_s * flow),
+zipgam3 <- gam(list(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"), ~ n_s + s(flow) + n_s:flow),
                data = dat3, family = ziplss, method = "REML")
 ## check the things converged
 #zipgam0$outer.info ## full convergence
@@ -264,6 +264,13 @@ summary(final_mod)
 ```{r final model plot}
 sjPlot::plot_model(final_mod)
 ```
+
+Do the zeroes in our ZI model make sense? At least for the year and N/S components, it seems so. In earlier years, the odds of a zero-bird count are higher, and in the south, the odds of a zero-bird count are also higher. With a zero-inflated model these odds are specifically the odds of finding *structural* or *true* zeroes, rather than simply zeroes due to sampling errors.
+
+```{r, fig.cap="Frequency of zero count observations by year and north/south region. Zero counts are more frequently observed in earlier years and in the south."}
+table(dat3[["year"]][dat3$final_count == 0], dat3[["n_s"]][dat3$final_count == 0], dat3[["final_count"]][dat3$final_count == 0])
+```
+
 
 ## Final model diagnostics
 
