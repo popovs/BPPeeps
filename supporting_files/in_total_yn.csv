@@ -4374,7 +4374,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 4373,9-May-13,dropping,7:30,bend viewpoint,0,,,0,TRUE,BPPeeps2013.xlsx
 4374,9-May-13,dropping,7:35,pilings (in mumblies),15,,,15,TRUE,BPPeeps2013.xlsx
 4375,9-May-13,dropping,7:44,view corner (inner mud to BP marsh),30,,,30,TRUE,BPPeeps2013.xlsx
-4376,9-May-13,,,TOTAL of sweep count CP to BP,,,,275,TRUE,BPPeeps2013.xlsx
+4376,9-May-13,,,TOTAL of sweep count CP to BP,,,,275,total,BPPeeps2013.xlsx
 4377,15-Apr-14,,8:21,34th street pullout,8500,,,8500,TRUE,BPPeeps2014MD.xlsx
 4378,15-Apr-14,,8:28,pilings,4000,,,4000,TRUE,BPPeeps2014MD.xlsx
 4379,15-Apr-14,,8:31,pilings pullout,2500,,,2500,TRUE,BPPeeps2014MD.xlsx
