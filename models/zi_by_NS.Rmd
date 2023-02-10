@@ -185,12 +185,12 @@ zipgam3 <- gam(list(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"),
 
 zipm0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat3, family = poisson)
 zipm1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat3, family = poisson)
-zipm2 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + flow, data = dat3, family = poisson)
-zipm3 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s * flow, data = dat3, family = poisson)
+zipm2 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + scale(flow), data = dat3, family = poisson)
+zipm3 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s * scale(flow), data = dat3, family = poisson)
 
 zinb0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat3, family = nbinom1)
-zinb1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + flow, data = dat3, family = nbinom1)
-zinb2 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + flow, data = dat3, family = nbinom1)
+zinb1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + scale(flow), data = dat3, family = nbinom1)
+zinb2 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s * scale(flow), data = dat3, family = nbinom1)
 
 AIC(zipgam0, zipgam1, zipgam2, zipgam3)
 AIC(zipm0, zipm1, zipm2, zipm3, zinb0, zinb1, zinb2)
