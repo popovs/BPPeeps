@@ -28,12 +28,13 @@
 #devtools::install_github("ropensci/tidyhydat")
 #devtools::install_github("ropensci/weathercan")
 
-library(rclimateca)
+#library(rclimateca)
 library(tidyhydat)
+library(weathercan)
 
 # Download hydat data
 # TODO: make this reproducible later. This just doesn't play well with a renv environment.
-download_hydat() # 1st attempt - will it create dir in app support?
+#download_hydat() # 1st attempt - will it create dir in app support?
 #download_hydat(dl_hydat_here = "renv/local/hydat") # ~3 min - only needs to be run once
 #hydat_path <- "renv/local/hydat/Hydat.sqlite3"
 #hy_set_default_db(hydat_path = hydat_path) # doesn't work?
@@ -108,7 +109,7 @@ yvr_weather <- weather_dl(station_ids = c(yvr[[1]], yvr[[2]]),
                           verbose = TRUE)
 
 # Hourly - for wind (will take forever and if done all at once it
-# can time out - so it is done year at a time. Kept verbose on to 
+# can time out - so it is done one day at a time. Kept verbose on to 
 # keep track of things. Takes an hour or so.)
 yvr_wind <- plyr::ldply(dates, function(x) {
   weather_dl(station_ids = c(yvr[[1]], yvr[[2]]), 
