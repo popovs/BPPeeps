@@ -3,7 +3,7 @@ library(magrittr) # for assignment pipe '%<>%' operator
 ## 01 IMPORT ----
 # Relative file paths to this source file
 f <- list.files("RobertsBankShorebirdSurveys/")
-f <- f[!grepl("^~", f)] # Drop hidden excel files, if present
+f <- f[!grepl("^~|.md", f)] # Drop hidden excel files, if present
 f <- f[!grepl("2013_", f)] # Drop extra 2013 data files
 raw <- list()
 for (i in 1:length(f)) {
@@ -351,6 +351,31 @@ counts <- dplyr::bind_rows(counts_list)
 counts$record_id <- as.numeric(row.names(counts))
 counts <- counts %>% dplyr::select(record_id, dplyr::everything())
 
+# Extract pre-2014 records
+# These records are used to create the in_daily_total_yn file
+# pre2014 <- counts[counts$raw_datafile %in% c('BPPEEP00.xls',
+#                                   'BPPEEP01.xls',
+#                                   'BPPEEP2002.xls',
+#                                   'BPPEEP2003.xls',
+#                                   'BPPEEP2004.xls',
+#                                   'BPPEEP2005.xls',
+#                                   'BPPeep2006.xls',
+#                                   'BPPeep2007.xls',
+#                                   'BPPEEP91.xlsx',
+#                                   'BPPEEP92.xlsx',
+#                                   'BPPEEP94.xls',
+#                                   'BPPEEP95.xls',
+#                                   'BPPEEP97.xls',
+#                                   'BPPEEP98.xls',
+#                                   'BPPEEP99.xls',
+#                                   'BPPeeps2008.xls',
+#                                   'BPPeeps2009.xls',
+#                                   'BPPeeps2010.xls',
+#                                   'BPPeeps2011.xls',
+#                                   'BPPeeps2012.xls',
+#                                   'BPPeeps2013.xlsx'),]
+# write.csv(pre2014, "supporting_files/in_total_yn.csv", row.names = F, na = "")
+
 # This record ID is now used to merge a supporting dataset in
 # This supporting dataset includes the column "in_daily_total_yn",
 # which indicates whether or not the meancount for a given location
@@ -364,6 +389,7 @@ counts <- counts %>% dplyr::select(record_id, dplyr::everything())
 in_daily_total_yn <- read.csv("supporting_files/in_total_yn.csv")
 in_daily_total_yn <- in_daily_total_yn[,c("record_id", "in_daily_total_yn")]
 counts <- merge(counts, in_daily_total_yn, all.x = TRUE)
+counts[["in_daily_total_yn"]][is.na(counts$in_daily_total_yn)] <- 'TRUE'
 rm(in_daily_total_yn)
 
 # Merge 'notes' and 'comments' columns
