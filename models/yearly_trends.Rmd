@@ -16,31 +16,10 @@ knitr::opts_chunk$set(echo = FALSE,
 
 # Run binomial sr model on the daily count data
 # NOTE THE RESULTS WILL BE SLIGHTLY DIFFERENT TO THE CANHAM PAPER BECAUSE THIS 
-# SR MODEL DOES NOT INCLUDE 1991-1993 DATA AND DOES INCLUDE 2020-2022.
-
-# Create yrs df, which is a df containing all possible
-# julian_day-year combinations
-yrs2 <- expand.grid(julian_day = seq(min(dt$julian_day), 
-                                     max(dt$julian_day), 1),
-                    year = as.factor(unique(lubridate::year(dt$survey_date))))
-# Add day of season variable
-yrs2$dos <- (yrs2$julian_day - mean(sr$julian_day))/sd(sr$julian_day)
-
-# Merge yrs2 and coefs (coefs is created in binomial_sr.Rmd) together
-yrs2 <- merge(yrs2, coefs, by = "year", all.x = TRUE)
-
-# Add mean coefficients across all years to any years of data with NA
-# coeffs (same methodology as used in original Canham paper)
-yrs2[["intercept"]][is.na(yrs2$intercept)] <- mean(yrs2$intercept, na.rm = T)
-yrs2[["jd_parm"]][is.na(yrs2$jd_parm)] <- mean(yrs2$jd_parm, na.rm = T)
-yrs2[["jd2_parm"]][is.na(yrs2$jd2_parm)] <- mean(yrs2$jd2_parm, na.rm = T)
-
-# Now calculate odds & predict ratios for all survey dates
-yrs2$odds <- yrs2$intercept + yrs2$jd_parm * yrs2$dos + yrs2$jd2_parm * yrs2$dos^2
-yrs2$predicted_ratio <- exp(yrs2$odds) / (1 + exp(yrs2$odds))
+# SR MODEL INCLUDES 2021-2022.
 
 # Now merge predicted wesa ratio generated above to the dt dataset
-dt <- merge(dt, yrs2[,c("year", "julian_day", "predicted_ratio")], 
+dt <- merge(dt, yrs[,c("year", "julian_day", "predicted_ratio")], 
             by = c("year", "julian_day"))
 
 # Scale and log-transform variables of interest
@@ -48,12 +27,13 @@ dt$predicted_wesa <- round(dt$total_count * dt$predicted_ratio, 0)
 dt$predicted_dunl <- dt$total_count - dt$predicted_wesa
 dt$log_wesa <- log(dt$predicted_wesa + 1)
 dt$log_dunl <- log(dt$predicted_dunl + 1)
+dt$year_n <- as.numeric(dt$year)
 dt$year_c <- scale(as.numeric(dt$year))
 ```
 
 # Yearly trends in peep population
 
-The original Canham et al. (2021) paper provided yearly population trends of WESA and DUNL at Brunswick Point. These same population trends are extended here with 2020-2022 data, using the same population models derived in the orginal paper (i.e., no north vs. south component). Values represent population indices (with 95% confidence intervals) calculated as predicted values for each year from final models for each species, with independent variables held at median values for each year. Daily total counts (not broken down by survey station) are used as the data for this model; differences between the original Canham data is that this dataset only goes back to 1994 (rather than 1991) and goes up to 2022 (rather than 2019).
+The original Canham et al. (2021) paper provided yearly population trends of WESA and DUNL at Brunswick Point. These same population trends are extended here with 2020-2022 data, using the same population models derived in the original paper (i.e., no north vs. south component). Values represent population indices (with 95% confidence intervals) calculated as predicted values for each year from final models for each species, with independent variables held at median values for each year. Daily total counts (not broken down by survey station) are used as the data for this model.
 
 *WESA model*:
 
@@ -77,6 +57,17 @@ dunl_trend <- lmerTest::lmer(log_dunl ~ year_c + dos + I(dos^2) + scale(elev_ran
 
 
 ```{r index df setup, include=FALSE}
+# index0 - index df with same median values across *all* years
+# - this will be fed into trend models for predictions
+index0 <- data.frame(year = unique(dt$year),
+                     elev_range = median(dt$elev_range, na.rm = T),
+                     flow = median(dt$flow, na.rm = T),
+                     u = median(dt$u, na.rm = T),
+                     dos = median(dt$dos, na.rm = T))
+index0$year_c <- (as.numeric(index0$year) - mean(dt$year_n)) / sd(dt$year_n) # equivalent to unique(dt$year_c)
+index0$year_fac <- 1
+
+# index - median covariates per year
 index <- dt %>%
   dplyr::group_by(year) %>%
   dplyr::summarize(dos = median(dos, na.rm = T),
@@ -86,60 +77,111 @@ index <- dt %>%
                    v = median(v, na.rm = T),
                    windspd = median(windspd, na.rm = T)) %>%
   dplyr::mutate(year_n = as.numeric(as.character(year)),
-                year_c = scale(year_n))
+                year_c = scale(year_n)) %>%
+  as.data.frame()
 
 # Calculate predicted WESA/DUNL numbers for each year
+# using index0 values for the prediction
 # NOTE this is specifically using merMod::predict
 # param 're.form = NA' indicates to include NO random effects
-index$pred_wesa <- exp(predict(wesa_trend, index, re.form = NA))
-index$pred_dunl <- exp(predict(dunl_trend, index, re.form = NA))
+index$pred_wesa <- exp(predict(wesa_trend, index0, re.form = NA))
+index$pred_dunl <- exp(predict(dunl_trend, index0, re.form = NA))
 
 # Calculate fixed-effects only se for WESA/DUNL numbers for each year, incl residual error
-index[,c("wesa_fit_t", "wesa_upr", "wesa_lwr")] <- 
+# using index0 for predictions
+index[,c("wesa_fit_t", "wesa_upr_t", "wesa_lwr_t")] <- 
   exp(merTools::predictInterval(merMod = wesa_trend,
-                                newdata = index,
+                                newdata = index0,
                                 level = 0.95,
+                                n.sims = 1000,
+                                which = "fixed",
                                 stat = "median",
                                 type = "linear.prediction",
                                 include.resid.var = FALSE)) / 1000
 
-index[,c("dunl_fit_t", "dunl_upr", "dunl_lwr")] <- 
+index[,c("dunl_fit_t", "dunl_upr_t", "dunl_lwr_t")] <- 
   exp(merTools::predictInterval(merMod = dunl_trend,
-                                newdata = index,
+                                newdata = index0,
                                 level = 0.95,
+                                n.sims = 1000,
+                                which = "fixed",
                                 stat = "median",
                                 type = "linear.prediction",
+                                include.resid.var = FALSE)) / 1000
+
+# Calculate year indices, incl random effect, but no residual error
+# using index for predictions
+index[,c("wesa_fit", "wesa_upr", "wesa_lwr")] <- 
+  exp(merTools::predictInterval(merMod = wesa_trend, 
+                                newdata = index,
+                                level = 0.95, 
+                                n.sims = 1000,
+                                stat = "median", 
+                                type="linear.prediction",
+                                include.resid.var = FALSE)) / 1000
+
+index[,c("dunl_fit", "dunl_upr", "dunl_lwr")] <- 
+  exp(merTools::predictInterval(merMod = dunl_trend, 
+                                newdata = index,
+                                level = 0.95, 
+                                n.sims = 1000,
+                                stat = "median", 
+                                type="linear.prediction",
                                 include.resid.var = FALSE)) / 1000
 ```
-## Yearly population trend model summaries
 
-The westerly wind vector, `u`, is not significant in either model, deviating from the original Canham paper. As in the original Canham paper, however, `year` remains insignificant in the DUNL model.
+```{r percent change, include=FALSE}
+## define functions for estimates of percent change  
+perc_change<-function(x,i){
+      ((x[length(x)]-x[i])/abs(x[i]))*100
+    }
+    
+perc_change.yr<-function(x,i){
+      (((x[length(x)]-x[i])/abs(x[i]))*100)/length(x)
+    }
 
-### WESA
+## western sandpiper
+perc_change(index$pred_wesa, 1)  # from start 	
+perc_change.yr(index$pred_wesa, 1)
+ 
+perc_change(index$pred_wesa, 20)  # from 2012 	
+perc_change.yr(index$pred_wesa, 20) 
+  
+## dunlin 
+perc_change(index$pred_dunl, 1)  # from start 	
+perc_change.yr(index$pred_dunl, 1)
+ 
+perc_change(index$pred_dunl, 20)  # from 2012 	
+perc_change.yr(index$pred_dunl, 20) 
+```
+
+## WESA population trend
+
+Western sandpiper populations continue to show yearly declines in population. Since 1991, western sandpiper populations have fallen by `r round(perc_change(index$pred_wesa, 1), 1) * -1`% (`r round(perc_change.yr(index$pred_wesa, 1), 1)`% per annum). In the last ten years the rate of decline has slowed. Since 2012, western sandpiper populations have fallen by `r round(perc_change(index$pred_wesa, 20), 1) * -1`% (`r round(perc_change.yr(index$pred_wesa, 20), 1)`% per annum).
 
 ```{r wesa trend model summary}
 summary(wesa_trend)
 ```
 
-### DUNL
-
-```{r dunl trend model summary}
-summary(dunl_trend)
-```
-
-
 ```{r wesa index plot}
 index %>%
-  ggplot(aes(x = year_n, y = wesa_fit_t)) +
-  geom_smooth(method = lm, color = 'red') + 
-  geom_pointrange(aes(ymin = wesa_lwr, ymax = wesa_upr),
+  ggplot() +
+  geom_ribbon(aes(x = year_n, 
+                  y = wesa_fit_t,
+                  ymin = wesa_lwr_t,
+                  ymax = wesa_upr_t),
+              color = NA,
+              fill = 'lightgrey') + 
+  geom_line(aes(x = year_n,
+                y = wesa_fit_t),
+            color = 'red',
+            linewidth = 1) +
+  geom_pointrange(aes(x = year_n, 
+                      y = wesa_fit, 
+                      ymin = wesa_lwr, 
+                      ymax = wesa_upr),
                   fatten = 2) +
   scale_y_continuous(trans = 'log10') +
-  # theme(text=element_text(size=16),
-  #       panel.background = element_rect(fill="white"),
-  #       panel.grid.minor=element_blank(),
-  #       strip.background = element_blank(),
-  #       axis.line=element_line(colour="black")) +
   labs(title = 'Western Sandpiper', 
        x = 'Year', 
        y = expression(paste("Index (", 10^3, " birds; ", log[10],  " scale)"))
@@ -147,14 +189,37 @@ index %>%
   cowplot::theme_cowplot()
 ```
 
+## DUNL population trend
+
+As in the original Canham paper, however, `year` remains insignificant in the DUNL model.
+
+Pacific Dunlin populations continue to show yearly declines in population, though the trend is not statistically significant. Since 1991, Pacific Dunline populations have fallen by `r round(perc_change(index$pred_dunl, 1), 1) * -1`% (`r round(perc_change.yr(index$pred_dunl, 1), 1)`% per annum). In the last ten years the rate of decline has slowed. Since 2012, Pacific Dunline populations have fallen by `r round(perc_change(index$pred_dunl, 20), 1) * -1`% (`r round(perc_change.yr(index$pred_dunl, 20), 1)`% per annum).
+
+```{r dunl trend model summary}
+summary(dunl_trend)
+```
+
 ```{r dunl index plot}
 index %>%
-  ggplot(aes(x = year_n, y = dunl_fit_t)) +
-  geom_smooth(method = lm, color = 'red', linetype = "dashed") + 
-  geom_pointrange(aes(ymin = dunl_lwr, ymax = dunl_upr),
+  ggplot() +
+  geom_ribbon(aes(x = year_n, 
+                  y = dunl_fit_t,
+                  ymin = dunl_lwr_t,
+                  ymax = dunl_upr_t),
+              color = NA,
+              fill = 'lightgrey') + 
+  geom_line(aes(x = year_n,
+                y = dunl_fit_t),
+            color = 'red',
+            linewidth = 1,
+            linetype = "dashed") +
+  geom_pointrange(aes(x = year_n, 
+                      y = dunl_fit, 
+                      ymin = dunl_lwr, 
+                      ymax = dunl_upr),
                   fatten = 2) +
   scale_y_continuous(trans = 'log10') +
-  labs(title = 'Dunlin', 
+  labs(title = 'Pacific Dunlin', 
        x = 'Year', 
        y = expression(paste("Index (", 10^3, " birds; ", log[10],  " scale)"))
        ) +

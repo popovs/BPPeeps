@@ -190,30 +190,30 @@ Using the derived binomial GLMM above, we will predict the amount of WESA and DU
 ```{r predict wesa ratio, include = FALSE}
 # Create yrs df, which is a df containing all possible
 # julian_day-year combinations
-yrs <- expand.grid(julian_day = seq(min(dat$julian_day), max(dat$julian_day), 1),
-                   year = as.factor(unique(lubridate::year(dat$survey_date))))
+yrs <- expand.grid(julian_day = seq(min(dt$julian_day), max(dt$julian_day), 1),
+                   year = as.factor(unique(lubridate::year(dt$survey_date))))
 # Add day of season variable
 yrs$dos <- (yrs$julian_day - mean(sr$julian_day))/sd(sr$julian_day)
 
 # Extract sr_glmm model coefficients
 coefs <- coef(sr_glmm)$year
-names(coefs) <- c("intercept", "jd_parm", "jd2_parm")
-coefs$year <- unique(yrs$year)
+names(coefs) <- c("intercept", "dos_param", "dos2_param")
+coefs$year <- rownames(coefs)
 
 # Merge yrs and coefs together
 yrs <- merge(yrs, coefs, by = "year", all.x = TRUE)
 
-# Previously, within Canham paper, the mean coefficients across all
-# years were calculated for years without species ratios. However,
-# in this case that was not necessary, as there are no missing years
-# in the species ratio/count data.
+# Use mean coefficient values for any years where coefs NA
+yrs[["intercept"]][is.na(yrs$intercept)] <- mean(coefs$intercept)
+yrs[["dos_param"]][is.na(yrs$dos_param)] <- mean(coefs$dos_param)
+yrs[["dos2_param"]][is.na(yrs$dos2_param)] <- mean(coefs$dos2_param)
 
 # Now calculate odds & predict ratios for all survey dates
-yrs$odds <- yrs$intercept + yrs$jd_parm * yrs$dos + yrs$jd2_parm * yrs$dos^2
+yrs$odds <- yrs$intercept + yrs$dos_param * yrs$dos + yrs$dos2_param * yrs$dos^2
 yrs$predicted_ratio <- exp(yrs$odds) / (1 + exp(yrs$odds))
 ```
 
-```{r plot predicted wesa ratios, fig.height = 8}
+```{r plot predicted wesa ratios, fig.height = 8, fig.cap="Yearly calculated seasonal species ratios. In years where species ratio subsample surveys were not conducted (1991, 1992, 1994, 1995, 1998), the mean species ratio curve across all years was applied."}
 ggplot() +
   geom_line(data = yrs, aes(x = julian_day, y = predicted_ratio, group = year)) +
   geom_point(data = sr, aes(x = julian_day, y = (p_wesa/100), group = year), color = 'blue') +
