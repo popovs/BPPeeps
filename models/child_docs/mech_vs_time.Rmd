@@ -1,0 +1,171 @@
+---
+title: "Mechanism (flow) vs time (year) models"
+author: "Sarah Popov"
+date: "`r Sys.Date()`"
+output: pdf_document
+params:
+  spp: "WESA"
+---
+
+```{r mech vs time setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE)
+
+# This RMD is NOT intended as a standalone script, but rather to be sourced
+# from models.Rmd. The data used in this Rmd file is generated in models.Rmd
+# and binomial_sr.Rmd.
+
+# Aggregate data by NS
+source(here::here("models", "prepare_dat_ns.R"))
+
+# Remove records with NAs
+mt_dat <- dat_ns[,(names(dat_ns) %in% c("log_wesa", "log_dunl", "dos", "year", "year_c", "n_s", "flow"))]
+mt_dat <- mt_dat[complete.cases(mt_dat),]
+
+# Choose y var based on param
+if (params$spp == "WESA") {
+  y <- "log_wesa"
+} else {
+  y <- "log_dunl"
+}
+```
+
+# Exploring mechanism (flow) vs. time (year)
+
+Given the Canham extended model has some issues, the next step is to run two models with a slightly simpler approach. First, we want to see what the baseline trend is in north-south distributions - from plotting the data it appears that the birds prefer the north. We are also still interested in seeing if the discharge (`flow`) has an impact on the north-south distribution of peeps. In addition, we are interested in seeing any temporal changes in this distribution.
+
+Three simpler models can get at these questions:
+
+1. The base model: `r paste(y, "~ n_s + dos + I(dos^2) + (dos + I(dos^2) | year)")`
+2. The 'mechanism' model: `r paste(y, "~ n_s * scale(flow) + dos + I(dos^2) + (dos + I(dos^2) | year)")`
+3. The 'temporal' model: `r paste(y, "~ n_s * year_c + dos + I(dos^2) + (dos + I(dos^2) | year)")`
+
+
+## Data changes
+
+These simpler models necessitate further data aggregation. We are primarily interested in N vs S distribution of peeps: therefore, the data are grouped by N/S such that there are two data points per survey date: number of peeps in the northern stations (Canoe Pass, Brunswick Point, Bend, Pilings, View corner) vs southern (34th St pullout, Coal Port). Any NA values in our variables of interest are also removed.
+
+```{r head mt_dat}
+head(mt_dat)
+```
+
+```{r summary of mt_dat}
+summary(mt_dat)
+```
+
+## The base model
+
+```{r base model}
+base_model <- lme4::lmer(formula(paste(y, "~ n_s + dos + I(dos^2) + (dos + I(dos^2) | year)")),
+                         data = mt_dat)
+summary(base_model)
+```
+
+## The 'mechanism' model
+
+```{r mechanism model}
+mech_model <- lme4::lmer(formula(paste(y, "~ n_s * scale(flow) + dos + I(dos^2) + (dos + I(dos^2) | year)")),
+                         data = mt_dat)
+summary(mech_model)
+```
+
+### Diagnostic plots
+
+```{r make mech plot data}
+mech_plot <- broom.mixed::augment(mech_model, mt_dat)
+mech_plot <- janitor::clean_names(mech_plot)
+```
+
+```{r mech plot: observed vs predicted}
+ggplot(mech_plot, aes(x = log_wesa, y = fitted)) +
+  geom_point() + 
+  ggtitle("Observed vs. Fitted values") +
+  xlab("Observed") + 
+  ylab("Predicted") +
+  theme_minimal()
+```
+
+
+```{r mech plot: heteroskedasticity}
+ggplot(mech_plot, aes(x = fitted, y = resid)) +
+  geom_point() + 
+  ggtitle("Heteroskedasticity",
+          subtitle = "Fitted values vs. Residuals") +
+  xlab("Fitted") + 
+  ylab("Residuals") +
+  theme_minimal()
+```
+
+
+```{r mech plot: qq plot}
+ggplot(mech_plot, aes(sample = resid)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Quantile-Quantile") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+
+## The 'temporal' model
+
+```{r temporal model}
+temp_model <- lme4::lmer(formula(paste(y, "~ n_s * year_c + dos + I(dos^2) + (dos + I(dos^2) | year)")),
+                         data = mt_dat)
+summary(temp_model)
+```
+
+### Diagnostic plots
+
+```{r make temp plot data}
+temp_plot <- broom.mixed::augment(temp_model, mt_dat)
+temp_plot <- janitor::clean_names(temp_plot)
+```
+
+```{r temp plot: observed vs predicted}
+ggplot(temp_plot, aes(x = log_wesa, y = fitted)) +
+  geom_point() + 
+  ggtitle("Observed vs. Fitted values") +
+  xlab("Observed") + 
+  ylab("Predicted") +
+  theme_minimal()
+```
+
+
+```{r temp plot: heteroskedasticity}
+ggplot(temp_plot, aes(x = fitted, y = resid)) +
+  geom_point() + 
+  ggtitle("Heteroskedasticity",
+          subtitle = "Fitted values vs. Residuals") +
+  xlab("Fitted") + 
+  ylab("Residuals") +
+  theme_minimal()
+```
+
+
+```{r temp plot: qq plot}
+ggplot(temp_plot, aes(sample = resid)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Quantile-Quantile") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+## Comparing the three
+
+```{r}
+anova(base_model, mech_model, temp_model)
+```
+
+```{r mech vs time cleanup, include=FALSE}
+rm(y, mt_dat, base_model, mech_model, temp_model, mech_plot, temp_plot)
+```
+

@@ -7,11 +7,16 @@ output:
     toc: true
     toc_depth: 2
     number_sections: true
+params:
+  ns_tf: true
+  log_plots: false
 ---
 
-```{r setup, include=FALSE}
+```{r setup models, include=FALSE}
 library(ggplot2)
 library(formatR)
+
+options(knitr.duplicate.label = "allow")
 
 knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE, 
@@ -29,6 +34,19 @@ pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue
 source(here::here("models", "prepare_dat.R"))
 ```
 
+```{r def-assign-params, include=FALSE}
+# See: https://stackoverflow.com/questions/49475303/rmarkdown-child-documents-do-not-detect-their-params
+assign_params <- function(file) {
+  text <- readLines(file)
+  knit_params <- knitr::knit_params(text)
+  params <<- purrr::map(knit_params, "value")
+}
+
+# See https://stackoverflow.com/questions/41979027/modify-params-in-r-notebooks
+bindingIsLocked("params", env = .GlobalEnv)
+unlockBinding("params", env = .GlobalEnv)
+```
+
 \newpage
 Roberts Bank, Delta, BC, is situated in the great Pacific Flyway and serves as an important stopover for peeps migrating north in the spring. It therefore hosts a large seasonal population of peeps: namely, Western sandpiper (WESA) and Dunlin (DUNL), that rely on the seasonal nutritional bounty provided by the Fraser River delta.
 
@@ -41,7 +59,7 @@ There are two datasets used in this modelling pipeline:
 
 For an interactive interface with the `dat` dataset used in this document, see https://popovs.shinyapps.io/peepr/.
 
-```{r sr binomial, child = "binomial_sr.Rmd"}
+```{r sr binomial, child = "child_docs/binomial_sr.Rmd"}
 ```
 
 \newpage 
@@ -75,483 +93,68 @@ summary(dat)
 ```
 
 \newpage
-```{r canham extended, child = "canham_extended.Rmd"}
+```{r canham extended, child = "child_docs/canham_extended.Rmd"}
 ```
 
 \newpage
-```{r mech vs time, child = "mech_vs_time.Rmd"}
+```{r, include=FALSE}
+# See: https://stackoverflow.com/questions/49475303/rmarkdown-child-documents-do-not-detect-their-params
+assign_params(here::here("models", "child_docs", "mech_vs_time.Rmd"))
+```
+
+```{r mech vs time, child = "child_docs/mech_vs_time.Rmd"}
 ```
 
 \newpage
 
 # Final WESA model
 
-## WESA vs. variable plots
-
-```{r wesa vs year}
-ggplot(dat3, aes(x = year_n, y = log_wesa, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Year vs log(WESA)",
-       x = "Year", 
-       y = "log(WESA)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
+```{r, include=FALSE}
+# See: https://stackoverflow.com/questions/49475303/rmarkdown-child-documents-do-not-detect-their-params
+assign_params(here::here("models", "child_docs", "spp_vs_vars.Rmd"))
 ```
 
-```{r wesa vs dos}
-ggplot(dat3, aes(x = dos, y = log_wesa, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Day of Season vs log(WESA)",
-       x = "DOS", 
-       y = "log(WESA)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
+```{r wesa vs vars, child = "child_docs/spp_vs_vars.Rmd"}
 ```
 
-```{r wesa vs mean temp}
-ggplot(dat3, aes(x = mean_temp, y = log_wesa, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Mean temperature (C°) vs log(WESA)",
-       x = "C°", 
-       y = "log(WESA)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-
-```{r wesa vs total_precip}
-ggplot(dat3, aes(x = total_precip, y = log_wesa, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Total precipitation (mm) vs log(WESA)",
-       x = "mm", 
-       y = "log(WESA)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-
-```{r wesa vs flow}
-ggplot(dat3, aes(x = flow, y = log_wesa, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Flow vs log(WESA)",
-       x = "Flow", 
-       y = "log(WESA)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-```{r wesa vs u}
-ggplot(dat3, aes(x = u, y = log_wesa, color = n_s)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "u (westerly winds) vs log(WESA)",
-       x = "u (westerly winds)", 
-       y = "log(WESA)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-```{r wesa vs v}
-ggplot(dat3, aes(x = v, y = log_wesa, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "v (southerly winds) vs log(WESA)",
-       x = "v (southerly winds)", 
-       y = "log(WESA)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-```{r wesa vs windspd}
-ggplot(dat3, aes(x = windspd, y = log_wesa, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Wind speed vs log(WESA)",
-       x = "Wind speed (km/h)", 
-       y = "log(WESA)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-
-```{r wesa vs tide}
-ggplot(dat3, aes(x = elev_range, y = log_wesa, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Tidal amplitude vs log(WESA)",
-       x = "Tidal amplitude (m)", 
-       y = "log(WESA)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
 
 \newpage
 
 ## WESA model
 
-### Full model
-
-```{r full wesa model}
-full_wesa_model <- lmerTest::lmer("log_wesa ~ scale(total_precip) + scale(mean_temp) + n_s*scale(flow) + n_s*scale(elev_range) + n_s*scale(u) + n_s*scale(v) + n_s*scale(windspd) + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)",
-           data = dat3)
-
-summary(full_wesa_model)
+```{r, include=FALSE}
+# See: https://stackoverflow.com/questions/49475303/rmarkdown-child-documents-do-not-detect-their-params
+assign_params(here::here("models", "child_docs", "lme.Rmd"))
 ```
 
-### Backwards stepwise selection
-
-```{r wesa stepwise}
-lmerTest::step(full_wesa_model, data = dat3, reduce.random = F, keep = c("year_c","dos", "I(dos^2)"))
-```
-
-```{r final wesa model}
-s <- lmerTest::step(full_wesa_model, data = dat3, reduce.random = F, keep = c("year_c","dos", "I(dos^2)"))
-final_wesa_model <- lme4::lmer(lmerTest::get_model(s)@call$formula, data = dat3)
-```
-
-```{r wesa model forest plot}
-sjPlot::plot_model(final_wesa_model, type = "std") +
-  ggtitle("Final WESA model - standardized fixed effect sizes") +
-  scale_x_discrete(labels = rev(c("n_s [S]", "elev_range", 
-                              "u", "v", "windspd", "dos", "dos^2", 
-                              "year", "n_s : elev_range",
-                              "n_s : u", "n_s : v", "n_s : windspd")))
-```
-
-```{r wesa random effects forest plot}
-sjPlot::plot_model(final_wesa_model, type = "re")
-```
-
-## Final model diagnostics
-
-```{r wesa make temp plot data}
-temp_plot <- broom.mixed::augment(final_wesa_model, dat3)
-temp_plot <- janitor::clean_names(temp_plot)
-```
-
-```{r wesa temp plot: observed vs predicted}
-ggplot(temp_plot, aes(x = log_wesa, y = fitted)) +
-  geom_point() + 
-  ggtitle("Observed vs. Fitted values") +
-  xlab("Observed") + 
-  ylab("Predicted") +
-  theme_minimal()
-```
-
-
-```{r wesa temp plot: heteroskedasticity}
-ggplot(temp_plot, aes(x = fitted, y = resid)) +
-  geom_point() + 
-  ggtitle("Heteroskedasticity",
-          subtitle = "Fitted values vs. Residuals") +
-  xlab("Fitted") + 
-  ylab("Residuals") +
-  theme_minimal()
-```
-
-
-```{r wesa temp plot: qq plot}
-ggplot(temp_plot, aes(sample = resid)) +
-  stat_qq() + 
-  stat_qq_line() +
-  geom_hline(yintercept = 0,
-             linetype = "dashed") +
-  ggtitle("Quantile-Quantile") +
-  xlab("Theoretical") + 
-  ylab("Sample") +
-  theme_minimal()
-```
-
-```{r wesa slope coeff}
-sjPlot::plot_model(final_wesa_model, type = "slope") +
-  ggtitle("Coefficient slopes vs Response")
-```
-
-
-```{r wesa vars p1}
-temp_plot %>%
-  dplyr::select(year:resid, -fitted) %>%
-  tidyr::gather(-resid, key = "var", value = "value") %>%
-  dplyr::mutate(value = as.numeric(value)) %>%
-  ggplot(aes(x = value, y = resid)) +
-  geom_point() +
-  geom_smooth() +
-  scale_x_continuous(n.breaks = 3) +
-  ggtitle("Full dataset variables vs. Residuals") + 
-  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 1) +
-  theme_minimal()
-```
-
-```{r wesa vars p2}
-temp_plot %>%
-  dplyr::select(year:resid, -fitted) %>%
-  tidyr::gather(-resid, key = "var", value = "value") %>%
-  dplyr::mutate(value = as.numeric(value)) %>%
-  ggplot(aes(x = value, y = resid)) +
-  geom_point() +
-  geom_smooth() +
-  scale_x_continuous(n.breaks = 3) +
-  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 2) +
-  theme_minimal()
-```
-
-```{r wesa vars p3}
-temp_plot %>%
-  dplyr::select(year:resid, -fitted) %>%
-  tidyr::gather(-resid, key = "var", value = "value") %>%
-  dplyr::mutate(value = as.numeric(value)) %>%
-  ggplot(aes(x = value, y = resid)) +
-  geom_point() +
-  geom_smooth() +
-  scale_x_continuous(n.breaks = 3) +
-  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 3) +
-  theme_minimal()
+```{r wesa lme, child = "child_docs/lme.Rmd"}
 ```
 
 \newpage
 # Final DUNL model
 
-## DUNL vs. variable plots
-
-```{r dunl vs year}
-ggplot(dat3, aes(x = year_n, y = log_dunl, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Year vs log(DUNL)",
-       x = "Year", 
-       y = "log(DUNL)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
+```{r, include=FALSE}
+# See: https://stackoverflow.com/questions/49475303/rmarkdown-child-documents-do-not-detect-their-params
+assign_params(here::here("models", "child_docs", "spp_vs_vars.Rmd"))
+params$spp <- "DUNL"
 ```
 
-```{r dunl vs dos}
-ggplot(dat3, aes(x = dos, y = log_dunl, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Day of Season vs log(DUNL)",
-       x = "DOS", 
-       y = "log(DUNL)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-
-```{r dunl vs mean temp}
-ggplot(dat3, aes(x = mean_temp, y = log_dunl, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Mean temperature (C°) vs log(DUNL)",
-       x = "C°", 
-       y = "log(DUNL)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-
-```{r dunl vs total_precip}
-ggplot(dat3, aes(x = total_precip, y = log_dunl, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Total precipitation (mm) vs log(DUNL)",
-       x = "mm", 
-       y = "log(DUNL)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-
-```{r dunl vs flow}
-ggplot(dat3, aes(x = flow, y = log_dunl, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Flow vs log(DUNL)",
-       x = "Flow", 
-       y = "log(DUNL)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-```{r dunl vs u}
-ggplot(dat3, aes(x = u, y = log_dunl, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "u (westerly winds) vs log(DUNL)",
-       x = "u (westerly winds)", 
-       y = "log(DUNL)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-
-```{r dunl vs v}
-ggplot(dat3, aes(x = v, y = log_dunl, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "v (southerly winds) vs log(DUNL)",
-       x = "v (southerly winds)", 
-       y = "log(DUNL)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-
-```{r dunl vs windspd}
-ggplot(dat3, aes(x = windspd, y = log_dunl, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Wind speed vs log(DUNL)",
-       x = "Wind speed (km/h)", 
-       y = "log(DUNL)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
-```
-
-```{r dunl vs tide}
-ggplot(dat3, aes(x = elev_range, y = log_dunl, color = n_s)) +
-  geom_point(alpha = 0.5) + 
-  geom_smooth(se = FALSE) +
-  scale_color_manual(values = pal) +
-  labs(title = "Tidal amplitude vs log(DUNL)",
-       x = "Tidal amplitude (m)", 
-       y = "log(DUNL)",
-       color = "Station") + 
-  cowplot::theme_cowplot()
+```{r dunl vs vars, child = "child_docs/spp_vs_vars.Rmd"}
 ```
 
 \newpage
 
 ## DUNL model
 
-### Full model
-
-```{r full dunl model}
-full_dunl_model <- lmerTest::lmer("log_dunl ~ scale(total_precip) + scale(mean_temp) + n_s*scale(flow) + n_s*scale(elev_range) + n_s*scale(u) + n_s*scale(v) + n_s*scale(windspd) + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)",
-           data = dat3)
-
-summary(full_dunl_model)
+```{r, include=FALSE}
+# See: https://stackoverflow.com/questions/49475303/rmarkdown-child-documents-do-not-detect-their-params
+assign_params(here::here("models", "child_docs", "lme.Rmd"))
+params$spp <- "DUNL"
 ```
 
-### Backwards stepwise selection
-
-```{r dunl stepwise}
-lmerTest::step(full_dunl_model, data = dat3, reduce.random = F, keep = c("year_c","dos", "I(dos^2)"))
-```
-
-
-```{r final dunl model}
-s <- lmerTest::step(full_dunl_model, data = dat3, reduce.random = F, keep = c("year_c","dos", "I(dos^2)"))
-final_dunl_model <- lme4::lmer(lmerTest::get_model(s)@call$formula, data = dat3)
-```
-
-```{r dunl model forest plot}
-sjPlot::plot_model(final_dunl_model, type = "std") +
-  ggtitle("Final DUNL model - standardized fixed effect sizes") +
-  scale_x_discrete(labels = rev(c("n_s [S]", "flow", "elev_range", 
-                              "u", "v", "windspd", "dos", "dos^2",
-                              "year", "n_s : elev_range",
-                              "n_s : u", "n_s : v", "n_s : windspd")))
-```
-
-```{r dunl random effects forest plot}
-sjPlot::plot_model(final_dunl_model, type = "re")
-```
-
-
-## Final model diagnostics
-
-```{r dunl make temp plot data}
-temp_plot <- broom.mixed::augment(final_dunl_model, dat3)
-temp_plot <- janitor::clean_names(temp_plot)
-```
-
-```{r dunl temp plot: observed vs predicted}
-ggplot(temp_plot, aes(x = log_wesa, y = fitted)) +
-  geom_point() + 
-  ggtitle("Observed vs. Fitted values") +
-  xlab("Observed") + 
-  ylab("Predicted") +
-  theme_minimal()
-```
-
-
-```{r dunl temp plot: heteroskedasticity}
-ggplot(temp_plot, aes(x = fitted, y = resid)) +
-  geom_point() + 
-  ggtitle("Heteroskedasticity",
-          subtitle = "Fitted values vs. Residuals") +
-  xlab("Fitted") + 
-  ylab("Residuals") +
-  theme_minimal()
-```
-
-
-```{r dunl temp plot: qq plot}
-ggplot(temp_plot, aes(sample = resid)) +
-  stat_qq() + 
-  stat_qq_line() +
-  geom_hline(yintercept = 0,
-             linetype = "dashed") +
-  ggtitle("Quantile-Quantile") +
-  xlab("Theoretical") + 
-  ylab("Sample") +
-  theme_minimal()
-```
-
-```{r dunl slope coeff}
-sjPlot::plot_model(final_dunl_model, type = "slope") +
-  ggtitle("Coefficient slopes vs Response")
-```
-
-```{r dunl vars p1}
-temp_plot %>%
-  dplyr::select(year:resid, -fitted) %>%
-  tidyr::gather(-resid, key = "var", value = "value") %>%
-  dplyr::mutate(value = as.numeric(value)) %>%
-  ggplot(aes(x = value, y = resid)) +
-  geom_point() +
-  geom_smooth() +
-  scale_x_continuous(n.breaks = 3) +
-  ggtitle("Variables vs. Residuals") + 
-  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 1) +
-  theme_minimal()
-```
-
-```{r dunl vars p2}
-temp_plot %>%
-  dplyr::select(year:resid, -fitted) %>%
-  tidyr::gather(-resid, key = "var", value = "value") %>%
-  dplyr::mutate(value = as.numeric(value)) %>%
-  ggplot(aes(x = value, y = resid)) +
-  geom_point() +
-  geom_smooth() +
-  scale_x_continuous(n.breaks = 3) +
-  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 2) +
-  theme_minimal()
-```
-
-```{r dunl vars p3}
-temp_plot %>%
-  dplyr::select(year:resid, -fitted) %>%
-  tidyr::gather(-resid, key = "var", value = "value") %>%
-  dplyr::mutate(value = as.numeric(value)) %>%
-  ggplot(aes(x = value, y = resid)) +
-  geom_point() +
-  geom_smooth() +
-  scale_x_continuous(n.breaks = 3) +
-  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 3) +
-  theme_minimal()
+```{r dunl vs vars, child = "child_docs/lme.Rmd"}
 ```
 
 \newpage
-```{r yearly trend, child = "yearly_trends.Rmd"}
+```{r yearly trend, child = "child_docs/yearly_trends.Rmd"}
 ```
