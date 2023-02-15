@@ -1,0 +1,160 @@
+---
+title: "Tweedie distribution"
+author: "Sarah Popov"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup tweedie, include=FALSE}
+library(ggplot2)
+library(formatR)
+
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE,
+                      tidy.opts = list(width.cutoff = 60), 
+                      tidy = TRUE)
+
+# Color palette (using blue & yellow from wesanderson Zissou1 palette)
+pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue = 255))
+
+# Source the data file, which connects to the bppeeps database and then queries and processes the data
+# This will produce two datasets: 
+# 1) dat [counts + environmental covariates]
+# 2) sr [daily species ratios]
+source(here::here("models", "prepare_dat.R"))
+source(knitr::purl(here::here("models", "child_docs", "binomial_sr.Rmd"), quiet = TRUE))
+source(here::here("models", "prepare_dat_ns.R"))
+```
+
+
+```{r p0, include = FALSE}
+# Proportion of zeroes
+dat_p0 <- sum(dat$predicted_wesa == 0) / length(dat$predicted_wesa)
+dat_ns_p0 <- sum(dat_ns$predicted_wesa == 0) / length(dat_ns$predicted_wesa)
+```
+
+```{r wesa gam base models, include=TRUE, echo=TRUE}
+# Base script by Gavin Simpson
+# https://fromthebottomoftheheap.net/2017/05/04/compare-mgcv-with-glmmtmb/
+# https://gist.github.com/gavinsimpson/8a0f0e072b095295cf5f7af2762e05a7
+
+library("mgcv")
+library("glmmTMB")
+
+## Zero-inflated negative binomial
+# This was our set of the previous best-fit models
+zinb0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat_ns, family = nbinom1)
+zinb1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + scale(flow), data = dat_ns, family = nbinom1)
+zinb2 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s * scale(flow), data = dat_ns, family = nbinom1)
+
+AIC(zinb0, zinb1, zinb2)
+
+## Tweedie GAM
+tgam0 <- gam(predicted_wesa ~ n_s + s(year_c) + s(dos) + s(year, bs = "re"), data = dat_ns, family = tw, method = "ML")
+tgam1 <- gam(predicted_wesa ~ n_s + s(flow) + s(year_c) + s(dos) + s(year, bs = "re"), data = dat_ns, family = tw, method = "ML")
+tgam2 <- gam(predicted_wesa ~ n_s + s(flow, by = n_s) + s(year_c) + s(dos) + s(year, bs = "re"), data = dat_ns, family = tw, method = "ML")
+
+AIC(tgam0, tgam1, tgam2)
+
+## Zero-inflated tweedie GLM
+zit0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat_ns, family = tweedie)
+zit1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + scale(flow), data = dat_ns, family = tweedie)
+zit2 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s * scale(flow), data = dat_ns, family = tweedie)
+
+AIC(zit0, zit1, zit2)
+
+# Compare them all
+bbmle::AICtab(zinb0, zinb1, zinb2, tgam0, tgam1, tgam2, zit0, zit1, zit2)
+```
+
+## Best-fit diagnostics
+
+```{r}
+DHARMa::testResiduals(tgam2, plot = T)
+```
+
+Test for zero inflation
+
+```{r, fig.cap="The zero-inflation test suggests the Tweedie distribution is doing a good job predicting zeroes."}
+resid_sim <- DHARMa::simulateResiduals(tgam2)
+DHARMa::testZeroInflation(resid_sim)
+```
+
+## Full model
+
+```{r full model}
+full <- gam(predicted_wesa ~ n_s + s(flow) + s(flow, by = n_s) + s(year_c) + s(dos)
+            + s(mean_temp) + s(mean_temp, by = n_s) + s(elev_range) + s(elev_range, by = n_s) 
+            + s(total_precip) + s(total_precip, by = n_s) + s(u) + s(u, by = n_s) 
+            + s(windspd) + s(windspd, by = n_s) + tide + s(year, bs = "re"), 
+                     data = dat_ns, 
+                     family = tw)
+summary(full)
+```
+
+
+```{r model selection, include = FALSE}
+build <- buildmer::buildgam(predicted_wesa ~ n_s + s(flow, by = n_s) + s(year_c) 
+                            + s(dos) + s(mean_temp) + s(elev_range) 
+                            + s(total_precip) + s(u) + s(windspd) + tide 
+                            + s(year, bs = "re"), 
+                            dat_ns, 
+                            family = tw, 
+                            buildmerControl = list(direction = 'order'))
+
+(f <- formula(build@model))
+
+m <- buildmer::buildgam(f, 
+                        data = dat_ns, 
+                        buildmerControl = list(direction = 'backward'))
+
+final_f <- formula(m@model)
+
+build_mod <- gam(f, data = dat_ns, family = tw)
+build_mod_f <- gam(final_f, data = dat_ns, family = tw)
+
+bbmle::AICtab(full, build_mod, build_mod_f)
+```
+
+## Final model
+
+Backwards stepwise selection; first removed insignificant terms from zi model, then subsequently removed insignificant terms from full model using AIC backwards selection (`drop1` command).
+
+```{r final model summary}
+summary(final_mod)
+```
+
+```{r final model plot}
+sjPlot::plot_model(final_mod)
+```
+
+Do the zeroes in our ZI model make sense? At least for the year and N/S components, it seems so. In earlier years, the odds of a zero-bird count are higher, and in the south, the odds of a zero-bird count are also higher. With a zero-inflated model these odds are specifically the odds of finding *structural* or *true* zeroes, rather than simply zeroes due to sampling errors.
+
+```{r, fig.cap="Frequency of zero count observations by year and north/south region. Zero counts are more frequently observed in earlier years and in the south."}
+table(dat_ns[["year"]][dat_ns$final_count == 0], dat_ns[["n_s"]][dat_ns$final_count == 0], dat_ns[["final_count"]][dat_ns$final_count == 0])
+```
+
+
+## Final model diagnostics
+
+```{r diagnostics, fig.cap="Residual diagnostics."}
+DHARMa::testResiduals(final_mod)
+```
+
+```{r, fig.cap="Testing for overdispersion. Still not quite predicting the number of zeroes exactly correctly but better than before."}
+resid_sim <- DHARMa::simulateResiduals(final_mod)
+DHARMa::testZeroInflation(resid_sim)
+```
+
+
+### Residuals vs. predicted
+
+```{r residuals vs predicted}
+varsList <- c("dos", "year_c", "year", "n_s", "tide", "flow", "mean_temp", "elev_range", "total_precip", "u")
+for (i in varsList) {
+  cat("\n", i)
+  DHARMa::plotResiduals(final_mod, dat_ns[[i]], rank = TRUE)
+}
+```
+

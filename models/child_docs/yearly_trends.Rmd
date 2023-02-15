@@ -17,6 +17,8 @@ knitr::opts_chunk$set(echo = FALSE,
 # Run binomial sr model on the daily count data
 # NOTE THE RESULTS WILL BE SLIGHTLY DIFFERENT TO THE CANHAM PAPER BECAUSE THIS 
 # SR MODEL INCLUDES 2021-2022.
+source(here::here("models", "prepare_dat.R"))
+source(knitr::purl(here::here("models", "child_docs", "binomial_sr.Rmd"), quiet = T))
 ```
 
 # Yearly trends in peep population
@@ -55,7 +57,7 @@ index0 <- data.frame(year = unique(dt$year),
 index0$year_c <- (as.numeric(index0$year) - mean(dt$year_n)) / sd(dt$year_n) # equivalent to unique(dt$year_c)
 index0$year_fac <- 1
 
-# index - median covariates per year
+# index - median covariates per year to get yearly dots
 index <- dt %>%
   dplyr::group_by(year) %>%
   dplyr::summarize(dos = median(dos, na.rm = T),

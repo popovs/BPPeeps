@@ -1,0 +1,67 @@
+---
+title: "`r params$spp` final models"
+author: "Sarah Popov"
+date: "`r Sys.Date()`"
+output: pdf_document
+params:
+  spp: "WESA"
+---
+
+```{r setup models, include=FALSE}
+library(ggplot2)
+library(formatR)
+
+options(knitr.duplicate.label = "allow")
+
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE,
+                      tidy.opts = list(width.cutoff = 60), 
+                      tidy = TRUE)
+
+# Color palette (using blue & yellow from wesanderson Zissou1 palette)
+pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue = 255))
+
+# Source the data file, which connects to the bppeeps database and then queries and processes the data
+# This will produce two datasets: 
+# 1) dat [counts + environmental covariates]
+# 2) sr [daily species ratios]
+source(here::here("models", "prepare_dat.R"))
+# Then calculate the binomial species ratio to get WESA vs DUNL counts
+source(knitr::purl(here::here("models", "child_docs", "binomial_sr.Rmd")))
+# Then summarize it by north/south station to get N S records
+source(here::here("models", "prepare_dat_ns.R"))
+
+# Choose species count data based on provided param
+# Choose y var based on param
+if (params$spp == "WESA") {
+  dat_ns$y <- dat_ns$predicted_wesa
+} else {
+  dat_ns$y <- dat_ns$predicted_dunl
+}
+
+# Proportion of zeroes
+dat_ns_p0 <- sum(dat_ns$y == 0) / length(dat_ns$y)
+
+```
+
+```{r def-assign-params, include=FALSE}
+# See: https://stackoverflow.com/questions/49475303/rmarkdown-child-documents-do-not-detect-their-params
+assign_params <- function(file) {
+  text <- readLines(file)
+  knit_params <- knitr::knit_params(text)
+  params <<- purrr::map(knit_params, "value")
+}
+
+# See https://stackoverflow.com/questions/41979027/modify-params-in-r-notebooks
+bindingIsLocked("params", env = .GlobalEnv)
+unlockBinding("params", env = .GlobalEnv)
+```
+
+# Data summary
+
+Dataset: one count record per N/S region per survey date, `r nrow(dat_ns)` records. `r round(dat_ns_p0*100, 1)`% of the records are zeroes.
+
+```{r station response distribution, fig.cap=paste("Histogram of", params$spp, "count per N/S group per survey date.")}
+hist(dat_ns$y,  breaks = 100, main = "Frequency", xlab = paste(params$spp, "count"))
+```

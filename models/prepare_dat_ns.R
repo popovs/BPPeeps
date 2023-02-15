@@ -6,7 +6,7 @@
 # DAT_NS ===========================================================
 dat_ns <- sqldf::sqldf("select year, 
                         survey_date, 
-                        julian_day, 
+                        ordinal_day, 
                         min(start_time) as start_time, 
                         n_s, 
                         sum(final_count) as final_count, 
@@ -30,11 +30,13 @@ dat_ns <- sqldf::sqldf("select year,
                         wind_deg 
                         from dat 
                         group by survey_date, n_s;") %>%
-  dplyr::mutate(dos = scale(julian_day),
+  dplyr::mutate(dos = scale(ordinal_day),
                 log_wesa = log(predicted_wesa + 1),
                 log_dunl = log(predicted_dunl + 1),
                 year_n = as.numeric(year),
                 year_c = scale(year_n)) %>%
-  dplyr::select(year, survey_date, julian_day, dos, start_time, n_s,
+  dplyr::select(year, survey_date, ordinal_day, dos, start_time, n_s,
                 final_count, predicted_wesa, predicted_dunl, log_wesa, 
-                log_dunl, dplyr::everything())
+                log_dunl, dplyr::everything()) %>%
+  dplyr::filter(!is.na(flow),
+                !is.na(total_precip))

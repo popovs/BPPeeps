@@ -48,7 +48,7 @@ unlockBinding("params", env = .GlobalEnv)
 ```
 
 \newpage
-Roberts Bank, Delta, BC, is situated in the great Pacific Flyway and serves as an important stopover for peeps migrating north in the spring. It therefore hosts a large seasonal population of peeps: namely, Western sandpiper (WESA) and Dunlin (DUNL), that rely on the seasonal nutritional bounty provided by the Fraser River delta.
+Roberts Bank, Delta, BC, is situated in the Pacific Flyway and serves as an important stopover for peeps migrating north in the spring. It therefore hosts a large seasonal population of peeps, namely, Western sandpiper (WESA) and Pacific Dunlin (DUNL), that rely on the seasonal nutritional bounty provided by the Fraser River delta.
 
 This document describes the suite of models used to estimate yearly changes in spatial distribution and abundance of peeps in the Roberts Bank estuary.
 

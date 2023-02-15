@@ -28,7 +28,7 @@ Response variable:
 Predictor variables:
 
 * `year_c` - Scale-transformed survey year
-* `dos` - Scale-transformed Julian date, aka Day of Season
+* `dos` - Scale-transformed ordinal date, aka Day of Season
 
 ```{r wesa ~ base model}
 # This assumes binomial_sr has already been run, and predicted WESA ratios
@@ -38,7 +38,7 @@ Predictor variables:
 # Response variable: log-transformed predicted WESA count (log_wesa)
 # Predictor variables:
 #   - Scale-transformed survey year (year_c)
-#   - Scale-transformed Julian date, aka Day of Season (dos)
+#   - Scale-transformed ordinal date, aka Day of Season (dos)
 wesa_base_mod <- lmerTest::lmer(log_wesa ~ year_c + dos + I(dos^2) + (dos + I(dos^2) | year),
                             data = dat,
                             REML = TRUE)
@@ -65,7 +65,7 @@ Response variable:
 Predictor variables:
 
 * `year_c` - Scale-transformed survey year
-* `dos` - Scale-transformed Julian date, aka Day of Season
+* `dos` - Scale-transformed ordinal date, aka Day of Season
 * `elev_range` - Tidal amplitude (m)
 * `total_precip` - Total daily precipitation (mm)
 * `mean_temp` - Daily mean temperature (C°)

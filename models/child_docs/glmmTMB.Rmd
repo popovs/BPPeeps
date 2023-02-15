@@ -23,13 +23,17 @@ pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue
 # 1) dat [counts + environmental covariates]
 # 2) sr [daily species ratios]
 source(here::here("models", "prepare_dat.R"))
-source(here::here("models", "binomial_sr.R"))
+source(here::here("models", "child_docs", "binomial_sr.R"))
+source(here::here("models", "prepare_dat_ns.R"))
+
+# Proportion of zeroes
+dat_p0 <- sum(dat$predicted_wesa == 0) / length(dat$predicted_wesa)
 ```
 
 ```{r merge sr results in, include = FALSE}
 # Add predicted wesa ratio generated above to the dat dataset
-dat <- merge(dat, yrs[,c("year", "julian_day", "predicted_ratio")], 
-             by = c("year", "julian_day"))
+dat <- merge(dat, yrs[,c("year", "ordinal_day", "predicted_ratio")], 
+             by = c("year", "ordinal_day"))
 
 # Scale and log-transform variables of interest
 dat$predicted_wesa <- round(dat$final_count * dat$predicted_ratio, 0)
@@ -40,51 +44,8 @@ dat$year_c <- scale(as.numeric(dat$year))
 
 # Remove records with NA in important environmental covariates
 dat <- dat[!is.na(dat$flow) & !is.na(dat$total_precip),]
-
-# Proportion of zeroes
-dat_p0 <- sum(dat$predicted_wesa == 0) / length(dat$predicted_wesa)
+dat_ns_p0 <- sum(dat_ns$predicted_wesa == 0) / length(dat_ns$predicted_wesa)
 ```
-
-```{r aggregate by NS, include=FALSE}
-dat3 <- sqldf::sqldf("select year, 
-                      survey_date, 
-                      julian_day, 
-                      min(start_time) as start_time, 
-                      n_s, 
-                      sum(final_count) as final_count, 
-                      sum(predicted_wesa) as predicted_wesa, 
-                      sum(predicted_dunl) as predicted_dunl, 
-                      p_wesa, 
-                      predicted_ratio, 
-                      avg(raptor_count) as raptor_count, 
-                      tide,
-                      elev_min, 
-                      elev_max, 
-                      elev_median, 
-                      elev_mean, 
-                      elev_range, 
-                      flow, 
-                      total_precip, 
-                      mean_temp, 
-                      u, 
-                      v, 
-                      windspd, 
-                      wind_deg 
-                      from dat 
-                      group by survey_date, n_s;") %>%
-  dplyr::mutate(dos = scale(julian_day),
-                log_wesa = log(predicted_wesa + 1),
-                log_dunl = log(predicted_dunl + 1),
-                year_n = as.numeric(year),
-                year_c = scale(year_n)) %>%
-  dplyr::select(year, survey_date, julian_day, dos, start_time, n_s,
-                final_count, predicted_wesa, predicted_dunl, log_wesa, 
-                log_dunl, dplyr::everything())
-
-# Proportion of zeroes
-dat3_p0 <- sum(dat3$predicted_wesa == 0) / length(dat3$predicted_wesa)
-```
-
 
 # WESA ZIP + ZINB base models 
 
@@ -100,7 +61,7 @@ hist(dat$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab =
 
 ```{r wesa response vs all vars p1}
 (dat %>%
-  dplyr::select(predicted_wesa, year, julian_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
+  dplyr::select(predicted_wesa, year, ordinal_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
   tidyr::gather(-predicted_wesa, key = "var", value = "value") %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = predicted_wesa)) +
@@ -113,7 +74,7 @@ hist(dat$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab =
 ```
 ```{r wesa response vs all vars p2}
 (dat %>%
-  dplyr::select(predicted_wesa, year, julian_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
+  dplyr::select(predicted_wesa, year, ordinal_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
   tidyr::gather(-predicted_wesa, key = "var", value = "value") %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = predicted_wesa)) +
@@ -126,7 +87,7 @@ hist(dat$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab =
 ```
 ```{r wesa correlation plot, fig.cap="Correlation matrix between numeric explanatory variables."}
 dat %>%
-    dplyr::select(predicted_wesa, julian_day, dos, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>% 
+    dplyr::select(predicted_wesa, ordinal_day, dos, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>% 
   cor() %>% 
   corrplot::corrplot(order="hclust")
 ```
@@ -178,14 +139,14 @@ plot(prop.table(table(pp))) + abline(v = dat_p0, col = 2)
 
 ## By North vs. South
 
-Dataset: one count record per N/S division per survey date, `nrow(dat3)` records. `round(dat_p3*100, 1)`% of the records are zeroes.
+Dataset: one count record per N/S division per survey date, `nrow(dat_ns)` records. `round(dat_p3*100, 1)`% of the records are zeroes.
 
 ```{r n_s response distribution, fig.cap="Histogram of WESA count per north/south region per survey date. Also plenty of zeroes...!"}
-hist(dat3$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab = "WESA count")
+hist(dat_ns$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab = "WESA count")
 ```
 ```{r wesa n_s response vs all vars p1}
-(dat3 %>%
-  dplyr::select(predicted_wesa, year, julian_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
+(dat_ns %>%
+  dplyr::select(predicted_wesa, year, ordinal_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
   tidyr::gather(-predicted_wesa, key = "var", value = "value") %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = predicted_wesa)) +
@@ -198,8 +159,8 @@ hist(dat3$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab 
 ```
 
 ```{r wesa n_s response vs all vars p2}
-(dat3 %>%
-  dplyr::select(predicted_wesa, year, julian_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
+(dat_ns %>%
+  dplyr::select(predicted_wesa, year, ordinal_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
   tidyr::gather(-predicted_wesa, key = "var", value = "value") %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = predicted_wesa)) +
@@ -212,8 +173,8 @@ hist(dat3$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab 
 ```
 
 ```{r wesa n_s correlation plot, fig.cap="Correlation matrix between numeric explanatory variables (data grouped by N/S station)."}
-dat3 %>%
-    dplyr::select(predicted_wesa, julian_day, dos, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>% 
+dat_ns %>%
+    dplyr::select(predicted_wesa, ordinal_day, dos, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>% 
   cor() %>% 
   corrplot::corrplot(order="hclust")
 ```
@@ -224,7 +185,7 @@ dat3 %>%
 ```{r n_s zero inflated baseline models}
 ## Poisson and negative binomial models
 fit_poisson <- glmmTMB::glmmTMB(predicted_wesa ~ n_s + year_c +  dos + I(dos^2) + (1|year),
-                                data = dat3, 
+                                data = dat_ns, 
                                 ziformula = ~0, # no zero inflation 
                                 family = "poisson")
 fit_binom1 <- update(fit_poisson, family = glmmTMB::nbinom1) 
@@ -232,7 +193,7 @@ fit_binom2 <- update(fit_poisson, family = glmmTMB::nbinom2) # negative binomial
 
 ## zero-inflation models
 fit_zipoisson <- glmmTMB::glmmTMB(predicted_wesa ~ n_s + year_c +  dos + I(dos^2) + (1|year),
-                         data = dat3,  
+                         data = dat_ns,  
                          ziformula = ~1,
                          family = "poisson")
 fit_zinbinom1 <- update(fit_zipoisson, family = glmmTMB::nbinom1) 
@@ -241,29 +202,29 @@ fit_zinbinom2 <- update(fit_zipoisson, family = glmmTMB::nbinom2) # negative bin
 # compare models with AIC
 bbmle::AICtab(fit_poisson, fit_binom1, fit_binom2, fit_zipoisson, fit_zinbinom1, fit_zinbinom2)
 
-bestfit_dat3 <- fit_zinbinom1
+bestfit_dat_ns <- fit_zinbinom1
 ```
 - Similar to above, the `(dos + I(dos^2) | year)` random effect term causes nearly all models to fail to converge. The term was removed.
 - Also similar to above, best-fit model is a ZI negative binomial model.
 
 ### Simulate best-fit model
 
-Simulate the best-fit model, **`fit_zinbinom2`**, 10,000 times to get the expected distribution of zero-values. The red line is the true proportion of zero-values from the data itself (`dat3_p0`). 
+Simulate the best-fit model, **`fit_zinbinom2`**, 10,000 times to get the expected distribution of zero-values. The red line is the true proportion of zero-values from the data itself (`dat_ns_p0`). 
 
 ```{r, fig.cap="Best-fit model distribution of zeroes vs. observed proportion of zeroes (red line). The base model does a fairly good job of estimating the correct proportion of zeroes, but still slgihtly overestimates.", echo=FALSE}
 plot.new()
 set.seed(101)
 system.time(
-    pp <- replicate(10000, mean(simulate(bestfit_dat3)[[1]] == 0))
+    pp <- replicate(10000, mean(simulate(bestfit_dat_ns)[[1]] == 0))
 )
 par(las=1, bty = "l")
-plot(prop.table(table(pp))) + abline(v = dat3_p0, col = 2)
+plot(prop.table(table(pp))) + abline(v = dat_ns_p0, col = 2)
 ```
 
 The residuals are also looking fairly good for the base model, with no overdispersion.
 
-```{r bestfit dat3 residuals}
-DHARMa::testResiduals(bestfit_dat3)
+```{r bestfit dat_ns residuals}
+DHARMa::testResiduals(bestfit_dat_ns)
 ```
 
 
@@ -271,25 +232,25 @@ DHARMa::testResiduals(bestfit_dat3)
 
 Since the base model seems to actually be doing a good job of predicting our zeroes correctly, lets add the full suite of (non-correlated) important variables identified in Canham et al. (2021). 
 
-```{r dat3 build full model, echo=FALSE}
+```{r dat_ns build full model, echo=FALSE}
 build <- buildmer::buildglmmTMB(predicted_wesa ~ n_s + year_c + dos + I(dos^2) + 
                                   (dos + I(dos^2) | year) + (1 | year) + scale(flow) + 
                                   tide + scale(elev_range) +
                                   scale(total_precip) + scale(mean_temp) + scale(u) + 
                                   n_s:scale(flow),
-                                dat3, 
+                                dat_ns, 
                                 family = glmmTMB::nbinom2, 
                                 buildmerControl = list(direction = 'order'))
 
 (f <- formula(build@model))
 
 m <- buildmer::buildglmmTMB(f, 
-                            data = dat3, 
+                            data = dat_ns, 
                             buildmerControl = list(direction = 'backward'))
 
 final_f <- formula(m@model)
 
-final_mod <- glmmTMB::glmmTMB(final_f, data = dat3, ziformula = ~., family = glmmTMB::nbinom2)
+final_mod <- glmmTMB::glmmTMB(final_f, data = dat_ns, ziformula = ~., family = glmmTMB::nbinom2)
 final_mod <- update(final_mod, ziformula = ~. + raptor_count)
 final_mod <- update(final_mod, ziformula = ~. - n_s)
 ```
@@ -305,7 +266,7 @@ sjPlot::plot_model(final_mod, type = "pred")
 ### Diagnostics
 
 ```{r wesa make temp plot data}
-temp_plot <- broom.mixed::augment(final_mod, dat3)
+temp_plot <- broom.mixed::augment(final_mod, dat_ns)
 temp_plot <- janitor::clean_names(temp_plot)
 temp_plot <- temp_plot %>% dplyr::select(-start_time, -final_count, -predicted_dunl, -log_wesa, -log_dunl, -p_wesa, -predicted_ratio)
 ```
