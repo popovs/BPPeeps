@@ -42,8 +42,70 @@ if (params$spp == "WESA") {
 
 # Proportion of zeroes
 dat_ns_p0 <- sum(dat_ns$y == 0) / length(dat_ns$y)
-
 ```
+
+```{r build models, include = FALSE}
+all_vars <- c("year_c", "dos", "n_s", "scale(flow)", "scale(mean_temp)", 
+              "scale(elev_range)", "scale(total_precip)", "scale(u)", 
+              "scale(windspd)", "tide", 
+              "n_s:scale(flow)", "n_s:scale(mean_temp)", "n_s:scale(elev_range)",
+              "n_s:scale(total_precip)", "n_s:scale(u)", "n_s:scale(windspd)")
+
+all_models <- lapply(1:length(all_vars), function(n) data.frame(t(combn(all_vars, n))))
+colnames(all_models[[1]]) <- "X1"
+all_models <- dplyr::bind_rows(all_models)
+
+# Now combine into model formula
+# Also obliterating the rest of the dataframe bc we no longer need it
+all_models <- apply(all_models, 1,
+                    function(x) paste(x[!is.na(x)], collapse = " + "))
+
+# Now remove models where interaction terms were added but the main effect is not there
+# Logic: if 'n_s:scale(x)' is present, scale(x) should appear twice in in the formula.
+# If 'n_s:scale(x)' is present but scale(x) is only present once, that means that just 
+# the scale(x) in the interaction term is present.
+ints <- c("flow", "mean_temp", "elev_range", "total_precip", "u", "windspd")
+
+# Split into models with just main effects vs main + interactions
+all_models_m <- all_models[!grepl(":", all_models)]
+all_models_i <- all_models[grepl(":", all_models)]
+length(all_models_m) + length(all_models_i) == length(all_models)
+
+# Since all interaction terms are with n_s, drop any interaction models without 
+# a standalone n_s term
+all_models_i <- all_models_i[grepl("n_s +", all_models_i)]
+
+# Remove records where main effect is not present but interaction term is
+tmp <- list()
+for (i in ints) {
+  # Pull out all models with scale(x) AND n_s:scale(x) interaction
+  # e.g., n_s + scale(flow) + n_s:scale(flow)
+  x <- all_models_i[(grepl(paste0(" scale\\(", i), all_models_i) & grepl(paste0("n_s:scale\\(", i), all_models_i))]
+  
+  # Subset non-i interactions
+  other_ints <- ints[!grepl(i, ints)]
+  
+  # Now remove any records where scale(x) and n_s:scale(x) AND n_s:scale(y) 
+  # are present BUT scale(y) on it's own is not present
+  # e.g., n_s + scale(flow) + n_s:scale(flow) + n_s:scale(mean_temp)
+  for (j in other_ints) {
+    x <- x[!(!grepl(paste0(" scale\\(", j), x) & grepl(paste0("n_s:scale\\(", j), x))]
+  }
+  
+  tmp[[i]] <- x
+}
+rm(ints, other_ints, i, j, x)
+
+tmp <- unlist(tmp)
+
+all_models <- c(all_models_m, tmp)
+
+rm(all_models_m, all_models_i, tmp, all_vars)
+
+# Now build complete formula so that all models have a y term and a random intercept of year
+all_models <- paste("y ~", all_models, "+ (1 | year)")
+```
+
 
 ```{r def-assign-params, include=FALSE}
 # See: https://stackoverflow.com/questions/49475303/rmarkdown-child-documents-do-not-detect-their-params
@@ -140,13 +202,13 @@ base5 <- lmer(formula("y ~ n_s * scale(flow) + I(dos^2) + (1 | year)"), # intera
               control = lmerControl(optimizer="bobyqa"),
               REML = FALSE)
 
-# baseList <- list('NS + DOS + DOS^2' = base0,
-#                  'NS + DOS + DOS^2 + Year Intercept' = base1,
-#                  'NS + YEAR + DOS + DOS^2 + Year Intercept' = base2,
-#                  'NS * YEAR + DOS + DOS^2 + Year Intercept' = base3,
-#                  'NS + FLOW + DOS^2 + Year Intercept' = base4,
-#                  'NS * FLOW + DOS^2 + Year Intercept' = base5
-#                  )
+baseList <- list('NS + DOS + DOS^2' = base0,
+                 'NS + DOS + DOS^2 + Year Intercept' = base1,
+                 'NS + YEAR + DOS + DOS^2 + Year Intercept' = base2,
+                 'NS * YEAR + DOS + DOS^2 + Year Intercept' = base3,
+                 'NS + FLOW + DOS^2 + Year Intercept' = base4,
+                 'NS * FLOW + DOS^2 + Year Intercept' = base5
+                 )
 
 ######################## ZINB MODELS ########################
 # A series of nested zero-inflated negative binomial models
@@ -266,17 +328,17 @@ zinbf0_ws <- glmmTMB(y ~ n_s + scale(flow) + year_c
                      family = nbinom1,
                      REML = FALSE)
 
-# zinbList <- list('NS + YEAR + DOS + DOS^2 + Year Intercept + ZI' = zinb0,
-#                  'NS + FLOW + YEAR + DOS^2 + Year Intercept + ZI' = zinb1,
-#                  'NS * FLOW + YEAR + DOS^2 + Year Intercept + ZI' = zinb2,
-#                  'Full ZINB + Year Intercept + ZI' = zinbf0,
-#                  'Full ZINB + All interaction terms + Year Intercept + ZI' = zinbf1,
-#                  'Full ZINB + NS:FLOW + Year Intercept + ZI' = zinbf0_flow,
-#                  'Full ZINB + NS:TIDE_AMP + Year Intercept + ZI' = zinbf0_ta,
-#                  'Full ZINB + NS:TEMP + Year Intercept + ZI' = zinbf0_temp,
-#                  'Full ZINB + NS:PRECIP + Year Intercept + ZI' = zinbf0_tp,
-#                  'Full ZINB + NS:U + Year Intercept + ZI' = zinbf0_u,
-#                  'Full ZINB + NS:WINDSPD + Year Intercept + ZI' = zinbf0_ws)
+zinbList <- list('ZINB + NS + YEAR + DOS + DOS^2 + Year Intercept' = zinb0,
+                 'ZINB + NS + FLOW + YEAR + DOS^2 + Year Intercept' = zinb1,
+                 'ZINB + NS * FLOW + YEAR + DOS^2 + Year Intercept' = zinb2,
+                 'Full ZINB + Year Intercept' = zinbf0,
+                 'Full ZINB + All interaction terms + Year Intercept' = zinbf1,
+                 'Full ZINB + NS:FLOW + Year Intercept' = zinbf0_flow,
+                 'Full ZINB + NS:TIDE_AMP + Year Intercept' = zinbf0_ta,
+                 'Full ZINB + NS:TEMP + Year Intercept' = zinbf0_temp,
+                 'Full ZINB + NS:PRECIP + Year Intercept' = zinbf0_tp,
+                 'Full ZINB + NS:U + Year Intercept' = zinbf0_u,
+                 'Full ZINB + NS:WINDSPD + Year Intercept' = zinbf0_ws)
 
 ######################## TWEEDIE GAM MODELS ########################
 # A series of tweedie distribution general additive models
@@ -381,38 +443,9 @@ tgamf0_ws <- gam(y ~ n_s + s(flow) + s(year_c) + s(dos)
               family = tw, 
               method = "ML")
 
-# tgamList <- list('NS + YEAR + s(DOS) + Year Intercept' = tgam0,
-#                  'NS + FLOW + YEAR + s(DOS) + Year Intercept' = tgam1,
-#                  'NS * FLOW + YEAR + s(DOS) + Year Intercept' = tgam2,
-#                  'Full tGAM + Year Intercept' = tgamf0,
-#                  'Full tGAM + All interaction terms + s(DOS) + Year Intercept' = tgamf1,
-#                  'Full tGAM + NS:FLOW + s(DOS) + Year Intercept' = tgamf0_flow,
-#                  'Full tGAM + NS:TIDE_AMP + s(DOS) + Year Intercept' = tgamf0_ta,
-#                  'Full tGAM + NS:TEMP + s(DOS) + Year Intercept' = tgamf0_temp,
-#                  'Full tGAM + NS:PRECIP + s(DOS) + Year Intercept' = tgamf0_tp,
-#                  'Full tGAM + NS:U + s(DOS) + Year Intercept' = tgamf0_u,
-#                  'Full tGAM + NS:WINDSPD + s(DOS) + Year Intercept' = tgamf0_ws)
-
-modList <- list('NS + DOS + DOS^2' = base0,
-                 'NS + DOS + DOS^2 + Year Intercept' = base1,
-                 'NS + YEAR + DOS + DOS^2 + Year Intercept' = base2,
-                 'NS * YEAR + DOS + DOS^2 + Year Intercept' = base3,
-                 'NS + FLOW + DOS^2 + Year Intercept' = base4,
-                 'NS * FLOW + DOS^2 + Year Intercept' = base5,
-                 'NS + YEAR + DOS + DOS^2 + Year Intercept + ZI' = zinb0,
-                 'NS + FLOW + YEAR + DOS^2 + Year Intercept + ZI' = zinb1,
-                 'NS * FLOW + YEAR + DOS^2 + Year Intercept + ZI' = zinb2,
-                 'Full ZINB + Year Intercept + ZI' = zinbf0,
-                 'Full ZINB + All interaction terms + Year Intercept + ZI' = zinbf1,
-                 'Full ZINB + NS:FLOW + Year Intercept + ZI' = zinbf0_flow,
-                 'Full ZINB + NS:TIDE_AMP + Year Intercept + ZI' = zinbf0_ta,
-                 'Full ZINB + NS:TEMP + Year Intercept + ZI' = zinbf0_temp,
-                 'Full ZINB + NS:PRECIP + Year Intercept + ZI' = zinbf0_tp,
-                 'Full ZINB + NS:U + Year Intercept + ZI' = zinbf0_u,
-                 'Full ZINB + NS:WINDSPD + Year Intercept + ZI' = zinbf0_ws,
-                 'NS + YEAR + s(DOS) + Year Intercept' = tgam0,
-                 'NS + FLOW + YEAR + s(DOS) + Year Intercept' = tgam1,
-                 'NS * FLOW + YEAR + s(DOS) + Year Intercept' = tgam2,
+tgamList <- list('tGAM + NS + YEAR + s(DOS) + Year Intercept' = tgam0,
+                 'tGAM + NS + FLOW + YEAR + s(DOS) + Year Intercept' = tgam1,
+                 'tGAM + NS * FLOW + YEAR + s(DOS) + Year Intercept' = tgam2,
                  'Full tGAM + Year Intercept' = tgamf0,
                  'Full tGAM + All interaction terms + s(DOS) + Year Intercept' = tgamf1,
                  'Full tGAM + NS:FLOW + s(DOS) + Year Intercept' = tgamf0_flow,
@@ -420,8 +453,8 @@ modList <- list('NS + DOS + DOS^2' = base0,
                  'Full tGAM + NS:TEMP + s(DOS) + Year Intercept' = tgamf0_temp,
                  'Full tGAM + NS:PRECIP + s(DOS) + Year Intercept' = tgamf0_tp,
                  'Full tGAM + NS:U + s(DOS) + Year Intercept' = tgamf0_u,
-                 'Full tGAM + NS:WINDSPD + s(DOS) + Year Intercept' = tgamf0_ws
-                )
+                 'Full tGAM + NS:WINDSPD + s(DOS) + Year Intercept' = tgamf0_ws)
+
 tab <- bbmle::AICtab(modList, base = TRUE, weights = TRUE)
 
 # tab <-bbmle::AICtab(base0, base1, base2, base3, base4, base5, # base linear models
@@ -434,6 +467,10 @@ tab <- bbmle::AICtab(modList, base = TRUE, weights = TRUE)
 #               base = TRUE,
 #               weights = TRUE
 #               )
+```
+
+```{r AICtab, fig.cap="A comparison of all 28 models."}
+knitr::kable(tab, digits = 3)
 ```
 
 
