@@ -12,4 +12,4 @@ Any pre-2014 raw data includes daily population count data tallied up into a *da
 - `AVG` - means that there were multiple bird surveys ('sweeps') undertaken that day; the `final_count` values for each sweep were added together for a daily *subtotal*, and the subtotals were then averaged together to get the daily *total* for that day.
 - `total` - means that that the value in `final_count` for a particular record is the manually calculated daily total (only applies to pre-2013 data).
 - `only total` - means that there were no locations counts for that day - `final_count` is the daily total population estimate for that day (only applies to pre-2013 data).
-= `no survey` - no survey data for that day
+- `no survey` - no survey data for that day
