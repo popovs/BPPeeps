@@ -14,14 +14,14 @@ db <- DBI::dbConnect(RSQLite::SQLite(), here::here("temp", "bppeeps.db"))
 # Query table
 dat <- DBI::dbGetQuery(db, "with dr as (select date(date_time_pdt) as r_date, sum(count) as count
                        from raptors group by r_date)
-                       select bcl.survey_date, start_time, station_n, station_s, 
+                       select bcl.survey_date, start_time, sweep, station_n, station_s, 
                        sum(final_count) as final_count, p_wesa, count as raptor_count, ec.*
                        from bp_counts_loc bcl 
                        left join daily_percent_ratio dpr on bcl.survey_date = dpr.survey_date 
                        left join environmental_covariates ec on ec.date = bcl.survey_date
                        left join dr on r_date = bcl.survey_date
-                       group by station_n, bcl.survey_date
-                       order by bcl.survey_date;")
+                       group by station_n, bcl.survey_date, sweep
+                       order by bcl.survey_date, start_time, sweep;")
 dat <- dplyr::select(dat, c(-date))
 
 # Extract nrow of full dataset
