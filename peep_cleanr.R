@@ -549,6 +549,10 @@ counts$observer <- as.factor(counts$observer)
 # 1998 - all counts are in the count_1 column
 counts[["mean_count"]][which(lubridate::year(counts$date_time_pdt) == 1998)] <- counts[["count_1"]][which(lubridate::year(counts$date_time_pdt) == 1998)]
 
+# 2012-04-21 - empty mean_count column
+counts[["mean_count"]][which(lubridate::date(counts$date_time_pdt) == "2012-04-21" & !is.na(counts$time))] <- 
+  rowMeans(counts[which(lubridate::date(counts$date_time_pdt) == "2012-04-21" & !is.na(counts$time)), c("count_1", "count_2", "count_3")], na.rm = T)
+
 # Data checks
 # Some simple & quick data checks to see if excel data is 
 # correct vs. calculations in R
@@ -1481,6 +1485,7 @@ DBI::dbExecute(bppeeps, "drop view if exists bp_counts_loc;")
 DBI::dbExecute(bppeeps, "create view bp_counts_loc as
                       select date(date_time_pdt) as survey_date,
                       strftime('%H:%M', date_time_pdt) as start_time,
+                      replace(replace(in_daily_total_yn, 'TRUE', '1'), 'AVG ', '') as sweep,
                       cleaned as station,
                       station_n,
                       station_s,
@@ -1493,20 +1498,25 @@ DBI::dbExecute(bppeeps, "create view bp_counts_loc as
                       from bp_counts_all c
                       left join locations l
                       on c.location = l.original_location_name
-                      where in_daily_total_yn in ('TRUE')
+                      where in_daily_total_yn in ('TRUE', 'AVG 1', 'AVG 2', 'AVG 3')
                         or in_daily_total_yn is null
                         and c.location is not null
-                      group by survey_date, station;")
+                      group by survey_date, station, in_daily_total_yn
+                      order by survey_date, start_time, sweep;")
 
 # Daily population total view
 DBI::dbExecute(bppeeps, "drop view if exists daily_total;")
 DBI::dbExecute(bppeeps, "create view daily_total as
-               select date(date_time_pdt) as survey_date,
-               sum(final_count) as total_count
-               from bp_counts_all bca
-               where in_daily_total_yn in ('TRUE', 'only total')
-               group by survey_date
-               order by survey_date;")
+               with daily_subtotals as 
+                (select date(date_time_pdt) as survey_date,
+                sum(final_count) as total_count
+                from bp_counts_all bca
+                where in_daily_total_yn not in ('no survey', 'total', 'FALSE')
+                group by survey_date, in_daily_total_yn
+                order by survey_date)
+                select survey_date, avg(total_count) as total_count
+                from daily_subtotals
+                group by survey_date;")
 
 DBI::dbDisconnect(bppeeps)
 
