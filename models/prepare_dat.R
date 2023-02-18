@@ -24,6 +24,30 @@ dat <- DBI::dbGetQuery(db, "with dr as (select date(date_time_pdt) as r_date, su
                        order by bcl.survey_date, start_time, sweep;")
 dat <- dplyr::select(dat, c(-date))
 
+# Add zeroes in cases where no observation per station was noted
+# so we have an even number of observations per sweep
+z <- expand.grid(unique(dat$survey_date), unique(dat$station_n), KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+names(z) <- c("survey_date", "station_n")
+z$sweep <- "1"
+
+z2 <- expand.grid(unique(dat[["survey_date"]][grep("2", dat$sweep)]), unique(dat$station_n), KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+names(z2) <- c("survey_date", "station_n")
+z2$sweep <- "2"
+
+z3 <- expand.grid(unique(dat[["survey_date"]][grep("3", dat$sweep)]), unique(dat$station_n), KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+names(z3) <- c("survey_date", "station_n")
+z3$sweep <- "3"
+
+z <- rbind(z, z2, z3)
+z$final_count <- 0
+
+dat <- dplyr::bind_rows(z, dat)
+# TODO: figure this out??
+dat <- aggregate(. ~ survey_date + station_n + sweep + start_time + station_s, dat, sum, na.rm = T)
+dat <- dat %>% dplyr::select(survey_date, start_time, sweep, station_n, station_s, final_count, dplyr::everything())
+
+rm(z, z2, z3)
+
 # Extract nrow of full dataset
 # This will be used to keep track of how many datapoints are lost
 # at each filtering step
@@ -49,7 +73,7 @@ rm(t, t2, t_diff)
 
 # Set dates, factors etc.
 dat$survey_date <- as.Date(dat$survey_date)
-station_levels <- c("Canoe Pass", "Brunswick dike", "Brunswick Point", "View corner", "Pilings", "Bend", "34th St pullout", "Coal Port")
+station_levels <- c("Canoe Pass", "Brunswick Point", "View corner", "Pilings", "Bend", "34th St pullout", "Coal Port")
 dat$station_n <- factor(dat$station_n, levels = station_levels)
 dat$station_s <- factor(dat$station_s, levels = station_levels)
 dat$tide <- as.factor(dat$tide)
@@ -63,10 +87,10 @@ dat$station_diff <- dat$station_s_no - dat$station_n_no
 
 # Filter to the appropriate data
 # Remove NA and 0 records
-dat <- dat[which(!is.na(dat$final_count)),]
-filter_s <- c(filter_s, "Remove NA count records")
-filter_n <- c(filter_n, nrow(dat))
-filter_d <- c(filter_d, length(unique(dat$survey_date)))
+# dat <- dat[which(!is.na(dat$final_count)),]
+# filter_s <- c(filter_s, "Remove NA count records")
+# filter_n <- c(filter_n, nrow(dat))
+# filter_d <- c(filter_d, length(unique(dat$survey_date)))
 
 # Include only survey period dates and where total # of birds < 1000
 # First select dates where tot # of birds < 1000
