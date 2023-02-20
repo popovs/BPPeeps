@@ -40,11 +40,35 @@ z3$sweep <- "3"
 
 z <- rbind(z, z2, z3)
 z$final_count <- 0
+z <- merge(z, dat[,c("survey_date", "raptor_count", "elev_min", "elev_max", "elev_median", "elev_mean", "elev_range", "flow", "total_precip", "mean_temp", "u", "v", "windspd", "wind_deg")], by = c("survey_date"))
+z <- z[!duplicated(z),]
 
 dat <- dplyr::bind_rows(z, dat)
-# TODO: figure this out??
-dat <- aggregate(. ~ survey_date + station_n + sweep + start_time + station_s, dat, sum, na.rm = T)
-dat <- dat %>% dplyr::select(survey_date, start_time, sweep, station_n, station_s, final_count, dplyr::everything())
+
+# Group all data by survey, station, and sweep to get an even number of
+# observations per station per day.
+dat <- sqldf::sqldf("select survey_date, 
+                        min(start_time) as start_time,
+                        sweep,
+                        station_n, 
+                        station_s,
+                        sum(final_count) as final_count, 
+                        p_wesa, 
+                        avg(raptor_count) as raptor_count, 
+                        elev_min, 
+                        elev_max, 
+                        elev_median, 
+                        elev_mean, 
+                        elev_range, 
+                        flow, 
+                        total_precip, 
+                        mean_temp, 
+                        u, 
+                        v, 
+                        windspd, 
+                        wind_deg 
+                        from dat 
+                        group by survey_date, station_n, sweep;")
 
 rm(z, z2, z3)
 
@@ -56,20 +80,27 @@ filter_n <- nrow(dat) # n records
 filter_d <- length(unique(dat$survey_date)) # n dates affected
 
 # Add tide rising/falling
+# First create timestamps in UTC
 dat$date_time_pdt <- as.POSIXct(paste(dat$survey_date, dat$start_time), format = "%Y-%m-%d %H:%M")
 dat$date_time_utc <- lubridate::as_datetime(dat$date_time_pdt, tz = "UTC")
+# Get the first timestamp per sweep - we will calculate whether the tide is rising
+# or falling per sweep
+t <- dat[!is.na(dat$date_time_utc) & dat$start_time != "00:00", c("survey_date", "sweep", "date_time_utc")] %>%
+  dplyr::group_by(survey_date, sweep) %>%
+  dplyr::slice(1)
 # Now calculate tides - at the time/date of the survey, and one hour later
-t <- earthtide::calc_earthtide(utc = dat$date_time_utc,
-                               method = 'gravity',
-                               latitude = 49.054646, 
-                               longitude = -123.144756)
-t2 <- earthtide::calc_earthtide(utc = (dat$date_time_utc + 3600), 
-                                method = 'gravity',
-                                latitude = 49.054646, 
-                                longitude = -123.144756)
-t_diff <- t2$gravity - t$gravity # if gravity @ time 2 > gravity at time 1, the tide is HIGHER
-dat$tide <- ifelse(t_diff > 0, "rising", "falling")
-rm(t, t2, t_diff)
+t$gravity1 <- earthtide::calc_earthtide(utc = t$date_time_utc,
+                                        method = 'gravity',
+                                        latitude = 49.054646, 
+                                        longitude = -123.144756)[[2]]
+t$gravity2 <- earthtide::calc_earthtide(utc = (t$date_time_utc + 3600), 
+                                        method = 'gravity',
+                                        latitude = 49.054646, 
+                                        longitude = -123.144756)[[2]]
+t$t_diff <- t$gravity2 - t$gravity1 # if gravity @ time 2 > gravity at time 1, the tide is HIGHER
+t$tide <- ifelse(t$t_diff > 0, "rising", "falling")
+dat <- merge(dat, t[,c("survey_date", "sweep", "tide")], by = c("survey_date", "sweep"), all.x = TRUE)
+rm(t)
 
 # Set dates, factors etc.
 dat$survey_date <- as.Date(dat$survey_date)
