@@ -160,7 +160,7 @@ filter_d <- c(filter_d, length(unique(dat$survey_date)))
 # Add dat columns as needed
 dat$year <- as.factor(lubridate::year(dat$survey_date))
 dat$ordinal_day <- lubridate::yday(dat$survey_date)
-dat$dos <- scale(dat$ordinal_day) # day of season variable
+dat$dos <- scale(dat$ordinal_day)[,1] # day of season variable
 dat$n_s <- ifelse(dat$station_n %in% c("Canoe Pass", "Brunswick Point", "View corner", "Pilings", "Bend"),
                   "N", "S")
 dat$n_s <- as.factor(dat$n_s)
@@ -189,7 +189,7 @@ sr$survey_date <- as.Date(sr$survey_date)
 # Add columns as needed
 sr$year <- as.factor(lubridate::year(sr$survey_date))
 sr$ordinal_day <- lubridate::yday(sr$survey_date)
-sr$dos <- scale(sr$ordinal_day) # day of season
+sr$dos <- scale(sr$ordinal_day)[,1] # day of season
 
 # Filter to appropriate data
 sr <- sr[!(is.na(sr$wesa) | sr$total == 0), ]
@@ -207,7 +207,7 @@ dt <- dt[(format(dt$survey_date, "%m-%d") <= "05-15"), ]
 # Add columns as needed
 dt$year <- as.factor(lubridate::year(dt$survey_date))
 dt$ordinal_day <- lubridate::yday(dt$survey_date)
-dt$dos <- scale(dt$ordinal_day) # day of season variable
+dt$dos <- scale(dt$ordinal_day)[,1] # day of season variable
 
 # DISCONNECT =======================================================
 # Disconnect from db

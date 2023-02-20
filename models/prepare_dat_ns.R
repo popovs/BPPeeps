@@ -30,11 +30,11 @@ dat_ns <- sqldf::sqldf("select year,
                         wind_deg 
                         from dat 
                         group by survey_date, n_s;") %>%
-  dplyr::mutate(dos = scale(ordinal_day),
+  dplyr::mutate(dos = scale(ordinal_day)[,1],
                 log_wesa = log(predicted_wesa + 1),
                 log_dunl = log(predicted_dunl + 1),
                 year_n = as.numeric(year),
-                year_c = scale(year_n)) %>%
+                year_c = scale(year_n)[,1]) %>%
   dplyr::select(year, survey_date, ordinal_day, dos, start_time, n_s,
                 final_count, predicted_wesa, predicted_dunl, log_wesa, 
                 log_dunl, dplyr::everything()) %>%
