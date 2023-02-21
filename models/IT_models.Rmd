@@ -4,7 +4,7 @@ author: "Sarah Popov"
 date: "`r Sys.Date()`"
 output: pdf_document
 params:
-  spp: "WESA"
+  spp: "DUNL"
   model_set: "ZINB"
 ---
 
@@ -159,6 +159,14 @@ facet_names <- c("dos" = "DOS",
     theme_minimal())
 ```
 
+```{r correlation plot, fig.cap="Correlation matrix between potential explanatory variables."}
+dat_ns %>%
+    dplyr::select(dos, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>% 
+  cor() %>% 
+  corrplot::corrplot(order="alphabet")
+```
+
+
 \newpage
 # Full model set
 
@@ -210,7 +218,7 @@ base5 <- lmer(formula("y ~ n_s * scale(flow) + I(dos^2) + (1 | year)"), # intera
               control = lmerControl(optimizer="bobyqa"),
               REML = FALSE)
 
-baseList <- list('NS + DOS + DOS^2' = base0,
+modList <- list('NS + DOS + DOS^2' = base0,
                  'NS + DOS + DOS^2 + Year Intercept' = base1,
                  'NS + YEAR + DOS + DOS^2 + Year Intercept' = base2,
                  'NS * YEAR + DOS + DOS^2 + Year Intercept' = base3,
@@ -224,54 +232,80 @@ baseList <- list('NS + DOS + DOS^2' = base0,
 # A series of nested zero-inflated negative binomial models
 library(glmmTMB)
 
+### Baseline ###
 zinb0 <- glmmTMB(y ~ n_s + year_c + dos + I(dos^2) + (1|year), 
                  zi = ~ ., 
                  data = dat_ns, 
                  family = nbinom1, 
                  REML = FALSE)
 
-zinb1 <- glmmTMB(y ~ n_s + scale(flow) + year_c + dos + I(dos^2) + (1|year), 
+### One main effect at a time ###
+zinb_tide <- glmmTMB(y ~ n_s + tide + year_c + dos + I(dos^2) + (1|year), 
                  zi = ~ ., 
                  data = dat_ns, 
                  family = nbinom1,
                  REML = FALSE)
 
-zinb2 <- glmmTMB(y ~ n_s * scale(flow) + year_c + dos + I(dos^2) + (1|year), 
+zinb_flow <- glmmTMB(y ~ n_s + scale(flow) + year_c + dos + I(dos^2) + (1|year), 
                  zi = ~ ., 
                  data = dat_ns, 
                  family = nbinom1,
                  REML = FALSE)
 
+zinb_temp <- glmmTMB(y ~ n_s + scale(mean_temp) + year_c + dos + I(dos^2) + (1|year), 
+                 zi = ~ ., 
+                 data = dat_ns, 
+                 family = nbinom1,
+                 REML = FALSE)
+
+zinb_ta <- glmmTMB(y ~ n_s + scale(elev_range) + year_c + dos + I(dos^2) + (1|year), 
+                 zi = ~ ., 
+                 data = dat_ns, 
+                 family = nbinom1,
+                 REML = FALSE)
+
+zinb_tp <- glmmTMB(y ~ n_s + scale(total_precip) + year_c + dos + I(dos^2) + (1|year), 
+                 zi = ~ ., 
+                 data = dat_ns, 
+                 family = nbinom1,
+                 REML = FALSE)
+
+zinb_u <- glmmTMB(y ~ n_s + scale(u) + year_c + dos + I(dos^2) + (1|year), 
+                 zi = ~ ., 
+                 data = dat_ns, 
+                 family = nbinom1,
+                 REML = FALSE)
+
+### All main effects, no interactions ### 
 zinbf0 <- glmmTMB(y ~ n_s + scale(flow) + year_c 
                      + scale(mean_temp) 
                      + scale(elev_range) 
                      + scale(total_precip)
                      + scale(u) 
-                     + scale(windspd) 
                      + tide + dos + I(dos^2) + (1|year), 
                      zi = ~ ., 
                      data = dat_ns, 
                      family = nbinom1,
                      REML = FALSE)
 
+### All main effects, all interactions ### 
 zinbf1 <- glmmTMB(y ~ n_s * scale(flow) + year_c 
                      + n_s * scale(mean_temp) 
                      + n_s * scale(elev_range) 
                      + n_s * scale(total_precip)
                      + n_s * scale(u) 
-                     + n_s * scale(windspd) 
                      + tide + dos + I(dos^2) + (1|year), 
                      zi = ~ ., 
                      data = dat_ns, 
                      family = nbinom1,
                      REML = FALSE)
 
+### All main effects, one interaction at a time ###
 zinbf0_flow <- glmmTMB(y ~ n_s * scale(flow) + year_c 
                      + scale(mean_temp) 
                      + scale(elev_range) 
                      + scale(total_precip)
                      + scale(u) 
-                     + scale(windspd) 
                      + tide + dos + I(dos^2) + (1|year), 
                      zi = ~ ., 
                      data = dat_ns, 
@@ -283,7 +317,6 @@ zinbf0_temp <- glmmTMB(y ~ n_s + scale(flow) + year_c
                      + scale(elev_range) 
                      + scale(total_precip)
                      + scale(u) 
-                     + scale(windspd) 
                      + tide + dos + I(dos^2) + (1|year), 
                      zi = ~ ., 
                      data = dat_ns, 
@@ -295,7 +328,6 @@ zinbf0_ta <- glmmTMB(y ~ n_s + scale(flow) + year_c
                      + n_s * scale(elev_range) 
                      + scale(total_precip)
                      + scale(u) 
-                     + scale(windspd) 
                      + tide + dos + I(dos^2) + (1|year), 
                      zi = ~ ., 
                      data = dat_ns, 
@@ -307,7 +339,6 @@ zinbf0_tp <- glmmTMB(y ~ n_s + scale(flow) + year_c
                      + scale(elev_range) 
                      + n_s * scale(total_precip)
                      + scale(u) 
-                     + scale(windspd) 
                      + tide + dos + I(dos^2) + (1|year), 
                      zi = ~ ., 
                      data = dat_ns, 
@@ -319,36 +350,25 @@ zinbf0_u <- glmmTMB(y ~ n_s + scale(flow) + year_c
                      + scale(elev_range) 
                      + scale(total_precip)
                      + n_s * scale(u) 
-                     + scale(windspd) 
                      + tide + dos + I(dos^2) + (1|year), 
                      zi = ~ ., 
                      data = dat_ns, 
                      family = nbinom1,
                      REML = FALSE)
 
-zinbf0_ws <- glmmTMB(y ~ n_s + scale(flow) + year_c 
-                     + scale(mean_temp) 
-                     + scale(elev_range) 
-                     + scale(total_precip)
-                     + scale(u) 
-                     + n_s * scale(windspd) 
-                     + tide + dos + I(dos^2) + (1|year), 
-                     zi = ~ ., 
-                     data = dat_ns, 
-                     family = nbinom1,
-                     REML = FALSE)
-
-zinbList <- list('ZINB + NS + YEAR + DOS + DOS^2 + Year Intercept' = zinb0,
-                 'ZINB + NS + FLOW + YEAR + DOS^2 + Year Intercept' = zinb1,
-                 'ZINB + NS * FLOW + YEAR + DOS^2 + Year Intercept' = zinb2,
-                 'Full ZINB + Year Intercept' = zinbf0,
-                 'Full ZINB + All interaction terms + Year Intercept' = zinbf1,
-                 'Full ZINB + NS:FLOW + Year Intercept' = zinbf0_flow,
-                 'Full ZINB + NS:TIDE_AMP + Year Intercept' = zinbf0_ta,
-                 'Full ZINB + NS:TEMP + Year Intercept' = zinbf0_temp,
-                 'Full ZINB + NS:PRECIP + Year Intercept' = zinbf0_tp,
-                 'Full ZINB + NS:U + Year Intercept' = zinbf0_u,
-                 'Full ZINB + NS:WINDSPD + Year Intercept' = zinbf0_ws)
+modList <- list('NS + YEAR + DOS + DOS^2' = zinb0,
+                 'FLOW + NS + YEAR + DOS + DOS^2' = zinb_flow,
+                 'AMP + NS + YEAR + DOS + DOS^2' = zinb_ta,
+                 'TEMP + NS + YEAR + DOS + DOS^2' = zinb_temp,
+                 'PRECIP + NS + YEAR + DOS + DOS^2' = zinb_tp,
+                 'U + NS + YEAR + DOS + DOS^2' = zinb_u,
+                 'Full ME ZINB' = zinbf0,
+                 'Full ME ZINB + NS:FLOW' = zinbf0_flow,
+                 'Full ME ZINB + NS:AMP' = zinbf0_ta, 
+                 'Full ME ZINB + NS:TEMP' = zinbf0_temp,
+                 'Full ME ZINB + NS:PRECIP' = zinbf0_tp,
+                 'Full ME ZINB + NS:U' = zinbf0_u,
+                 'Full ME ZINB + All interaction terms' = zinbf1)
 ```
 
 ```{r tgam model set, include=FALSE, eval=params$model_set == "GAM"}
@@ -455,7 +475,7 @@ tgamf0_ws <- gam(y ~ n_s + s(flow) + s(year_c) + s(dos)
               family = tw, 
               method = "ML")
 
-tgamList <- list('tGAM + NS + YEAR + s(DOS) + Year Intercept' = tgam0,
+modList <- list('tGAM + NS + YEAR + s(DOS) + Year Intercept' = tgam0,
                  'tGAM + NS + FLOW + YEAR + s(DOS) + Year Intercept' = tgam1,
                  'tGAM + NS * FLOW + YEAR + s(DOS) + Year Intercept' = tgam2,
                  'Full tGAM + Year Intercept' = tgamf0,
@@ -469,20 +489,20 @@ tgamList <- list('tGAM + NS + YEAR + s(DOS) + Year Intercept' = tgam0,
 ```
 
 ```{r AIC tab, include=FALSE}
-modList <- c(baseList, zinbList, tgamList)
+#modList <- c(baseList, zinbList, tgamList)
 
 tab <- bbmle::AICtab(modList, weights = TRUE)
 ```
 
-```{r AICtab, fig.cap="A comparison of all 28 models."}
+```{r AICtab, fig.cap=paste("A comparison of all", length(modList), "models.")}
 knitr::kable(tab, digits = 3)
 ```
 
 # Multi-model inference
 
-Typically, the top $N$ number of candidate models that add up to a weight of 0.95 are chosen as the 'candidate set' of models and averaged together for multi-model inference (i.e., models with a 95% cumulative probability of containing the AIC-best model should the data be independently recollected). In this case, however, the top model (full tGAM with all covariates and all interaction terms and random year intercept) carries effectively all the AIC weight. 
+Typically, the top $N$ number of candidate models that add up to a weight of 0.95 *or* all models within <2 $\Delta$AIC are chosen as the 'candidate set' of models and averaged together for multi-model inference (i.e., models with a 95% cumulative probability of containing the AIC-best model should the data be independently recollected). In this case, however, the top model (full model with all main effects and all interaction terms and random year intercept) carries effectively all the AIC weight.
 
-In this case what I have instead done is average together the top 5 non-full models from the ZINB and GAM models to compare to the full models.
+In this case what I have instead done is average together the top 5 non-full models.
 
 ```{r extract multi model avg, include=FALSE}
 tab2 <- as.data.frame(tab)
@@ -490,10 +510,10 @@ tab2$mod <- row.names(tab2)
 rownames(tab2) <- seq(nrow(tab2))
 
 # Cut out FULL models with EVERYTHING
-tab2 <- tab2[!(tab2$mod %in% c("Full tGAM + All interaction terms + s(DOS) + Year Intercept", "Full ZINB + All interaction terms + Year Intercept")),]
+tab2 <- tab2[!(tab2$mod %in% c("Full tGAM + All interaction terms + s(DOS) + Year Intercept", "Full ME ZINB + All interaction terms")),]
 
 tab2zinb <- tab2[grep("ZINB", tab2$mod),]
-tab2tgam <- tab2[grep("tGAM", tab2$mod),]
+#tab2tgam <- tab2[grep("tGAM", tab2$mod),]
 
 options(scipen = 50) # turn of sci notation for small numbers
 
@@ -508,64 +528,68 @@ recalc_ICtab <- function(x) {
   return(x)
 }
 
-tab2zinb <- recalc_ICtab(tab2zinb)
-tab2tgam <- recalc_ICtab(tab2tgam)
+tab2zinb <- recalc_ICtab(tab2zinb)[1:5,]
+#tab2tgam <- recalc_ICtab(tab2tgam)[1:5,]
 
 top5mods <- function(x) {
   top5 <- x[1:5, c("mod")]
   y <- lapply(top5, function(z) modList[[z]])
   return(y)
 }
+
+# Does the top model carry <95% weight? If so, the models can be averaged. Otherwise, it's inappropriate.
+can_avg_zinb <- !(tab2zinb[1,4] > 0.95)
+#can_avg_tgam <- !(tab2tgam[1,4] > 0.95)
 ```
 
 ## The top 5 ZINB models
 
-The table below pulls out the top 5 ZINB models, *excluding* the model with all interaction terms. In other words, it ranks the models by the NS interaction terms that bring the candidate model the closest to the 'true' model.
+The table below pulls out the top 5 ZINB models, *excluding* the model with all interaction terms. In other words, it ranks the models by the NS interaction terms that bring the candidate model the closest to the 'true' model. `r if(!can_avg_zinb) paste("As was the case with the full model, the top model carries nearly all the AIC weight (>95%). This set of candidate models is not suitable for model averaging.")`
 
 ```{r zinb top5 table}
 knitr::kable(tab2zinb)
 ```
 
-The top 5 ZINB models were then averaged together and presented below. 
+`r if(can_avg_zinb) paste("The top 5 ZINB models were then averaged together and presented below.")`
 
-```{r zinb top 5 model avg plot, fig.cap="Plot of averaged model coefficients from the top-5 ZINB models (excluding the full ZINB model with all coefficients and interaction terms)."}
-sjPlot::plot_model(MuMIn::model.avg(top5mods(tab2zinb)))
+```{r zinb top 5 model avg plot, eval=can_avg_zinb, fig.cap="Plot of averaged model coefficients from the top-5 ZINB models (excluding the full ZINB model with all coefficients and interaction terms)."}
+sjPlot::plot_model(MuMIn::model.avg(top5mods(tab2zinb), subset = cumsum(weight) <= 0.95))
 ```
 
-```{r zinb top 5 model avg summary, fig.cap="Model summary of the averaged top-5 ZINB models (excluding the full ZINB model with all coefficients and interaction terms).", include=FALSE}
-summary(MuMIn::model.avg(top5mods(tab2zinb)))
+```{r zinb top 5 model avg summary, eval=can_avg_zinb, fig.cap="Model summary of the averaged top-5 ZINB models (excluding the full ZINB model with all coefficients and interaction terms).", include=FALSE}
+print(summary(MuMIn::model.avg(top5mods(tab2zinb), subset = cumsum(weight) <= 0.95)), digits = 1)
 ```
 
-## The top 5 Tweedie GAMs
+<!-- ## The top 5 Tweedie GAMs -->
 
-The table below pulls out the top 5 tweedie GAMs, *excluding* the model with all interaction terms. In other words, it ranks the models by the NS interaction terms that bring the candidate model the closest to the 'true' model.
+<!-- The table below pulls out the top 5 tweedie GAMs, *excluding* the model with all interaction terms. In other words, it ranks the models by the NS interaction terms that bring the candidate model the closest to the 'true' model. -->
 
-Because the interpretation of averaged GAMs is unclear to me (it is not clear if/how the smoother terms are averaged), I have not included any 'averaged' GAM results.
+<!-- Because the interpretation of averaged GAMs is unclear to me (it is not clear if/how the smoother terms are averaged), I have not included any 'averaged' GAM results. -->
 
-```{r tgam top5 table}
-knitr::kable(tab2tgam)
-```
+<!-- ```{r tgam top5 table} -->
+<!-- knitr::kable(tab2tgam) -->
+<!-- ``` -->
 
-\newpage
-# Full Tweedie GAM
+<!-- \newpage -->
+<!-- # Full Tweedie GAM -->
 
-Summaries of the full models with all interaction terms are presented below for comparison.
+<!-- Summaries of the full models with all interaction terms are presented below for comparison. -->
 
-## Model summary
+<!-- ## Model summary -->
 
-```{r summary tgam}
-summary(tgamf1)
-```
+<!-- ```{r summary tgam} -->
+<!-- summary(tgamf1) -->
+<!-- ``` -->
 
-\newpage
-```{r tgam estimated smooths, fig.cap="Fitted smooths from the full Tweedie GAM. Interaction term smoothers are plotted by N first, then by S (it gets cut off).", fig.height = 8, fig.width=6}
-gratia::draw(tgamf1)
-```
+<!-- \newpage -->
+<!-- ```{r tgam estimated smooths, fig.cap="Fitted smooths from the full Tweedie GAM. Interaction term smoothers are plotted by N first, then by S (it gets cut off).", fig.height = 8, fig.width=6} -->
+<!-- gratia::draw(tgamf1) -->
+<!-- ``` -->
 
-\newpage
-```{r tgam diagnostics, fig.cap="Full Tweedie GAM diagnostics."}
-gratia::appraise(tgamf1)
-```
+<!-- \newpage -->
+<!-- ```{r tgam diagnostics, fig.cap="Full Tweedie GAM diagnostics."} -->
+<!-- gratia::appraise(tgamf1) -->
+<!-- ``` -->
 
 \newpage
 # Full ZINB model
@@ -573,14 +597,11 @@ gratia::appraise(tgamf1)
 ## Model summary
 
 ```{r summary zinbf1}
-summary(zinbf1)
+print(summary(zinbf1), digits = 1)
 ```
 
 \newpage
 ```{r zinb coefficients, fig.cap="Standardized coefficient effect sizes from the full ZINB model."}
-dat_ns$dos <- dat_ns$dos[,1]
-dat_ns$year_c <- dat_ns$year_c[,1]
-zinbf1 <- update(zinbf1, data = dat_ns)
 sjPlot::plot_model(zinbf1, type = "std")
 ```
 

@@ -39,4 +39,5 @@ dat_ns <- sqldf::sqldf("select year,
                 final_count, predicted_wesa, predicted_dunl, log_wesa, 
                 log_dunl, dplyr::everything()) %>%
   dplyr::filter(!is.na(flow),
-                !is.na(total_precip))
+                !is.na(total_precip), 
+                !is.na(tide))
