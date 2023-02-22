@@ -489,9 +489,9 @@ modList <- list('tGAM + NS + YEAR + s(DOS) + Year Intercept' = tgam0,
 ```
 
 ```{r AIC tab, include=FALSE}
-#modList <- c(baseList, zinbList, tgamList)
-
-tab <- bbmle::AICtab(modList, weights = TRUE)
+# Because the negative binomial is a true distribution, AIC is appropriate to use
+# See: https://stats.stackexchange.com/questions/564539/can-you-compare-negative-binomial-models-by-aic
+tab <- bbmle::AICtab(modList, weights = TRUE, logLik = TRUE)
 ```
 
 ```{r AICtab, fig.cap=paste("A comparison of all", length(modList), "models.")}
@@ -601,8 +601,32 @@ print(summary(zinbf1), digits = 1)
 ```
 
 \newpage
-```{r zinb coefficients, fig.cap="Standardized coefficient effect sizes from the full ZINB model."}
-sjPlot::plot_model(zinbf1, type = "std")
+```{r plot zinb coefficients, fig.cap="Standardized coefficient effect sizes from the full ZINB model."}
+var_names <- c(
+  'I\\(' = '',
+  '\\^2' = '\u00B2',
+  'dos' = 'DOS',
+  'scale\\(' = '',
+  '\\)' = '',
+  ':' = " \u00D7 ",
+  'flow' = 'FLOW',
+  'year_c' = 'YEAR',
+  'year' = 'YEAR',
+  'n_sS' = 'NS [S]',
+  'mean_temp' = 'TEMP',
+  'elev_range' = 'AMP',
+  'total_precip' = 'PRECIP',
+  'u' = 'U',
+  'tiderising' = 'TIDE [rising]'
+)
+
+mod_names <- c('conditional' = 'Conditional',
+               'zero_inflated' = 'Zero Inflated')
+
+plot_zinb(zinbf1) +
+  scale_x_discrete(labels = function(x) stringr::str_replace_all(x, var_names))
+# plot_dual_zinb(m1 = zinb_wesa, m2 = zinb_dunl, shape = c("WESA", "DUNL")) +
+#   scale_x_discrete(labels = function(x) stringr::str_replace_all(x, var_names))
 ```
 
 \newpage
