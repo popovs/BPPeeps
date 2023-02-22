@@ -602,6 +602,8 @@ print(summary(zinbf1), digits = 1)
 
 \newpage
 ```{r plot zinb coefficients, fig.cap="Standardized coefficient effect sizes from the full ZINB model."}
+source(here::here("models", "plot_zinb.R"))
+
 var_names <- c(
   'I\\(' = '',
   '\\^2' = '\u00B2',
