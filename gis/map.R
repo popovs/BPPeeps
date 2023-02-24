@@ -2,7 +2,7 @@ library(ggplot2)
 library(ggpattern)
 library(basemaps)
 library(sf)
-library(raster)
+library(terra)
 
 ## Read files
 wa <- st_read("../../../GIS/cb_2018_us_region_500k/cb_2018_us_region_500k.shp")
@@ -31,15 +31,19 @@ stations <- stations[!(stations$station_n %in% c(0, 6)), ] # Remove BP & CPSM st
 fraser <- st_read("gis/fraser_label.shp")
 
 # Following the incredibly helpful steps here - https://medium.com/@tobias.stalder.geo/plot-rgb-satellite-imagery-in-true-color-with-ggplot2-in-r-10bdb0e4dd1f
-b_img <- raster::stack("gis/b.tif")
+#b_img <- raster::stack("gis/b2.tif")
+#b_img <- raster::projectRaster(b_img, crs = "+init=EPSG:32610")
+b_img <- terra::rast("gis/b.tif")
+b_img <- terra::project(b_img, y = terra::crs(catchment)) # Reproject to the same projection as 'catchment'
 b <- as.data.frame(b_img, xy = TRUE)
-b <- b[b$b_1 != 0, ]
-b_subset <- b[1:100000,]
+b <- b[(b$b_1 != 0 & !is.na(b$b_1)), 1:5]
+b_subset <- b[1:10000,]
 
-ggplot(data = b, aes(x = x, y = y)) +
-  geom_raster(fill = rgb(r = b$b_1, 
-                         g = b$b_2, 
-                         b = b$b_3, 
+# Test with smaller subset of data
+ggplot(data = b_subset, aes(x = x, y = y)) +
+  geom_raster(fill = rgb(r = b_subset$b_1, 
+                         g = b_subset$b_2, 
+                         b = b_subset$b_3, 
                          maxColorValue = 255),
               show.legend = FALSE) + 
   scale_fill_identity() + 
@@ -57,14 +61,21 @@ bbox[[4]] <- bbox[[4]] + 2000 # 2 km buffer to north
 #bbox[c(3,4)] <- bbox[c(3,4)] + 5000
 
 ggplot() +
-  basemap_ggplot(ext = catchment) +
+  geom_raster(data = b,
+              aes(x = x, y = y),
+              fill = rgb(r = b$b_1,
+                         g = b$b_2,
+                         b = b$b_3,
+                         maxColorValue = 255),
+              show.legend = FALSE) +
+  scale_fill_identity() +
   geom_sf(data = catchment) +
-  geom_sf(data = wa,
-          lwd = 0,
-          fill = "#CBCACA") +
-  geom_sf(data = delta,
-          lwd = 0.1,
-          color = "#C3C3C3") +
+  # geom_sf(data = wa,
+  #         lwd = 0,
+  #         fill = "#CBCACA") +
+  # geom_sf(data = delta,
+  #         lwd = 0.1,
+  #         color = "#C3C3C3") +
   #geom_sf(data = mud) +
   geom_sf_label(data = stations, aes(label = station_n)) +
   coord_sf(xlim = bbox[c(1,3)],
