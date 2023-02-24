@@ -2,6 +2,7 @@ library(ggplot2)
 library(ggpattern)
 library(basemaps)
 library(sf)
+library(raster)
 
 ## Read files
 wa <- st_read("../../../GIS/cb_2018_us_region_500k/cb_2018_us_region_500k.shp")
@@ -29,6 +30,22 @@ stations <- stations[!(stations$station_n %in% c(0, 6)), ] # Remove BP & CPSM st
 
 fraser <- st_read("gis/fraser_label.shp")
 
+# Following the incredibly helpful steps here - https://medium.com/@tobias.stalder.geo/plot-rgb-satellite-imagery-in-true-color-with-ggplot2-in-r-10bdb0e4dd1f
+b_img <- raster::stack("gis/b.tif")
+b <- as.data.frame(b_img, xy = TRUE)
+b <- b[b$b_1 != 0, ]
+b_subset <- b[1:100000,]
+
+ggplot(data = b, aes(x = x, y = y)) +
+  geom_raster(fill = rgb(r = b$b_1, 
+                         g = b$b_2, 
+                         b = b$b_3, 
+                         maxColorValue = 255),
+              show.legend = FALSE) + 
+  scale_fill_identity() + 
+  theme_minimal()
+
+
 ## Make map
 
 bbox <- st_bbox(stations)
@@ -40,6 +57,7 @@ bbox[[4]] <- bbox[[4]] + 2000 # 2 km buffer to north
 #bbox[c(3,4)] <- bbox[c(3,4)] + 5000
 
 ggplot() +
+  basemap_ggplot(ext = catchment) +
   geom_sf(data = catchment) +
   geom_sf(data = wa,
           lwd = 0,
@@ -47,11 +65,8 @@ ggplot() +
   geom_sf(data = delta,
           lwd = 0.1,
           color = "#C3C3C3") +
-  geom_sf(data = border,
-          color = "#878585",
-          size = 0.2) +
   #geom_sf(data = mud) +
-  geom_sf(data = stations) +
+  geom_sf_label(data = stations, aes(label = station_n)) +
   coord_sf(xlim = bbox[c(1,3)],
            ylim = bbox[c(2,4)],
            expand = T) +
@@ -60,7 +75,7 @@ ggplot() +
 
 # Inset labels 
 ins_labels <- data.frame(x = c(0.35, 0.4, 0.53, 0.12, 0.14, 0.65, 0.17, 0.18),
-                         y = c(0.8, 0.55, 0.35, 0.67, 0.23, 0.2, 0.14, 0.09), 
+                         y = c(0.8, 0.55, 0.35, 0.67, 0.23, 0.2, 0.14, 0.1), 
                          label = c("Vancouver", "Richmond", "Delta", "Sturgeon\nBanks", "Roberts\nBank", "Boundary Bay", "Canada", "USA"),
                          size = c(1.2, 1.2, 1.2, 2, 2, 1.1, 1, 1),
                          color = c("A", "A", "A", "B", "B", "B", "B", "B"))
@@ -72,7 +87,7 @@ bbox2[[3]] <- bbox2[[3]] + 10000 # km buffer to east
 bbox2[[2]] <- bbox2[[2]] - 2000 # km buffer to south
 bbox2[[4]] <- bbox2[[4]] + 20000 # km buffer to north
 
-ggplot() +
+i <- ggplot() +
   # geom_sf_pattern(data = mud,
   #                 pattern = "stripe",
   #                 fill = NA,
@@ -117,7 +132,7 @@ ggplot() +
   geomtextpath::geom_textsf(data = fraser,
                             label = "Fraser River",
                             color = "white",
-                            text_only = T) +
+                            linecolour = NA) +
   coord_sf(xlim = bbox2[c(1,3)],
            ylim = bbox2[c(2,4)],
            expand = T) +
