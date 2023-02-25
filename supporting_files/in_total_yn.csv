@@ -1268,10 +1268,10 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 1267,25-Apr-05,rising,17:15,out from pilings,0,,,0,FALSE,BPPEEP2005.xls
 1268,25-Apr-05,rising,17:20,CP jetty side marsh,30000,,,30000,FALSE,BPPEEP2005.xls
 1269,25-Apr-05,rising,17:20,C.Port corner,29000,,,29000,FALSE,BPPEEP2005.xls
-1270,25-Apr-05,rising,17:25,CP jetty side marsh,20000,,,20000,TRUE,BPPEEP2005.xls
-1271,25-Apr-05,rising,17:25,C.Port corner,41000,,,41000,TRUE,BPPEEP2005.xls
-1272,25-Apr-05,rising,17:35,Bruns.corner and west end mumbies,59000,54000,,56500,TRUE,BPPEEP2005.xls
-1273,25-Apr-05,rising,17:45,WNW side Bruns (Canoe Pass)near tip,0,,,0,TRUE,BPPEEP2005.xls
+1270,25-Apr-05,rising,17:25,CP jetty side marsh,20000,,,20000,FALSE,BPPEEP2005.xls
+1271,25-Apr-05,rising,17:25,C.Port corner,41000,,,41000,FALSE,BPPEEP2005.xls
+1272,25-Apr-05,rising,17:35,Bruns.corner and west end mumbies,59000,54000,,56500,FALSE,BPPEEP2005.xls
+1273,25-Apr-05,rising,17:45,WNW side Bruns (Canoe Pass)near tip,0,,,0,FALSE,BPPEEP2005.xls
 1274,25-Apr-05,,,TOTAL - PM count,,,,117500,total,BPPEEP2005.xls
 1275,26-Apr-05,dropping,8:15,WNW side Bruns (Canoe Pass)near tip,20,,,20,FALSE,BPPEEP2005.xls
 1276,26-Apr-05,dropping,8:22,Bruns.corner,6500,,,6500,FALSE,BPPEEP2005.xls
@@ -2038,7 +2038,7 @@ record_id,date,tide,time,location,count_1,count_2,count_3,mean_count,in_daily_to
 2037,29-Apr-07,rising-high,16:15,off pilings on mumblies,18000,,,18000,AVG 1,BPPeep2007.xls
 2038,29-Apr-07,rising-high,16:20,East end mumblies,2500,,,2500,AVG 1,BPPeep2007.xls
 2039,29-Apr-07,rising-high,16:23,CP jetty side marsh,8000,,,8000,AVG 1,BPPeep2007.xls
-2040,29-Apr-07,rising-high,16:23,C.Port corner,0,,,0,AVG 2,BPPeep2007.xls
+2040,29-Apr-07,rising-high,16:23,C.Port corner,0,,,0,AVG 1,BPPeep2007.xls
 2041,29-Apr-07,rising-high,16:30,CP jetty side marsh,9000,,,9000,AVG 2,BPPeep2007.xls
 2042,29-Apr-07,rising-high,16:30,C.Port corner,0,,,0,AVG 2,BPPeep2007.xls
 2043,29-Apr-07,rising-high,16:40,off pilings on mumblies,50000,,,,AVG 2,BPPeep2007.xls
