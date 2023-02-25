@@ -1,0 +1,181 @@
+---
+title: "`r params$spp` counts vs predictors"
+author: "Sarah Popov"
+date: "`r Sys.Date()`"
+output: pdf_document
+params:
+  spp: "WESA"
+  ns_tf: true
+  log_plots: false
+---
+
+```{r setup spp vs vars, include=FALSE}
+library(ggplot2)
+# This RMD is NOT intended as a standalone script, but rather to be sourced
+# from models.Rmd. The data used in this Rmd file is generated in models.Rmd
+# and binomial_sr.Rmd.
+
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE,
+                      tidy.opts = list(width.cutoff = 60), 
+                      tidy = TRUE)
+
+# Color palette (using blue & yellow from wesanderson Zissou1 palette)
+pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue = 255))
+
+# Aggregate by NS
+source(here::here("models", "prepare_dat_ns.R"))
+
+# Choose dataset based on param
+if (params$ns_tf) {
+  plot_dat <- dat_ns
+} else {
+  plot_dat <- dat
+}
+
+# Choose y var based on param
+if (params$spp == "WESA") {
+  plot_y <- "predicted_wesa"
+} else {
+  plot_y <- "predicted_dunl"
+}
+  
+# Log y var based on param
+if (params$log_plots) plot_y <- gsub("predicted", "log", plot_y)
+
+# y lab
+if (params$log_plots) {
+  y_lab <- paste("log", params$spp, "count") 
+} else {
+    y_lab <- paste(params$spp, "count")
+  }
+```
+
+## `r params$spp` vs. variable plots
+
+```{r spp vs year}
+ggplot(plot_dat, aes(x = year_n, y = get(plot_y), color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = paste("Year vs", params$spp, "count"),
+       x = "Year", 
+       y = y_lab,
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r spp vs dos}
+ggplot(plot_dat, aes(x = dos, y = get(plot_y), color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = paste("Day of Season vs", params$spp, "count"),
+       x = "DOS", 
+       y = y_lab,
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r spp vs mean temp}
+ggplot(plot_dat, aes(x = mean_temp, y = get(plot_y), color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = paste("Mean temperature (C°) vs", params$spp, "count"),
+       x = "C°", 
+       y = y_lab,
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r spp vs total_precip}
+ggplot(plot_dat, aes(x = total_precip, y = get(plot_y), color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = paste("Total precipitation (mm) vs", params$spp, "count"),
+       x = "mm", 
+       y = y_lab,
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r spp vs flow}
+ggplot(plot_dat, aes(x = flow, y = get(plot_y), color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = paste("Flow vs", params$spp, "count"),
+       x = "Flow", 
+       y = y_lab,
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r spp vs u}
+ggplot(plot_dat, aes(x = u, y = get(plot_y), color = n_s)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = paste("u (westerly winds) vs", params$spp, "count"),
+       x = "u (westerly winds)", 
+       y = y_lab,
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r spp vs v}
+ggplot(plot_dat, aes(x = v, y = get(plot_y), color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = paste("v (southerly winds) vs", params$spp, "count"),
+       x = "v (southerly winds)", 
+       y = y_lab,
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r spp vs windspd}
+ggplot(plot_dat, aes(x = windspd, y = get(plot_y), color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = paste("Wind speed vs", params$spp, "count"),
+       x = "Wind speed (km/h)", 
+       y = y_lab,
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r spp vs tidal amp}
+ggplot(plot_dat, aes(x = elev_range, y = get(plot_y), color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = paste("Tidal amplitude vs", params$spp, "count"),
+       x = "Tidal amplitude (m)", 
+       y = y_lab,
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r spp vs tide status}
+ggplot(plot_dat, aes(x = tide, y = get(plot_y), color = n_s)) +
+  geom_violin() +
+  geom_boxplot() +
+  #geom_point(alpha = 0.5) + 
+  scale_color_manual(values = pal) +
+  labs(title = paste("Tide vs", params$spp, "count"),
+       x = "Tide", 
+       y = y_lab,
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r spp_vs_vars cleanup, include = FALSE}
+rm(pal, plot_y, y_lab, plot_dat)
+```
+

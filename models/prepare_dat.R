@@ -14,15 +14,63 @@ db <- DBI::dbConnect(RSQLite::SQLite(), here::here("temp", "bppeeps.db"))
 # Query table
 dat <- DBI::dbGetQuery(db, "with dr as (select date(date_time_pdt) as r_date, sum(count) as count
                        from raptors group by r_date)
-                       select bcl.survey_date, start_time, station_n, station_s, 
+                       select bcl.survey_date, start_time, sweep, station_n, station_s, 
                        sum(final_count) as final_count, p_wesa, count as raptor_count, ec.*
                        from bp_counts_loc bcl 
                        left join daily_percent_ratio dpr on bcl.survey_date = dpr.survey_date 
                        left join environmental_covariates ec on ec.date = bcl.survey_date
                        left join dr on r_date = bcl.survey_date
-                       group by station_n, bcl.survey_date
-                       order by bcl.survey_date;")
+                       group by station_n, bcl.survey_date, sweep
+                       order by bcl.survey_date, start_time, sweep;")
 dat <- dplyr::select(dat, c(-date))
+
+# Add zeroes in cases where no observation per station was noted
+# so we have an even number of observations per sweep
+z <- expand.grid(unique(dat$survey_date), unique(dat$station_n), KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+names(z) <- c("survey_date", "station_n")
+z$sweep <- "1"
+
+z2 <- expand.grid(unique(dat[["survey_date"]][grep("2", dat$sweep)]), unique(dat$station_n), KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+names(z2) <- c("survey_date", "station_n")
+z2$sweep <- "2"
+
+z3 <- expand.grid(unique(dat[["survey_date"]][grep("3", dat$sweep)]), unique(dat$station_n), KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+names(z3) <- c("survey_date", "station_n")
+z3$sweep <- "3"
+
+z <- rbind(z, z2, z3)
+z$final_count <- 0
+z <- merge(z, dat[,c("survey_date", "raptor_count", "elev_min", "elev_max", "elev_median", "elev_mean", "elev_range", "flow", "total_precip", "mean_temp", "u", "v", "windspd", "wind_deg")], by = c("survey_date"))
+z <- z[!duplicated(z),]
+
+dat <- dplyr::bind_rows(z, dat)
+
+# Group all data by survey, station, and sweep to get an even number of
+# observations per station per day.
+dat <- sqldf::sqldf("select survey_date, 
+                        min(start_time) as start_time,
+                        sweep,
+                        station_n, 
+                        station_s,
+                        sum(final_count) as final_count, 
+                        p_wesa, 
+                        avg(raptor_count) as raptor_count, 
+                        elev_min, 
+                        elev_max, 
+                        elev_median, 
+                        elev_mean, 
+                        elev_range, 
+                        flow, 
+                        total_precip, 
+                        mean_temp, 
+                        u, 
+                        v, 
+                        windspd, 
+                        wind_deg 
+                        from dat 
+                        group by survey_date, station_n, sweep;")
+
+rm(z, z2, z3)
 
 # Extract nrow of full dataset
 # This will be used to keep track of how many datapoints are lost
@@ -32,24 +80,31 @@ filter_n <- nrow(dat) # n records
 filter_d <- length(unique(dat$survey_date)) # n dates affected
 
 # Add tide rising/falling
+# First create timestamps in UTC
 dat$date_time_pdt <- as.POSIXct(paste(dat$survey_date, dat$start_time), format = "%Y-%m-%d %H:%M")
 dat$date_time_utc <- lubridate::as_datetime(dat$date_time_pdt, tz = "UTC")
+# Get the first timestamp per sweep - we will calculate whether the tide is rising
+# or falling per sweep
+t <- dat[!is.na(dat$date_time_utc) & dat$start_time != "00:00", c("survey_date", "sweep", "date_time_utc")] %>%
+  dplyr::group_by(survey_date, sweep) %>%
+  dplyr::slice(1)
 # Now calculate tides - at the time/date of the survey, and one hour later
-t <- earthtide::calc_earthtide(utc = dat$date_time_utc,
-                               method = 'gravity',
-                               latitude = 49.054646, 
-                               longitude = -123.144756)
-t2 <- earthtide::calc_earthtide(utc = (dat$date_time_utc + 3600), 
-                                method = 'gravity',
-                                latitude = 49.054646, 
-                                longitude = -123.144756)
-t_diff <- t2$gravity - t$gravity # if gravity @ time 2 > gravity at time 1, the tide is HIGHER
-dat$tide <- ifelse(t_diff > 0, "rising", "falling")
-rm(t, t2, t_diff)
+t$gravity1 <- earthtide::calc_earthtide(utc = t$date_time_utc,
+                                        method = 'gravity',
+                                        latitude = 49.054646, 
+                                        longitude = -123.144756)[[2]]
+t$gravity2 <- earthtide::calc_earthtide(utc = (t$date_time_utc + 3600), 
+                                        method = 'gravity',
+                                        latitude = 49.054646, 
+                                        longitude = -123.144756)[[2]]
+t$t_diff <- t$gravity2 - t$gravity1 # if gravity @ time 2 > gravity at time 1, the tide is HIGHER
+t$tide <- ifelse(t$t_diff > 0, "rising", "falling")
+dat <- merge(dat, t[,c("survey_date", "sweep", "tide")], by = c("survey_date", "sweep"), all.x = TRUE)
+rm(t)
 
 # Set dates, factors etc.
 dat$survey_date <- as.Date(dat$survey_date)
-station_levels <- c("Canoe Pass", "Brunswick dike", "Brunswick Point", "View corner", "Pilings", "Bend", "34th St pullout", "Coal Port")
+station_levels <- c("Canoe Pass", "Brunswick Point", "View corner", "Pilings", "Bend", "34th St pullout", "Coal Port")
 dat$station_n <- factor(dat$station_n, levels = station_levels)
 dat$station_s <- factor(dat$station_s, levels = station_levels)
 dat$tide <- as.factor(dat$tide)
@@ -63,10 +118,10 @@ dat$station_diff <- dat$station_s_no - dat$station_n_no
 
 # Filter to the appropriate data
 # Remove NA and 0 records
-dat <- dat[which(!is.na(dat$final_count)),]
-filter_s <- c(filter_s, "Remove NA count records")
-filter_n <- c(filter_n, nrow(dat))
-filter_d <- c(filter_d, length(unique(dat$survey_date)))
+# dat <- dat[which(!is.na(dat$final_count)),]
+# filter_s <- c(filter_s, "Remove NA count records")
+# filter_n <- c(filter_n, nrow(dat))
+# filter_d <- c(filter_d, length(unique(dat$survey_date)))
 
 # Include only survey period dates and where total # of birds < 1000
 # First select dates where tot # of birds < 1000
@@ -104,8 +159,8 @@ filter_d <- c(filter_d, length(unique(dat$survey_date)))
 
 # Add dat columns as needed
 dat$year <- as.factor(lubridate::year(dat$survey_date))
-dat$julian_day <- lubridate::yday(dat$survey_date)
-dat$dos <- scale(dat$julian_day) # day of season variable
+dat$ordinal_day <- lubridate::yday(dat$survey_date)
+dat$dos <- scale(dat$ordinal_day)[,1] # day of season variable
 dat$n_s <- ifelse(dat$station_n %in% c("Canoe Pass", "Brunswick Point", "View corner", "Pilings", "Bend"),
                   "N", "S")
 dat$n_s <- as.factor(dat$n_s)
@@ -133,8 +188,8 @@ sr$survey_date <- as.Date(sr$survey_date)
 
 # Add columns as needed
 sr$year <- as.factor(lubridate::year(sr$survey_date))
-sr$julian_day <- lubridate::yday(sr$survey_date)
-sr$dos <- scale(sr$julian_day) # day of season
+sr$ordinal_day <- lubridate::yday(sr$survey_date)
+sr$dos <- scale(sr$ordinal_day)[,1] # day of season
 
 # Filter to appropriate data
 sr <- sr[!(is.na(sr$wesa) | sr$total == 0), ]
@@ -151,8 +206,8 @@ dt <- dt[(format(dt$survey_date, "%m-%d") <= "05-15"), ]
 
 # Add columns as needed
 dt$year <- as.factor(lubridate::year(dt$survey_date))
-dt$julian_day <- lubridate::yday(dt$survey_date)
-dt$dos <- scale(dt$julian_day) # day of season variable
+dt$ordinal_day <- lubridate::yday(dt$survey_date)
+dt$dos <- scale(dt$ordinal_day)[,1] # day of season variable
 
 # DISCONNECT =======================================================
 # Disconnect from db

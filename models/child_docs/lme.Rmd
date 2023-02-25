@@ -1,0 +1,172 @@
+---
+title: "Linear mixed effects models"
+author: "Sarah Popov"
+date: "`r Sys.Date()`"
+output: pdf_document
+params:
+  spp: "WESA"
+  ns_tf: true
+---
+
+```{r setup lme, include=FALSE}
+library(ggplot2)
+library(formatR)
+
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE,
+                      tidy.opts = list(width.cutoff = 60), 
+                      tidy = TRUE)
+
+# Aggregate by NS
+source(here::here("models", "prepare_dat_ns.R"))
+
+# Choose dataset based on param
+if (params$ns_tf) {
+  lme_dat <- dat_ns
+} else {
+  lme_dat <- dat
+}
+
+# Remove records with NAs
+lme_dat <- lme_dat[,!(names(lme_dat) %in% c("raptor_count", "p_wesa"))]
+lme_dat <- lme_dat[complete.cases(lme_dat),]
+
+# Choose y var based on param
+if (params$spp == "WESA") {
+  y <- "log_wesa"
+} else {
+  y <- "log_dunl"
+}
+
+# Build full model formula
+f <- formula(paste(y, "~ scale(total_precip) + scale(mean_temp) + n_s*scale(flow) + n_s*scale(elev_range) + n_s*scale(u) + n_s*scale(windspd) + dos + I(dos^2) + year_c + (dos + I(dos^2) | year)"))
+```
+
+### Full model
+
+```{r full lme model}
+full_model <- lmerTest::lmer(f,
+                             data = lme_dat)
+
+summary(full_model)
+```
+
+### Backwards stepwise selection
+
+```{r lme stepwise}
+lmerTest::step(full_model, 
+               data = lme_dat, 
+               reduce.random = F, 
+               keep = c("year_c","dos", "I(dos^2)"))
+```
+
+```{r final model}
+s <- lmerTest::step(full_model, 
+                    data = lme_dat, 
+                    reduce.random = F, 
+                    keep = c("year_c","dos", "I(dos^2)"))
+
+final_model <- lme4::lmer(lmerTest::get_model(s)@call$formula, 
+                          data = lme_dat)
+```
+
+```{r final model forest plot}
+sjPlot::plot_model(final_model, type = "std") +
+  ggtitle(paste("Final", params$spp, "model - standardized fixed effect sizes")) +
+  scale_x_discrete(labels = rev(names(coef(final_model)$year)[-1]))
+```
+
+```{r lme random effects forest plot}
+sjPlot::plot_model(final_model, type = "re")
+```
+
+## Final model diagnostics
+
+```{r wesa make temp plot data}
+temp_plot <- broom.mixed::augment(final_model, lme_dat)
+temp_plot <- janitor::clean_names(temp_plot)
+```
+
+```{r wesa temp plot: observed vs predicted}
+ggplot(temp_plot, aes(x = get(y), y = fitted)) +
+  geom_point() + 
+  ggtitle("Observed vs. Fitted values") +
+  xlab("Observed") + 
+  ylab("Predicted") +
+  theme_minimal()
+```
+
+
+```{r wesa temp plot: heteroskedasticity}
+ggplot(temp_plot, aes(x = fitted, y = resid)) +
+  geom_point() + 
+  ggtitle("Heteroskedasticity",
+          subtitle = "Fitted values vs. Residuals") +
+  xlab("Fitted") + 
+  ylab("Residuals") +
+  theme_minimal()
+```
+
+
+```{r wesa temp plot: qq plot}
+ggplot(temp_plot, aes(sample = resid)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Quantile-Quantile") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+```{r wesa slope coeff}
+sjPlot::plot_model(final_model, type = "slope") +
+  ggtitle("Coefficient slopes vs Response")
+```
+
+
+```{r lme resids vs vars p1}
+temp_plot %>%
+  dplyr::select(year:resid, -fitted) %>%
+  tidyr::gather(-resid, key = "var", value = "value") %>%
+  dplyr::mutate(value = as.numeric(value)) %>%
+  ggplot(aes(x = value, y = resid)) +
+  geom_point() +
+  geom_smooth() +
+  scale_x_continuous(n.breaks = 3) +
+  ggtitle("Full dataset variables vs. Residuals") + 
+  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 1) +
+  theme_minimal()
+```
+
+```{r lme resids vars p2}
+temp_plot %>%
+  dplyr::select(year:resid, -fitted) %>%
+  tidyr::gather(-resid, key = "var", value = "value") %>%
+  dplyr::mutate(value = as.numeric(value)) %>%
+  ggplot(aes(x = value, y = resid)) +
+  geom_point() +
+  geom_smooth() +
+  scale_x_continuous(n.breaks = 3) +
+  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 2) +
+  theme_minimal()
+```
+
+```{r lme resids vars p3}
+temp_plot %>%
+  dplyr::select(year:resid, -fitted) %>%
+  tidyr::gather(-resid, key = "var", value = "value") %>%
+  dplyr::mutate(value = as.numeric(value)) %>%
+  ggplot(aes(x = value, y = resid)) +
+  geom_point() +
+  geom_smooth() +
+  scale_x_continuous(n.breaks = 3) +
+  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 3) +
+  theme_minimal()
+```
+
+```{r lme cleanup, include = FALSE}
+rm(f, y, lme_dat, s, full_model, final_model, temp_plot)
+```

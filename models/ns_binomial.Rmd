@@ -20,8 +20,8 @@ source(here::here("models", "prepare_dat.R"))
 
 ## GLMM N-S model
 # First, create our dataset
-ns_dat <- tidyr::pivot_wider(dat[,c("year", "julian_day", "survey_date", "n_s", "final_count", "elev_range", "flow", "total_precip", "mean_temp", "u", "v")], 
-                   id_cols = c("year", "julian_day", "survey_date"),
+ns_dat <- tidyr::pivot_wider(dat[,c("year", "ordinal_day", "survey_date", "n_s", "final_count", "elev_range", "flow", "total_precip", "mean_temp", "u", "v")], 
+                   id_cols = c("year", "ordinal_day", "survey_date"),
                    names_from = "n_s",
                    values_from = "final_count",
                    values_fn = sum,
@@ -34,7 +34,7 @@ ns_dat <- ns_dat[which(ns_dat$N != 0),]
 ns_dat <- ns_dat[which(ns_dat$S != 0),]
 
 # Rescale/center some vars
-ns_dat$dos <- scale(ns_dat$julian_day)
+ns_dat$dos <- scale(ns_dat$ordinal_day)
 ns_dat$log_N <- log(ns_dat$N + 1)
 ns_dat$log_S <- log(ns_dat$S + 1)
 
@@ -66,7 +66,7 @@ ns <- cbind(ns_dat$N, ns_dat$S)
 # And build our 5 models 
 # Response variable: ratio of count of N birds to count of S birds
 # Predictor variables:
-# - dos: day of season (recentered/scaled julian date)
+# - dos: day of season (recentered/scaled ordinal date)
 # - year: year (as a factor)
 lme1 <- lme4::glmer(ns ~ dos + I(dos^2) + (dos + I(dos^2)|year),
                     family = binomial, 

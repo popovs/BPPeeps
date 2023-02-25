@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup NS ZI, include=FALSE}
 library(ggplot2)
 library(formatR)
 
@@ -23,79 +23,28 @@ pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue
 # 1) dat [counts + environmental covariates]
 # 2) sr [daily species ratios]
 source(here::here("models", "prepare_dat.R"))
-source(here::here("models", "binomial_sr.R"))
+source(knitr::purl(here::here("models", "child_docs", "binomial_sr.Rmd"), quiet = TRUE))
+source(here::here("models", "prepare_dat_ns.R"))
 ```
 
-```{r merge sr results in, include = FALSE}
-# Add predicted wesa ratio generated above to the dat dataset
-dat <- merge(dat, yrs[,c("year", "julian_day", "predicted_ratio")], 
-             by = c("year", "julian_day"))
 
-# Scale and log-transform variables of interest
-dat$predicted_wesa <- round(dat$final_count * dat$predicted_ratio, 0)
-dat$predicted_dunl <- dat$final_count - dat$predicted_wesa
-dat$log_wesa <- log(dat$predicted_wesa + 1)
-dat$log_dunl <- log(dat$predicted_dunl + 1)
-dat$year_c <- scale(as.numeric(dat$year))
-
-# Remove records with NA in important environmental covariates
-dat <- dat[!is.na(dat$flow) & !is.na(dat$total_precip),]
-
+```{r p0, include = FALSE}
 # Proportion of zeroes
 dat_p0 <- sum(dat$predicted_wesa == 0) / length(dat$predicted_wesa)
-```
-
-```{r aggregate by NS, include=FALSE}
-dat3 <- sqldf::sqldf("select year, 
-                      survey_date, 
-                      julian_day, 
-                      min(start_time) as start_time, 
-                      n_s, 
-                      sum(final_count) as final_count, 
-                      sum(predicted_wesa) as predicted_wesa, 
-                      sum(predicted_dunl) as predicted_dunl, 
-                      p_wesa, 
-                      predicted_ratio, 
-                      avg(raptor_count) as raptor_count, 
-                      tide,
-                      elev_min, 
-                      elev_max, 
-                      elev_median, 
-                      elev_mean, 
-                      elev_range, 
-                      flow, 
-                      total_precip, 
-                      mean_temp, 
-                      u, 
-                      v, 
-                      windspd, 
-                      wind_deg 
-                      from dat 
-                      group by survey_date, n_s;") %>%
-  dplyr::mutate(dos = scale(julian_day),
-                log_wesa = log(predicted_wesa + 1),
-                log_dunl = log(predicted_dunl + 1),
-                year_n = as.numeric(year),
-                year_c = scale(year_n)) %>%
-  dplyr::select(year, survey_date, julian_day, dos, start_time, n_s,
-                final_count, predicted_wesa, predicted_dunl, log_wesa, 
-                log_dunl, dplyr::everything())
-
-# Proportion of zeroes
-dat3_p0 <- sum(dat3$predicted_wesa == 0) / length(dat3$predicted_wesa)
+dat_ns_p0 <- sum(dat_ns$predicted_wesa == 0) / length(dat_ns$predicted_wesa)
 ```
 
 # Data summary
 
-Dataset: one count record per N/S region per survey date, `r nrow(dat3)` records. `r round(dat3_p0*100, 1)`% of the records are zeroes.
+Dataset: one count record per N/S region per survey date, `r nrow(dat_ns)` records. `r round(dat_ns_p0*100, 1)`% of the records are zeroes.
 
 ```{r station response distribution, fig.cap="Histogram of WESA count per N/S group per survey date. Plenty of zeroes..."}
-hist(dat3$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab = "WESA count")
+hist(dat_ns$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab = "WESA count")
 ```
 
 ```{r wesa response vs all vars p1}
-(dat3 %>%
-  dplyr::select(predicted_wesa, year, julian_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
+(dat_ns %>%
+  dplyr::select(predicted_wesa, year, ordinal_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
   tidyr::gather(-predicted_wesa, key = "var", value = "value") %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = predicted_wesa)) +
@@ -106,9 +55,10 @@ hist(dat3$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab 
   ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 1) +
   theme_minimal())
 ```
+
 ```{r wesa response vs all vars p2}
-(dat3 %>%
-  dplyr::select(predicted_wesa, year, julian_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
+(dat_ns %>%
+  dplyr::select(predicted_wesa, year, ordinal_day, dos, raptor_count, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>%
   tidyr::gather(-predicted_wesa, key = "var", value = "value") %>%
   dplyr::mutate(value = as.numeric(value)) %>%
   ggplot(aes(x = value, y = predicted_wesa)) +
@@ -119,9 +69,10 @@ hist(dat3$predicted_wesa,  breaks = 100, main = "Histogram of WESA count", xlab 
   ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 2) +
   theme_minimal())
 ```
+
 ```{r wesa correlation plot, fig.cap="Correlation matrix between numeric explanatory variables."}
-dat3 %>%
-    dplyr::select(predicted_wesa, julian_day, dos, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>% 
+dat_ns %>%
+    dplyr::select(predicted_wesa, ordinal_day, dos, elev_min, elev_max, elev_median, elev_mean, elev_range, flow, total_precip, mean_temp, u, v, windspd, wind_deg) %>% 
   cor() %>% 
   corrplot::corrplot(order="hclust")
 ```
@@ -144,59 +95,68 @@ library("mgcv")
 library("glmmTMB")
 
 ## Poisson Models
-pgam0 <- gam(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"), data = dat3, family = poisson, method = "ML")
-pgam1 <- gam(predicted_wesa ~ n_s + s(flow) + year_c + s(dos) + s(year, bs = "re"), data = dat3, family = poisson, method = "ML")
-pgam2 <- gam(predicted_wesa ~ n_s + s(flow) + n_s:flow + year_c + s(dos) + s(year, bs = "re"), data = dat3, family = poisson, method = "ML")
+pgam0 <- gam(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"), data = dat_ns, family = poisson, method = "ML")
+pgam1 <- gam(predicted_wesa ~ n_s + s(flow) + year_c + s(dos) + s(year, bs = "re"), data = dat_ns, family = poisson, method = "ML")
+pgam2 <- gam(predicted_wesa ~ n_s + s(flow) + n_s:flow + year_c + s(dos) + s(year, bs = "re"), data = dat_ns, family = poisson, method = "ML")
 
-pm0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), data = dat3, family = poisson)
-pm1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), data = dat3, family = poisson)
-pm2 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), data = dat3, family = poisson)
+pm0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), data = dat_ns, family = poisson)
+pm1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), data = dat_ns, family = poisson)
+pm2 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), data = dat_ns, family = poisson)
 
 AIC(pgam0, pgam1, pgam2)
 AIC(pm0, pm1, pm2)
 
 ## Negative binomial models
-nbgam0 <- gam(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"), data = dat3, family = nb, method = "ML")
-nbgam1 <- gam(predicted_wesa ~ n_s + s(flow) + year_c + s(dos) + s(year, bs = "re"), data = dat3, family = nb, method = "ML")
-nbgam2 <- gam(predicted_wesa ~ n_s + s(flow) + n_s:flow + year_c + s(dos) + s(year, bs = "re"), data = dat3, family = nb, method = "ML")
+nbgam0 <- gam(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"), data = dat_ns, family = nb, method = "ML")
+nbgam1 <- gam(predicted_wesa ~ n_s + s(flow) + year_c + s(dos) + s(year, bs = "re"), data = dat_ns, family = nb, method = "ML")
+nbgam2 <- gam(predicted_wesa ~ n_s + s(flow) + n_s:flow + year_c + s(dos) + s(year, bs = "re"), data = dat_ns, family = nb, method = "ML")
 
-nbm0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), data = dat3, family = nbinom2)
-nbm1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), data = dat3, family = nbinom2)
-nbm2 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), data = dat3, family = nbinom2)
+nbm0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), data = dat_ns, family = nbinom2)
+nbm1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), data = dat_ns, family = nbinom2)
+nbm2 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), data = dat_ns, family = nbinom2)
 
 AIC(nbgam0, nbgam1, nbgam2)
 AIC(nbm0, nbm1, nbm2)
 
-## Zero-inflated Poisson
+## Zero-inflated Poisson GAM
 ## mgcv's ziplss can only fit using REML
 zipgam0 <- gam(list(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"), ~ n_s),
-               data = dat3, family = ziplss, method = "REML")
+               data = dat_ns, family = ziplss, method = "REML")
 zipgam1 <- gam(list(predicted_wesa ~ n_s + s(flow) + year_c + s(dos) + s(year, bs = "re"), ~ n_s),
-               data = dat3, family = ziplss, method = "REML")
+               data = dat_ns, family = ziplss, method = "REML")
 zipgam2 <- gam(list(predicted_wesa ~ n_s + s(flow) + n_s:flow + year_c + s(dos) + s(year, bs = "re"), ~ n_s + s(flow)),
-               data = dat3, family = ziplss, method = "REML")
+               data = dat_ns, family = ziplss, method = "REML")
 zipgam3 <- gam(list(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"), ~ n_s + s(flow) + n_s:flow),
-               data = dat3, family = ziplss, method = "REML")
+               data = dat_ns, family = ziplss, method = "REML")
 ## check the things converged
 #zipgam0$outer.info ## full convergence
 #zipgam1$outer.info ## full convergence
 #zipgam2$outer.info ## full convergence
 #zipgam3$outer.info ## full convergence
 
-zipm0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat3, family = poisson)
-zipm1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat3, family = poisson)
-zipm2 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + flow, data = dat3, family = poisson)
-zipm3 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s * flow, data = dat3, family = poisson)
+## Zero-inflated Poisson
+zipm0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat_ns, family = poisson)
+zipm1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat_ns, family = poisson)
+zipm2 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + scale(flow), data = dat_ns, family = poisson)
+zipm3 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s * scale(flow), data = dat_ns, family = poisson)
 
-zinb0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat3, family = nbinom1)
-zinb1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + flow, data = dat3, family = nbinom1)
-zinb2 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + flow, data = dat3, family = nbinom1)
+## Zero-inflated negative binomial
+zinb0 <- glmmTMB(predicted_wesa ~ n_s + year_c + I(dos^2) + (1|year), zi = ~ n_s, data = dat_ns, family = nbinom1)
+zinb1 <- glmmTMB(predicted_wesa ~ n_s + scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s + scale(flow), data = dat_ns, family = nbinom1)
+zinb2 <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + I(dos^2) + (1|year), zi = ~ n_s * scale(flow), data = dat_ns, family = nbinom1)
 
 AIC(zipgam0, zipgam1, zipgam2, zipgam3)
 AIC(zipm0, zipm1, zipm2, zipm3, zinb0, zinb1, zinb2)
 
+## Tweedie GAM
+tgam0 <- gam(predicted_wesa ~ n_s + year_c + s(dos) + s(year, bs = "re"), data = dat_ns, family = tw, method = "ML")
+tgam1 <- gam(predicted_wesa ~ n_s + s(flow) + year_c + s(dos) + s(year, bs = "re"), data = dat_ns, family = tw, method = "ML")
+tgam2 <- gam(predicted_wesa ~ n_s + s(flow) + n_s:flow + year_c + s(dos) + s(year, bs = "re"), data = dat_ns, family = tw, method = "ML")
+
+## Zero-inflated tweedie GLM
+
 # Compare them all
-bbmle::AICtab(pgam0, pgam1, pgam2, pm0, pm1, pm2, nbgam0, nbgam1, nbgam2, nbm0, nbm1, nbm2, zipgam0, zipgam1, zipgam2, zipm0, zipm1, zipm2, zinb0, zinb1, zinb2)
+bbmle::AICtab(pgam0, pgam1, pgam2, pm0, pm1, pm2, nbgam0, nbgam1, nbgam2, nbm0, nbm1, nbm2, zipgam0, zipgam1, zipgam2, zipm0, zipm1, zipm2, zinb0, zinb1, zinb2, tgam0, tgam1, tgam2)
 ```
 
 ## Best-fit diagnostics
@@ -217,31 +177,31 @@ DHARMa::testZeroInflation(resid_sim)
 ## Full model
 
 ```{r full model}
-full_zinb <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + scale(mean_temp) 
-                     + scale(elev_range) + tide + scale(total_precip) + scale(u) 
-                     + I(dos^2) + (1|year), 
+full_zinb <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + n_s * scale(mean_temp) 
+                     + n_s * scale(elev_range) + n_s * scale(total_precip) + n_s * scale(u) 
+                     + n_s * scale(windspd) + tide  + I(dos^2) + (1|year), 
                      zi = ~ ., 
-                     data = dat3, 
+                     data = dat_ns, 
                      family = nbinom1)
 summary(full_zinb)
 ```
 
 
 ```{r model selection, include = FALSE}
-full_zinb <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + scale(mean_temp) 
-                     + scale(elev_range) + tide + scale(total_precip) + scale(u) 
-                     + I(dos^2) + (1|year), 
+full_zinb <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + n_s * scale(mean_temp) 
+                     + n_s * scale(elev_range) + n_s * scale(total_precip) + n_s * scale(u) 
+                     + n_s * scale(windspd) + tide  + I(dos^2) + (1|year), 
                      zi = ~ ., 
-                     data = dat3, 
+                     data = dat_ns, 
                      family = nbinom1)
 # Doing this the old-fashioned way...
 # First dropping insignificant terms from the zi model
 summary(full_zinb)
 full_zinb <- glmmTMB(predicted_wesa ~ n_s * scale(flow) + year_c + scale(mean_temp) 
                      + scale(elev_range) + tide + scale(total_precip) + scale(u) 
-                     + I(dos^2) + (1|year), 
+                     + scale(windspd) + I(dos^2) + (1|year), 
                      zi = ~ n_s + year_c + scale(elev_range) + tide + scale(u), 
-                     data = dat3, 
+                     data = dat_ns, 
                      family = nbinom1)
 drop1(full_zinb)
 full_zinb <- update(full_zinb, formula = .~.-scale(total_precip))
@@ -268,7 +228,7 @@ sjPlot::plot_model(final_mod)
 Do the zeroes in our ZI model make sense? At least for the year and N/S components, it seems so. In earlier years, the odds of a zero-bird count are higher, and in the south, the odds of a zero-bird count are also higher. With a zero-inflated model these odds are specifically the odds of finding *structural* or *true* zeroes, rather than simply zeroes due to sampling errors.
 
 ```{r, fig.cap="Frequency of zero count observations by year and north/south region. Zero counts are more frequently observed in earlier years and in the south."}
-table(dat3[["year"]][dat3$final_count == 0], dat3[["n_s"]][dat3$final_count == 0], dat3[["final_count"]][dat3$final_count == 0])
+table(dat_ns[["year"]][dat_ns$final_count == 0], dat_ns[["n_s"]][dat_ns$final_count == 0], dat_ns[["final_count"]][dat_ns$final_count == 0])
 ```
 
 
@@ -290,7 +250,7 @@ DHARMa::testZeroInflation(resid_sim)
 varsList <- c("dos", "year_c", "year", "n_s", "tide", "flow", "mean_temp", "elev_range", "total_precip", "u")
 for (i in varsList) {
   cat("\n", i)
-  DHARMa::plotResiduals(final_mod, dat3[[i]], rank = TRUE)
+  DHARMa::plotResiduals(final_mod, dat_ns[[i]], rank = TRUE)
 }
 ```
 

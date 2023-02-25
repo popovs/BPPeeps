@@ -3,7 +3,7 @@ library(magrittr) # for assignment pipe '%<>%' operator
 ## 01 IMPORT ----
 # Relative file paths to this source file
 f <- list.files("RobertsBankShorebirdSurveys/")
-f <- f[!grepl("^~", f)] # Drop hidden excel files, if present
+f <- f[!grepl("^~|.md", f)] # Drop hidden excel files, if present
 f <- f[!grepl("2013_", f)] # Drop extra 2013 data files
 raw <- list()
 for (i in 1:length(f)) {
@@ -351,6 +351,31 @@ counts <- dplyr::bind_rows(counts_list)
 counts$record_id <- as.numeric(row.names(counts))
 counts <- counts %>% dplyr::select(record_id, dplyr::everything())
 
+# Extract pre-2014 records
+# These records are used to create the in_daily_total_yn file
+# pre2014 <- counts[counts$raw_datafile %in% c('BPPEEP00.xls',
+#                                   'BPPEEP01.xls',
+#                                   'BPPEEP2002.xls',
+#                                   'BPPEEP2003.xls',
+#                                   'BPPEEP2004.xls',
+#                                   'BPPEEP2005.xls',
+#                                   'BPPeep2006.xls',
+#                                   'BPPeep2007.xls',
+#                                   'BPPEEP91.xlsx',
+#                                   'BPPEEP92.xlsx',
+#                                   'BPPEEP94.xls',
+#                                   'BPPEEP95.xls',
+#                                   'BPPEEP97.xls',
+#                                   'BPPEEP98.xls',
+#                                   'BPPEEP99.xls',
+#                                   'BPPeeps2008.xls',
+#                                   'BPPeeps2009.xls',
+#                                   'BPPeeps2010.xls',
+#                                   'BPPeeps2011.xls',
+#                                   'BPPeeps2012.xls',
+#                                   'BPPeeps2013.xlsx'),]
+# write.csv(pre2014, "supporting_files/in_total_yn.csv", row.names = F, na = "")
+
 # This record ID is now used to merge a supporting dataset in
 # This supporting dataset includes the column "in_daily_total_yn",
 # which indicates whether or not the meancount for a given location
@@ -364,6 +389,7 @@ counts <- counts %>% dplyr::select(record_id, dplyr::everything())
 in_daily_total_yn <- read.csv("supporting_files/in_total_yn.csv")
 in_daily_total_yn <- in_daily_total_yn[,c("record_id", "in_daily_total_yn")]
 counts <- merge(counts, in_daily_total_yn, all.x = TRUE)
+counts[["in_daily_total_yn"]][is.na(counts$in_daily_total_yn)] <- 'TRUE'
 rm(in_daily_total_yn)
 
 # Merge 'notes' and 'comments' columns
@@ -522,6 +548,10 @@ counts$observer <- as.factor(counts$observer)
 # Misc data fixes
 # 1998 - all counts are in the count_1 column
 counts[["mean_count"]][which(lubridate::year(counts$date_time_pdt) == 1998)] <- counts[["count_1"]][which(lubridate::year(counts$date_time_pdt) == 1998)]
+
+# 2012-04-21 - empty mean_count column
+counts[["mean_count"]][which(lubridate::date(counts$date_time_pdt) == "2012-04-21" & !is.na(counts$time))] <- 
+  rowMeans(counts[which(lubridate::date(counts$date_time_pdt) == "2012-04-21" & !is.na(counts$time)), c("count_1", "count_2", "count_3")], na.rm = T)
 
 # Data checks
 # Some simple & quick data checks to see if excel data is 
@@ -1455,6 +1485,7 @@ DBI::dbExecute(bppeeps, "drop view if exists bp_counts_loc;")
 DBI::dbExecute(bppeeps, "create view bp_counts_loc as
                       select date(date_time_pdt) as survey_date,
                       strftime('%H:%M', date_time_pdt) as start_time,
+                      replace(replace(in_daily_total_yn, 'TRUE', '1'), 'AVG ', '') as sweep,
                       cleaned as station,
                       station_n,
                       station_s,
@@ -1467,20 +1498,25 @@ DBI::dbExecute(bppeeps, "create view bp_counts_loc as
                       from bp_counts_all c
                       left join locations l
                       on c.location = l.original_location_name
-                      where in_daily_total_yn in ('TRUE')
+                      where in_daily_total_yn in ('TRUE', 'AVG 1', 'AVG 2', 'AVG 3')
                         or in_daily_total_yn is null
                         and c.location is not null
-                      group by survey_date, station;")
+                      group by survey_date, station, in_daily_total_yn
+                      order by survey_date, start_time, sweep;")
 
 # Daily population total view
 DBI::dbExecute(bppeeps, "drop view if exists daily_total;")
 DBI::dbExecute(bppeeps, "create view daily_total as
-               select date(date_time_pdt) as survey_date,
-               sum(final_count) as total_count
-               from bp_counts_all bca
-               where in_daily_total_yn in ('TRUE', 'only total')
-               group by survey_date
-               order by survey_date;")
+               with daily_subtotals as 
+                (select date(date_time_pdt) as survey_date,
+                sum(final_count) as total_count
+                from bp_counts_all bca
+                where in_daily_total_yn not in ('no survey', 'total', 'FALSE')
+                group by survey_date, in_daily_total_yn
+                order by survey_date)
+                select survey_date, avg(total_count) as total_count
+                from daily_subtotals
+                group by survey_date;")
 
 DBI::dbDisconnect(bppeeps)
 

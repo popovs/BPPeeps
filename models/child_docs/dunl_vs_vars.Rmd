@@ -1,0 +1,146 @@
+---
+title: "DUNL counts vs response"
+author: "Sarah Popov"
+date: "`r Sys.Date()`"
+output: pdf_document
+params:
+  log_tf: false
+  ns_tf: true
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE,
+                      tidy.opts = list(width.cutoff = 60), 
+                      tidy = TRUE)
+
+# Color palette (using blue & yellow from wesanderson Zissou1 palette)
+pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue = 255))
+
+# Aggregate by NS
+source(here::here("models", "prepare_dat_ns.R"))
+```
+
+## DUNL vs. variable plots
+
+```{r wesa vs year}
+ggplot(dat3, aes(x = year_n, y = predicted_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Year vs DUNL count",
+       x = "Year", 
+       y = "DUNL count",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r wesa vs dos}
+ggplot(dat3, aes(x = dos, y = predicted_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Day of Season vs DUNL count",
+       x = "DOS", 
+       y = "DUNL count",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r wesa vs mean temp}
+ggplot(dat3, aes(x = mean_temp, y = predicted_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Mean temperature (C°) vs DUNL count",
+       x = "C°", 
+       y = "DUNL count",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r wesa vs total_precip}
+ggplot(dat3, aes(x = total_precip, y = predicted_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Total precipitation (mm) vs DUNL count",
+       x = "mm", 
+       y = "DUNL count",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r wesa vs flow}
+ggplot(dat3, aes(x = flow, y = predicted_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Flow vs DUNL count",
+       x = "Flow", 
+       y = "DUNL count",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+```{r wesa vs u}
+ggplot(dat3, aes(x = u, y = predicted_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "u (westerly winds) vs DUNL count",
+       x = "u (westerly winds)", 
+       y = "DUNL count",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r wesa vs v}
+ggplot(dat3, aes(x = v, y = predicted_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "v (southerly winds) vs DUNL count",
+       x = "v (southerly winds)", 
+       y = "DUNL count",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r wesa vs windspd}
+ggplot(dat3, aes(x = windspd, y = predicted_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Wind speed vs DUNL count",
+       x = "Wind speed (km/h)", 
+       y = "DUNL count",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r wesa vs tidal amp}
+ggplot(dat3, aes(x = elev_range, y = predicted_dunl, color = n_s)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(se = FALSE) +
+  scale_color_manual(values = pal) +
+  labs(title = "Tidal amplitude vs DUNL count",
+       x = "Tidal amplitude (m)", 
+       y = "DUNL count",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
+
+```{r wesa vs tide status}
+ggplot(dat3, aes(x = tide, y = predicted_dunl, color = n_s)) +
+  geom_violin() +
+  geom_boxplot() +
+  #geom_point(alpha = 0.5) + 
+  scale_color_manual(values = pal) +
+  labs(title = "Tide vs DUNL count",
+       x = "Tide", 
+       y = "DUNL count",
+       color = "Station") + 
+  cowplot::theme_cowplot()
+```
