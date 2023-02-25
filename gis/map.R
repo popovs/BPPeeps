@@ -29,6 +29,8 @@ stations <- st_transform(stations, crs = 32610)
 stations <- stations[!(stations$station_n %in% c(0, 6)), ] # Remove BP & CPSM stations
 
 fraser <- st_read("gis/fraser_label.shp")
+cp <- st_read("gis/cp_label.shp")
+dp <- st_read("gis/dp_label.shp")
 
 # Following the incredibly helpful steps here - https://medium.com/@tobias.stalder.geo/plot-rgb-satellite-imagery-in-true-color-with-ggplot2-in-r-10bdb0e4dd1f
 #b_img <- raster::stack("gis/b2.tif")
@@ -50,17 +52,18 @@ ggplot(data = b_subset, aes(x = x, y = y)) +
   theme_minimal()
 
 
-## Make map
+## Make base map
 
 bbox <- st_bbox(stations)
 bbox[[1]] <- bbox[[1]] - 2000 # 2 km buffer to west
-bbox[[3]] <- bbox[[3]] + 4500 # 4.5 km buffer to east
-bbox[[2]] <- bbox[[2]] - 2000 # 2 km buffer to south
+bbox[[3]] <- bbox[[3]] + 3800 # 4.5 km buffer to east
+bbox[[2]] <- bbox[[2]] - 3000 # 2 km buffer to south
 bbox[[4]] <- bbox[[4]] + 2000 # 2 km buffer to north
+bbox[[4]] <- 5435870 # North extent of the raster 
 #bbox[c(1,2)] <- bbox[c(1,2)] - 5000 # add 5 km buffer
 #bbox[c(3,4)] <- bbox[c(3,4)] + 5000
 
-ggplot() +
+b_sat <- ggplot() +
   geom_raster(data = b,
               aes(x = x, y = y),
               fill = rgb(r = b$b_1,
@@ -69,19 +72,60 @@ ggplot() +
                          maxColorValue = 255),
               show.legend = FALSE) +
   scale_fill_identity() +
-  geom_sf(data = catchment) +
-  # geom_sf(data = wa,
-  #         lwd = 0,
-  #         fill = "#CBCACA") +
-  # geom_sf(data = delta,
-  #         lwd = 0.1,
-  #         color = "#C3C3C3") +
-  #geom_sf(data = mud) +
-  geom_sf_label(data = stations, aes(label = station_n)) +
+  geom_sf(data = catchment,
+          color = NA,
+          fill = "#e6a800", 
+          alpha = 0.3) +
+  geom_sf_label(data = stations, 
+                aes(label = station_n)) +
+  geomtextpath::geom_textsf(data = cp,
+                            label = "Canoe Pass",
+                            color = "white",
+                            linecolour = NA,
+                            family = "Avenir") +
+  geomtextpath::geom_textsf(data = dp,
+                            label = "Deltaport Causeway",
+                            color = "white",
+                            linecolour = NA, 
+                            family = "Avenir") +
   coord_sf(xlim = bbox[c(1,3)],
            ylim = bbox[c(2,4)],
-           expand = T) +
-  theme_minimal()
+           expand = F) +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+        plot.margin = unit(c(0, 0, 0, 0), "null"),
+        panel.margin = unit(c(0, 0, 0, 0), "null"))
+
+b_sf <- ggplot() +
+  geom_sf(data = catchment,
+          color = NA,
+          fill = "#e6a800", 
+          alpha = 0.3) +
+  geom_sf(data = wa,
+          lwd = 0,
+          fill = "#CBCACA") +
+  geom_sf(data = delta,
+          lwd = 0.1,
+          color = "#C3C3C3") +
+  geom_sf_label(data = stations, 
+                aes(label = station_n)) +
+  geomtextpath::geom_textsf(data = cp,
+                            label = "Canoe Pass",
+                            color = "black",
+                            linecolour = NA,
+                            family = "Avenir") +
+  geomtextpath::geom_textsf(data = dp,
+                            label = "Deltaport Causeway",
+                            color = "black",
+                            linecolour = NA, 
+                            family = "Avenir") +
+  coord_sf(xlim = bbox[c(1,3)],
+           ylim = bbox[c(2,4)],
+           expand = F) +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+        plot.margin = unit(c(0, 0, 0, 0), "null"),
+        panel.margin = unit(c(0, 0, 0, 0), "null"))
 
 
 # Inset labels 
@@ -112,7 +156,8 @@ i <- ggplot() +
   #                 pattern_res = 720) +
   geom_sf(data = mud,
           color = NA,
-          fill = "#e6a800", 
+          #fill = "#e6a800", 
+          fill = "#575656",
           alpha = 0.3) +
   geom_sf(data = wa,
           lwd = 0,
@@ -143,10 +188,32 @@ i <- ggplot() +
   geomtextpath::geom_textsf(data = fraser,
                             label = "Fraser River",
                             color = "white",
-                            linecolour = NA) +
+                            linecolour = NA, 
+                            family = "Avenir") +
   coord_sf(xlim = bbox2[c(1,3)],
            ylim = bbox2[c(2,4)],
            expand = T) +
-  theme_void()
+  theme_void() +
+  theme(panel.background = element_rect(fill = "white"),
+        plot.margin = unit(c(0, 0, 0, 0), "null"),
+        panel.margin = unit(c(0, 0, 0, 0), "null"),
+        panel.border = element_rect(color = "black",
+                                    fill = NA, 
+                                    linewidth = 1))
 
   
+# Merge the two
+final <- b_sat %>% 
+  cowplot::ggdraw() + 
+  cowplot::draw_plot({i}, 
+                     x = 1, 
+                     y = 1, 
+                     hjust = 1, 
+                     vjust = 1,
+                     halign = 1,
+                     valign = 1,
+                     width = 0.5, 
+                     height = 0.5)
+
+# 1.633721 aspect ratio
+ggsave("gis/output.tiff", final, width = 281, height = 172, units = "mm", device = "tiff")
