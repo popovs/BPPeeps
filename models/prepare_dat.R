@@ -149,8 +149,8 @@ filter_s <- c(filter_s, "Exclude Canoe Pass, Intercauseway, and NA stations (e.g
 filter_n <- c(filter_n, nrow(dat))
 filter_d <- c(filter_d, length(unique(dat$survey_date)))
 
-# Include only survey dates where birds span <3 stations
-tmp <- unique(dat[["survey_date"]][which(dat$station_diff > 2)])
+# Include only survey dates where birds span < 3 stations
+tmp <- unique(dat[["survey_date"]][which(dat$station_diff > 3)])
 dat <- dat[!(dat$survey_date %in% as.Date(tmp)), ]
 
 filter_s <- c(filter_s, "Exclude records where only bird count occurs in location that spans >2 stations (e.g., 'BP to CP')")
