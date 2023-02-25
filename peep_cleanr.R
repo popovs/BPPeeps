@@ -1514,7 +1514,7 @@ DBI::dbExecute(bppeeps, "create view daily_total as
                 where in_daily_total_yn not in ('no survey', 'total', 'FALSE')
                 group by survey_date, in_daily_total_yn
                 order by survey_date)
-                select survey_date, avg(total_count) as total_count
+                select survey_date, round(avg(total_count), 0) as total_count
                 from daily_subtotals
                 group by survey_date;")
 
