@@ -60,3 +60,4 @@ ec.cache*
 wind_20221125.csv
 wind_20230210.csv
 temp*
+*.qgz
