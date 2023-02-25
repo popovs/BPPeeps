@@ -7,6 +7,7 @@
 dat_ns <- sqldf::sqldf("select year, 
                         survey_date, 
                         ordinal_day, 
+                        sweep,
                         min(start_time) as start_time, 
                         n_s, 
                         sum(final_count) as final_count, 
@@ -35,7 +36,7 @@ dat_ns <- sqldf::sqldf("select year,
                 log_dunl = log(predicted_dunl + 1),
                 year_n = as.numeric(year),
                 year_c = scale(year_n)[,1]) %>%
-  dplyr::select(year, survey_date, ordinal_day, dos, start_time, n_s,
+  dplyr::select(year, survey_date, sweep, ordinal_day, dos, start_time, n_s,
                 final_count, predicted_wesa, predicted_dunl, log_wesa, 
                 log_dunl, dplyr::everything()) %>%
   dplyr::filter(!is.na(flow),
