@@ -595,6 +595,13 @@
       "Repository": "CRAN",
       "Hash": "15e9634c0fcd294799e9b2e929ed1b86"
     },
+    "geomtextpath": {
+      "Package": "geomtextpath",
+      "Version": "0.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0fde68ff704fe1323dfe161e64669e3f"
+    },
     "ggeffects": {
       "Package": "ggeffects",
       "Version": "1.1.4",
@@ -609,12 +616,26 @@
       "Repository": "CRAN",
       "Hash": "a06503f54e227f79b45a72df2946a2d2"
     },
+    "ggpattern": {
+      "Package": "ggpattern",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "1c5980570b0e1d8cd9c08bdd1472d236"
+    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.4.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "fd2aab12f54400c6bca43687231e246b"
+    },
+    "ggpp": {
+      "Package": "ggpp",
+      "Version": "0.5.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f6c8590a98da3ef579ddb4f82cef3d5b"
     },
     "glmmTMB": {
       "Package": "glmmTMB",
@@ -636,6 +657,20 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "4f2596dfb05dac67b9dc558e5c6fba2e"
+    },
+    "gridExtra": {
+      "Package": "gridExtra",
+      "Version": "2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "7d7f283939f563670a697165b2cf5560"
+    },
+    "gridpattern": {
+      "Package": "gridpattern",
+      "Version": "1.0.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "511a541015f9b9960a088fb7402c3877"
     },
     "gsubfn": {
       "Package": "gsubfn",
@@ -1022,6 +1057,13 @@
       "Repository": "CRAN",
       "Hash": "66bbfa06f78108ee967220643596c91e"
     },
+    "polynom": {
+      "Package": "polynom",
+      "Version": "1.4-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "ceb5c2a59ba33d42d051285a3e8a5118"
+    },
     "praise": {
       "Package": "praise",
       "Version": "1.0.0",
@@ -1330,6 +1372,13 @@
       "Repository": "CRAN",
       "Hash": "7910146255835c66e9eb272fb215248d"
     },
+    "textshaping": {
+      "Package": "textshaping",
+      "Version": "0.3.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "1ab6223d3670fac7143202cb6a2d43d5"
+    },
     "tibble": {
       "Package": "tibble",
       "Version": "3.1.8",
@@ -1486,6 +1535,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "b8acdf8af494d9ec19ccb2481a9b11c2"
+    },
+    "xts": {
+      "Package": "xts",
+      "Version": "0.12.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6731cbcbe2f9633865b59392aee7966d"
     },
     "yaml": {
       "Package": "yaml",
