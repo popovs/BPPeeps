@@ -625,7 +625,7 @@ mod_names <- c('conditional' = 'Conditional',
 
 plot_zinb(zinbf1) +
   scale_x_discrete(labels = function(x) stringr::str_replace_all(x, var_names))
-# plot_dual_zinb(m1 = zinb_wesa, m2 = zinb_dunl, shape = c("WESA", "DUNL")) +
+# plot_dual_zinb(m1 = zinbf_wesa, m2 = zinbf_dunl, shape = c("WESA", "DUNL")) +
 #   scale_x_discrete(labels = function(x) stringr::str_replace_all(x, var_names))
 ```
 

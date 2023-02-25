@@ -1,4 +1,7 @@
-plot_zinb <- function(m, fl = c("Shorebird abundance", "Shorebird absence"), order.terms = TRUE, order_by = "conditional") {
+plot_zinb <- function(m, 
+                      fl = c("Shorebird abundance", "Shorebird absence"), 
+                      order.terms = TRUE, order_by = "conditional",
+                      free_x = TRUE) {
   # Plot label setup
   ef_facet_labels <- c("conditional" = fl[1], "zero_inflated" = fl[2])
   
@@ -38,7 +41,7 @@ plot_zinb <- function(m, fl = c("Shorebird abundance", "Shorebird absence"), ord
     # scale_color_manual(values = c("(-Inf,1]" = "red",
     #                               "(1, Inf]" = "blue")) +
     scale_y_continuous(trans = "log10") +
-    facet_wrap(~ Component, nrow = 2, labeller = labeller(Component = ef_facet_labels)) + 
+    facet_wrap(~ Component, nrow = 2, scales = ifelse(isTRUE(free_x), "free_x", "fixed"), labeller = labeller(Component = ef_facet_labels)) + 
     coord_flip() + 
     labs(y = "Incidence Rate Ratios") +
     theme_minimal() +
@@ -51,7 +54,8 @@ plot_zinb <- function(m, fl = c("Shorebird abundance", "Shorebird absence"), ord
 plot_dual_zinb <- function(m1, m2, 
                            shape = c("WESA", "DUNL"),
                            fl = c("Shorebird abundance", "Shorebird absence"), 
-                           order.terms = TRUE, order_by = "conditional") {
+                           order.terms = TRUE, order_by = "conditional",
+                           free_x = TRUE) {
   # Plot label setup
   ef_facet_labels <- c("conditional" = fl[1], "zero_inflated" = fl[2])
   
@@ -98,7 +102,7 @@ plot_dual_zinb <- function(m1, m2,
     # scale_color_manual(values = c("(-Inf,1]" = "red",
     #                               "(1, Inf]" = "blue")) +
     scale_y_continuous(trans = "log10") +
-    facet_wrap(~ Component, nrow = 2, labeller = labeller(Component = ef_facet_labels)) + 
+    facet_wrap(~ Component, nrow = 2, scales = ifelse(isTRUE(free_x), "free_x", "fixed"), labeller = labeller(Component = ef_facet_labels)) + 
     coord_flip() + 
     labs(y = "Incidence Rate Ratios") +
     theme_minimal() +
