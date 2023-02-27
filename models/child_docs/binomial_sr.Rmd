@@ -232,7 +232,7 @@ dt <- merge(dt, yrs[,c("year", "ordinal_day", "predicted_ratio")],
             by = c("year", "ordinal_day"))
 
 # Scale and log-transform variables of interest
-dt$predicted_wesa <- round(dt$total_count * dt$predicted_ratio, 0)
+dt$predicted_wesa <- round(dt$total_count * dt$predicted_ratio)
 dt$predicted_dunl <- dt$total_count - dt$predicted_wesa
 dt$log_wesa <- log(dt$predicted_wesa + 1)
 dt$log_dunl <- log(dt$predicted_dunl + 1)
