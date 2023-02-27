@@ -4,6 +4,9 @@ library(basemaps)
 library(sf)
 library(terra)
 
+# Color palette (using blue & yellow from wesanderson Zissou1 palette)
+pal <- c(rgb(86, 152, 175, maxColorValue = 255), rgb(229, 205, 79, maxColorValue = 255))
+
 ## Read files
 wa <- st_read("../../../GIS/cb_2018_us_region_500k/cb_2018_us_region_500k.shp")
 wa <- wa[wa$NAME == "West",]
@@ -56,8 +59,8 @@ ggplot(data = b_subset, aes(x = x, y = y)) +
 
 bbox <- st_bbox(stations)
 bbox[[1]] <- bbox[[1]] - 2000 # 2 km buffer to west
-bbox[[3]] <- bbox[[3]] + 3800 # 4.5 km buffer to east
-bbox[[2]] <- bbox[[2]] - 3000 # 2 km buffer to south
+bbox[[3]] <- bbox[[3]] + 2200 # 4.5 km buffer to east
+bbox[[2]] <- bbox[[2]] - 1500 # 2 km buffer to south
 bbox[[4]] <- bbox[[4]] + 2000 # 2 km buffer to north
 bbox[[4]] <- 5435870 # North extent of the raster 
 #bbox[c(1,2)] <- bbox[c(1,2)] - 5000 # add 5 km buffer
@@ -77,7 +80,10 @@ b_sat <- ggplot() +
           fill = "#e6a800", 
           alpha = 0.3) +
   geom_sf_label(data = stations, 
-                aes(label = station_n)) +
+                aes(label = station_n,
+                    color = n_s, 
+                    fontface = "bold")) +
+  scale_color_manual(values = pal) +
   geomtextpath::geom_textsf(data = cp,
                             label = "Canoe Pass",
                             color = "white",
@@ -88,13 +94,17 @@ b_sat <- ggplot() +
                             color = "white",
                             linecolour = NA, 
                             family = "Avenir") +
+  ggspatial::annotation_scale(location = "br", 
+                              text_family = "Avenir",
+                              text_col = "white") +
   coord_sf(xlim = bbox[c(1,3)],
            ylim = bbox[c(2,4)],
            expand = F) +
   theme_minimal() +
   theme(axis.title = element_blank(),
         plot.margin = unit(c(0, 0, 0, 0), "null"),
-        panel.margin = unit(c(0, 0, 0, 0), "null"))
+        panel.margin = unit(c(0, 0, 0, 0), "null"),
+        legend.position = "none")
 
 b_sf <- ggplot() +
   geom_sf(data = catchment,
@@ -108,7 +118,10 @@ b_sf <- ggplot() +
           lwd = 0.1,
           color = "#C3C3C3") +
   geom_sf_label(data = stations, 
-                aes(label = station_n)) +
+                aes(label = station_n,
+                    color = n_s,
+                    fontface = "bold")) +
+  scale_color_manual(values = pal) +
   geomtextpath::geom_textsf(data = cp,
                             label = "Canoe Pass",
                             color = "black",
@@ -119,13 +132,17 @@ b_sf <- ggplot() +
                             color = "black",
                             linecolour = NA, 
                             family = "Avenir") +
+  ggspatial::annotation_scale(location = "br", 
+                              text_family = "Avenir",
+                              text_col = "white") +
   coord_sf(xlim = bbox[c(1,3)],
            ylim = bbox[c(2,4)],
            expand = F) +
   theme_minimal() +
   theme(axis.title = element_blank(),
         plot.margin = unit(c(0, 0, 0, 0), "null"),
-        panel.margin = unit(c(0, 0, 0, 0), "null"))
+        panel.margin = unit(c(0, 0, 0, 0), "null"),
+        legend.position = "none")
 
 
 # Inset labels 
@@ -216,4 +233,5 @@ final <- b_sat %>%
                      height = 0.5)
 
 # 1.633721 aspect ratio
-ggsave("gis/output.tiff", final, width = 281, height = 172, units = "mm", device = "tiff")
+#ggsave("gis/output.tiff", final, width = 281, height = 172, units = "mm", device = "tiff")
+ggsave("gis/output.tiff", final, width = 304, height = 167, units = "mm", device = "tiff")
