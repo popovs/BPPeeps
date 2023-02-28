@@ -152,7 +152,7 @@ assign_params(here::here("models", "child_docs", "lme.Rmd"))
 params$spp <- "DUNL"
 ```
 
-```{r dunl vs vars, child = "child_docs/lme.Rmd"}
+```{r dunl lme, child = "child_docs/lme.Rmd"}
 ```
 
 \newpage
