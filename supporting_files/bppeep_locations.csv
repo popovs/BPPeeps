@@ -1,5 +1,5 @@
 original_location_name,cleaned,station_n,station_s,sub_location,mumblies_yn,mud_yn,marsh_yn,tide_edge_yn,flying_yn
-"""mumblies""",(mumblies),,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+"""mumblies""",(mumblies),Bend,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 104th,104th,104th,,,FALSE,FALSE,FALSE,FALSE,FALSE
 34 St pullout,34th St pullout,34th St pullout,,,FALSE,FALSE,FALSE,FALSE,FALSE
 34th - small flock,34th St pullout,34th St pullout,,,FALSE,FALSE,FALSE,FALSE,FALSE
@@ -76,7 +76,7 @@ original_location_name,cleaned,station_n,station_s,sub_location,mumblies_yn,mud_
 96th,96th,96th,,,FALSE,FALSE,FALSE,FALSE,FALSE
 along dike,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
 along from CP corner to 34th marsh,Coal Port corner to 34th St pullout (marsh),34th St pullout,Coal Port,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
-along outer edge of mumblies,(outer mumblies),,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+along outer edge of mumblies,(outer mumblies),Bend,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 along to pilings,Pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 around BP tip,Brunswick Point (marsh tip),Brunswick Point,,marsh tip,FALSE,FALSE,TRUE,FALSE,FALSE
 around marsh tip of Bruns Pt,Brunswick Point (marsh tip),Brunswick Point,,marsh tip,FALSE,FALSE,TRUE,FALSE,FALSE
@@ -101,7 +101,7 @@ bend viewpoint (east of east end pilings),Bend,Bend,,,FALSE,FALSE,FALSE,FALSE,FA
 bend viewpoint (inner mud),Bend (inner mud),Bend,,inner mud,FALSE,TRUE,FALSE,FALSE,FALSE
 bend viewpoint (on mumblies),Bend (mumblies),Bend,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 beyond CP jetty sidemarsh,Coal Port jetty side marsh,Coal Port,,,FALSE,FALSE,FALSE,FALSE,FALSE
-beyond mumblies,(beyond mumblies),,,beyond mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+beyond mumblies,(beyond mumblies),Bend,,beyond mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 BP (mud bar),Brunswick Point (mud bar),Brunswick Point,,mud bar,FALSE,TRUE,FALSE,FALSE,FALSE
 BP corner down to pilings,Pilings to Brunswick Point,Brunswick Point,Pilings,,FALSE,FALSE,FALSE,FALSE,FALSE
 BP corner field,Brunswick Point (field),Brunswick Point,,field,FALSE,FALSE,FALSE,FALSE,FALSE
@@ -431,7 +431,7 @@ CP sidemarsh to CP corner,Coal Port corner to Coal Port jetty side marsh,Coal Po
 "CP sidemarsh, CP corner to 34th (from 34th)",Coal Port jetty side marsh to 34th St pullout (seen from 34th St pullout),34th St pullout,Coal Port,seen from 34th St pullout,FALSE,FALSE,FALSE,FALSE,FALSE
 CP sidemash,Coal Port corner (side marsh),Coal Port,,side marsh,FALSE,FALSE,TRUE,FALSE,FALSE
 CPC,Coal Port corner,Coal Port,,,FALSE,FALSE,FALSE,FALSE,FALSE
-E end mumblies,(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+E end mumblies,(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 E end pilings,East end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 E end pilings (inner mud),East end pilings (inner mud),Pilings,,inner mud,FALSE,TRUE,FALSE,FALSE,FALSE
 E end pilings (outer mud),East end pilings (outer mud),Pilings,,outer mud,FALSE,TRUE,FALSE,FALSE,FALSE
@@ -439,13 +439,13 @@ E of east end pilings,Bend,Bend,,,FALSE,FALSE,FALSE,FALSE,FALSE
 E of east end pilings - inner mud,Bend (inner mud),Bend,,inner mud,FALSE,TRUE,FALSE,FALSE,FALSE
 E of east end pilings - outer mud,Bend (outer mud),Bend,,outer mud,FALSE,TRUE,FALSE,FALSE,FALSE
 E pilings inner mud,East end pilings (inner mud),Pilings,,inner mud,FALSE,TRUE,FALSE,FALSE,FALSE
-east end mumblies,(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-East end mumblies,(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-east end mumblies - mud islets,(east end mumblies - mud islet),,,east end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-east end mumblies - outer edge,(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-East end mumblies - outer edge,(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-East end mumblies - tide edge,(east end mumblies - tide edge),,,east end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-east end mumblies (inner mud),(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+east end mumblies,(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+East end mumblies,(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+east end mumblies - mud islets,(east end mumblies - mud islet),34th St pullout,,east end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+east end mumblies - outer edge,(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+East end mumblies - outer edge,(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+East end mumblies - tide edge,(east end mumblies - tide edge),34th St pullout,,east end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
+east end mumblies (inner mud),(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 east end mumblies (near CP corner),Coal Port corner (east end mumblies),Coal Port,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 east end mumblies (pilings),Pilings (East end mumblies),Pilings,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 east end mumblies to 34th,34th St pullout (east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
@@ -472,7 +472,7 @@ east end pilings to CP corner,East end pilings to Coal Port corner,Pilings,Coal 
 east end pilings to middle,Pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 "east end pilings, outer mumblies",East end pilings (outer mumblies),Pilings,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 East end to mid pilings on mumblies,Pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-east mumblies,(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+east mumblies,(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 East of 34th in near mud,East end 34th St pullout (inner mud),34th St pullout,,inner mud,FALSE,TRUE,FALSE,FALSE,FALSE
 east of 34th pullout,East end 34th St pullout,34th St pullout,,,FALSE,FALSE,FALSE,FALSE,FALSE
 east of E end pilings,Bend,Bend,,,FALSE,FALSE,FALSE,FALSE,FALSE
@@ -563,17 +563,17 @@ from CP to BP,Coal Port corner to Brunswick Point,Brunswick Point,Coal Port,,FAL
 from pilings to west end mumblies - mid mud,Pilings (west end mumblies - mid mud),Pilings,,mid mud - west end mumblies,TRUE,TRUE,FALSE,FALSE,FALSE
 from view corner - BP mudislet,Brunswick Point (mud islet - seen from View corner),Brunswick Point,,mud islet - seen from View corner,FALSE,TRUE,FALSE,FALSE,FALSE
 from view corner - BP mudroost,Brunswick Point (mud roost - seen from View corner),Brunswick Point,,mud roost - seen from View corner,FALSE,TRUE,FALSE,FALSE,FALSE
-further along mumblies,(mumblies),,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+further along mumblies,(mumblies),Bend,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 in air over BP tip and Canoe Pass,Brunswick Point to Canoe Pass (flying),Canoe Pass,Brunswick Point,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 in flight,(flying),,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 in flight from CP end towards BP end,Coal Port corner to Brunswick Point (flying),Brunswick Point,Coal Port,flying,FALSE,FALSE,FALSE,FALSE,TRUE
 in flight over water - disturbed by PEFA,(flying),,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
-inner east end mumblies,(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-inner edge mumblies,(inner mumblies),,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+inner east end mumblies,(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+inner edge mumblies,(inner mumblies),Bend,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 inner marsh edge near 34th,34th St pullout (marsh),34th St pullout,,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
 inner marsh point,(marsh),,,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
 "inner mud, west end pilings",West end pilings (inner mud),Pilings,,inner mud,FALSE,TRUE,FALSE,FALSE,FALSE
-inner mumblies,(inner mumblies),,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+inner mumblies,(inner mumblies),Bend,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 inner pilings,Pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 inner pilings to view corner,Pilings to View corner,View corner,Pilings,,FALSE,FALSE,FALSE,FALSE,FALSE
 intercauseway,Intercauseway,Intercauseway,,,FALSE,FALSE,FALSE,FALSE,FALSE
@@ -592,7 +592,7 @@ marsh tip of Brunswick Point,Brunswick Point (marsh tip),Brunswick Point,,marsh 
 marsh to east pilings,East end pilings (marsh),Pilings,,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
 marsh to west of 34th pullout,34th St pullout (marsh),34th St pullout,,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
 marsh west of banding site,(marsh),,,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
-mid mumblies,(inner mumblies),,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mid mumblies,(inner mumblies),Bend,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mid mumblies off pilings,Pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mid pilings,Pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 mid pilings (marsh edge),Pilings (marsh),Pilings,,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
@@ -603,7 +603,7 @@ mid pilings to view corner - tide edge beyond mumblies,Pilings to View corner (t
 mid pilings(along mumblies) into Bruns corner,Pilings to Brunswick Point (mumblies),Brunswick Point,Pilings,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mid pilings(on mumblies),Pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mid to west pilings,Pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
-mid-mumblies,(inner mumblies),,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mid-mumblies,(inner mumblies),Bend,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mid-mumblies(from pilings),Pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mid-pilings,Pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 mid-pilings mudflat,Pilings (mid mud),Pilings,,mid mud,FALSE,TRUE,FALSE,FALSE,FALSE
@@ -615,29 +615,29 @@ mudislet,Brunswick Point (mud islet),Brunswick Point,,mud islet,FALSE,TRUE,FALSE
 mudroost,Brunswick Point (mud roost),Brunswick Point,,mud roost,FALSE,TRUE,FALSE,FALSE,FALSE
 mudroost BP corner,Brunswick Point (mud roost),Brunswick Point,,mud roost,FALSE,TRUE,FALSE,FALSE,FALSE
 mudroost/BP corner,Brunswick Point (mud roost),Brunswick Point,,mud roost,FALSE,TRUE,FALSE,FALSE,FALSE
-mumblies,(mumblies),,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies (east end),(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies (east end) far edge,(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies (far east),(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies (inner),(inner mumblies),,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies (mid),(inner mumblies),,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies,(mumblies),Bend,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies (east end),(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies (east end) far edge,(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies (far east),(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies (inner),(inner mumblies),Bend,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies (mid),(inner mumblies),Bend,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies (off pilings),Pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies (outer),(outer mumblies),,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies (west end),(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies (west),(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies (outer),(outer mumblies),Bend,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies (west end),(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies (west),(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies east of pilings,East end pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies east towards CP end,Coal Port corner (east end mumblies),Coal Port,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies inner mud,(inner mumblies),,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies inner mud,(inner mumblies),Bend,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies off E end pilings,East end pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies off pilings,Pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies off pilings to west end pilings,West end pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies off west end pilings,West end pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies out from pilings,Pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies out from west pilings,West end pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies raised mud ridge,(mumblies),,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies raised mud ridge,(mumblies),Bend,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies(from mid pilings),Pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 mumblies(from pilings),Pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-mumblies(outer),(outer mumblies),,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+mumblies(outer),(outer mumblies),Bend,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 near banding site,near banding site,Coal Port,,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
 near bend - landed on mumblies,Bend (mumblies),Bend,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 near Bruns Pt.,Brunswick Point,Brunswick Point,,,FALSE,FALSE,FALSE,FALSE,FALSE
@@ -690,37 +690,37 @@ off pilings to W of 34th,Pilings to 34th St pullout,Pilings,34th St pullout,,FAL
 off view corner,View corner,View corner,,,FALSE,FALSE,FALSE,FALSE,FALSE
 off view corner - tide edge,View corner (tide edge),View corner,,tide edge,FALSE,FALSE,FALSE,TRUE,FALSE
 off W end pilings (outer mud),West end pilings (outer mud),Pilings,,outer mud,FALSE,TRUE,FALSE,FALSE,FALSE
-off west end mumblies,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+off west end mumblies,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 off west end pilings on mumblies,West end pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 off Westham Island foreshore,Westham Island,Westham Island,,,FALSE,FALSE,FALSE,FALSE,FALSE
 off Westham Island shore,Westham Island,Westham Island,,,FALSE,FALSE,FALSE,FALSE,FALSE
 on far edge of mud out from Bruns corner,Brunswick Point (outer mud),Brunswick Point,,outer mud,FALSE,TRUE,FALSE,FALSE,FALSE
 on mud bars further out near Bruns Pt.,Brunswick Point (outer mud),Brunswick Point,,outer mud,FALSE,TRUE,FALSE,FALSE,FALSE
-on mumblies,(mumblies),,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+on mumblies,(mumblies),Bend,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 out from east end pilings,East end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 out from mid pilings,Pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 out from pilings,Pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 out from pilings on mumblies,Pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-"outer ""mumblies""",(outer mumblies),,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+"outer ""mumblies""",(outer mumblies),Bend,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 outer bar,Pilings (outer mud),Pilings,,outer mud,FALSE,TRUE,FALSE,FALSE,FALSE
-outer east end mumblies,(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-outer edge mumblies,(outer mumblies),,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+outer east end mumblies,(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+outer edge mumblies,(outer mumblies),Bend,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 outer edge mumblies E to pilings,East end pilings (outer mumblies),Pilings,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 outer edge mumblies off pilings,Pilings (outer mumblies),Pilings,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 outer end of side marsh,Coal Port jetty side marsh,Coal Port,,,FALSE,FALSE,FALSE,FALSE,FALSE
 outer end to marsh point,Coal Port jetty side marsh,Coal Port,,,FALSE,FALSE,FALSE,FALSE,FALSE
 outer mud (east of pilings),East end pilings (outer mud),Pilings,,outer mud,FALSE,TRUE,FALSE,FALSE,FALSE
-outer mumblies,(outer mumblies),,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-outer mumblies - west end,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+outer mumblies,(outer mumblies),Bend,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+outer mumblies - west end,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 outer mumblies off 34th,34th St pullout (outer mumblies),34th St pullout,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 outer mumblies opposite pilings,Pilings (outer mumblies),Pilings,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 outer mumblies out from pilings,Pilings (outer mumblies),Pilings,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-outer mumblies- west to east end,(outer mumblies),,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+outer mumblies- west to east end,(outer mumblies),Bend,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 outer tip Brunswick Point,Brunswick Point (marsh tip),Brunswick Point,,marsh tip,FALSE,FALSE,TRUE,FALSE,FALSE
 outer tip of Brunswick Point marsh,Brunswick Point (marsh tip),Brunswick Point,,marsh tip,FALSE,FALSE,TRUE,FALSE,FALSE
-outer west end mumblies,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-outside mumblies,(outer mumblies),,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-outside of east end mumblies,(east end mumblies),,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+outer west end mumblies,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+outside mumblies,(outer mumblies),Bend,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+outside of east end mumblies,(east end mumblies),34th St pullout,,east end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 over BP marsh & between CP&BP,Coal Port corner to Brunswick Point (marsh - flying),Brunswick Point,Coal Port,marsh - flying,FALSE,FALSE,TRUE,FALSE,TRUE
 past west end pilings,West end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 piilngs pullout,Pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
@@ -812,7 +812,7 @@ Pilings-west end,West end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 pilings(east end),East end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 pilings(mudbar),Pilings (mid mud),Pilings,,mid mud,FALSE,TRUE,FALSE,FALSE,FALSE
 pilings/outer bar,Pilings (outer mud),Pilings,,outer mud,FALSE,TRUE,FALSE,FALSE,FALSE
-"S. end ""mumblies""",(outer mumblies),,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+"S. end ""mumblies""",(outer mumblies),Bend,,outer mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 second sweep,,,,,FALSE,FALSE,FALSE,FALSE,FALSE
 seen flying over Brunswick Pt marsh,Brunswick Point (marsh - flying),Brunswick Point,,marsh - flying,FALSE,FALSE,TRUE,FALSE,TRUE
 some flocks in air over Canoe Pass,Canoe Pass (flying),Canoe Pass,,flying,FALSE,FALSE,FALSE,FALSE,TRUE
@@ -933,8 +933,8 @@ view point corner at tide edge,View corner (tide edge),View corner,,tide edge,FA
 viewcorner,View corner,View corner,,,FALSE,FALSE,FALSE,FALSE,FALSE
 viewcorner (west of west end pilings),View corner,View corner,,,FALSE,FALSE,FALSE,FALSE,FALSE
 viewing corner,View corner,View corner,,,FALSE,FALSE,FALSE,FALSE,FALSE
-W end mumblies,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-W end mumblies - outer edge,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+W end mumblies,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+W end mumblies - outer edge,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 W end pilings (on mumblies),West end pilings (mumblies),Pilings,,mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 W end pilings inner mud,West end pilings (inner mud),Pilings,,inner mud,FALSE,TRUE,FALSE,FALSE,FALSE
 W end pilings to view corner (outer mud),West end pilings to View corner (outer mud),View corner,Pilings,outer mud,FALSE,TRUE,FALSE,FALSE,FALSE
@@ -944,41 +944,41 @@ W of west end pilings to BP corner,View corner to Brunswick Point,Brunswick Poin
 "W of west end pilings, near mud",View corner (inner mud),View corner,,inner mud,FALSE,TRUE,FALSE,FALSE,FALSE
 w.of pilings,West end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 water edge,(tide edge),,,tide edge,FALSE,FALSE,FALSE,TRUE,FALSE
-"west end ""mumblies""",(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-west end mumblie islet - tide edge,(west end mumblies - tide edge),,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-west end mumblies,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-West end mumblies,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-west end mumblies - east half,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
-west end mumblies - mud islet,(west end mumblies - mud islet),,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies - mudislet,(west end mumblies - mud islet),,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies - mudislet area,(west end mumblies - mud islet),,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies - on tide edge,(west end mumblies - tide edge),,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-west end mumblies - outer edge,(west end mumblies - tide edge),,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-west end mumblies - tide edge,(west end mumblies - tide edge),,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-west end mumblies - west half,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+"west end ""mumblies""",(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+west end mumblie islet - tide edge,(west end mumblies - tide edge),Bend,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
+west end mumblies,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+West end mumblies,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+west end mumblies - east half,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+west end mumblies - mud islet,(west end mumblies - mud islet),Bend,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies - mudislet,(west end mumblies - mud islet),Bend,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies - mudislet area,(west end mumblies - mud islet),Bend,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies - on tide edge,(west end mumblies - tide edge),Bend,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
+west end mumblies - outer edge,(west end mumblies - tide edge),Bend,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
+west end mumblies - tide edge,(west end mumblies - tide edge),Bend,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
+west end mumblies - west half,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 west end mumblies - west to BP marsh tip,Brunswick Point (marsh tip - west end mumblies),Brunswick Point,,marsh tip - west end mumblies,TRUE,FALSE,TRUE,FALSE,FALSE
-west end mumblies -mudislet,(west end mumblies - mud islet),,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies (east tide edge),(west end mumblies - tide edge),,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-west end mumblies (mud islet),(west end mumblies - mud islet),,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies (mudislet),(west end mumblies - mud islet),,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-West end mumblies (mudislet),(west end mumblies - mud islet),,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies (mudislet) -east end,(west end mumblies - mud islet),,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies (mudislet) -west side,(west end mumblies - mud islet),,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies -mudislet,(west end mumblies - mud islet),Bend,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies (east tide edge),(west end mumblies - tide edge),Bend,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
+west end mumblies (mud islet),(west end mumblies - mud islet),Bend,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies (mudislet),(west end mumblies - mud islet),Bend,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+West end mumblies (mudislet),(west end mumblies - mud islet),Bend,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies (mudislet) -east end,(west end mumblies - mud islet),Bend,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies (mudislet) -west side,(west end mumblies - mud islet),Bend,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
 west end mumblies (mudislet) from view corner,View corner (mud islet - west end mumblies),View corner,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies (outer mud),(west end mumblies - outer mud),,,west end mumblies - outer mud,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies mudislet,(west end mumblies - mud islet),,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies on tide edge,(west end mumblies - tide edge),,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-west end mumblies outer mud,(west end mumblies - outer mud),,,west end mumblies - outer mud,TRUE,TRUE,FALSE,FALSE,FALSE
-west end mumblies outer tide edge,(west end mumblies - tide edge),,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-west end mumblies outer tide edge - flying,(west end mumblies - tide edge - flying),,,west end mumblies - tide edge - flying,TRUE,FALSE,FALSE,TRUE,TRUE
+west end mumblies (outer mud),(west end mumblies - outer mud),Bend,,west end mumblies - outer mud,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies mudislet,(west end mumblies - mud islet),Bend,,west end mumblies - mud islet,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies on tide edge,(west end mumblies - tide edge),Bend,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
+west end mumblies outer mud,(west end mumblies - outer mud),Bend,,west end mumblies - outer mud,TRUE,TRUE,FALSE,FALSE,FALSE
+west end mumblies outer tide edge,(west end mumblies - tide edge),Bend,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
+west end mumblies outer tide edge - flying,(west end mumblies - tide edge - flying),Bend,,west end mumblies - tide edge - flying,TRUE,FALSE,FALSE,TRUE,TRUE
 west end mumblies seen from view corner,View corner (west end mumblies),View corner,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 west end mumblies to BP,Brunswick Point (west end mumblies),Brunswick Point,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 west end mumblies to BP - tide edge,Brunswick Point (west end mumblies - tide edge),Brunswick Point,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-west end mumblies to mid area,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+west end mumblies to mid area,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 west end mumblies to pilings,Pilings (west end mumblies),Pilings,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 west end mumblies to view corner - tide edge,View corner (west end mumblies - tide edge),View corner,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-West end mumblies(tide edge),(west end mumblies - tide edge),,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
-west end of mumblies -outer mud,(west end mumblies - outer mud),,,west end mumblies - outer mud,TRUE,TRUE,FALSE,FALSE,FALSE
+West end mumblies(tide edge),(west end mumblies - tide edge),Bend,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
+west end of mumblies -outer mud,(west end mumblies - outer mud),Bend,,west end mumblies - outer mud,TRUE,TRUE,FALSE,FALSE,FALSE
 west end of pilings,West end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 west end pilings,West end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 West end pilings,West end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
@@ -997,7 +997,7 @@ west end pilings to view corner,West end pilings to View corner,View corner,Pili
 West end pilings to W end mumblies - tide edge,West end pilings (west end mumblies - tide edge),Pilings,,west end mumblies - tide edge,TRUE,FALSE,FALSE,TRUE,FALSE
 "west end pilings, inside mumblies",West end pilings (inner mumblies),Pilings,,inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 west end pilings(water edge),West end pilings (tide edge),Pilings,,tide edge,FALSE,FALSE,FALSE,TRUE,FALSE
-west end to center mumblies,(west end mumblies - inner mumblies),,,west end mumblies - inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+west end to center mumblies,(west end mumblies - inner mumblies),Bend,,west end mumblies - inner mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 west end to mid pilings(mud close to dike),Pilings (mud close to dike),Pilings,,mud close to dike,FALSE,TRUE,FALSE,FALSE,FALSE
 west of 112,West of 112th,West of 112th,,,FALSE,FALSE,FALSE,FALSE,FALSE
 west of 34th,West end 34th St pullout,34th St pullout,,,FALSE,FALSE,FALSE,FALSE,FALSE
@@ -1012,11 +1012,11 @@ west of pilings (viewing corner),View corner,View corner,,,FALSE,FALSE,FALSE,FAL
 "west of pilings, west end mumblies",West end pilings (west end mumblies),Pilings,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 west of W end pilings (inner mud),View corner (inner mud),View corner,,inner mud,FALSE,TRUE,FALSE,FALSE,FALSE
 west of W end pilings (outer mud),View corner (outer mud),View corner,,outer mud,FALSE,TRUE,FALSE,FALSE,FALSE
-west of west end mumblies,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+west of west end mumblies,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 west of west end pilings,West end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
 west off pilings - far edge mumblies,West end pilings (west end mumblies),Pilings,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 west pilings,West end pilings,Pilings,,,FALSE,FALSE,FALSE,FALSE,FALSE
-western mumblies,(west end mumblies),,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
+western mumblies,(west end mumblies),Bend,,west end mumblies,TRUE,FALSE,FALSE,FALSE,FALSE
 Westham Is. marshes,Westham Island (marsh),Westham Island,,marsh,FALSE,FALSE,TRUE,FALSE,FALSE
 WNW Brun.Corner,Canoe Pass,Canoe Pass,,,FALSE,FALSE,FALSE,FALSE,FALSE
 WNW side Bruns,Canoe Pass,Canoe Pass,,,FALSE,FALSE,FALSE,FALSE,FALSE
