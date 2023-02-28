@@ -1,0 +1,130 @@
+---
+title: "Diagnostics"
+author: "Sarah Popov"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(formatR)
+
+options(knitr.duplicate.label = "allow")
+
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE,
+                      tidy.opts = list(width.cutoff = 60), 
+                      tidy = TRUE)
+```
+
+# Top Model diagnostics
+
+## Predictor Effects
+
+Linear effect of predicted values vs. single predictor, with all other values held equal. Each plot also includes the actual data as points.
+
+```{r predictor effects}
+jtools::effect_plot(top_model, dat = dat_ns, plot.points = TRUE, interval = TRUE, y.label = params$spp, pred = "year")
+jtools::effect_plot(top_model, dat = dat_ns, plot.points = TRUE, interval = TRUE, y.label = params$spp, pred = "dos")
+jtools::effect_plot(top_model, dat = dat_ns, plot.points = TRUE, interval = TRUE, y.label = params$spp, pred = "n_s")
+jtools::effect_plot(top_model, dat = dat_ns, plot.points = TRUE, interval = TRUE, y.label = params$spp, pred = "elev_range")
+jtools::effect_plot(top_model, dat = dat_ns, plot.points = TRUE, interval = TRUE, y.label = params$spp, pred = "flow")
+jtools::effect_plot(top_model, dat = dat_ns, plot.points = TRUE, interval = TRUE, y.label = params$spp, pred = "total_precip")
+jtools::effect_plot(top_model, dat = dat_ns, plot.points = TRUE, interval = TRUE, y.label = params$spp, pred = "mean_temp")
+jtools::effect_plot(top_model, dat = dat_ns, plot.points = TRUE, interval = TRUE, y.label = params$spp, pred = "u")
+```
+
+
+## DHARMa residual checks
+
+DHARMa re-scales residuals such that a value of 0.5 means half the residuals are higher than the observed value, half are lower (this is good). Residuals close to 0 indicate nearly all model simulated values are higher than the observed values. Residuals close to 1 indicate nearly all model simulated values are lower than observed values.
+
+```{r diagnostics, fig.cap="DHARMa residual diagnostics."}
+DHARMa::testResiduals(top_model)
+```
+
+```{r, fig.cap="Test for zero inflation."}
+resid_sim <- DHARMa::simulateResiduals(top_model)
+DHARMa::testZeroInflation(resid_sim)
+```
+
+
+```{r residuals vs predicted, fig.cap="DHARMa re-scaled residuals vs. predicted values."}
+varsList <- c("dos", "year_c", "year", "n_s", "tide", "flow", "mean_temp", "elev_range", "total_precip", "u")
+for (i in varsList) {
+  DHARMa::plotResiduals(top_model, dat_ns[[i]], rank = TRUE, xlab = i)
+}
+```
+
+
+## Traditional residual checks
+
+`r if(inherits(top_model, "glmmTMB")) paste("Use with caution with a negative binomial distribution!")`
+
+```{r add predicted n-s values to dat, include=FALSE}
+# Add predicted values to dat
+dat_ns$pred_y <- fitted(top_model)
+dat_ns$resids <- resid(top_model)
+```
+
+```{r n-s plot: observed vs predicted}
+ggplot(dat_ns, aes(x = pred_y, y = y)) +
+  geom_point() + 
+  ggtitle("Observed vs. Predicted values") +
+  xlab("Observed") + 
+  ylab("Predicted") +
+  theme_minimal()
+```
+
+```{r n-s plot: heteroskedasticity}
+ggplot(dat_ns, aes(x = pred_y, y = resids)) +
+  geom_point() + 
+  ggtitle("Heteroskedasticity",
+          subtitle = "Fitted values vs. Residuals") +
+  xlab("Fitted") + 
+  ylab("Residuals") +
+  theme_minimal()
+```
+
+
+```{r n-s plot: qq plot}
+ggplot(dat_ns, aes(sample = resids)) +
+  stat_qq() + 
+  stat_qq_line() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  ggtitle("Quantile-Quantile") +
+  xlab("Theoretical") + 
+  ylab("Sample") +
+  theme_minimal()
+```
+
+
+```{r resid vars p1}
+temp_plot <- broom.mixed::augment(top_model, dat_ns)
+temp_plot <- janitor::clean_names(temp_plot)
+temp_plot <- temp_plot %>% dplyr::select(year, ordinal_day, elev_range, flow, total_precip, mean_temp, u, v, resid, n_s, tide)
+
+(temp_plot %>%
+  dplyr::select(year:resid) %>%
+  tidyr::gather(-resid, key = "var", value = "value") %>%
+  dplyr::mutate(value = as.numeric(value)) %>%
+  ggplot(aes(x = value, y = resid)) +
+  geom_point(size = 0.3) +
+  geom_smooth() +
+  scale_x_continuous(n.breaks = 3) +
+  ggtitle("Full dataset variables vs. Residuals") + 
+  ggforce::facet_wrap_paginate(~ var, ncol = 3, nrow = 3, scales = "free", page = 1) +
+  theme_minimal())
+```
+
+```{r resid NS}
+temp_plot %>% ggplot(aes(x = n_s, y = resid)) + geom_boxplot() + geom_jitter(alpha = 0.2, size = 0.3) + theme_minimal()
+```
+
+
+```{r resid tide}
+temp_plot %>% ggplot(aes(x = tide, y = resid)) + geom_boxplot() + geom_jitter(alpha = 0.2, size = 0.3) + theme_minimal()
+```
