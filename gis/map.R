@@ -45,20 +45,20 @@ b <- b[(b$b_1 != 0 & !is.na(b$b_1)), 1:5]
 b_subset <- b[1:10000,]
 
 # Test with smaller subset of data
-ggplot(data = b_subset, aes(x = x, y = y)) +
-  geom_raster(fill = rgb(r = b_subset$b_1, 
-                         g = b_subset$b_2, 
-                         b = b_subset$b_3, 
-                         maxColorValue = 255),
-              show.legend = FALSE) + 
-  scale_fill_identity() + 
-  theme_minimal()
+# ggplot(data = b_subset, aes(x = x, y = y)) +
+#   geom_raster(fill = rgb(r = b_subset$b_1, 
+#                          g = b_subset$b_2, 
+#                          b = b_subset$b_3, 
+#                          maxColorValue = 255),
+#               show.legend = FALSE) + 
+#   scale_fill_identity() + 
+#   theme_minimal()
 
 
 ## Make base map
 
 bbox <- st_bbox(stations)
-bbox[[1]] <- bbox[[1]] - 2000 # 2 km buffer to west
+bbox[[1]] <- bbox[[1]] - 3000 # 2 km buffer to west
 bbox[[3]] <- bbox[[3]] + 2200 # 4.5 km buffer to east
 bbox[[2]] <- bbox[[2]] - 1500 # 2 km buffer to south
 bbox[[4]] <- bbox[[4]] + 2000 # 2 km buffer to north
@@ -234,4 +234,6 @@ final <- b_sat %>%
 
 # 1.633721 aspect ratio
 #ggsave("gis/output.tiff", final, width = 281, height = 172, units = "mm", device = "tiff")
-ggsave("gis/output.tiff", final, width = 304, height = 167, units = "mm", device = "tiff")
+#ggsave("gis/output.tiff", final, width = 304, height = 167, units = "mm", device = "tiff")
+ggsave("gis/output.tiff", final, width = 305, height = 132, units = "mm", device = "tiff")
+
